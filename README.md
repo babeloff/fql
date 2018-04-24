@@ -9,7 +9,7 @@ An IDE for the functorial query and data migration languages AQL, FQL, FPQL, FQL
 For more information, please see:
 - [CategoricalData FQL page](categoricaldata.net/fql.html)
 - [Categorical Informatics](http://catinf.com/), where these query languages are being commercialized
-- [wiki](http://catinf.com/wiki/Main_Page)
+- [wiki](http://catinf.com/wiki)
 - [mailing list](https://groups.google.com/forum/#!forum/categoricaldata)
 
 Build and installation
