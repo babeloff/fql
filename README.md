@@ -4,21 +4,24 @@ Categorical Data IDE
 About
 -----
 
-An IDE for the functorial query languages developed at categoricaldata.net/fql.html.  
-Binaries are available there.
+An IDE for the functorial query and data migration languages AQL, FQL, FPQL, FQLPP, MPL, OPL, and EASIK.
 
-Build 
+For more information, please see:
+- [CategoricalData FQL page](categoricaldata.net/fql.html)
+- [Categorical Informatics](http://catinf.com/), where these query languages are being commercialized.
+- [wiki](http://catinf.com/wiki/Main_Page)
+- [mailing list](https://groups.google.com/forum/#!forum/categoricaldata)
+
+Build and installation
 -----
 
 ### Pre-compiled binary jar file:
 
-	http://categoricaldata.net/fql.jar
+http://categoricaldata.net/fql.jar
 
 ### Eclipse
 	
-	For best results, compile using the Eclipse IDE:
-	
-	https://eclipse.org/jdt/
+For best results, compile using the [Eclipse IDE](https://eclipse.org/jdt/).
 
 ### Maven (may or may not work)
 
