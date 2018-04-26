@@ -28,7 +28,7 @@
         </repository>
         <repository>
           <id>nexus</id>
-          <url>http://immortals.isis.vanderbilt.edu:8081/repository/maven-releases/</url>
+          <url>https://nexus.isis.vanderbilt.edu/repository/maven-releases</url>
         </repository>
     </repositories>
     <build>
@@ -159,7 +159,7 @@
       <repository>
         <id>nexus</id>
         <name>Snapshot</name>
-        <url>http://immortals.isis.vanderbilt.edu:8081/repository/maven-snapshots/</url>
+        <url>https://nexus.isis.vanderbilt.edu/repository/maven-snapshots</url>
       </repository>
     </distributionManagement>
     <dependencies>
