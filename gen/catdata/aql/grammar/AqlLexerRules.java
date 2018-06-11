@@ -1,5 +1,5 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/aql/src/catdata/aql/grammar/4m7/-ru88jt/AqlLexerRules.g4 by ANTLR 4.7
-package org.aql;
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/572/-ru88jt/AqlLexerRules.g4 by ANTLR 4.7
+package catdata.aql.grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

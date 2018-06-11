@@ -1,4 +1,3 @@
-
 parser grammar AqlTypeside;
 options { tokenVocab=AqlLexerRules; }
 
