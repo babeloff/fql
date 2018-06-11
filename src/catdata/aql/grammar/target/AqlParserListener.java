@@ -1,5 +1,5 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/projects/fql/src/catdata/aql/grammar/5r0/uanrg/AqlParser.g4 by ANTLR 4.7
-package catdata.aql.grammar.target;
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/aql/src/catdata/aql/grammar/4m7/-ru88jt/AqlParser.g4 by ANTLR 4.7
+package org.aql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -171,6 +171,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCompletionPresedenceOption(AqlParser.CompletionPresedenceOptionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#prependEntityOnIds}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrependEntityOnIds(AqlParser.PrependEntityOnIdsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#prependEntityOnIds}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrependEntityOnIds(AqlParser.PrependEntityOnIdsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#mapNullsArbitrarilyUnsafeOption}.
 	 * @param ctx the parse tree
@@ -481,6 +491,18 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypesideLiteralSection(AqlParser.TypesideLiteralSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Typeside_ImportSql}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Typeside_ImportSql}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Typeside_ImportName}
 	 * labeled alternative in {@link AqlParser#typesideImport}.
@@ -1102,6 +1124,18 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitInstance_Coprod(AqlParser.Instance_CoprodContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Instance_Union}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstance_Union(AqlParser.Instance_UnionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Instance_Union}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstance_Union(AqlParser.Instance_UnionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Instance_CoprodUn}
 	 * labeled alternative in {@link AqlParser#instanceDef}.
 	 * @param ctx the parse tree
@@ -1246,6 +1280,42 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitInstance_Random(AqlParser.Instance_RandomContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Instance_Anonymize}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstance_Anonymize(AqlParser.Instance_AnonymizeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Instance_Anonymize}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstance_Anonymize(AqlParser.Instance_AnonymizeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Instance_Frozen}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstance_Frozen(AqlParser.Instance_FrozenContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Instance_Frozen}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstance_Frozen(AqlParser.Instance_FrozenContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Instance_Pi}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstance_Pi(AqlParser.Instance_PiContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Instance_Pi}
+	 * labeled alternative in {@link AqlParser#instanceDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstance_Pi(AqlParser.Instance_PiContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceKind}.
 	 * @param ctx the parse tree
 	 */
@@ -1265,6 +1335,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInstanceImportJdbcAllSection(AqlParser.InstanceImportJdbcAllSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#instancePiSection}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstancePiSection(AqlParser.InstancePiSectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#instancePiSection}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstancePiSection(AqlParser.InstancePiSectionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceColimitSection}.
 	 * @param ctx the parse tree
@@ -1555,6 +1635,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInstanceImportCsvSection(AqlParser.InstanceImportCsvSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#instanceCsvAssign}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstanceCsvAssign(AqlParser.InstanceCsvAssignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#instanceCsvAssign}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstanceCsvAssign(AqlParser.InstanceCsvAssignContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceCsvId}.
 	 * @param ctx the parse tree
@@ -2396,287 +2486,287 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitGraphEdgeId(AqlParser.GraphEdgeIdContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaId}.
+	 * Enter a parse tree produced by {@link AqlParser#commandId}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaId(AqlParser.PragmaIdContext ctx);
+	void enterCommandId(AqlParser.CommandIdContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaId}.
+	 * Exit a parse tree produced by {@link AqlParser#commandId}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaId(AqlParser.PragmaIdContext ctx);
+	void exitCommandId(AqlParser.CommandIdContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaKindAssignment}.
+	 * Enter a parse tree produced by {@link AqlParser#commandKindAssignment}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaKindAssignment(AqlParser.PragmaKindAssignmentContext ctx);
+	void enterCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaKindAssignment}.
+	 * Exit a parse tree produced by {@link AqlParser#commandKindAssignment}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaKindAssignment(AqlParser.PragmaKindAssignmentContext ctx);
+	void exitCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_CmdLine}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_CmdLine}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_CmdLine(AqlParser.Pragma_CmdLineContext ctx);
+	void enterCommand_CmdLine(AqlParser.Command_CmdLineContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_CmdLine}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_CmdLine}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_CmdLine(AqlParser.Pragma_CmdLineContext ctx);
+	void exitCommand_CmdLine(AqlParser.Command_CmdLineContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExecJs}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExecJs}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExecJs(AqlParser.Pragma_ExecJsContext ctx);
+	void enterCommand_ExecJs(AqlParser.Command_ExecJsContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExecJs}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExecJs}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExecJs(AqlParser.Pragma_ExecJsContext ctx);
+	void exitCommand_ExecJs(AqlParser.Command_ExecJsContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExecJdbc}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExecJdbc}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExecJdbc(AqlParser.Pragma_ExecJdbcContext ctx);
+	void enterCommand_ExecJdbc(AqlParser.Command_ExecJdbcContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExecJdbc}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExecJdbc}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExecJdbc(AqlParser.Pragma_ExecJdbcContext ctx);
+	void exitCommand_ExecJdbc(AqlParser.Command_ExecJdbcContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_Check}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_Check}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_Check(AqlParser.Pragma_CheckContext ctx);
+	void enterCommand_Check(AqlParser.Command_CheckContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_Check}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_Check}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_Check(AqlParser.Pragma_CheckContext ctx);
+	void exitCommand_Check(AqlParser.Command_CheckContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_AssertConsistent}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_AssertConsistent}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_AssertConsistent(AqlParser.Pragma_AssertConsistentContext ctx);
+	void enterCommand_AssertConsistent(AqlParser.Command_AssertConsistentContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_AssertConsistent}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_AssertConsistent}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_AssertConsistent(AqlParser.Pragma_AssertConsistentContext ctx);
+	void exitCommand_AssertConsistent(AqlParser.Command_AssertConsistentContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExportCsvInstance}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExportCsvInstance}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExportCsvInstance(AqlParser.Pragma_ExportCsvInstanceContext ctx);
+	void enterCommand_ExportCsvInstance(AqlParser.Command_ExportCsvInstanceContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExportCsvInstance}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExportCsvInstance}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExportCsvInstance(AqlParser.Pragma_ExportCsvInstanceContext ctx);
+	void exitCommand_ExportCsvInstance(AqlParser.Command_ExportCsvInstanceContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExportCsvTransform}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExportCsvTransform}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExportCsvTransform(AqlParser.Pragma_ExportCsvTransformContext ctx);
+	void enterCommand_ExportCsvTransform(AqlParser.Command_ExportCsvTransformContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExportCsvTransform}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExportCsvTransform}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExportCsvTransform(AqlParser.Pragma_ExportCsvTransformContext ctx);
+	void exitCommand_ExportCsvTransform(AqlParser.Command_ExportCsvTransformContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExportJdbcInstance}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExportJdbcInstance}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExportJdbcInstance(AqlParser.Pragma_ExportJdbcInstanceContext ctx);
+	void enterCommand_ExportJdbcInstance(AqlParser.Command_ExportJdbcInstanceContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExportJdbcInstance}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExportJdbcInstance}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExportJdbcInstance(AqlParser.Pragma_ExportJdbcInstanceContext ctx);
+	void exitCommand_ExportJdbcInstance(AqlParser.Command_ExportJdbcInstanceContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExportJdbcQuery}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExportJdbcQuery}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExportJdbcQuery(AqlParser.Pragma_ExportJdbcQueryContext ctx);
+	void enterCommand_ExportJdbcQuery(AqlParser.Command_ExportJdbcQueryContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExportJdbcQuery}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExportJdbcQuery}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExportJdbcQuery(AqlParser.Pragma_ExportJdbcQueryContext ctx);
+	void exitCommand_ExportJdbcQuery(AqlParser.Command_ExportJdbcQueryContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_ExportJdbcTransform}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_ExportJdbcTransform}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_ExportJdbcTransform(AqlParser.Pragma_ExportJdbcTransformContext ctx);
+	void enterCommand_ExportJdbcTransform(AqlParser.Command_ExportJdbcTransformContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_ExportJdbcTransform}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_ExportJdbcTransform}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_ExportJdbcTransform(AqlParser.Pragma_ExportJdbcTransformContext ctx);
+	void exitCommand_ExportJdbcTransform(AqlParser.Command_ExportJdbcTransformContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Pragma_AddToClasspath}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Enter a parse tree produced by the {@code Command_AddToClasspath}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragma_AddToClasspath(AqlParser.Pragma_AddToClasspathContext ctx);
+	void enterCommand_AddToClasspath(AqlParser.Command_AddToClasspathContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Pragma_AddToClasspath}
-	 * labeled alternative in {@link AqlParser#pragmaDef}.
+	 * Exit a parse tree produced by the {@code Command_AddToClasspath}
+	 * labeled alternative in {@link AqlParser#commandDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragma_AddToClasspath(AqlParser.Pragma_AddToClasspathContext ctx);
+	void exitCommand_AddToClasspath(AqlParser.Command_AddToClasspathContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaKind}.
+	 * Enter a parse tree produced by {@link AqlParser#commandKind}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaKind(AqlParser.PragmaKindContext ctx);
+	void enterCommandKind(AqlParser.CommandKindContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaKind}.
+	 * Exit a parse tree produced by {@link AqlParser#commandKind}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaKind(AqlParser.PragmaKindContext ctx);
+	void exitCommandKind(AqlParser.CommandKindContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaAddClasspathSection}.
+	 * Enter a parse tree produced by {@link AqlParser#commandAddClasspathSection}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaAddClasspathSection(AqlParser.PragmaAddClasspathSectionContext ctx);
+	void enterCommandAddClasspathSection(AqlParser.CommandAddClasspathSectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaAddClasspathSection}.
+	 * Exit a parse tree produced by {@link AqlParser#commandAddClasspathSection}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaAddClasspathSection(AqlParser.PragmaAddClasspathSectionContext ctx);
+	void exitCommandAddClasspathSection(AqlParser.CommandAddClasspathSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaCmdLineSection}.
+	 * Enter a parse tree produced by {@link AqlParser#commandCmdLineSection}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaCmdLineSection(AqlParser.PragmaCmdLineSectionContext ctx);
+	void enterCommandCmdLineSection(AqlParser.CommandCmdLineSectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaCmdLineSection}.
+	 * Exit a parse tree produced by {@link AqlParser#commandCmdLineSection}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaCmdLineSection(AqlParser.PragmaCmdLineSectionContext ctx);
+	void exitCommandCmdLineSection(AqlParser.CommandCmdLineSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaExecJsSection}.
+	 * Enter a parse tree produced by {@link AqlParser#commandExecJsSection}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaExecJsSection(AqlParser.PragmaExecJsSectionContext ctx);
+	void enterCommandExecJsSection(AqlParser.CommandExecJsSectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaExecJsSection}.
+	 * Exit a parse tree produced by {@link AqlParser#commandExecJsSection}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaExecJsSection(AqlParser.PragmaExecJsSectionContext ctx);
+	void exitCommandExecJsSection(AqlParser.CommandExecJsSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaExecJdbcSection}.
+	 * Enter a parse tree produced by {@link AqlParser#commandExecJdbcSection}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaExecJdbcSection(AqlParser.PragmaExecJdbcSectionContext ctx);
+	void enterCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaExecJdbcSection}.
+	 * Exit a parse tree produced by {@link AqlParser#commandExecJdbcSection}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaExecJdbcSection(AqlParser.PragmaExecJdbcSectionContext ctx);
+	void exitCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaExportCsvSection}.
+	 * Enter a parse tree produced by {@link AqlParser#commandExportCsvSection}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaExportCsvSection(AqlParser.PragmaExportCsvSectionContext ctx);
+	void enterCommandExportCsvSection(AqlParser.CommandExportCsvSectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaExportCsvSection}.
+	 * Exit a parse tree produced by {@link AqlParser#commandExportCsvSection}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaExportCsvSection(AqlParser.PragmaExportCsvSectionContext ctx);
+	void exitCommandExportCsvSection(AqlParser.CommandExportCsvSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaExportJdbcSection}.
+	 * Enter a parse tree produced by {@link AqlParser#commandExportJdbcSection}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaExportJdbcSection(AqlParser.PragmaExportJdbcSectionContext ctx);
+	void enterCommandExportJdbcSection(AqlParser.CommandExportJdbcSectionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaExportJdbcSection}.
+	 * Exit a parse tree produced by {@link AqlParser#commandExportJdbcSection}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaExportJdbcSection(AqlParser.PragmaExportJdbcSectionContext ctx);
+	void exitCommandExportJdbcSection(AqlParser.CommandExportJdbcSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaFile}.
+	 * Enter a parse tree produced by {@link AqlParser#commandFile}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaFile(AqlParser.PragmaFileContext ctx);
+	void enterCommandFile(AqlParser.CommandFileContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaFile}.
+	 * Exit a parse tree produced by {@link AqlParser#commandFile}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaFile(AqlParser.PragmaFileContext ctx);
+	void exitCommandFile(AqlParser.CommandFileContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaJdbcClass}.
+	 * Enter a parse tree produced by {@link AqlParser#commandJdbcClass}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaJdbcClass(AqlParser.PragmaJdbcClassContext ctx);
+	void enterCommandJdbcClass(AqlParser.CommandJdbcClassContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaJdbcClass}.
+	 * Exit a parse tree produced by {@link AqlParser#commandJdbcClass}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaJdbcClass(AqlParser.PragmaJdbcClassContext ctx);
+	void exitCommandJdbcClass(AqlParser.CommandJdbcClassContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaJdbcUri}.
+	 * Enter a parse tree produced by {@link AqlParser#commandJdbcUri}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaJdbcUri(AqlParser.PragmaJdbcUriContext ctx);
+	void enterCommandJdbcUri(AqlParser.CommandJdbcUriContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaJdbcUri}.
+	 * Exit a parse tree produced by {@link AqlParser#commandJdbcUri}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaJdbcUri(AqlParser.PragmaJdbcUriContext ctx);
+	void exitCommandJdbcUri(AqlParser.CommandJdbcUriContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaPrefix}.
+	 * Enter a parse tree produced by {@link AqlParser#commandPrefix}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaPrefix(AqlParser.PragmaPrefixContext ctx);
+	void enterCommandPrefix(AqlParser.CommandPrefixContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaPrefix}.
+	 * Exit a parse tree produced by {@link AqlParser#commandPrefix}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaPrefix(AqlParser.PragmaPrefixContext ctx);
+	void exitCommandPrefix(AqlParser.CommandPrefixContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaPrefixSrc}.
+	 * Enter a parse tree produced by {@link AqlParser#commandPrefixSrc}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaPrefixSrc(AqlParser.PragmaPrefixSrcContext ctx);
+	void enterCommandPrefixSrc(AqlParser.CommandPrefixSrcContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaPrefixSrc}.
+	 * Exit a parse tree produced by {@link AqlParser#commandPrefixSrc}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaPrefixSrc(AqlParser.PragmaPrefixSrcContext ctx);
+	void exitCommandPrefixSrc(AqlParser.CommandPrefixSrcContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#pragmaPrefixDst}.
+	 * Enter a parse tree produced by {@link AqlParser#commandPrefixDst}.
 	 * @param ctx the parse tree
 	 */
-	void enterPragmaPrefixDst(AqlParser.PragmaPrefixDstContext ctx);
+	void enterCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#pragmaPrefixDst}.
+	 * Exit a parse tree produced by {@link AqlParser#commandPrefixDst}.
 	 * @param ctx the parse tree
 	 */
-	void exitPragmaPrefixDst(AqlParser.PragmaPrefixDstContext ctx);
+	void exitCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaColimitKindAssignment}.
 	 * @param ctx the parse tree

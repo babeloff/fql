@@ -200,8 +200,11 @@ instanceCoprodUnrestrictSection : allOptions ;
 instanceCoequalizeSection : allOptions ;
 
 instanceImportCsvSection
-  : (schemaEntityId RARROW instanceCsvId)*
+  : (schemaEntityId RARROW
+       (LBRACE instanceCsvAssign+ RBRACE))*
     allOptions
   ;
+
+instanceCsvAssign : instanceCsvId RARROW instanceCsvId ;
 
 instanceCsvId : symbol ;

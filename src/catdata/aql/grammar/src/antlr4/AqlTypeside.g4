@@ -1,3 +1,4 @@
+
 parser grammar AqlTypeside;
 options { tokenVocab=AqlLexerRules; }
 
@@ -28,7 +29,8 @@ typesideLiteralSection
   ;
 
 typesideImport
-  : symbol          #Typeside_ImportName
+  : SQL             #Typeside_ImportSql
+  | symbol          #Typeside_ImportName
   ;
 
 typesideTypeSig : typesideTypeId ;

@@ -96,20 +96,6 @@
         :show true
         :input (mapv str input-file-s)))))
 
-(deftask parse-immortals-sample
-  []
-  (comp
-    (antlr/exercise
-      :parser "org.aql.AqlParser"
-      :lexer "org.aql.AqlLexerRules"
-      :start-rule "file"
-      :input ["resource/sample/cp2_1_db.aql"]
-      :tree false
-      :edn true
-      :rdf :jena
-      :postscript false
-      :tokens false)))
-
 (deftask parse-grammar
   [s show bool "show the arguments"]
   (s/check-asserts true)
@@ -167,7 +153,6 @@
   []
   (comp
     (build)
-    (parse-immortals-sample)
     (parse-grammar)
     (parse-examples)
     ;; (show :fileset true)
