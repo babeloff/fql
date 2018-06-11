@@ -41,6 +41,10 @@ instanceDef
     (LBRACE instanceCoprodSection RBRACE)?
   #Instance_Coprod
 
+  | UNION instanceKind (PLUS instanceKind)* COLON schemaKind
+    (LBRACE instanceCoprodSection RBRACE)?
+  #Instance_Union
+
   | COPRODUCT_UNRESTRICTED instanceId (PLUS instanceId)* COLON schemaKind
     (LBRACE instanceCoprodUnrestrictSection RBRACE)?
   #Instance_CoprodUn
@@ -81,17 +85,28 @@ instanceDef
     (LBRACE instanceQuotientSection RBRACE)?
   #Instance_Quotient
 
-  | CHASE constraintKind+ instanceKind INTEGER
+  | CHASE constraintKind+ instanceKind INTEGER?
   #Instance_Chase
 
   | RANDOM COLON schemaId
     (LBRACE instanceRandomSection RBRACE)?
   #Instance_Random
+
+  | ANONYMIZE instanceId
+  #Instance_Anonymize
+
+  | FROZEN queryId schemaId
+  #Instance_Frozen
+
+  | PI queryKind instanceKind
+    (LBRACE instancePiSection RBRACE)?
+  #Instance_Pi
   ;
 
 instanceKind: instanceId | instanceDef | (LPAREN instanceKind RPAREN);
 
 instanceImportJdbcAllSection : allOptions ;
+instancePiSection : allOptions ;
 
 instanceColimitSection
   : NODES (instanceId RARROW instanceKind)+
@@ -160,7 +175,9 @@ instancePath
 instanceArrowId : schemaEntityId | schemaForeignId;
 
 instanceQuotientJdbcSection
-  : instanceSql+
+  : ((schemaEntityId | schemaAttributeId | schemaForeignId | typesideTypeId)
+      RARROW
+      instanceSql)+
     allOptions
   ;
 

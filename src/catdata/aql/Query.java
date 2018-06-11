@@ -792,6 +792,17 @@ public final class Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> implements Sem
 		return ret;
 	}
 
+	/**
+    Converts an AQL query, as best as it can, into SQL.
+
+		@param pre to be placed a the front of any column name
+		@param post to be prepended to the view name for drop and create.
+		@param idCol the name of the id column which provides a unique identifier for the tuple
+		@param ty the name of the typeside to be used in resolving properties "char" is common usage
+		@return a pair
+		    first : some sql for recreating the view.
+				second : the sql describing the view.
+	*/
 	public Pair<List<String>, Map<En2, String>> toSQLViews(String pre, String post, String idCol, String ty) {
 		if (!(src.typeSide.tys.containsAll(SqlTypeSide.tys()))) {
 			throw new RuntimeException("Not on SQL typeside");

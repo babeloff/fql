@@ -6,7 +6,7 @@ mappingId : symbol ;
 mappingKindAssignment : MAPPING mappingId EQUAL mappingDef ;
 
 mappingDef
-  : ID schemaId                       #MapExp_Id
+  : IDENTITY schemaId                       #MapExp_Id
   | LBRACK mappingId SEMI mappingId RBRACK   #MapExp_Compose
   | LITERAL COLON schemaId RARROW schemaId
             LBRACE mappingLiteralSection RBRACE      #MapExp_Literal
@@ -21,9 +21,9 @@ mappingKind
 
 mappingLiteralSection
   : (IMPORTS mappingId*)?
-    (ENTITIES mappingEntitySig*)?
-    (FOREIGN_KEYS mappingForeignSig*)?
-    (ATTRIBUTES mappingAttributeSig*)?
+    ( ENTITY mappingEntitySig*
+    | FOREIGN_KEYS mappingForeignSig*
+    | ATTRIBUTES mappingAttributeSig* )*
     allOptions
   ;
 

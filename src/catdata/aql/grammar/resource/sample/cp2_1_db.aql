@@ -38,7 +38,7 @@ As information is being loaded from the file system
 we need to know where we are.
 " *) }
 
-pragma p0 = exec_cmdline {
+command p0 = exec_cmdline {
 	"pwd"
 	"ls"
 }

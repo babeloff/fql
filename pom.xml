@@ -19,12 +19,12 @@
     </properties>
     <repositories>
         <repository>
-            <id>babeloff</id>
-            <url>https://github.com/babeloff/mvn-repo/raw/master/releases</url>
+          <id>release</id>
+          <url>https://nexus.isis.vanderbilt.edu/repository/maven-releases</url>
         </repository>
         <repository>
-            <id>babeloff-snapshots</id>
-            <url>https://github.com/babeloff/mvn-repo/raw/master/snapshots</url>
+          <id>snapshot</id>
+          <url>https://nexus.isis.vanderbilt.edu/repository/maven-snapshots</url>
         </repository>
     </repositories>
     <build>
@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.2</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -97,6 +97,7 @@
             <!-- Build a standalone FQL jar containing all libraries when 'package' is executed. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -104,9 +105,10 @@
                             <!-- your further configuration here -->
                         </manifest>
                     </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <descriptors>
+                      <descriptor>src/assembly/bin.xml</descriptor>
+                      <descriptor>src/assembly/jar-with-deps.xml</descriptor>
+                    </descriptors>
                 </configuration>
                 <executions>
                     <execution>
@@ -147,6 +149,18 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+      <repository>
+        <id>release</id>
+        <name>Release</name>
+        <url>https://nexus.isis.vanderbilt.edu/repository/maven-releases</url>
+      </repository>
+      <snapshotRepository>
+        <id>dsnapshot</id>
+        <name>Snapshot</name>
+        <url>https://nexus.isis.vanderbilt.edu/repository/maven-snapshots</url>
+      </snapshotRepository>
+    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>net.sourceforge.collections</groupId>

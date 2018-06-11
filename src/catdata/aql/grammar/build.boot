@@ -8,14 +8,14 @@
     :dependencies '[[org.clojure/clojure "RELEASE"]
                     [org.clojure/spec.alpha "0.1.143"]
                     [boot/core "RELEASE" :scope "test"]
-                    [babeloff/boot-antlr4 "2017.10.31"]
+                    [babeloff/boot-antlr4 "2018.06.07-SNAPSHOT"]
                     [babeloff/boot-antlr4-parser "2017.10.31"]
                     [org.antlr/antlr4 "4.7"]
                     [clj-jgit "0.8.10"]
                     [byte-streams "0.2.3"]
                     [me.raynes/fs "1.4.6"]
 
-                    [org.apache.commons/commons-rdf-jena "0.3.0-incubating"]])
+                    [org.apache.commons/commons-rdf-jena "0.5.0"]])
 
 (task-options!
  pom {:project     project
@@ -139,7 +139,7 @@
                 "src/antlr4/AqlOptions.g4"
                 "src/antlr4/AqlInstance.g4"
                 "src/antlr4/AqlMapping.g4"
-                "src/antlr4/AqlPragma.g4"
+                "src/antlr4/AqlCommand.g4"
                 "src/antlr4/AqlQuery.g4"
                 "src/antlr4/AqlSchema.g4"
                 "src/antlr4/AqlSchemaColimit.g4"

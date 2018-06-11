@@ -44,7 +44,7 @@ typesideConstantValue : symbol ;
 typesideJavaConstantSig
   : (truthy | typesideConstantLiteral) EQUAL STRING ;
 
-typesideConstantLiteral : (STRING | LOWER_ID | UPPER_ID) ;
+typesideConstantLiteral : (STRING | INTEGER | LOWER_ID | UPPER_ID) ;
 
 typesideFunctionSig
   : typesideFnName COLON typesideFnLocal

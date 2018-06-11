@@ -153,7 +153,7 @@ command view2 = exec_jdbc "" "" {
 }
 
 //to import all the data in a SQL DB at once onto an auto-generated schema, use the following:
-instance import_all = import_jdbc_all "" "" 
+instance import_all_inst = import_jdbc_all "" "" 
 //the schema can be obtained as
 schema import_all_schema = schemaOf import_all
 //or

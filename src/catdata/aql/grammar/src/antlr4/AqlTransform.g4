@@ -6,7 +6,7 @@ transformId : symbol ;
 transformKindAssignment : TRANSFORM transformId EQUAL transformDef ;
 
 transformDef
-  : ID instanceKind
+  : IDENTITY instanceKind
   #Transform_Id
 
   | LBRACK transformId SEMI transformId RBRACK
