@@ -4,13 +4,14 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.runtime.CharStreams;
+
 import catdata.Chc;
 import catdata.Program;
 import catdata.Triple;
 import catdata.Util;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.grammar.AqlParser;
 import catdata.aql.exp.Exp;
 
 /**
@@ -54,8 +55,7 @@ public class AqlCmdLine {
 
 	public static void main(String[] args) {
 		try (FileReader r = new FileReader(args[0])) {
-			String str = Util.readFile(r);
-			Program<Exp<?>> prog = AqlParser.getParser().parseProgram(str);
+			Program<Exp<?>> prog = new AqlAntlr4Prog(CharStreams.fromReader(r)).parseProgram();
 			
 			String t[] = new String[1];
 			AqlMultiDriver driver = new AqlMultiDriver(prog, t, null);

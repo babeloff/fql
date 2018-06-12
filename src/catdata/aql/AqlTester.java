@@ -3,11 +3,12 @@ package catdata.aql;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
+import org.antlr.v4.runtime.CharStreams;
+
 import catdata.Ctx;
 import catdata.Program;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.grammar.AqlParser;
 import catdata.aql.exp.Exp;
 import catdata.ide.CodeTextPanel;
 import catdata.ide.Example;
@@ -43,7 +44,7 @@ public class AqlTester {
 		for (String k : progs.keySet()) {
 			try {
 				System.out.println(k);
-				Program<Exp<?>> prog = AqlParser.getParser().parseProgram(progs.get(k));
+				Program<Exp<?>> prog = new AqlAntlr4Prog(CharStreams.fromString(k)).parseProgram();
 				String[] toUpdate = new String[] { "" };
 				AqlMultiDriver driver = new AqlMultiDriver(prog, toUpdate, null);
 				driver.start(); //blocks

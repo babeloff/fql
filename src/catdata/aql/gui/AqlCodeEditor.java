@@ -17,6 +17,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.Vocabulary;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
@@ -25,6 +27,7 @@ import org.fife.ui.autocomplete.ShorthandCompletion;
 import catdata.ParseException;
 import catdata.Program;
 import catdata.Util;
+import catdata.aql.AqlAntlr4Prog;
 import catdata.aql.Kind;
 import catdata.aql.exp.AqlDoc;
 import catdata.aql.exp.AqlEnv;
@@ -43,8 +46,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 	public void format() {
 		String input = topArea.getText();
 		try {
-			Program<Exp<?>> p = parse(input);
-			if (p == null) {
+			Program<Exp<?>> prog = new AqlAntlr4Prog(CharStreams.fromString(input)).parseProgram();
+			if (prog == null) {
 				return;
 			}
 
@@ -57,8 +60,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 			}
 			// order does not contain enums or drops
 			StringBuilder sb = new StringBuilder();
-			for (String k : p.order) {
-				Exp<?> o = p.exps.get(k);
+			for (String k : prog.order) {
+				Exp<?> o = prog.exps.get(k);
 				if (o.kind().equals(Kind.COMMENT)) {
 					sb.append("md { (* " + o + " *) }\n\n");
 				} else {
@@ -217,7 +220,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Program<Exp<?>> parse(String program) throws ParseException {
-		return AqlParser.getParser().parseProgram(program);
+		this.last_parser = new AqlAntlr4Prog(CharStreams.fromString(program));
+		return this.last_parser.parseProgram();
 	}
 
 	@Override
@@ -230,6 +234,7 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 	}
 
 	// private String last_str;
+	private AqlAntlr4Prog last_parser; 
 	private Program<Exp<?>> last_prog; // different that env's
 	public AqlEnv last_env;
 	private AqlMultiDriver driver;
@@ -272,7 +277,21 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Collection<String> reservedWords() {
-		Collection<String> ret = Util.union(Util.list(AqlParser.ops), Util.list(AqlParser.res));
+		final Vocabulary vocab = last_parser.parser.getVocabulary();
+		final String[] tokenNames = new String[vocab.getMaxTokenType()];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = vocab.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = vocab.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+		Collection<String> ret = Util.union(
+				Util.list(tokenNames), 
+				Util.list(last_parser.parser.getRuleNames()));
 		synchronized (parsed_prog_lock) {
 			if (parsed_prog != null) {
 				ret = Util.union(ret, parsed_prog.exps.keySet());
