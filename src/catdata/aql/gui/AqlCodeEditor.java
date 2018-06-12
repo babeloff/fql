@@ -29,7 +29,7 @@ import catdata.aql.Kind;
 import catdata.aql.exp.AqlDoc;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.exp.AqlParser;
+import catdata.aql.grammar.AqlParser;
 import catdata.aql.exp.Exp;
 import catdata.ide.CodeEditor;
 import catdata.ide.CodeTextPanel;

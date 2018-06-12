@@ -100,6 +100,7 @@ import catdata.aql.exp.TyExp.TyExpSch;
 import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
+import catdata.aql.grammar.AqlParser;
 
 @SuppressWarnings("deprecation")
 public class CombinatorParser extends AqlParser {

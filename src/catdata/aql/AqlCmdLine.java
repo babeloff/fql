@@ -10,8 +10,7 @@ import catdata.Triple;
 import catdata.Util;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.exp.AqlParser;
-import catdata.aql.exp.CombinatorParser;
+import catdata.aql.grammar.AqlParser;
 import catdata.aql.exp.Exp;
 
 /**
