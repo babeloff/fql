@@ -18,7 +18,6 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.Vocabulary;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
@@ -32,7 +31,6 @@ import catdata.aql.Kind;
 import catdata.aql.exp.AqlDoc;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.grammar.AqlParser;
 import catdata.aql.exp.Exp;
 import catdata.ide.CodeEditor;
 import catdata.ide.CodeTextPanel;
@@ -277,21 +275,7 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Collection<String> reservedWords() {
-		final Vocabulary vocab = last_parser.parser.getVocabulary();
-		final String[] tokenNames = new String[vocab.getMaxTokenType()];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = vocab.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = vocab.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-		Collection<String> ret = Util.union(
-				Util.list(tokenNames), 
-				Util.list(last_parser.parser.getRuleNames()));
+		Collection<String> ret = last_parser.getTokens();
 		synchronized (parsed_prog_lock) {
 			if (parsed_prog != null) {
 				ret = Util.union(ret, parsed_prog.exps.keySet());

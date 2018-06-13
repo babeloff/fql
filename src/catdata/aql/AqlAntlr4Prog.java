@@ -1,23 +1,17 @@
 package catdata.aql;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Vocabulary;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.jparsec.Parsers;
-import org.jparsec.error.ParserException;
 
 import catdata.Pair;
-import catdata.ParseException;
 import catdata.Program;
 import catdata.Triple;
+import catdata.Util;
 import catdata.aql.exp.Exp;
 import catdata.aql.grammar.AqlLexerRules;
 import catdata.aql.grammar.AqlParser;
@@ -86,5 +80,24 @@ public class AqlAntlr4Prog {
 		//}
 		return null;
 	}
+	
 
+	public final Collection<String> getTokens() {
+		final Vocabulary vocab = this.parser.getVocabulary();
+		final String[] tokenNames = new String[vocab.getMaxTokenType()];
+		for (int ix = 0; ix < tokenNames.length; ix++) {
+			tokenNames[ix] = vocab.getLiteralName(ix);
+			if (tokenNames[ix] == null) {
+				tokenNames[ix] = vocab.getSymbolicName(ix);
+			}
+	
+			if (tokenNames[ix] == null) {
+				tokenNames[ix] = "<INVALID>";
+			}
+		}
+		return Util.list(tokenNames);
+		//Collection<String> ret = Util.union(
+		//		Util.list(tokenNames), 
+		//		Util.list(last_parser.parser.getRuleNames()));
+	}
 }
