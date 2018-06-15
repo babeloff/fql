@@ -2,7 +2,7 @@ package catdata.aql;
 
 import catdata.Program;
 import catdata.Util;
-import catdata.aql.exp.AqlParser;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
 import catdata.aql.exp.Exp;
@@ -34,7 +34,7 @@ public class AqlTest {
 
     public void testSourceText(String description, String src) {
         try {
-            Program<Exp<?>> prog = AqlParser.getParser().parseProgram(src);
+            Program<Exp<?>> prog = AqlParserFactory.getParser().parseProgram(src);
             testAqlMultiDriver(prog);
         } catch (Exception e) {
             fail("Test failed for test case '" + description + "'.");
@@ -48,7 +48,7 @@ public class AqlTest {
     public Program<Exp<?>> parseFileOrNull(String fileName) {
         try (FileReader r = new FileReader(fileName)) {
             String src = Util.readFile(r);
-            Program<Exp<?>> prog = AqlParser.getParser().parseProgram(src);
+            Program<Exp<?>> prog = AqlParserFactory.getParser().parseProgram(src);
             return prog;
         } catch (Exception e) {
             e.printStackTrace();

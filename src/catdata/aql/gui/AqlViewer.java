@@ -20,8 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import org.antlr.v4.runtime.CharStreams;
-
 import com.google.common.base.Function;
 
 import catdata.Chc;
@@ -31,7 +29,6 @@ import catdata.Triple;
 import catdata.Unit;
 import catdata.Util;
 import catdata.aql.Algebra;
-import catdata.aql.AqlAntlr4Prog;
 import catdata.aql.AqlJs;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.ColimitSchema;
@@ -53,6 +50,7 @@ import catdata.aql.Transform;
 import catdata.aql.TypeSide;
 import catdata.aql.Var;
 import catdata.aql.exp.AqlEnv;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
@@ -130,7 +128,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		nf.addActionListener(x -> {
 			try {
 				final Pair<List<Pair<String, String>>, RawTerm> 
-				y = new AqlAntlr4Prog(CharStreams.fromString(input.getText())).parseTermInCtx();
+                                y = AqlParserFactory.getParser().parseTermInCtx(input.getText());
 				
 				final Triple<Ctx<Var, Chc<Ty, En1>>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>> 
 				z = RawTerm.infer2(y.first, y.second, y.second, m.src(), js);
@@ -342,7 +340,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		eq.addActionListener(x -> {
 			try {
 				final Triple<List<Pair<String, String>>, RawTerm, RawTerm> 
-				y = new AqlAntlr4Prog(CharStreams.fromString(input.getText())).parseEq();
+				y = AqlParserFactory.getParser().parseEq(input.getText());
 				
 				final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>
 				z = RawTerm.infer2(y.first, y.second, y.third, col, js);
@@ -357,12 +355,14 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		nf.addActionListener(x -> {
 			try {
 				final Pair<List<Pair<String, String>>, RawTerm> 
-				y = new AqlAntlr4Prog(CharStreams.fromString(input.getText())).parseTermInCtx();
+                                y = AqlParserFactory.getParser().parseTermInCtx(input.getText());
 				
 				final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> 
 				z = RawTerm.infer2(y.first, y.second, y.second, col, js);
 				
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> w = dp.nf(z.first, z.second);
+				final Term<Ty, En, Sym, Fk, Att, Gen, Sk> 
+                                w = dp.nf(z.first, z.second);
+
 				output.setText(w.toString());
 			} catch (Exception ex) {
 				ex.printStackTrace();

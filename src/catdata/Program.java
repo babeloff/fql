@@ -22,10 +22,39 @@ public class Program<X> implements Prog {
 		return 30;
 	}
 	
+	/* 
+	'order' consists of a list of the names of the AQL expressions in order.
+	Named objects are as they appear in the AQL program, 
+	but anonymous objects have names generated.
+	Example:
+	 "graph g100 = ..." -> "g100"
+	 "md { ... }"  -> "md35"
+	 
+ 	These names are the keys into other containers.
+	*/
 	public final List<String> order = new LinkedList<>();
+	/*
+	'lines' is keyed by the names from order and the value is the 
+	offset from the beginning of the program to the name of the expression.
+	The 'lines' is a bit of a misnomer as there is an entry for 
+	expression and the value is measured in characters.
+	*/
 	public final LinkedHashMap<String, Integer> lines = new LinkedHashMap<>();
+	/*
+	'expr' contains the expressions.
+	There are many types of expressions, each one has its own 
+	data structure.
+	see catadata.aql.exp 
+	*/
 	public final LinkedHashMap<String, X> exps = new LinkedHashMap<>();
+	/*
+	'options' is a dictionary of the global options.
+	note: options are not considered expressions.
+	*/
 	public final Map<String, String> options;
+	/* 
+	'text' is a copy of the original program.
+	*/
 	private final String text;
 	
 	@Override
@@ -48,7 +77,8 @@ public class Program<X> implements Prog {
 		this(decls, text, Collections.emptyList(), x -> "");
 	}
 	
-	public Program(List<Triple<String, Integer, X>> decls, String text, List<Pair<String, String>> options, Function<X, String> k) {
+	public Program(List<Triple<String, Integer, X>> decls, String text, 
+			List<Pair<String, String>> options, Function<X, String> k) {
 		this.text = text;
 		List<Triple<String, Integer, X>> seen = new LinkedList<>();
 		for (Triple<String, Integer, X> decl : decls) { 

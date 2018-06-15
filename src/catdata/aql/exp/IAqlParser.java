@@ -1,22 +1,19 @@
 package catdata.aql.exp;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Collection;
 import java.util.List;
 
 import catdata.Pair;
 import catdata.ParseException;
 import catdata.Program;
 import catdata.Triple;
+import catdata.Util;
 import catdata.aql.AqlOptions;
 import catdata.aql.RawTerm;
 
-public abstract class AqlParser {
-	
-	protected AqlParser() { }
-	
-	public static AqlParser getParser() {
-		//todo: use fred's parser here?
-		return new CombinatorParser();
-	}
+public interface IAqlParser {
 	
 	public static final String[] ops = new String[] { ",", ".", ";", ":", "{", "}", "(", ")", "=", "->", "@", "(*",
 			"*)", "+", "[", "]", "<-" };
@@ -39,14 +36,16 @@ public abstract class AqlParser {
 
 	public static final String[] opts = AqlOptions.optionNames().toArray(new String[0]);
 
-	public abstract Program<Exp<?>> parseProgram(String s) throws ParseException;
+	public Program<Exp<?>> parseProgram(String str) throws ParseException;
+  public Program<Exp<?>> parseProgram(Reader rdr) throws ParseException, IOException ;
 
-	public abstract Triple<List<Pair<String, String>>, RawTerm, RawTerm> parseEq(String s) throws ParseException;
+	public Triple<List<Pair<String, String>>, RawTerm, RawTerm> parseEq(String s) throws ParseException;
 
-	public abstract Pair<List<Pair<String, String>>, RawTerm> parseTermInCtx(String s) throws ParseException;
+	public Pair<List<Pair<String, String>>, RawTerm> parseTermInCtx(String s) throws ParseException;
 
-	public abstract RawTerm parseTermNoCtx(String s) throws ParseException;
+	public RawTerm parseTermNoCtx(String s) throws ParseException;
 	
-	
+	public Collection<String> getReservedWords() ;
+  public Collection<String> getOperations() ;
 	
 }

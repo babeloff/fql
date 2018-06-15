@@ -1,5 +1,8 @@
 package catdata.aql.exp;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -100,27 +103,34 @@ import catdata.aql.exp.TyExp.TyExpSch;
 import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
-import catdata.aql.exp.AqlParser;
 
 @SuppressWarnings("deprecation")
-public class CombinatorParser extends AqlParser {
-
+public class CombinatorParser implements IAqlParser {
+	
+	protected CombinatorParser() { }
+	
 	private static final Terminals RESERVED = Terminals.caseSensitive(ops, Util.union(res, opts));
 
-	private static final Parser<Void> IGNORED = Parsers
-			.or(Scanners.JAVA_LINE_COMMENT, Scanners.JAVA_BLOCK_COMMENT, Scanners.WHITESPACES).skipMany();
+	private static final Parser<Void> 
+	IGNORED = Parsers.or(Scanners.JAVA_LINE_COMMENT, Scanners.JAVA_BLOCK_COMMENT, Scanners.WHITESPACES).skipMany();
 
-	private static final Parser<Object> TOKENIZER = Parsers.or(StringLiteral.DOUBLE_QUOTE_TOKENIZER,
-			RESERVED.tokenizer(), Identifier.TOKENIZER, IntegerLiteral.TOKENIZER);
+	private static final Parser<Object> 
+	TOKENIZER = Parsers.or(StringLiteral.DOUBLE_QUOTE_TOKENIZER,
+			               RESERVED.tokenizer(), 
+			               Identifier.TOKENIZER, 
+			               IntegerLiteral.TOKENIZER);
 
 	private static Parser<Token> token(String... names) {
 		return RESERVED.token(names);
 	}
 
-	private static final Parser<String> ident = Parsers.or(StringLiteral.PARSER, IntegerLiteral.PARSER,
-			Identifier.PARSER);
+	private static final Parser<String> 
+	ident = Parsers.or(StringLiteral.PARSER, 
+						IntegerLiteral.PARSER,
+						Identifier.PARSER);
 
-	private static final Parser<LocStr> locstr = Parsers.tuple(Parsers.INDEX, ident).map(x -> new LocStr(x.a, x.b));
+	private static final Parser<LocStr> 
+	locstr = Parsers.tuple(Parsers.INDEX, ident).map(x -> new LocStr(x.a, x.b));
 
 	// public static final Parser<?> program = program().from(TOKENIZER,
 	// IGNORED);
@@ -172,7 +182,9 @@ public class CombinatorParser extends AqlParser {
 	}
 
 	private static void tyExp() {
-		Parser<TyExp<?, ?>> var = ident.map(TyExpVar::new), sql = token("sql").map(x -> new TyExpSql()),
+		Parser<TyExp<?, ?>> 
+				var = ident.map(TyExpVar::new), 
+				sql = token("sql").map(x -> new TyExpSql()),
 				empty = token("empty").map(x -> new TyExpEmpty()),
 				sch = Parsers.tuple(token("typesideOf"), sch_ref.lazy()).map(x -> new TyExpSch<>(x.b)),
 				ret = Parsers.or(sch, empty, sql, tyExpRaw(), var, parens(ty_ref));
@@ -181,7 +193,8 @@ public class CombinatorParser extends AqlParser {
 	}
 
 	private static void schExp() {
-		Parser<SchExp<?, ?, ?, ?, ?>> var = ident.map(SchExpVar::new),
+		Parser<SchExp<?, ?, ?, ?, ?>> 
+				var = ident.map(SchExpVar::new),
 				empty = Parsers.tuple(token("empty"), token(":"), ty_ref.get()).map(x -> new SchExpEmpty<>(x.c)),
 				inst = Parsers.tuple(token("schemaOf"), inst_ref.lazy()).map(x -> new SchExpInst<>(x.b)),
 				colim = Parsers.tuple(token("getSchema"), colim_ref.lazy()).map(x -> new SchExpColim<>(x.b)),
@@ -388,12 +401,16 @@ public class CombinatorParser extends AqlParser {
 		trans_ref.set(ret);
 	}
 
-	private static final Parser<String> option = Parsers.or(AqlOptions.optionNames().stream()
+	private static final Parser<String> 
+	option = Parsers.or(AqlOptions.optionNames().stream()
 			.map(x -> token(x).map(y -> y.value().toString())).collect(Collectors.toList()));
 
-	private static final Parser<List<LocStr>> imports = Parsers.tuple(token("imports"), locstr.many()).optional()
+	private static final Parser<List<LocStr>> 
+	imports = Parsers.tuple(token("imports"), locstr.many()).optional()
 			.map(x -> x == null ? new LinkedList<>() : x.b);
-	private static final Parser<List<catdata.Pair<String, String>>> options = Parsers
+	
+	private static final Parser<List<catdata.Pair<String, String>>> 
+	options = Parsers
 			.tuple(token("options"), Parsers.tuple(option, token("="), ident).many()).optional().map(x -> {
 				List<catdata.Pair<String, String>> ret = new LinkedList<>();
 				if (x != null) {
@@ -403,7 +420,8 @@ public class CombinatorParser extends AqlParser {
 				}
 				return ret;
 			});
-	private static final Parser<List<catdata.Pair<String, String>>> ctx = Parsers
+	private static final Parser<List<catdata.Pair<String, String>>> 
+	ctx = Parsers
 			.tuple(ident.many1(), Parsers.tuple(token(":"), ident).optional()).sepBy(token(",")).map(x -> {
 				List<catdata.Pair<String, String>> ret = new LinkedList<>();
 				for (Pair<List<String>, Pair<Token, String>> y : x) {
@@ -1246,7 +1264,8 @@ public class CombinatorParser extends AqlParser {
 		return ret;
 	}
 
-	private static <Y> Parser<Triple<String, Integer, Y>> decl(String s, Parser<Y> p) {
+	private static <Y> Parser<Triple<String, Integer, Y>> 
+	decl(String s, Parser<Y> p) {
 		return Parsers.tuple(token(s), Parsers.INDEX, ident, token("="), p).map(x -> new Triple<>(x.c, x.b, x.e));
 	}
 
@@ -1277,7 +1296,8 @@ public class CombinatorParser extends AqlParser {
 		colimSchExp();
 
 		@SuppressWarnings("unchecked")
-		Parser<Triple<String, Integer, ? extends Exp<?>>> p = Parsers.or(comment(), decl("typeside", ty_ref.get()),
+		Parser<Triple<String, Integer, ? extends Exp<?>>> 
+		p = Parsers.or(comment(), decl("typeside", ty_ref.get()),
 				decl("schema", sch_ref.get()), decl("instance", inst_ref.get()), decl("mapping", map_ref.get()),
 				decl("transform", trans_ref.get()), decl("graph", graph_ref.get()), decl("query", query_ref.get()),
 				decl("command", pragma_ref.get()), decl("schema_colimit", colim_ref.get()),
@@ -1307,7 +1327,11 @@ public class CombinatorParser extends AqlParser {
 		}
 		return ret;
 	}
-
+	
+	public Program<Exp<?>> parseProgram(Reader r) throws ParseException, IOException {
+		return parseProgram(Util.readFile(r));
+	}
+	
 	public Program<Exp<?>> parseProgram(String s) throws ParseException {
 		try {
 			return program(s).from(TOKENIZER, IGNORED).parse(s);
@@ -1320,7 +1344,8 @@ public class CombinatorParser extends AqlParser {
 	 * ident.many().from(TOKENIZER, IGNORED).parse(s); }
 	 */
 
-	public Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm> parseEq(String s) throws ParseException {
+	public Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm> 
+	parseEq(String s) throws ParseException {
 		try {
 			return Parsers.or(eq1, eq2).from(TOKENIZER, IGNORED).parse(s);
 		} catch (ParserException e) {
@@ -1328,7 +1353,8 @@ public class CombinatorParser extends AqlParser {
 		}
 	}
 
-	public catdata.Pair<List<catdata.Pair<String, String>>, RawTerm> parseTermInCtx(String s) throws ParseException {
+	public catdata.Pair<List<catdata.Pair<String, String>>, RawTerm> 
+	parseTermInCtx(String s) throws ParseException {
 		try {
 			return Parsers.or(term1, term2).from(TOKENIZER, IGNORED).parse(s);
 		} catch (ParserException e) {
@@ -1356,18 +1382,33 @@ public class CombinatorParser extends AqlParser {
 		return p.from(TOKENIZER, IGNORED).parse(s);
 	}
 
-	private static final Parser<Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>> eq1 = Parsers
+	private static final Parser<Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>> 
+                eq1 = Parsers
 			.tuple(token("forall"), ctx.followedBy(token(".")), term(), token("="), term())
 			.map(x -> new Triple<>(x.b, x.c, x.e));
 
-	private static final Parser<Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>> eq2 = Parsers
+	private static final Parser<Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>> 
+                eq2 = Parsers
 			.tuple(term(), token("="), term()).map(x -> new Triple<>(new LinkedList<>(), x.a, x.c));
 
-	private static final Parser<catdata.Pair<List<catdata.Pair<String, String>>, RawTerm>> term1 = Parsers
+	private static final Parser<catdata.Pair<List<catdata.Pair<String, String>>, RawTerm>> 
+                term1 = Parsers
 			.tuple(token("lambda"), ctx.followedBy(token(".")), term()).map(x -> new catdata.Pair<>(x.b, x.c));
 
-	private static final Parser<catdata.Pair<List<catdata.Pair<String, String>>, RawTerm>> term2 = term()
+	private static final Parser<catdata.Pair<List<catdata.Pair<String, String>>, RawTerm>> 
+                term2 = term()
 			.map(x -> new catdata.Pair<>(new LinkedList<>(), x));
+
+	@Override
+	public Collection<String> getReservedWords() {
+		return Util.union(Util.list(IAqlParser.ops), 
+                Util.list(IAqlParser.res));
+	}
+
+	@Override
+	public Collection<String> getOperations() {
+		return Util.list(IAqlParser.ops);
+	}
 
 	// TODO: aql visitor for aql exps?
 

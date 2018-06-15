@@ -6,11 +6,18 @@ mappingId : symbol ;
 mappingKindAssignment : MAPPING mappingId EQUAL mappingDef ;
 
 mappingDef
-  : IDENTITY schemaId                       #MapExp_Id
-  | LBRACK mappingId SEMI mappingId RBRACK   #MapExp_Compose
+  : IDENTITY schemaId                       
+  #MapExp_Id
+  
+  | LBRACK mappingId SEMI mappingId RBRACK   
+  #MapExp_Compose
+  
   | LITERAL COLON schemaId RARROW schemaId
-            LBRACE mappingLiteralSection RBRACE      #MapExp_Literal
-  | GET_MAPPING schemaColimitId schemaId #MapExp_Get
+            LBRACE mappingLiteralSection RBRACE      
+  #MapExp_Literal
+  
+  | GET_MAPPING schemaColimitId schemaId 
+  #MapExp_Get
   ;
 
 mappingKind

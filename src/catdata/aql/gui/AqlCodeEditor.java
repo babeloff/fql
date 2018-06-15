@@ -17,7 +17,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
-import org.antlr.v4.runtime.CharStreams;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.CompletionProvider;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
@@ -26,12 +25,13 @@ import org.fife.ui.autocomplete.ShorthandCompletion;
 import catdata.ParseException;
 import catdata.Program;
 import catdata.Util;
-import catdata.aql.AqlAntlr4Prog;
 import catdata.aql.Kind;
 import catdata.aql.exp.AqlDoc;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
+import catdata.aql.exp.IAqlParser;
 import catdata.ide.CodeEditor;
 import catdata.ide.CodeTextPanel;
 import catdata.ide.GUI;
@@ -44,8 +44,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 	public void format() {
 		String input = topArea.getText();
 		try {
-			Program<Exp<?>> prog = new AqlAntlr4Prog(CharStreams.fromString(input)).parseProgram();
-			if (prog == null) {
+			Program<Exp<?>> p = parse(input);
+			if (p == null) {
 				return;
 			}
 
@@ -58,8 +58,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 			}
 			// order does not contain enums or drops
 			StringBuilder sb = new StringBuilder();
-			for (String k : prog.order) {
-				Exp<?> o = prog.exps.get(k);
+			for (String k : p.order) {
+				Exp<?> o = p.exps.get(k);
 				if (o.kind().equals(Kind.COMMENT)) {
 					sb.append("md { (* " + o + " *) }\n\n");
 				} else {
@@ -218,8 +218,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Program<Exp<?>> parse(String program) throws ParseException {
-		this.last_parser = new AqlAntlr4Prog(CharStreams.fromString(program));
-		return this.last_parser.parseProgram();
+		this.last_parser = AqlParserFactory.getParser();
+		return this.last_parser.parseProgram(program);
 	}
 
 	@Override
@@ -232,7 +232,7 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 	}
 
 	// private String last_str;
-	private AqlAntlr4Prog last_parser; 
+	private IAqlParser last_parser; 
 	private Program<Exp<?>> last_prog; // different that env's
 	public AqlEnv last_env;
 	private AqlMultiDriver driver;
@@ -275,7 +275,7 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Collection<String> reservedWords() {
-		Collection<String> ret = last_parser.getTokens();
+		Collection<String> ret = last_parser.getReservedWords();
 		synchronized (parsed_prog_lock) {
 			if (parsed_prog != null) {
 				ret = Util.union(ret, parsed_prog.exps.keySet());

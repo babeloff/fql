@@ -3,12 +3,11 @@ package catdata.aql;
 import java.io.File;
 import java.io.FileReader;
 
-import org.antlr.v4.runtime.CharStreams;
-
 import catdata.Program;
 import catdata.Util;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
 
 /**
@@ -21,7 +20,7 @@ public class CodyCmdLine {
 	//args[1] = directory for tptp output
 	public static void main(String[] args) {
 		try (FileReader r = new FileReader(args[0])) {
-			Program<Exp<?>> prog = new AqlAntlr4Prog(CharStreams.fromReader(r)).parseProgram();
+			Program<Exp<?>> prog = AqlParserFactory.getParser().parseProgram(r);
 			
 			String t[] = new String[1]; //poll for driver status
 			AqlMultiDriver driver = new AqlMultiDriver(prog, t, null);

@@ -43,16 +43,16 @@ commentDeclarationSection
   | mdCommentDeclaration       #Comment_MD;
 
 kindDeclaration
-  : typesideKindAssignment
-  | schemaKindAssignment
-  | instanceKindAssignment
-  | mappingKindAssignment
-  | transformKindAssignment
-  | queryKindAssignment
-  | graphKindAssignment
-  | commandKindAssignment
-  | schemaColimitKindAssignment
-  | constraintKindAssignment
+  : typesideKindAssignment       # Program_TypesideKind
+  | schemaKindAssignment         # Program_SchemaKind
+  | instanceKindAssignment       # Program_InstanceKind
+  | mappingKindAssignment        # Program_MappingKind
+  | transformKindAssignment      # Program_TransformKind
+  | queryKindAssignment          # Program_QueryKind
+  | graphKindAssignment          # Program_GraphKind
+  | commandKindAssignment        # Program_CommandKind
+  | schemaColimitKindAssignment  # Program_SchemaKind
+  | constraintKindAssignment     # Program_ConstraintKind
   ;
 
 

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import catdata.Util;
 import catdata.aql.AqlProver.ProverName;
-import catdata.aql.grammar.AqlParser;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
 import catdata.aql.exp.SchExpRaw.Att;
