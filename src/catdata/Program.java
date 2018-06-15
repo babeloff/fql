@@ -76,7 +76,14 @@ public class Program<X> implements Prog {
 	public Program(List<Triple<String, Integer, X>> decls, String text) {
 		this(decls, text, Collections.emptyList(), x -> "");
 	}
-	
+	/**
+	 * The main program constructor.
+	 * 
+	 * @param decls 
+	 * @param text
+	 * @param options
+	 * @param k
+	 */
 	public Program(List<Triple<String, Integer, X>> decls, String text, 
 			List<Pair<String, String>> options, Function<X, String> k) {
 		this.text = text;

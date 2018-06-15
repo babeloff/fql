@@ -1,6 +1,9 @@
 package catdata.aql.exp;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.antlr.v4.misc.OrderedHashMap;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -10,8 +13,10 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.jparsec.error.ParserException;
 
 import catdata.aql.grammar.AqlParserBaseListener;
+import catdata.Pair;
 import catdata.ParseException;
 import catdata.Program;
+import catdata.Triple;
 import catdata.aql.grammar.AqlLexerRules;
 import catdata.aql.grammar.AqlParser;
 
@@ -32,15 +37,22 @@ public class AqlLoader extends AqlParserBaseListener {
 		this.tokens = new CommonTokenStream(lexer);
 		this.parser = new AqlParser(tokens);
 		this.tree = parser.program();
+		
+		this.decls = new LinkedList<Triple<String, Integer, Exp<?>>>();
+		this.text = "";
+		this.options = new LinkedList<Pair<String, String>>();
+		this.k = q -> q.kind().toString();
 	}
 	
-	Map<String,String> props = new OrderedHashMap<String, String>();
-	//Program<Exp<?>> program = new Program;
-	ParseTreeProperty<String> values = new ParseTreeProperty<String>();
-			
+	// Map<String,String> props = new OrderedHashMap<String, String>();
+	final List<Triple<String, Integer, Exp<?>>> decls;
+	String text; 
+	final List<Pair<String, String>> options;
+	Function<Exp<?>, String> k;
+	
 	public Program<Exp<?>> parseProgram() throws ParseException {
 		try {
-			return null; // program(s).from(TOKENIZER, IGNORED).parse(s);
+			return new Program<>(decls, text, options, k);
 		} catch (ParserException e) {
 			throw new ParseException(e.getLocation().column, e.getLocation().line, e);
 		}
