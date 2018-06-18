@@ -1297,10 +1297,17 @@ public class CombinatorParser implements IAqlParser {
 
 		@SuppressWarnings("unchecked")
 		Parser<Triple<String, Integer, ? extends Exp<?>>> 
-		p = Parsers.or(comment(), decl("typeside", ty_ref.get()),
-				decl("schema", sch_ref.get()), decl("instance", inst_ref.get()), decl("mapping", map_ref.get()),
-				decl("transform", trans_ref.get()), decl("graph", graph_ref.get()), decl("query", query_ref.get()),
-				decl("command", pragma_ref.get()), decl("schema_colimit", colim_ref.get()),
+		p = Parsers.or(
+				comment(), 
+				decl("typeside", ty_ref.get()),
+				decl("schema", sch_ref.get()), 
+				decl("instance", inst_ref.get()), 
+				decl("mapping", map_ref.get()),
+				decl("transform", trans_ref.get()), 
+				decl("graph", graph_ref.get()), 
+				decl("query", query_ref.get()),
+				decl("command", pragma_ref.get()), 
+				decl("schema_colimit", colim_ref.get()),
 				decl("constraints", edsExp()));
 
 		return Parsers.tuple(options, p.many()).map(x -> new Program<>(conv(x.b), s, x.a, q -> q.kind().toString()));
@@ -1320,7 +1327,8 @@ public class CombinatorParser implements IAqlParser {
 		return p1.or(p2);
 	}
 
-	private static List<Triple<String, Integer, Exp<?>>> conv(List<Triple<String, Integer, ? extends Exp<?>>> l) {
+	private static List<Triple<String, Integer, Exp<?>>> 
+	conv(List<Triple<String, Integer, ? extends Exp<?>>> l) {
 		List<Triple<String, Integer, Exp<?>>> ret = new LinkedList<>();
 		for (Triple<String, Integer, ? extends Exp<?>> k : l) {
 			ret.add(new Triple<>(k.first, k.second, k.third));

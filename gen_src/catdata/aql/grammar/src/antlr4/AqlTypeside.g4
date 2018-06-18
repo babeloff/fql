@@ -8,9 +8,16 @@ typesideKindAssignment
 
 typesideDef
   : EMPTY
+    #Typeside_Empty
+    
   | SQL
+    #Typeside_Sql
+    
   | TYPESIDE_OF schemaKind
+    #Typeside_Of
+    
   | LITERAL (LBRACE typesideLiteralSection RBRACE)?
+    #Typeside_Literal
   ;
 
 typesideKind : typesideId | typesideDef | (LPAREN typesideDef RPAREN) ;

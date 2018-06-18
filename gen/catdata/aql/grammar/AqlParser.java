@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/572/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/nu3/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -674,51 +674,203 @@ public class AqlParser extends Parser {
 	}
 
 	public static class KindDeclarationContext extends ParserRuleContext {
-		public TypesideKindAssignmentContext typesideKindAssignment() {
-			return getRuleContext(TypesideKindAssignmentContext.class,0);
-		}
-		public SchemaKindAssignmentContext schemaKindAssignment() {
-			return getRuleContext(SchemaKindAssignmentContext.class,0);
-		}
-		public InstanceKindAssignmentContext instanceKindAssignment() {
-			return getRuleContext(InstanceKindAssignmentContext.class,0);
-		}
-		public MappingKindAssignmentContext mappingKindAssignment() {
-			return getRuleContext(MappingKindAssignmentContext.class,0);
-		}
-		public TransformKindAssignmentContext transformKindAssignment() {
-			return getRuleContext(TransformKindAssignmentContext.class,0);
-		}
-		public QueryKindAssignmentContext queryKindAssignment() {
-			return getRuleContext(QueryKindAssignmentContext.class,0);
-		}
-		public GraphKindAssignmentContext graphKindAssignment() {
-			return getRuleContext(GraphKindAssignmentContext.class,0);
-		}
-		public CommandKindAssignmentContext commandKindAssignment() {
-			return getRuleContext(CommandKindAssignmentContext.class,0);
-		}
-		public SchemaColimitKindAssignmentContext schemaColimitKindAssignment() {
-			return getRuleContext(SchemaColimitKindAssignmentContext.class,0);
-		}
-		public ConstraintKindAssignmentContext constraintKindAssignment() {
-			return getRuleContext(ConstraintKindAssignmentContext.class,0);
-		}
 		public KindDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_kindDeclaration; }
+	 
+		public KindDeclarationContext() { }
+		public void copyFrom(KindDeclarationContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Kind_MappingContext extends KindDeclarationContext {
+		public MappingKindAssignmentContext mappingKindAssignment() {
+			return getRuleContext(MappingKindAssignmentContext.class,0);
+		}
+		public Kind_MappingContext(KindDeclarationContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterKindDeclaration(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterKind_Mapping(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitKindDeclaration(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitKind_Mapping(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitKindDeclaration(this);
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitKind_Mapping(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Kind_TransformContext extends KindDeclarationContext {
+		public TransformKindAssignmentContext transformKindAssignment() {
+			return getRuleContext(TransformKindAssignmentContext.class,0);
+		}
+		public Kind_TransformContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterKind_Transform(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitKind_Transform(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitKind_Transform(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Program_ConstraintKindContext extends KindDeclarationContext {
+		public ConstraintKindAssignmentContext constraintKindAssignment() {
+			return getRuleContext(ConstraintKindAssignmentContext.class,0);
+		}
+		public Program_ConstraintKindContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterProgram_ConstraintKind(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitProgram_ConstraintKind(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitProgram_ConstraintKind(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Kind_InstanceContext extends KindDeclarationContext {
+		public InstanceKindAssignmentContext instanceKindAssignment() {
+			return getRuleContext(InstanceKindAssignmentContext.class,0);
+		}
+		public Kind_InstanceContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterKind_Instance(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitKind_Instance(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitKind_Instance(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Program_CommandKindContext extends KindDeclarationContext {
+		public CommandKindAssignmentContext commandKindAssignment() {
+			return getRuleContext(CommandKindAssignmentContext.class,0);
+		}
+		public Program_CommandKindContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterProgram_CommandKind(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitProgram_CommandKind(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitProgram_CommandKind(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Program_GraphKindContext extends KindDeclarationContext {
+		public GraphKindAssignmentContext graphKindAssignment() {
+			return getRuleContext(GraphKindAssignmentContext.class,0);
+		}
+		public Program_GraphKindContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterProgram_GraphKind(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitProgram_GraphKind(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitProgram_GraphKind(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Kind_TypesideContext extends KindDeclarationContext {
+		public TypesideKindAssignmentContext typesideKindAssignment() {
+			return getRuleContext(TypesideKindAssignmentContext.class,0);
+		}
+		public Kind_TypesideContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterKind_Typeside(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitKind_Typeside(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitKind_Typeside(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Program_SchemaKindContext extends KindDeclarationContext {
+		public SchemaColimitKindAssignmentContext schemaColimitKindAssignment() {
+			return getRuleContext(SchemaColimitKindAssignmentContext.class,0);
+		}
+		public Program_SchemaKindContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterProgram_SchemaKind(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitProgram_SchemaKind(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitProgram_SchemaKind(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Kind_SchemaContext extends KindDeclarationContext {
+		public SchemaKindAssignmentContext schemaKindAssignment() {
+			return getRuleContext(SchemaKindAssignmentContext.class,0);
+		}
+		public Kind_SchemaContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterKind_Schema(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitKind_Schema(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitKind_Schema(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Program_QueryKindContext extends KindDeclarationContext {
+		public QueryKindAssignmentContext queryKindAssignment() {
+			return getRuleContext(QueryKindAssignmentContext.class,0);
+		}
+		public Program_QueryKindContext(KindDeclarationContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterProgram_QueryKind(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitProgram_QueryKind(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitProgram_QueryKind(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -731,6 +883,7 @@ public class AqlParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case TYPESIDE:
+				_localctx = new Kind_TypesideContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(456);
@@ -738,6 +891,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case SCHEMA:
+				_localctx = new Kind_SchemaContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(457);
@@ -745,6 +899,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case INSTANCE:
+				_localctx = new Kind_InstanceContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(458);
@@ -752,6 +907,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case MAPPING:
+				_localctx = new Kind_MappingContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(459);
@@ -759,6 +915,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case TRANSFORM:
+				_localctx = new Kind_TransformContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(460);
@@ -766,6 +923,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case QUERY:
+				_localctx = new Program_QueryKindContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(461);
@@ -773,6 +931,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case GRAPH:
+				_localctx = new Program_GraphKindContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(462);
@@ -780,6 +939,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case COMMAND:
+				_localctx = new Program_CommandKindContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(463);
@@ -787,6 +947,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case SCHEMA_COLIMIT:
+				_localctx = new Program_SchemaKindContext(_localctx);
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(464);
@@ -794,6 +955,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case CONSTRAINTS:
+				_localctx = new Program_ConstraintKindContext(_localctx);
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(465);
@@ -3299,33 +3461,89 @@ public class AqlParser extends Parser {
 	}
 
 	public static class TypesideDefContext extends ParserRuleContext {
+		public TypesideDefContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_typesideDef; }
+	 
+		public TypesideDefContext() { }
+		public void copyFrom(TypesideDefContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class Typeside_EmptyContext extends TypesideDefContext {
 		public TerminalNode EMPTY() { return getToken(AqlParser.EMPTY, 0); }
-		public TerminalNode SQL() { return getToken(AqlParser.SQL, 0); }
+		public Typeside_EmptyContext(TypesideDefContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypeside_Empty(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypeside_Empty(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypeside_Empty(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Typeside_OfContext extends TypesideDefContext {
 		public TerminalNode TYPESIDE_OF() { return getToken(AqlParser.TYPESIDE_OF, 0); }
 		public SchemaKindContext schemaKind() {
 			return getRuleContext(SchemaKindContext.class,0);
 		}
+		public Typeside_OfContext(TypesideDefContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypeside_Of(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypeside_Of(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypeside_Of(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Typeside_SqlContext extends TypesideDefContext {
+		public TerminalNode SQL() { return getToken(AqlParser.SQL, 0); }
+		public Typeside_SqlContext(TypesideDefContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypeside_Sql(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypeside_Sql(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypeside_Sql(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class Typeside_LiteralContext extends TypesideDefContext {
 		public TerminalNode LITERAL() { return getToken(AqlParser.LITERAL, 0); }
 		public TerminalNode LBRACE() { return getToken(AqlParser.LBRACE, 0); }
 		public TypesideLiteralSectionContext typesideLiteralSection() {
 			return getRuleContext(TypesideLiteralSectionContext.class,0);
 		}
 		public TerminalNode RBRACE() { return getToken(AqlParser.RBRACE, 0); }
-		public TypesideDefContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_typesideDef; }
+		public Typeside_LiteralContext(TypesideDefContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypesideDef(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypeside_Literal(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypesideDef(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypeside_Literal(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypesideDef(this);
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypeside_Literal(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3338,6 +3556,7 @@ public class AqlParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case EMPTY:
+				_localctx = new Typeside_EmptyContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(717);
@@ -3345,6 +3564,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case SQL:
+				_localctx = new Typeside_SqlContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(718);
@@ -3352,6 +3572,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case TYPESIDE_OF:
+				_localctx = new Typeside_OfContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(719);
@@ -3361,6 +3582,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case LITERAL:
+				_localctx = new Typeside_LiteralContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(721);

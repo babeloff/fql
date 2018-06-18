@@ -7,16 +7,22 @@ import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import catdata.ParseException;
 import catdata.Program;
 import catdata.Triple;
 import catdata.Util;
 import catdata.aql.RawTerm;
+import catdata.aql.grammar.AqlLexerRules;
+import catdata.aql.grammar.AqlParser;
 
 /**
- * The constructor is called with a CharStreams.
+ * The real parsers are called with a CharStreams.
+ * Wrappers are provided for the interface methods:
  * CharStreams.fromReader(input)
  * CharStreams.fromString(input)
  * CharStreams.fromStream(input)
@@ -26,13 +32,23 @@ import catdata.aql.RawTerm;
  */
 public class Antlr4Parser implements IAqlParser {
 	
-	private AqlLoader loader;
+	protected Antlr4Parser() {  }
 	
-	protected Antlr4Parser() { this.loader = null; }
+	private AqlParser getParser(CharStream cs) {
+		final AqlLexerRules lexer = new AqlLexerRules(cs);
+		final CommonTokenStream tokens = new CommonTokenStream(lexer);
+		return new AqlParser(tokens);
+	}
 	
 	private Program<Exp<?>> parseProgram(CharStream cs) throws ParseException {
-		this.loader = new AqlLoader(cs);
-		return this.loader.parseProgram();
+		final AqlParser parser = getParser(cs);
+		final ParseTree tree = parser.program();
+		
+		final AqlLoaderListener loader = new AqlLoaderListener();
+		final ParseTreeWalker walker = new ParseTreeWalker();
+		walker.walk(loader, tree);
+		
+		return new Program<>(loader.decls, cs.toString(), loader.global_options, loader.kind);
 	}
 	
 	public Program<Exp<?>> parseProgram(Reader rdr) throws ParseException, IOException {
@@ -94,7 +110,7 @@ public class Antlr4Parser implements IAqlParser {
 	}
 	
 	public Collection<String> getReservedWords() {
-		final Vocabulary vocab = this.loader.parser.getVocabulary();
+		final Vocabulary vocab = AqlLexerRules.VOCABULARY;
 		final String[] tokenNames = new String[vocab.getMaxTokenType()];
 		for (int ix = 0; ix < tokenNames.length; ix++) {
 			tokenNames[ix] = vocab.getLiteralName(ix);

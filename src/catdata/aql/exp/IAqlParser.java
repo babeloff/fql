@@ -37,7 +37,7 @@ public interface IAqlParser {
 	public static final String[] opts = AqlOptions.optionNames().toArray(new String[0]);
 
 	public Program<Exp<?>> parseProgram(String str) throws ParseException;
-  public Program<Exp<?>> parseProgram(Reader rdr) throws ParseException, IOException ;
+    public Program<Exp<?>> parseProgram(Reader rdr) throws ParseException, IOException ;
 
 	public Triple<List<Pair<String, String>>, RawTerm, RawTerm> parseEq(String s) throws ParseException;
 
@@ -46,6 +46,6 @@ public interface IAqlParser {
 	public RawTerm parseTermNoCtx(String s) throws ParseException;
 	
 	public Collection<String> getReservedWords() ;
-  public Collection<String> getOperations() ;
+    public Collection<String> getOperations() ;
 	
 }

@@ -275,6 +275,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Collection<String> reservedWords() {
+		if (last_parser == null) return Util.list(new String[0]);
+
 		Collection<String> ret = last_parser.getReservedWords();
 		synchronized (parsed_prog_lock) {
 			if (parsed_prog != null) {

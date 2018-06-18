@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/572/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/nu3/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -49,11 +49,75 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComment_MD(AqlParser.Comment_MDContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#kindDeclaration}.
+	 * Visit a parse tree produced by the {@code Kind_Typeside}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitKindDeclaration(AqlParser.KindDeclarationContext ctx);
+	T visitKind_Typeside(AqlParser.Kind_TypesideContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Kind_Schema}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKind_Schema(AqlParser.Kind_SchemaContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Kind_Instance}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKind_Instance(AqlParser.Kind_InstanceContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Kind_Mapping}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKind_Mapping(AqlParser.Kind_MappingContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Kind_Transform}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitKind_Transform(AqlParser.Kind_TransformContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Program_QueryKind}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgram_QueryKind(AqlParser.Program_QueryKindContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Program_GraphKind}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgram_GraphKind(AqlParser.Program_GraphKindContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Program_CommandKind}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgram_CommandKind(AqlParser.Program_CommandKindContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Program_SchemaKind}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgram_SchemaKind(AqlParser.Program_SchemaKindContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Program_ConstraintKind}
+	 * labeled alternative in {@link AqlParser#kindDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProgram_ConstraintKind(AqlParser.Program_ConstraintKindContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#path}.
 	 * @param ctx the parse tree
@@ -283,11 +347,33 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypesideKindAssignment(AqlParser.TypesideKindAssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#typesideDef}.
+	 * Visit a parse tree produced by the {@code Typeside_Empty}
+	 * labeled alternative in {@link AqlParser#typesideDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypesideDef(AqlParser.TypesideDefContext ctx);
+	T visitTypeside_Empty(AqlParser.Typeside_EmptyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Typeside_Sql}
+	 * labeled alternative in {@link AqlParser#typesideDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeside_Sql(AqlParser.Typeside_SqlContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Typeside_Of}
+	 * labeled alternative in {@link AqlParser#typesideDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeside_Of(AqlParser.Typeside_OfContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Typeside_Literal}
+	 * labeled alternative in {@link AqlParser#typesideDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeside_Literal(AqlParser.Typeside_LiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#typesideKind}.
 	 * @param ctx the parse tree
