@@ -2,6 +2,7 @@ parser grammar AqlTypeside;
 options { tokenVocab=AqlLexerRules; }
 
 typesideId: symbol ;
+typesideRef: symbol ;
 
 typesideKindAssignment
   : TYPESIDE typesideId EQUAL typesideDef ;
@@ -20,7 +21,7 @@ typesideDef
     #Typeside_Literal
   ;
 
-typesideKind : typesideId | typesideDef | (LPAREN typesideDef RPAREN) ;
+typesideKind : typesideRef | typesideDef | (LPAREN typesideDef RPAREN) ;
 
 typesideLiteralSection
   : (IMPORTS typesideImport*)?
@@ -34,47 +35,46 @@ typesideLiteralSection
     allOptions
   ;
 
-typesideImport
-  : SQL             #Typeside_ImportSql
-  | symbol          #Typeside_ImportName
-  ;
+typesideImport  : SQL | typesideRef  ;
 
 typesideTypeSig : typesideTypeId ;
-typesideJavaTypeSig : (TRUE | FALSE | typesideTypeId) EQUAL STRING ;
-typesideTypeId : symbol ;
+typesideJavaTypeSig : typesideTypeId EQUAL typesideJavaType ;
+typesideTypeId : (TRUE | FALSE | symbol) ;
+typesideJavaType : STRING ;
 
 typesideConstantSig
-  : typesideConstantLiteral+ COLON typesideConstantValue
+  : typesideConstantId+ COLON typesideConstantValue
 ;
 
 typesideConstantValue : symbol ;
 
-typesideJavaConstantSig
-  : (truthy | typesideConstantLiteral) EQUAL STRING ;
-
-typesideConstantLiteral : (STRING | INTEGER | LOWER_ID | UPPER_ID) ;
+typesideJavaConstantSig : typesideConstantId EQUAL typesideJavaConstantValue ;
+typesideConstantId : (truthy | STRING | INTEGER | LOWER_ID | UPPER_ID) ;
+typesideJavaConstantValue : STRING ;
 
 typesideFunctionSig
-  : typesideFnName COLON typesideFnLocal
-        (COMMA typesideFnLocal)*
-        RARROW typesideFnLocal ;
-
+  : typesideFnName COLON 
+      (typesideFnLocal (COMMA typesideFnLocal)*)?
+      RARROW typesideFnTarget ;
+        
+typesideFnName : truthy | symbol ;
 typesideFnLocal : symbol ;
+typesideFnTarget : symbol ;
 
 typesideJavaFunctionSig
-  : (truthy | typesideFnName) COLON
+  : typesideFnName COLON
         (typesideFnLocal (COMMA typesideFnLocal)*)?
-        (RARROW typesideFnLocal)?
-        EQUAL STRING
-  ;
-
-typesideFnName : symbol ;
+        RARROW typesideFnTarget
+        EQUAL typesideJavaStatement
+  ; 
+  
+typesideJavaStatement : STRING ;
 
 typesideEquationSig
   : FORALL
-    (typesideLocal (COMMA typesideLocal)*
-      | typesideLocal+)
-    DOT typesideEval EQUAL typesideEval
+      (typesideLocal (COMMA typesideLocal)* | typesideLocal+)
+      DOT typesideEval EQUAL typesideEval
+  | typesideEval EQUAL typesideEval
   ;
 
 typesideLocal : symbol (COLON typesideLocalType)? ;

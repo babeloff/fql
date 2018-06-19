@@ -558,15 +558,18 @@ public class CombinatorParser implements IAqlParser {
 			return ret;
 		});
 
-		Parser<Pair<Token, List<catdata.Pair<Integer, Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>>>>> eqs = Parsers
-				.tuple(token("equations"), Parsers.tuple(Parsers.INDEX, Parsers.or(eq1, eq2))
+		Parser<Pair<Token, List<catdata.Pair<Integer, Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>>>>> 
+		eqs = Parsers.tuple(token("equations"), Parsers.tuple(Parsers.INDEX, Parsers.or(eq1, eq2))
 						.map(x -> new catdata.Pair<>(x.a, x.b)).many());
-		Parser<List<catdata.Pair<Integer, Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>>>> eqs0 = eqs
-				.map(x -> x.b);
+		Parser<List<catdata.Pair<Integer, Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>>>>
+		eqs0 = eqs.map(x -> x.b);
 
-		Parser<Pair<Token, List<Tuple3<LocStr, Token, String>>>> java_typs = Parsers.tuple(token("java_types"),
+		Parser<Pair<Token, List<Tuple3<LocStr, Token, String>>>> 
+		java_typs = Parsers.tuple(token("java_types"),
 				Parsers.tuple(locstr, token("="), ident).many());
-		Parser<List<catdata.Pair<LocStr, String>>> java_typs0 = java_typs.map(x -> {
+		
+		Parser<List<catdata.Pair<LocStr, String>>> 
+		java_typs0 = java_typs.map(x -> {
 			List<catdata.Pair<LocStr, String>> ret = new LinkedList<>();
 			for (Tuple3<LocStr, Token, String> p : x.b) {
 				ret.add(new catdata.Pair<>(p.a, p.c));
@@ -574,9 +577,12 @@ public class CombinatorParser implements IAqlParser {
 			return ret;
 		});
 
-		Parser<Pair<Token, List<Tuple3<LocStr, Token, String>>>> java_consts = Parsers.tuple(token("java_constants"),
+		Parser<Pair<Token, List<Tuple3<LocStr, Token, String>>>> 
+		java_consts = Parsers.tuple(token("java_constants"),
 				Parsers.tuple(locstr, token("="), ident).many());
-		Parser<List<catdata.Pair<LocStr, String>>> java_consts0 = java_consts.map(x -> {
+		
+		Parser<List<catdata.Pair<LocStr, String>>> 
+		java_consts0 = java_consts.map(x -> {
 			List<catdata.Pair<LocStr, String>> ret = new LinkedList<>();
 			for (Tuple3<LocStr, Token, String> p : x.b) {
 				ret.add(new catdata.Pair<>(p.a, p.c));
@@ -588,10 +594,13 @@ public class CombinatorParser implements IAqlParser {
 		Parser<List<String>> jjj = Parsers.constant(new LinkedList<>());
 		Parser<List<String>> uuu = Parsers.longer(lll, jjj);
 
-		Parser<Pair<Token, List<Tuple5<LocStr, List<String>, String, Token, String>>>> java_fns = Parsers.tuple(
+		Parser<Pair<Token, List<Tuple5<LocStr, List<String>, String, Token, String>>>> 
+		java_fns = Parsers.tuple(
 				token("java_functions"),
 				Parsers.tuple(locstr.followedBy(token(":")), uuu, ident, token("="), ident).many());
-		Parser<List<catdata.Pair<LocStr, Triple<List<String>, String, String>>>> java_fns0 = java_fns.map(x -> {
+		
+		Parser<List<catdata.Pair<LocStr, Triple<List<String>, String, String>>>> 
+		java_fns0 = java_fns.map(x -> {
 			List<catdata.Pair<LocStr, Triple<List<String>, String, String>>> ret = new LinkedList<>();
 			for (Tuple5<LocStr, List<String>, String, Token, String> p : x.b) {
 				ret.add(new catdata.Pair<>(p.a, new Triple<>(p.b, p.c, p.e)));
@@ -599,16 +608,19 @@ public class CombinatorParser implements IAqlParser {
 			return ret;
 		});
 
-		Parser<catdata.Pair<Integer, TyExp<?, ?>>> lx = Parsers.tuple(Parsers.INDEX, ty_ref.lazy())
+		Parser<catdata.Pair<Integer, TyExp<?, ?>>> 
+		lx = Parsers.tuple(Parsers.INDEX, ty_ref.lazy())
 				.map(x -> new catdata.Pair<>(x.a, x.b));
-		Parser<List<catdata.Pair<Integer, TyExp<?, ?>>>> ly = Parsers.tuple(token("imports"), lx.many()).map(x -> x.b)
+		
+		Parser<List<catdata.Pair<Integer, TyExp<?, ?>>>> 
+		ly = Parsers.tuple(token("imports"), lx.many()).map(x -> x.b)
 				.optional();
 
-		Parser<Tuple5<List<catdata.Pair<Integer, TyExp<?, ?>>>, List<LocStr>, List<catdata.Pair<LocStr, catdata.Pair<List<String>, String>>>, List<catdata.Pair<LocStr, catdata.Pair<List<String>, String>>>, List<catdata.Pair<LocStr, String>>>> pa = Parsers
-				.tuple(ly, types.optional(), consts0.optional(), fns0.optional(), java_typs0.optional());
+		Parser<Tuple5<List<catdata.Pair<Integer, TyExp<?, ?>>>, List<LocStr>, List<catdata.Pair<LocStr, catdata.Pair<List<String>, String>>>, List<catdata.Pair<LocStr, catdata.Pair<List<String>, String>>>, List<catdata.Pair<LocStr, String>>>> 
+		pa = Parsers.tuple(ly, types.optional(), consts0.optional(), fns0.optional(), java_typs0.optional());
 
-		Parser<Tuple4<List<catdata.Pair<LocStr, String>>, List<catdata.Pair<LocStr, Triple<List<String>, String, String>>>, List<catdata.Pair<Integer, Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>>>, List<catdata.Pair<String, String>>>> pb = Parsers
-				.tuple(java_consts0.optional(), java_fns0.optional(), eqs0.optional(), options);
+		Parser<Tuple4<List<catdata.Pair<LocStr, String>>, List<catdata.Pair<LocStr, Triple<List<String>, String, String>>>, List<catdata.Pair<Integer, Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>>>, List<catdata.Pair<String, String>>>> 
+		pb = Parsers.tuple(java_consts0.optional(), java_fns0.optional(), eqs0.optional(), options);
 
 		Parser<TyExpRaw> ret = Parsers.tuple(pa, pb).map(x -> {
 
@@ -1391,20 +1403,20 @@ public class CombinatorParser implements IAqlParser {
 	}
 
 	private static final Parser<Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>> 
-                eq1 = Parsers
+    eq1 = Parsers
 			.tuple(token("forall"), ctx.followedBy(token(".")), term(), token("="), term())
 			.map(x -> new Triple<>(x.b, x.c, x.e));
 
 	private static final Parser<Triple<List<catdata.Pair<String, String>>, RawTerm, RawTerm>> 
-                eq2 = Parsers
+    eq2 = Parsers
 			.tuple(term(), token("="), term()).map(x -> new Triple<>(new LinkedList<>(), x.a, x.c));
 
 	private static final Parser<catdata.Pair<List<catdata.Pair<String, String>>, RawTerm>> 
-                term1 = Parsers
+    term1 = Parsers
 			.tuple(token("lambda"), ctx.followedBy(token(".")), term()).map(x -> new catdata.Pair<>(x.b, x.c));
 
 	private static final Parser<catdata.Pair<List<catdata.Pair<String, String>>, RawTerm>> 
-                term2 = term()
+    term2 = term()
 			.map(x -> new catdata.Pair<>(new LinkedList<>(), x));
 
 	@Override

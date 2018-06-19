@@ -2,6 +2,7 @@ parser grammar AqlGraph;
 options { tokenVocab=AqlLexerRules; }
 
 graphId : symbol ;
+graphRef : symbol ;
 
 graphKindAssignment : GRAPH graphId EQUAL graphDef ;
 
@@ -11,10 +12,10 @@ graphDef
   #GraphExp_Literal
   ;
 
-graphKind : graphId | LPAREN graphDef RPAREN ;
+graphKind : graphRef | LPAREN graphDef RPAREN ;
 
 graphLiteralSection
-  : (IMPORTS graphId*)?
+  : (IMPORTS graphRef*)?
     (NODES graphNodeId*)?
     (EDGES (graphEdgeId+ COLON graphNodeId RARROW graphNodeId)*)?
   ;

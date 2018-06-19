@@ -28,7 +28,7 @@ commandDef
       (LBRACE commandExportCsvSection RBRACE)?
     #Command_ExportCsvInstance
 
-  | EXPORT_CSV_TRANSFORM transformId commandFile
+  | EXPORT_CSV_TRANSFORM transformRef commandFile
       (LBRACE commandExportCsvSection RBRACE)?
     #Command_ExportCsvTransform
 
@@ -37,12 +37,12 @@ commandDef
       (LBRACE commandExportJdbcSection RBRACE)?
     #Command_ExportJdbcInstance
 
-  | EXPORT_JDBC_QUERY queryId
+  | EXPORT_JDBC_QUERY queryRef
       (commandJdbcClass (commandJdbcUri (commandPrefixSrc commandPrefixDst?)?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
     #Command_ExportJdbcQuery
 
-  | EXPORT_JDBC_TRANSFORM transformId
+  | EXPORT_JDBC_TRANSFORM transformRef
       (commandJdbcClass (commandJdbcUri commandPrefix?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
       (LBRACE commandExportJdbcSection RBRACE)?

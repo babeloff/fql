@@ -2,6 +2,7 @@ parser grammar AqlTransform;
 options { tokenVocab=AqlLexerRules; }
 
 transformId : symbol ;
+transformRef : symbol ;
 
 transformKindAssignment : TRANSFORM transformId EQUAL transformDef ;
 
@@ -9,24 +10,24 @@ transformDef
   : IDENTITY instanceKind
   #Transform_Id
 
-  | LBRACK transformId SEMI transformId RBRACK
+  | LBRACK transformRef SEMI transformRef RBRACK
   #Transform_Compose
 
-  | DISTINCT transformId
+  | DISTINCT transformRef
   #Transform_Destination
 
-  | DELTA mappingKind transformId
+  | DELTA mappingKind transformRef
   #Transform_Delta
 
-  | SIGMA mappingKind transformId
+  | SIGMA mappingKind transformRef
     (LBRACE transformSigmaSection RBRACE)?
     (LBRACE transformSigmaSection RBRACE)?
   #Transform_Sigma
 
-  | EVAL queryKind transformId
+  | EVAL queryKind transformRef
   #Transform_Eval
 
-  | COEVAL queryKind transformId
+  | COEVAL queryKind transformRef
     (LBRACE transformCoevalSection RBRACE)?
     (LBRACE transformCoevalSection RBRACE)?
   #Transform_Coeval
@@ -61,7 +62,7 @@ transformDef
   #Transform_Literal
   ;
 
-transformKind : transformId | (LPAREN transformDef RPAREN) ;
+transformKind : transformRef | (LPAREN transformDef RPAREN) ;
 
 transformJdbcClass : STRING ;
 transformJdbcUri : STRING ;

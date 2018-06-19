@@ -7,7 +7,7 @@ constraintId : symbol ;
 constraintKindAssignment : CONSTRAINTS constraintId EQUAL constraintDef ;
 
 constraintDef
-  : LITERAL COLON schemaId
+  : LITERAL COLON schemaRef
       (LBRACE constraintLiteralSection? RBRACE)?    #ConstraintExp_Literal
   ;
 

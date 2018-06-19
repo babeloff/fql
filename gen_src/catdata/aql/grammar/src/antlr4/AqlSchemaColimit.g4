@@ -2,20 +2,27 @@ parser grammar AqlSchemaColimit;
 options { tokenVocab=AqlLexerRules; }
 
 schemaColimitId: symbol ;
+schemaColimitRef: symbol ;
 
 schemaColimitKindAssignment: SCHEMA_COLIMIT schemaColimitId EQUAL schemaColimitDef ;
 
 schemaColimitDef
-  : QUOTIENT schemaId (PLUS schemaId)* COLON typesideId
-      (LBRACE schemaColimitQuotientSection RBRACE)?  #SchemaColimit_Quotient
-  | COPRODUCT schemaId (PLUS schemaId)* COLON typesideId
-                                                     #SchemaColimit_Coproduct
-  | MODIFY schemaColimitId
-      (LBRACE schemaColimitModifySection RBRACE)?    #SchemaColimit_Modify
-  | WRAP schemaColimitId mappingId mappingId         #SchemaColimit_Wrap
+  : QUOTIENT schemaRef (PLUS schemaRef)* COLON typesideRef
+      (LBRACE schemaColimitQuotientSection RBRACE)?  
+    #SchemaColimit_Quotient
+    
+  | COPRODUCT schemaRef (PLUS schemaRef)* COLON typesideRef
+    #SchemaColimit_Coproduct
+    
+  | MODIFY schemaColimitRef
+      (LBRACE schemaColimitModifySection RBRACE)?
+    #SchemaColimit_Modify
+    
+  | WRAP schemaColimitRef mappingId mappingId
+    #SchemaColimit_Wrap
   ;
 
-schemaColimitKind: schemaColimitId | LPAREN schemaColimitDef RPAREN;
+schemaColimitKind: schemaColimitRef | LPAREN schemaColimitDef RPAREN;
 
 schemaColimitQuotientSection
   : (ENTITY_EQUATIONS (scEntityPath EQUAL scEntityPath)*)?
@@ -30,17 +37,17 @@ scObsEquation
 scGen : symbol ;
 
 scEntityPath
-  : schemaId DOT schemaTermId
+  : schemaRef DOT schemaTermId
   | schemaTermId
   ;
 
 scFkPath
-: schemaId DOT schemaTermId
+: schemaRef DOT schemaTermId
 | schemaTermId
 ;
 
 scAttrPath
-: schemaId DOT schemaTermId
+: schemaRef DOT schemaTermId
 | schemaTermId
 ;
 

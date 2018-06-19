@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/nu3/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/c6m/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -562,6 +562,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideId(AqlParser.TypesideIdContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#typesideRef}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesideRef(AqlParser.TypesideRefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#typesideRef}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesideRef(AqlParser.TypesideRefContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideKindAssignment}.
 	 * @param ctx the parse tree
 	 */
@@ -640,29 +650,15 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideLiteralSection(AqlParser.TypesideLiteralSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Typeside_ImportSql}
-	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * Enter a parse tree produced by {@link AqlParser#typesideImport}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx);
+	void enterTypesideImport(AqlParser.TypesideImportContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Typeside_ImportSql}
-	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * Exit a parse tree produced by {@link AqlParser#typesideImport}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code Typeside_ImportName}
-	 * labeled alternative in {@link AqlParser#typesideImport}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypeside_ImportName(AqlParser.Typeside_ImportNameContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Typeside_ImportName}
-	 * labeled alternative in {@link AqlParser#typesideImport}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypeside_ImportName(AqlParser.Typeside_ImportNameContext ctx);
+	void exitTypesideImport(AqlParser.TypesideImportContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideTypeSig}.
 	 * @param ctx the parse tree
@@ -694,6 +690,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideTypeId(AqlParser.TypesideTypeIdContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#typesideJavaType}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesideJavaType(AqlParser.TypesideJavaTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#typesideJavaType}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesideJavaType(AqlParser.TypesideJavaTypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideConstantSig}.
 	 * @param ctx the parse tree
 	 */
@@ -724,15 +730,25 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideJavaConstantSig(AqlParser.TypesideJavaConstantSigContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#typesideConstantLiteral}.
+	 * Enter a parse tree produced by {@link AqlParser#typesideConstantId}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypesideConstantLiteral(AqlParser.TypesideConstantLiteralContext ctx);
+	void enterTypesideConstantId(AqlParser.TypesideConstantIdContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#typesideConstantLiteral}.
+	 * Exit a parse tree produced by {@link AqlParser#typesideConstantId}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypesideConstantLiteral(AqlParser.TypesideConstantLiteralContext ctx);
+	void exitTypesideConstantId(AqlParser.TypesideConstantIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#typesideJavaConstantValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesideJavaConstantValue(AqlParser.TypesideJavaConstantValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#typesideJavaConstantValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesideJavaConstantValue(AqlParser.TypesideJavaConstantValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideFunctionSig}.
 	 * @param ctx the parse tree
@@ -744,6 +760,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideFunctionSig(AqlParser.TypesideFunctionSigContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#typesideFnName}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesideFnName(AqlParser.TypesideFnNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#typesideFnName}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesideFnName(AqlParser.TypesideFnNameContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideFnLocal}.
 	 * @param ctx the parse tree
 	 */
@@ -753,6 +779,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypesideFnLocal(AqlParser.TypesideFnLocalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#typesideFnTarget}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesideFnTarget(AqlParser.TypesideFnTargetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#typesideFnTarget}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesideFnTarget(AqlParser.TypesideFnTargetContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideJavaFunctionSig}.
 	 * @param ctx the parse tree
@@ -764,15 +800,15 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideJavaFunctionSig(AqlParser.TypesideJavaFunctionSigContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#typesideFnName}.
+	 * Enter a parse tree produced by {@link AqlParser#typesideJavaStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypesideFnName(AqlParser.TypesideFnNameContext ctx);
+	void enterTypesideJavaStatement(AqlParser.TypesideJavaStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#typesideFnName}.
+	 * Exit a parse tree produced by {@link AqlParser#typesideJavaStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypesideFnName(AqlParser.TypesideFnNameContext ctx);
+	void exitTypesideJavaStatement(AqlParser.TypesideJavaStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideEquationSig}.
 	 * @param ctx the parse tree
@@ -872,6 +908,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaId(AqlParser.SchemaIdContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#schemaRef}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaRef(AqlParser.SchemaRefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#schemaRef}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaRef(AqlParser.SchemaRefContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaKindAssignment}.
 	 * @param ctx the parse tree
 	 */
@@ -952,15 +998,15 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaKind(AqlParser.SchemaKindContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#schemaColimitId}.
+	 * Enter a parse tree produced by {@link AqlParser#schemaColimitRef}.
 	 * @param ctx the parse tree
 	 */
-	void enterSchemaColimitId(AqlParser.SchemaColimitIdContext ctx);
+	void enterSchemaColimitRef(AqlParser.SchemaColimitRefContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#schemaColimitId}.
+	 * Exit a parse tree produced by {@link AqlParser#schemaColimitRef}.
 	 * @param ctx the parse tree
 	 */
-	void exitSchemaColimitId(AqlParser.SchemaColimitIdContext ctx);
+	void exitSchemaColimitRef(AqlParser.SchemaColimitRefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaLiteralSection}.
 	 * @param ctx the parse tree
@@ -2002,6 +2048,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTransformId(AqlParser.TransformIdContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#transformRef}.
+	 * @param ctx the parse tree
+	 */
+	void enterTransformRef(AqlParser.TransformRefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#transformRef}.
+	 * @param ctx the parse tree
+	 */
+	void exitTransformRef(AqlParser.TransformRefContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#transformKindAssignment}.
 	 * @param ctx the parse tree
 	 */
@@ -2350,6 +2406,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryId(AqlParser.QueryIdContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#queryRef}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryRef(AqlParser.QueryRefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#queryRef}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryRef(AqlParser.QueryRefContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#queryFromSchema}.
 	 * @param ctx the parse tree
 	 */
@@ -2571,6 +2637,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGraphId(AqlParser.GraphIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#graphRef}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraphRef(AqlParser.GraphRefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#graphRef}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraphRef(AqlParser.GraphRefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#graphKindAssignment}.
 	 * @param ctx the parse tree
@@ -2915,6 +2991,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#schemaColimitId}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaColimitId(AqlParser.SchemaColimitIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#schemaColimitId}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaColimitId(AqlParser.SchemaColimitIdContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaColimitKindAssignment}.
 	 * @param ctx the parse tree

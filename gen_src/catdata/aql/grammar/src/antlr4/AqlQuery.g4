@@ -2,16 +2,17 @@ parser grammar AqlQuery;
 options { tokenVocab=AqlLexerRules; }
 
 queryId : symbol ;
+queryRef : symbol ;
 
-queryFromSchema : LPAREN IDENTITY schemaId RPAREN ;
+queryFromSchema : LPAREN IDENTITY schemaRef RPAREN ;
 
 queryKindAssignment : QUERY queryId EQUAL queryDef ;
 
 queryDef
-  : IDENTITY schemaId
+  : IDENTITY schemaRef
   #QueryExp_Id
 
-  | LITERAL COLON schemaKind RARROW schemaId
+  | LITERAL COLON schemaKind RARROW schemaRef
       (LBRACE queryLiteralSection RBRACE)?
   #QueryExp_Literal
 
@@ -19,7 +20,7 @@ queryDef
       (LBRACE querySimpleSection RBRACE)?
   #QueryExp_Simple
 
-  | GET_MAPPING schemaColimitId schemaKind
+  | GET_MAPPING schemaColimitRef schemaKind
   #QueryExp_Get
 
   | TO_QUERY mappingKind
@@ -35,13 +36,13 @@ queryDef
   ;
 
 queryKind
-  : queryId
+  : queryRef
   | queryDef
   | LPAREN queryDef RPAREN
   ;
 
 queryLiteralSection
-  : (IMPORTS queryId*)?
+  : (IMPORTS queryRef*)?
     (ENTITY queryEntityExpr*)+
     (FOREIGN_KEYS queryForeignSig*)?
     allOptions
@@ -74,7 +75,7 @@ queryGen : symbol ;
 
 queryPath
    : queryLiteralValue
-   | typesideConstantLiteral
+   | typesideConstantId
    | queryGen
    | queryGen (DOT schemaArrowId)+
    | queryGen LPAREN queryPath (COMMA queryPath)* RPAREN

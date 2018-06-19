@@ -137,9 +137,13 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 
 //	private final Set<Triple<Ctx<Var, String>, Term<String, Void, String, Void, Void, Void, Void>, Term<String, Void, String, Void, Void, Void, Void>>> eqs0 = new HashSet<>();
 
-	public TyExpRaw(List<Pair<Integer,TyExp<?,?>>> imports, List<LocStr> types, List<Pair<LocStr, Pair<List<String>, String>>> functions,
+	public TyExpRaw(
+			List<Pair<Integer,TyExp<?,?>>> imports, 
+			List<LocStr> types, 
+			List<Pair<LocStr, Pair<List<String>, String>>> functions,
 			List<Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>> eqsX,
-			List<Pair<LocStr, String>> java_tys_string, List<Pair<LocStr, String>> java_parser_string,
+			List<Pair<LocStr, String>> java_tys_string, 
+			List<Pair<LocStr, String>> java_parser_string,
 			List<Pair<LocStr, Triple<List<String>, String, String>>> java_fns_string,
 			List<Pair<String, String>> options) {
 		this.imports = Util.toSetSafely((List<Pair<Integer,TyExp<Ty,Sym>>>)((Object)imports));

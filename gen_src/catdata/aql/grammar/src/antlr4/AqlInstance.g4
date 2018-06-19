@@ -73,7 +73,7 @@ instanceDef
     (LBRACE instanceImportJdbcAllSection RBRACE)?
   #Instance_ImportJdbcAll
 
-  | IMPORT_CSV instanceFile COLON schemaId
+  | IMPORT_CSV instanceFile COLON schemaRef
     (LBRACE instanceImportCsvSection RBRACE)?
   #Instance_ImportCsv
 
@@ -88,14 +88,14 @@ instanceDef
   | CHASE constraintKind+ instanceKind INTEGER?
   #Instance_Chase
 
-  | RANDOM COLON schemaId
+  | RANDOM COLON schemaRef
     (LBRACE instanceRandomSection RBRACE)?
   #Instance_Random
 
   | ANONYMIZE instanceId
   #Instance_Anonymize
 
-  | FROZEN queryId schemaId
+  | FROZEN queryRef schemaRef
   #Instance_Frozen
 
   | PI queryKind instanceKind

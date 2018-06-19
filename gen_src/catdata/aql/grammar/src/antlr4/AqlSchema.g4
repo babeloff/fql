@@ -2,24 +2,25 @@ parser grammar AqlSchema;
 options { tokenVocab=AqlLexerRules; }
 
 schemaId : symbol ;
+schemaRef : symbol ;
 
 schemaKindAssignment : SCHEMA schemaId EQUAL schemaDef ;
 
 schemaDef
   : EMPTY COLON typesideKind                 #Schema_Empty
   | SCHEMA_OF (INSTANCE_ALL | instanceKind)  #Schema_OfInstance
-  | DST queryId                              #Schema_Destination
+  | DST queryRef                              #Schema_Destination
   | LITERAL COLON typesideKind
       (LBRACE schemaLiteralSection RBRACE)? #Schema_Literal
-  | GET_SCHEMA schemaColimitId               #Schema_GetSchemaColimit
+  | GET_SCHEMA schemaColimitRef               #Schema_GetSchemaColimit
   ;
 
-schemaKind : schemaId | schemaDef | (LPAREN schemaDef RPAREN) ;
+schemaKind : schemaRef | schemaDef | (LPAREN schemaDef RPAREN) ;
 
-schemaColimitId : symbol ;
+schemaColimitRef : symbol ;
 
 schemaLiteralSection
-  : (IMPORTS typesideId*)?
+  : (IMPORTS typesideRef*)?
     (ENTITIES schemaEntityId*)?
     (FOREIGN_KEYS schemaForeignSig*)?
     (PATH_EQUATIONS schemaPathEquation*)?
