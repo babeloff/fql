@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/7wu/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/mpv/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1096,13 +1096,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchema_OfInstanceAll(AqlParser.Schema_OfInstanceAllContext ctx) { }
+	@Override public void enterSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchema_OfInstanceAll(AqlParser.Schema_OfInstanceAllContext ctx) { }
+	@Override public void exitSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1132,18 +1132,6 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchema_Literal(AqlParser.Schema_LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSchema_Literal(AqlParser.Schema_LiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1151,6 +1139,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchema_Literal(AqlParser.Schema_LiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchema_Literal(AqlParser.Schema_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1228,25 +1228,49 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaPathEquation(AqlParser.SchemaPathEquationContext ctx) { }
+	@Override public void enterSchemaPathEqnSig(AqlParser.SchemaPathEqnSigContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaPathEquation(AqlParser.SchemaPathEquationContext ctx) { }
+	@Override public void exitSchemaPathEqnSig(AqlParser.SchemaPathEqnSigContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaPath(AqlParser.SchemaPathContext ctx) { }
+	@Override public void enterSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaPath(AqlParser.SchemaPathContext ctx) { }
+	@Override public void exitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

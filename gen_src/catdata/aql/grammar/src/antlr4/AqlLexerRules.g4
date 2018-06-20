@@ -242,7 +242,7 @@ TO_COQUERY : 'toCoQuery' ;
 SCHEMA : 'schema' ;
 SCHEMA_OF : 'schemaOf' ;
 GET_SCHEMA : 'getSchema' ;
-INSTANCE_ALL : 'import_all' ;
+IMPORT_ALL : 'import_all' ;
 
 SCHEMA_COLIMIT : 'schema_colimit' ;
 MODIFY : 'modify' ;

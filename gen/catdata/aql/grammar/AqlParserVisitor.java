@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/7wu/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/mpv/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -574,12 +574,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchema_Empty(AqlParser.Schema_EmptyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Schema_OfInstanceAll}
+	 * Visit a parse tree produced by the {@code Schema_OfImportAll}
 	 * labeled alternative in {@link AqlParser#schemaDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchema_OfInstanceAll(AqlParser.Schema_OfInstanceAllContext ctx);
+	T visitSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Schema_OfInstance}
 	 * labeled alternative in {@link AqlParser#schemaDef}.
@@ -595,19 +595,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchema_Destination(AqlParser.Schema_DestinationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Schema_Literal}
-	 * labeled alternative in {@link AqlParser#schemaDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSchema_Literal(AqlParser.Schema_LiteralContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Schema_GetSchemaColimit}
 	 * labeled alternative in {@link AqlParser#schemaDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Schema_Literal}
+	 * labeled alternative in {@link AqlParser#schemaDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchema_Literal(AqlParser.Schema_LiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SchemaKind_Ref}
 	 * labeled alternative in {@link AqlParser#schemaKind}.
@@ -647,17 +647,32 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaForeignSig(AqlParser.SchemaForeignSigContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaPathEquation}.
+	 * Visit a parse tree produced by {@link AqlParser#schemaPathEqnSig}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaPathEquation(AqlParser.SchemaPathEquationContext ctx);
+	T visitSchemaPathEqnSig(AqlParser.SchemaPathEqnSigContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaPath}.
+	 * Visit a parse tree produced by the {@code SchemaPath_ArrowId}
+	 * labeled alternative in {@link AqlParser#schemaPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaPath(AqlParser.SchemaPathContext ctx);
+	T visitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaPath_Paren}
+	 * labeled alternative in {@link AqlParser#schemaPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaPath_Dot}
+	 * labeled alternative in {@link AqlParser#schemaPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaArrowId}.
 	 * @param ctx the parse tree

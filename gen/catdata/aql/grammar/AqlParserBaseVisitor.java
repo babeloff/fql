@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/7wu/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/mpv/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -647,7 +647,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchema_OfInstanceAll(AqlParser.Schema_OfInstanceAllContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -668,14 +668,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchema_Literal(AqlParser.Schema_LiteralContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchema_Literal(AqlParser.Schema_LiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -724,14 +724,28 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchemaPathEquation(AqlParser.SchemaPathEquationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchemaPathEqnSig(AqlParser.SchemaPathEqnSigContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchemaPath(AqlParser.SchemaPathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

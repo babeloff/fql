@@ -7,13 +7,13 @@ schemaRef : symbol ;
 schemaAssignment : SCHEMA schemaId EQUAL schemaDef ;
 
 schemaDef
-  : EMPTY COLON typesideRef                   #Schema_Empty
-  | SCHEMA_OF INSTANCE_ALL                    #Schema_OfInstanceAll
-  | SCHEMA_OF instanceKind                    #Schema_OfInstance
-  | DST queryRef                              #Schema_Destination
+  : EMPTY COLON typesideRef                   # Schema_Empty
+  | SCHEMA_OF IMPORT_ALL                      # Schema_OfImportAll
+  | SCHEMA_OF instanceKind                    # Schema_OfInstance
+  | DST queryRef                              # Schema_Destination  
+  | GET_SCHEMA schemaColimitRef               # Schema_GetSchemaColimit
   | LITERAL COLON typesideKind
-      (LBRACE schemaLiteralSection RBRACE)?   #Schema_Literal
-  | GET_SCHEMA schemaColimitRef               #Schema_GetSchemaColimit
+      (LBRACE schemaLiteralSection RBRACE)?   # Schema_Literal
   ;
 
 schemaKind 
@@ -25,10 +25,10 @@ schemaKind
 schemaColimitRef : symbol ;
 
 schemaLiteralSection
-  : (IMPORTS typesideRef*)?
+  : (IMPORTS typesideImport*)?
     (ENTITIES schemaEntityId*)?
     (FOREIGN_KEYS schemaForeignSig*)?
-    (PATH_EQUATIONS schemaPathEquation*)?
+    (PATH_EQUATIONS schemaPathEqnSig*)?
     (ATTRIBUTES schemaAttributeSig*)?
     (OBSERVATION_EQUATIONS schemaObservationEquationSig*)?
     allOptions
@@ -39,12 +39,12 @@ schemaEntityId : symbol ;
 schemaForeignSig
   : schemaForeignId+ COLON schemaEntityId RARROW schemaEntityId ;
 
-schemaPathEquation : schemaPath EQUAL schemaPath ;
+schemaPathEqnSig : schemaPath EQUAL schemaPath ;
 
 schemaPath
-  : schemaArrowId
-  | schemaPath DOT schemaArrowId
-  | schemaArrowId LPAREN schemaPath RPAREN
+  : schemaArrowId                           # SchemaPath_ArrowId
+  | schemaPath DOT schemaArrowId            # SchemaPath_Dot
+  | schemaArrowId LPAREN schemaPath RPAREN  # SchemaPath_Paren
   ;
 
 // identity arrows are indicated with entity-names.

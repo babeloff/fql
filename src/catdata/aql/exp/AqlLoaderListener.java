@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import catdata.Pair;
+import catdata.Quad;
 import catdata.Triple;
 import catdata.aql.RawTerm;
 import catdata.aql.exp.GraphExp.GraphExpRaw;
@@ -27,6 +28,7 @@ import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
 import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.SchemaLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
 
@@ -57,12 +59,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	private final ParseTreeProperty<Pair<String,String>> value_option = new ParseTreeProperty<Pair<String,String>>();
 	private final ParseTreeProperty<Exp<?>> exps = new ParseTreeProperty<Exp<?>>();
+	private final ParseTreeProperty<List<String>> strList = new ParseTreeProperty<List<String>>();
 	
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
 	
 	public final Map<String, Exp<?>> ns = new HashMap<String, Exp<?>>();
+	private String currentRefName;
 	
 	/**
 	 * Program section
@@ -323,6 +327,17 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	};
 	
 	@Override 
+	public void exitSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx) {
+		// TODO Ryan, what is intended here?
+		
+		//@SuppressWarnings("unchecked")
+		//final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+		//		(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+		//		this.exps.get(ctx.IMPORT_ALL()));
+		//this.exps.put(ctx,exp);
+	};	
+	
+	@Override 
 	public void exitSchema_OfInstance(AqlParser.Schema_OfInstanceContext ctx) {
 		@SuppressWarnings("unchecked")
 		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
@@ -330,6 +345,119 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				this.exps.get(ctx.instanceKind()));
 		this.exps.put(ctx,exp);
 	};
+	
+	@Override public void exitSchema_Destination(AqlParser.Schema_DestinationContext ctx) {
+		@SuppressWarnings("unchecked")
+		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+				this.exps.get(ctx.queryRef()));
+		this.exps.put(ctx,exp);
+	}
+
+	@Override public void exitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) {
+		@SuppressWarnings("unchecked")
+		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+				this.exps.get(ctx.schemaColimitRef()));
+		this.exps.put(ctx,exp);
+	}
+
+	@Override public void exitSchema_Literal(AqlParser.Schema_LiteralContext ctx) {
+		final SchemaLiteralSectionContext 
+		ctx_lit = ctx.schemaLiteralSection();
+		
+		final TyExp<Ty, Sym> 
+		typeside = new TyExp.TyExpVar<Ty,Sym>(ctx.typesideKind().getText());
+		
+		final List<LocStr>
+		imports = ctx_lit.typesideImport().stream() 
+				.map(ty -> makeLocStr(ty))
+				.collect(Collectors.toList());
+		
+		final List<LocStr> 
+		entities = ctx_lit.schemaEntityId().stream() 
+				.map(elt -> makeLocStr(elt)) 
+				.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Pair<String, String>>>
+		arrows = ctx_lit.schemaForeignSig().stream() 
+				.map(fk -> {
+					final Pair<String,String> arrow = new Pair<String,String>(
+							fk.schemaEntityId(0).getText(),
+							fk.schemaEntityId(1).getText());
+					
+					return new LinkedList<Pair<LocStr, Pair<String,String>>>(
+							fk.schemaForeignId().stream()
+								.map(fkid -> new Pair<LocStr,Pair<String,String>>
+														(makeLocStr(fkid), arrow))
+								.collect(Collectors.toList()));
+				})
+				.flatMap(x -> x.stream())
+				.collect(Collectors.toList());
+
+		final List<Pair<Integer, Pair<List<String>, List<String>>>>
+		commutes = ctx_lit.schemaPathEqnSig().stream() 
+				.map(eq -> new Pair<Integer, Pair<List<String>, List<String>>>(
+						eq.getStart().getStartIndex(),
+						new Pair<List<String>, List<String>>(
+								this.strList.get(eq.schemaPath(0)),
+								this.strList.get(eq.schemaPath(0)))))
+				.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Pair<String, String>>>
+		attrs = ctx_lit.schemaAttributeSig().stream() 
+				.map(att -> {
+					final Pair<String,String> arrow = new Pair<String,String>(
+							att.schemaEntityId().getText(),
+							att.typesideTypeId().getText());
+					
+					return new LinkedList<Pair<LocStr, Pair<String,String>>>(
+							att.schemaAttributeId().stream()
+								.map(attid -> new Pair<LocStr,Pair<String,String>>
+														(makeLocStr(attid), arrow))
+								.collect(Collectors.toList()));
+				})
+				.flatMap(x -> x.stream())
+				.collect(Collectors.toList());
+		
+		// TODO Fred
+		final List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>>
+		observes = ctx_lit.schemaObservationEquationSig().stream() 
+				.map(obs -> new Pair<Integer, Quad<String, String, RawTerm, RawTerm>>( 
+						obs.getStart().getStartIndex(),
+						new Quad<String, String, RawTerm, RawTerm>(
+								null, null, null, null)))
+				.collect(Collectors.toList());
+		
+		final List<Pair<String, String>>
+		options = ctx_lit.allOptions().optionsDeclaration().stream() 
+				.map(elt -> new Pair<String, String>(
+						elt.getStart().getText(),
+						elt.getStop().getText())) 
+				.collect(Collectors.toList());
+		
+		final SchExpRaw schema = 
+			new SchExpRaw(typeside, imports, 
+					entities, arrows, commutes, attrs, observes, options);
+				
+		this.exps.put(ctx,schema);
+	}
+	
+	// TODO Fred
+	
+	@Override public void exitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) {
+		final List<String> path = new LinkedList<String>();
+		this.strList.put(ctx,path);
+	}
+	@Override public void exitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) {
+		final List<String> path = new LinkedList<String>();
+		this.strList.put(ctx,path);
+	}
+	@Override public void exitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) {
+		final List<String> path = new LinkedList<String>();
+		this.strList.put(ctx,path);
+	}
+	
 
 	/**
 	 * Mapping section
