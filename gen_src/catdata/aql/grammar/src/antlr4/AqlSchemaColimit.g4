@@ -4,7 +4,7 @@ options { tokenVocab=AqlLexerRules; }
 schemaColimitId: symbol ;
 schemaColimitRef: symbol ;
 
-schemaColimitKindAssignment: SCHEMA_COLIMIT schemaColimitId EQUAL schemaColimitDef ;
+schemaColimitAssignment: SCHEMA_COLIMIT schemaColimitId EQUAL schemaColimitDef ;
 
 schemaColimitDef
   : QUOTIENT schemaRef (PLUS schemaRef)* COLON typesideRef
@@ -18,11 +18,14 @@ schemaColimitDef
       (LBRACE schemaColimitModifySection RBRACE)?
     #SchemaColimit_Modify
     
-  | WRAP schemaColimitRef mappingId mappingId
+  | WRAP schemaColimitRef mappingRef mappingRef
     #SchemaColimit_Wrap
   ;
 
-schemaColimitKind: schemaColimitRef | LPAREN schemaColimitDef RPAREN;
+schemaColimitKind
+: schemaColimitRef   # SchemaColimitKind_Ref 
+| LPAREN schemaColimitDef RPAREN  # SchemaColimitKind_Def 
+;
 
 schemaColimitQuotientSection
   : (ENTITY_EQUATIONS (scEntityPath EQUAL scEntityPath)*)?

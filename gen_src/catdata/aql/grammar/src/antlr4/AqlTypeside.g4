@@ -4,7 +4,7 @@ options { tokenVocab=AqlLexerRules; }
 typesideId: symbol ;
 typesideRef: symbol ;
 
-typesideKindAssignment
+typesideAssignment
   : TYPESIDE typesideId EQUAL typesideDef ;
 
 typesideDef
@@ -21,7 +21,11 @@ typesideDef
     #Typeside_Literal
   ;
 
-typesideKind : typesideRef | typesideDef | (LPAREN typesideDef RPAREN) ;
+typesideKind 
+: typesideRef    # TypesideKind_Ref 
+| typesideDef    # TypesideKind_Def 
+| (LPAREN typesideDef RPAREN)     # TypesideKind_Def 
+;
 
 typesideLiteralSection
   : (IMPORTS typesideImport*)?

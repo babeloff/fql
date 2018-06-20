@@ -16,6 +16,9 @@ import catdata.Pair;
 import catdata.Triple;
 import catdata.aql.RawTerm;
 import catdata.aql.exp.SchExp.SchExpEmpty;
+import catdata.aql.exp.SchExpRaw.Att;
+import catdata.aql.exp.SchExpRaw.En;
+import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
@@ -53,6 +56,15 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public Function<Exp<?>, String> kind;
 	
 	public final Map<String, Exp<?>> ns = new HashMap<String, Exp<?>>();
+	
+	/**
+	 * Program section
+	 */
+	
+	@Override 
+	public void exitProgram(AqlParser.ProgramContext ctx) { 
+		if (true) ;
+	}
 	
 	/**
 	 * Options section
@@ -93,9 +105,30 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	/**
+	 * Graph section
+	 */
+	
+	@Override public void exitGraphAssignment(AqlParser.GraphAssignmentContext ctx) {
+		final String name = ctx.graphId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.graphDef());
+		if (exp == null) {
+			log.warning("null graph exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitGraphKind_Def(AqlParser.GraphKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.graphDef()));
+	}
+	
+	/**
 	 * TypeSide section
 	 */
-	@Override public void exitTypesideKindAssignment(AqlParser.TypesideKindAssignmentContext ctx) {
+	@Override public void exitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx) {
 		final String name = ctx.typesideId().getText();
 		final int id = getLUid(ctx);
 		final Exp<?> exp = this.exps.get(ctx.typesideDef());
@@ -119,10 +152,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	};
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override 
 	public void exitTypeside_Of(AqlParser.Typeside_OfContext ctx) {
-		final Exp<?> exp = new TyExp.TyExpSch((SchExp) this.exps.get(ctx.schemaKind()));
+		@SuppressWarnings("unchecked")
+		final Exp<?> exp = new TyExp.TyExpSch<>(
+				(SchExp<Ty, En, Sym, Fk, Att>) 
+				this.exps.get(ctx.schemaKind()));
 		this.exps.put(ctx,exp);
 	};
 	
@@ -235,7 +270,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 * Schema section
 	 */
 	
-	@Override public void exitSchemaKindAssignment(AqlParser.SchemaKindAssignmentContext ctx) {
+	@Override public void exitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx) {
 		final String name = ctx.schemaId().getText();
 		final int id = getLUid(ctx);
 		final Exp<?> exp = this.exps.get(ctx.schemaDef());
@@ -260,7 +295,169 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	};
 	
 	@Override 
-	public void exitProgram(AqlParser.ProgramContext ctx) { 
-		if (true) ;
+	public void exitSchema_OfInstance(AqlParser.Schema_OfInstanceContext ctx) {
+		@SuppressWarnings("unchecked")
+		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+				this.exps.get(ctx.instanceKind()));
+		this.exps.put(ctx,exp);
+	};
+
+	/**
+	 * Mapping section
+	 */
+	
+	@Override public void exitMappingAssignment(AqlParser.MappingAssignmentContext ctx) {
+		final String name = ctx.mappingId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.mappingDef());
+		if (exp == null) {
+			log.warning("null mapping exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
 	}
+	
+	@Override 
+	public void exitMappingKind_Def(AqlParser.MappingKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.mappingDef()));
+	}
+
+	/**
+	 * Query section
+	 */
+	
+	@Override public void exitQueryAssignment(AqlParser.QueryAssignmentContext ctx) {
+		final String name = ctx.queryId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.queryDef());
+		if (exp == null) {
+			log.warning("null query exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitQueryKind_Def(AqlParser.QueryKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.queryDef()));
+	}
+	
+	/**
+	 * Instance section
+	 */
+	
+	@Override public void exitInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) {
+		final String name = ctx.instanceId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.instanceDef());
+		if (exp == null) {
+			log.warning("null instance exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitInstanceKind_Def(AqlParser.InstanceKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.instanceDef()));
+	}
+	
+	@Override 
+	public void exitInstance_Empty(AqlParser.Instance_EmptyContext ctx) {
+		final SchExp<Ty, En, Sym, Fk, Att>
+		schema = new SchExp.SchExpVar<Ty,En,Sym,Fk,Att>(ctx.schemaKind().getText());
+		
+		final Exp<?> exp = new InstExp.InstExpEmpty<Ty,Sym,En,Fk,Att>(schema);
+		this.exps.put(ctx,exp);
+	};
+
+	/**
+	 * Transform section
+	 */
+	
+	@Override public void exitTransformAssignment(AqlParser.TransformAssignmentContext ctx) {
+		final String name = ctx.transformId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.transformDef());
+		if (exp == null) {
+			log.warning("null query exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitTransformKind_Def(AqlParser.TransformKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.transformDef()));
+	}
+
+	/**
+	 * Constraint section
+	 */
+	
+	@Override public void exitConstraintAssignment(AqlParser.ConstraintAssignmentContext ctx) {
+		final String name = ctx.constraintId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.constraintDef());
+		if (exp == null) {
+			log.warning("null query exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitConstraintKind_Def(AqlParser.ConstraintKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.constraintDef()));
+	}
+
+	/**
+	 * Command section
+	 */
+	
+	@Override public void exitCommandAssignment(AqlParser.CommandAssignmentContext ctx) {
+		final String name = ctx.commandId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.commandDef());
+		if (exp == null) {
+			log.warning("null query exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitCommandKind_Def(AqlParser.CommandKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.commandDef()));
+	}
+	
+
+	/**
+	 * SchemaColimit section
+	 */
+	
+	@Override public void exitSchemaColimitAssignment(AqlParser.SchemaColimitAssignmentContext ctx) {
+		final String name = ctx.schemaColimitId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.schemaColimitDef());
+		if (exp == null) {
+			log.warning("null query exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitSchemaColimitKind_Def(AqlParser.SchemaColimitKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.schemaColimitDef()));
+	}
+
 }

@@ -2,14 +2,15 @@ parser grammar AqlMapping;
 options { tokenVocab=AqlLexerRules; }
 
 mappingId : symbol ;
+mappingRef : symbol ;
 
-mappingKindAssignment : MAPPING mappingId EQUAL mappingDef ;
+mappingAssignment : MAPPING mappingId EQUAL mappingDef ;
 
 mappingDef
   : IDENTITY schemaRef                       
   #MapExp_Id
   
-  | LBRACK mappingId SEMI mappingId RBRACK   
+  | LBRACK mappingRef SEMI mappingRef RBRACK   
   #MapExp_Compose
   
   | LITERAL COLON schemaRef RARROW schemaRef
@@ -21,13 +22,13 @@ mappingDef
   ;
 
 mappingKind
-  : mappingId
-  | mappingDef
-  | LPAREN mappingDef RPAREN
+  : mappingRef  # MappingKind_Ref 
+  | mappingDef  # MappingKind_Def 
+  | LPAREN mappingDef RPAREN  # MappingKind_Def 
   ;
 
 mappingLiteralSection
-  : (IMPORTS mappingId*)?
+  : (IMPORTS mappingRef*)?
     ( ENTITY mappingEntitySig*
     | FOREIGN_KEYS mappingForeignSig*
     | ATTRIBUTES mappingAttributeSig* )*

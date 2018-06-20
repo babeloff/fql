@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/90x/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/4kx/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -395,7 +395,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypesideKindAssignment(AqlParser.TypesideKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -430,7 +430,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypesideKind(AqlParser.TypesideKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypesideKind_Ref(AqlParser.TypesideKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTypesideKind_Def(AqlParser.TypesideKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -626,7 +633,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchemaKindAssignment(AqlParser.SchemaKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -634,6 +641,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitSchema_Empty(AqlParser.Schema_EmptyContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSchema_OfInstanceAll(AqlParser.Schema_OfInstanceAllContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -815,7 +829,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceKindAssignment(AqlParser.InstanceKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceRef(AqlParser.InstanceRefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1004,7 +1025,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceKind(AqlParser.InstanceKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceKind_Ref(AqlParser.InstanceKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstanceKind_Def(AqlParser.InstanceKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1249,7 +1277,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMappingKindAssignment(AqlParser.MappingKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMappingRef(AqlParser.MappingRefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMappingAssignment(AqlParser.MappingAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1284,7 +1319,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMappingKind(AqlParser.MappingKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMappingKind_Ref(AqlParser.MappingKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMappingKind_Def(AqlParser.MappingKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1382,7 +1424,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTransformKindAssignment(AqlParser.TransformKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTransformAssignment(AqlParser.TransformAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1487,7 +1529,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTransformKind(AqlParser.TransformKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTransformKind_Def(AqlParser.TransformKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1620,7 +1662,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQueryKindAssignment(AqlParser.QueryKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQueryAssignment(AqlParser.QueryAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1669,7 +1711,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitQueryKind(AqlParser.QueryKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitQueryKind_Ref(AqlParser.QueryKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitQueryKind_Def(AqlParser.QueryKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1767,7 +1816,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGraphKindAssignment(AqlParser.GraphKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGraphAssignment(AqlParser.GraphAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1781,7 +1830,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGraphKind(AqlParser.GraphKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGraphKind_Ref(AqlParser.GraphKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitGraphKind_Def(AqlParser.GraphKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1816,7 +1872,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandRef(AqlParser.CommandRefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitCommandAssignment(AqlParser.CommandAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1900,7 +1963,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCommandKind(AqlParser.CommandKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandKind_Ref(AqlParser.CommandKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitCommandKind_Def(AqlParser.CommandKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1998,7 +2068,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchemaColimitKindAssignment(AqlParser.SchemaColimitKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchemaColimitAssignment(AqlParser.SchemaColimitAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2033,7 +2103,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchemaColimitKind(AqlParser.SchemaColimitKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchemaColimitKind_Ref(AqlParser.SchemaColimitKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSchemaColimitKind_Def(AqlParser.SchemaColimitKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2096,7 +2173,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstraintKindAssignment(AqlParser.ConstraintKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstraintRef(AqlParser.ConstraintRefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitConstraintAssignment(AqlParser.ConstraintAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2110,7 +2194,14 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstraintKind(AqlParser.ConstraintKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstraintKind_Ref(AqlParser.ConstraintKind_RefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitConstraintKind_Def(AqlParser.ConstraintKind_DefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

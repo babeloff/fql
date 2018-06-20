@@ -3,8 +3,9 @@ parser grammar AqlConstraint;
 options { tokenVocab=AqlLexerRules; }
 
 constraintId : symbol ;
+constraintRef : symbol ;
 
-constraintKindAssignment : CONSTRAINTS constraintId EQUAL constraintDef ;
+constraintAssignment : CONSTRAINTS constraintId EQUAL constraintDef ;
 
 constraintDef
   : LITERAL COLON schemaRef
@@ -12,13 +13,13 @@ constraintDef
   ;
 
 constraintKind
-  : constraintId
-  | constraintDef
-  | LPAREN constraintDef RPAREN
+  : constraintRef  # ConstraintKind_Ref 
+  | constraintDef  # ConstraintKind_Def 
+  | LPAREN constraintDef RPAREN # ConstraintKind_Def 
   ;
 
 constraintLiteralSection
-  : (IMPORTS constraintId*)?
+  : (IMPORTS constraintRef*)?
     (constraintExpr)+
     allOptions
   ;

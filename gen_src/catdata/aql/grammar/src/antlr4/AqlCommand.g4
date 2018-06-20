@@ -2,8 +2,9 @@ parser grammar AqlCommand;
 options { tokenVocab=AqlLexerRules; }
 
 commandId : symbol ;
+commandRef : symbol ;
 
-commandKindAssignment : COMMAND commandId EQUAL commandDef ;
+commandAssignment : COMMAND commandId EQUAL commandDef ;
 
 commandDef
   : EXEC_CMDLINE
@@ -18,13 +19,13 @@ commandDef
       (LBRACE commandExecJdbcSection RBRACE)?
     #Command_ExecJdbc
 
-  | CHECK constraintId instanceId
+  | CHECK constraintRef instanceRef
     #Command_Check
 
-  | ASSERT_CONSISTENT instanceId
+  | ASSERT_CONSISTENT instanceRef
     #Command_AssertConsistent
 
-  | EXPORT_CSV_INSTANCE instanceId commandFile
+  | EXPORT_CSV_INSTANCE instanceRef commandFile
       (LBRACE commandExportCsvSection RBRACE)?
     #Command_ExportCsvInstance
 
@@ -32,7 +33,7 @@ commandDef
       (LBRACE commandExportCsvSection RBRACE)?
     #Command_ExportCsvTransform
 
-  | EXPORT_JDBC_INSTANCE instanceId
+  | EXPORT_JDBC_INSTANCE instanceRef
       (commandJdbcClass (commandJdbcUri commandPrefixDst?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
     #Command_ExportJdbcInstance
@@ -53,7 +54,10 @@ commandDef
     #Command_AddToClasspath
   ;
 
-commandKind: commandId | LPAREN commandDef RPAREN;
+commandKind 
+: commandRef # CommandKind_Ref 
+| LPAREN commandDef RPAREN # CommandKind_Def
+;
 
 commandAddClasspathSection : STRING+ ;
 

@@ -4,7 +4,7 @@ options { tokenVocab=AqlLexerRules; }
 transformId : symbol ;
 transformRef : symbol ;
 
-transformKindAssignment : TRANSFORM transformId EQUAL transformDef ;
+transformAssignment : TRANSFORM transformId EQUAL transformDef ;
 
 transformDef
   : IDENTITY instanceKind
@@ -32,37 +32,40 @@ transformDef
     (LBRACE transformCoevalSection RBRACE)?
   #Transform_Coeval
 
-  | UNIT mappingKind instanceId
+  | UNIT mappingKind instanceRef
     (LBRACE transformUnitSection RBRACE)?
   #Transform_Unit
 
-  | COUNIT mappingKind instanceId
+  | COUNIT mappingKind instanceRef
     (LBRACE transformUnitSection RBRACE)?
   #Transform_Counit
 
-  | UNIT_QUERY queryKind instanceId
+  | UNIT_QUERY queryKind instanceRef
     (LBRACE transformUnitQuerySection RBRACE)?
   #Transform_UnitQuery
 
-  | COUNIT_QUERY queryKind instanceId
+  | COUNIT_QUERY queryKind instanceRef
     (LBRACE transformCounitQuerySection RBRACE)?
   #Transform_CounitQuery
 
   | IMPORT_JDBC transformJdbcClass transformJdbcUri COLON
-      instanceId RARROW instanceId
+      instanceRef RARROW instanceRef
     (LBRACE transformImportJdbcSection RBRACE)?
   #Transform_ImportJdbc
 
-  | IMPORT_CSV transformFile COLON instanceId RARROW instanceId
+  | IMPORT_CSV transformFile COLON instanceRef RARROW instanceRef
     (LBRACE transformImportCsvSection  RBRACE)?
   #Transform_ImportCsv
 
-  | LITERAL COLON instanceKind RARROW instanceId
+  | LITERAL COLON instanceKind RARROW instanceRef
     (LBRACE transformLiteralSection RBRACE)?
   #Transform_Literal
   ;
 
-transformKind : transformRef | (LPAREN transformDef RPAREN) ;
+transformKind 
+: transformRef    # TransformKind_Def 
+| (LPAREN transformDef RPAREN)   # TransformKind_Def 
+;
 
 transformJdbcClass : STRING ;
 transformJdbcUri : STRING ;

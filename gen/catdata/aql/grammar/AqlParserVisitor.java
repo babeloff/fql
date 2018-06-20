@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/90x/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/4kx/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -347,11 +347,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypesideRef(AqlParser.TypesideRefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#typesideKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#typesideAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypesideKindAssignment(AqlParser.TypesideKindAssignmentContext ctx);
+	T visitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Typeside_Empty}
 	 * labeled alternative in {@link AqlParser#typesideDef}.
@@ -381,11 +381,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeside_Literal(AqlParser.Typeside_LiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#typesideKind}.
+	 * Visit a parse tree produced by the {@code TypesideKind_Ref}
+	 * labeled alternative in {@link AqlParser#typesideKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypesideKind(AqlParser.TypesideKindContext ctx);
+	T visitTypesideKind_Ref(AqlParser.TypesideKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TypesideKind_Def}
+	 * labeled alternative in {@link AqlParser#typesideKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypesideKind_Def(AqlParser.TypesideKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#typesideLiteralSection}.
 	 * @param ctx the parse tree
@@ -553,11 +561,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaRef(AqlParser.SchemaRefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#schemaAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaKindAssignment(AqlParser.SchemaKindAssignmentContext ctx);
+	T visitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Schema_Empty}
 	 * labeled alternative in {@link AqlParser#schemaDef}.
@@ -565,6 +573,13 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSchema_Empty(AqlParser.Schema_EmptyContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Schema_OfInstanceAll}
+	 * labeled alternative in {@link AqlParser#schemaDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchema_OfInstanceAll(AqlParser.Schema_OfInstanceAllContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Schema_OfInstance}
 	 * labeled alternative in {@link AqlParser#schemaDef}.
@@ -722,11 +737,17 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceId(AqlParser.InstanceIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#instanceRef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceKindAssignment(AqlParser.InstanceKindAssignmentContext ctx);
+	T visitInstanceRef(AqlParser.InstanceRefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceAssignment(AqlParser.InstanceAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Instance_Empty}
 	 * labeled alternative in {@link AqlParser#instanceDef}.
@@ -910,11 +931,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstance_Pi(AqlParser.Instance_PiContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceKind}.
+	 * Visit a parse tree produced by the {@code InstanceKind_Ref}
+	 * labeled alternative in {@link AqlParser#instanceKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceKind(AqlParser.InstanceKindContext ctx);
+	T visitInstanceKind_Ref(AqlParser.InstanceKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InstanceKind_Def}
+	 * labeled alternative in {@link AqlParser#instanceKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceKind_Def(AqlParser.InstanceKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceImportJdbcAllSection}.
 	 * @param ctx the parse tree
@@ -1120,11 +1149,17 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMappingId(AqlParser.MappingIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#mappingKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#mappingRef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMappingKindAssignment(AqlParser.MappingKindAssignmentContext ctx);
+	T visitMappingRef(AqlParser.MappingRefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#mappingAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMappingAssignment(AqlParser.MappingAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code MapExp_Id}
 	 * labeled alternative in {@link AqlParser#mappingDef}.
@@ -1154,11 +1189,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMapExp_Get(AqlParser.MapExp_GetContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#mappingKind}.
+	 * Visit a parse tree produced by the {@code MappingKind_Ref}
+	 * labeled alternative in {@link AqlParser#mappingKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMappingKind(AqlParser.MappingKindContext ctx);
+	T visitMappingKind_Ref(AqlParser.MappingKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MappingKind_Def}
+	 * labeled alternative in {@link AqlParser#mappingKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMappingKind_Def(AqlParser.MappingKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#mappingLiteralSection}.
 	 * @param ctx the parse tree
@@ -1238,11 +1281,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTransformRef(AqlParser.TransformRefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#transformKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#transformAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTransformKindAssignment(AqlParser.TransformKindAssignmentContext ctx);
+	T visitTransformAssignment(AqlParser.TransformAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Transform_Id}
 	 * labeled alternative in {@link AqlParser#transformDef}.
@@ -1342,11 +1385,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTransform_Literal(AqlParser.Transform_LiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#transformKind}.
+	 * Visit a parse tree produced by the {@code TransformKind_Def}
+	 * labeled alternative in {@link AqlParser#transformKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTransformKind(AqlParser.TransformKindContext ctx);
+	T visitTransformKind_Def(AqlParser.TransformKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#transformJdbcClass}.
 	 * @param ctx the parse tree
@@ -1456,11 +1500,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryFromSchema(AqlParser.QueryFromSchemaContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#queryAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryKindAssignment(AqlParser.QueryKindAssignmentContext ctx);
+	T visitQueryAssignment(AqlParser.QueryAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code QueryExp_Id}
 	 * labeled alternative in {@link AqlParser#queryDef}.
@@ -1504,11 +1548,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryKind}.
+	 * Visit a parse tree produced by the {@code QueryKind_Ref}
+	 * labeled alternative in {@link AqlParser#queryKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryKind(AqlParser.QueryKindContext ctx);
+	T visitQueryKind_Ref(AqlParser.QueryKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code QueryKind_Def}
+	 * labeled alternative in {@link AqlParser#queryKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryKind_Def(AqlParser.QueryKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#queryLiteralSection}.
 	 * @param ctx the parse tree
@@ -1588,11 +1640,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGraphRef(AqlParser.GraphRefContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#graphKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#graphAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGraphKindAssignment(AqlParser.GraphKindAssignmentContext ctx);
+	T visitGraphAssignment(AqlParser.GraphAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code GraphExp_Literal}
 	 * labeled alternative in {@link AqlParser#graphDef}.
@@ -1601,11 +1653,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#graphKind}.
+	 * Visit a parse tree produced by the {@code GraphKind_Ref}
+	 * labeled alternative in {@link AqlParser#graphKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGraphKind(AqlParser.GraphKindContext ctx);
+	T visitGraphKind_Ref(AqlParser.GraphKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code GraphKind_Def}
+	 * labeled alternative in {@link AqlParser#graphKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraphKind_Def(AqlParser.GraphKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#graphLiteralSection}.
 	 * @param ctx the parse tree
@@ -1631,11 +1691,17 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommandId(AqlParser.CommandIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#commandKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#commandRef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx);
+	T visitCommandRef(AqlParser.CommandRefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#commandAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandAssignment(AqlParser.CommandAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Command_CmdLine}
 	 * labeled alternative in {@link AqlParser#commandDef}.
@@ -1714,11 +1780,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommand_AddToClasspath(AqlParser.Command_AddToClasspathContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#commandKind}.
+	 * Visit a parse tree produced by the {@code CommandKind_Ref}
+	 * labeled alternative in {@link AqlParser#commandKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCommandKind(AqlParser.CommandKindContext ctx);
+	T visitCommandKind_Ref(AqlParser.CommandKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CommandKind_Def}
+	 * labeled alternative in {@link AqlParser#commandKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandKind_Def(AqlParser.CommandKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#commandAddClasspathSection}.
 	 * @param ctx the parse tree
@@ -1798,11 +1872,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaColimitId(AqlParser.SchemaColimitIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaColimitKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#schemaColimitAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaColimitKindAssignment(AqlParser.SchemaColimitKindAssignmentContext ctx);
+	T visitSchemaColimitAssignment(AqlParser.SchemaColimitAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SchemaColimit_Quotient}
 	 * labeled alternative in {@link AqlParser#schemaColimitDef}.
@@ -1832,11 +1906,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaColimit_Wrap(AqlParser.SchemaColimit_WrapContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaColimitKind}.
+	 * Visit a parse tree produced by the {@code SchemaColimitKind_Ref}
+	 * labeled alternative in {@link AqlParser#schemaColimitKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaColimitKind(AqlParser.SchemaColimitKindContext ctx);
+	T visitSchemaColimitKind_Ref(AqlParser.SchemaColimitKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaColimitKind_Def}
+	 * labeled alternative in {@link AqlParser#schemaColimitKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaColimitKind_Def(AqlParser.SchemaColimitKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaColimitQuotientSection}.
 	 * @param ctx the parse tree
@@ -1886,11 +1968,17 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConstraintId(AqlParser.ConstraintIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#constraintKindAssignment}.
+	 * Visit a parse tree produced by {@link AqlParser#constraintRef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConstraintKindAssignment(AqlParser.ConstraintKindAssignmentContext ctx);
+	T visitConstraintRef(AqlParser.ConstraintRefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#constraintAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintAssignment(AqlParser.ConstraintAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ConstraintExp_Literal}
 	 * labeled alternative in {@link AqlParser#constraintDef}.
@@ -1899,11 +1987,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConstraintExp_Literal(AqlParser.ConstraintExp_LiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#constraintKind}.
+	 * Visit a parse tree produced by the {@code ConstraintKind_Ref}
+	 * labeled alternative in {@link AqlParser#constraintKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConstraintKind(AqlParser.ConstraintKindContext ctx);
+	T visitConstraintKind_Ref(AqlParser.ConstraintKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConstraintKind_Def}
+	 * labeled alternative in {@link AqlParser#constraintKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintKind_Def(AqlParser.ConstraintKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#constraintLiteralSection}.
 	 * @param ctx the parse tree

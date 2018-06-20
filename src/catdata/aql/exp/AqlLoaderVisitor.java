@@ -50,7 +50,7 @@ public class AqlLoaderVisitor extends AqlParserBaseVisitor<Object> {
 		return ctx;
 	}
 	
-	@Override public Object visitTypesideKindAssignment(AqlParser.TypesideKindAssignmentContext ctx) {
+	@Override public Object visitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx) {
 		return ctx;
 		
 	}

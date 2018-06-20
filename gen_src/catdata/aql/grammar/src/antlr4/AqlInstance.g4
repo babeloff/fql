@@ -2,8 +2,9 @@ parser grammar AqlInstance;
 options { tokenVocab=AqlLexerRules; }
 
 instanceId : symbol ;
+instanceRef : symbol ;
 
-instanceKindAssignment : INSTANCE instanceId EQUAL instanceDef ;
+instanceAssignment : INSTANCE instanceId EQUAL instanceDef ;
 
 instanceDef
   : EMPTY COLON schemaKind
@@ -45,7 +46,7 @@ instanceDef
     (LBRACE instanceCoprodSection RBRACE)?
   #Instance_Union
 
-  | COPRODUCT_UNRESTRICTED instanceId (PLUS instanceId)* COLON schemaKind
+  | COPRODUCT_UNRESTRICTED instanceRef (PLUS instanceRef)* COLON schemaKind
     (LBRACE instanceCoprodUnrestrictSection RBRACE)?
   #Instance_CoprodUn
 
@@ -81,7 +82,7 @@ instanceDef
     (LBRACE instanceLiteralSection RBRACE)?
   #Instance_Literal
 
-  | QUOTIENT instanceId
+  | QUOTIENT instanceRef
     (LBRACE instanceQuotientSection RBRACE)?
   #Instance_Quotient
 
@@ -92,7 +93,7 @@ instanceDef
     (LBRACE instanceRandomSection RBRACE)?
   #Instance_Random
 
-  | ANONYMIZE instanceId
+  | ANONYMIZE instanceRef
   #Instance_Anonymize
 
   | FROZEN queryRef schemaRef
@@ -103,19 +104,23 @@ instanceDef
   #Instance_Pi
   ;
 
-instanceKind: instanceId | instanceDef | (LPAREN instanceKind RPAREN);
+instanceKind 
+  : instanceRef # InstanceKind_Ref 
+  | instanceDef # InstanceKind_Def 
+  | (LPAREN instanceDef RPAREN) # InstanceKind_Def
+  ;
 
 instanceImportJdbcAllSection : allOptions ;
 instancePiSection : allOptions ;
 
 instanceColimitSection
-  : NODES (instanceId RARROW instanceKind)+
+  : NODES (instanceRef RARROW instanceKind)+
     EDGES (schemaArrowId RARROW transformKind)+
     allOptions
   ;
 
 instanceLiteralSection
-  : (IMPORTS instanceId*)?
+  : (IMPORTS instanceRef*)?
     (GENERATORS (instanceGen+ COLON schemaEntityId)+)?
     (EQUATIONS instanceEquation*)?
     (MULTI_EQUATIONS instanceMultiEquation*)?

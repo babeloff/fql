@@ -4,11 +4,12 @@ options { tokenVocab=AqlLexerRules; }
 schemaId : symbol ;
 schemaRef : symbol ;
 
-schemaKindAssignment : SCHEMA schemaId EQUAL schemaDef ;
+schemaAssignment : SCHEMA schemaId EQUAL schemaDef ;
 
 schemaDef
   : EMPTY COLON typesideRef                   #Schema_Empty
-  | SCHEMA_OF (INSTANCE_ALL | instanceKind)   #Schema_OfInstance
+  | SCHEMA_OF INSTANCE_ALL                    #Schema_OfInstanceAll
+  | SCHEMA_OF instanceKind                    #Schema_OfInstance
   | DST queryRef                              #Schema_Destination
   | LITERAL COLON typesideKind
       (LBRACE schemaLiteralSection RBRACE)?   #Schema_Literal

@@ -6,7 +6,7 @@ queryRef : symbol ;
 
 queryFromSchema : LPAREN IDENTITY schemaRef RPAREN ;
 
-queryKindAssignment : QUERY queryId EQUAL queryDef ;
+queryAssignment : QUERY queryId EQUAL queryDef ;
 
 queryDef
   : IDENTITY schemaRef
@@ -36,9 +36,9 @@ queryDef
   ;
 
 queryKind
-  : queryRef
-  | queryDef
-  | LPAREN queryDef RPAREN
+  : queryRef  # QueryKind_Ref 
+  | queryDef  # QueryKind_Def 
+  | LPAREN queryDef RPAREN  # QueryKind_Def 
   ;
 
 queryLiteralSection
