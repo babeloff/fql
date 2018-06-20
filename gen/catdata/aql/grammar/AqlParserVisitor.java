@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/4kx/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/7wu/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1646,12 +1646,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGraphAssignment(AqlParser.GraphAssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code GraphExp_Literal}
+	 * Visit a parse tree produced by the {@code Graph_Literal}
 	 * labeled alternative in {@link AqlParser#graphDef}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx);
+	T visitGraph_Literal(AqlParser.Graph_LiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code GraphKind_Ref}
 	 * labeled alternative in {@link AqlParser#graphKind}.
@@ -1673,11 +1673,29 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGraphLiteralSection(AqlParser.GraphLiteralSectionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#graphEdgeSig}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraphEdgeSig(AqlParser.GraphEdgeSigContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#graphNodeId}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGraphNodeId(AqlParser.GraphNodeIdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#graphSourceNodeId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraphSourceNodeId(AqlParser.GraphSourceNodeIdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#graphTargetNodeId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGraphTargetNodeId(AqlParser.GraphTargetNodeIdContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#graphEdgeId}.
 	 * @param ctx the parse tree

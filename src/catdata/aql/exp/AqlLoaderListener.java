@@ -9,12 +9,15 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import catdata.Pair;
 import catdata.Triple;
 import catdata.aql.RawTerm;
+import catdata.aql.exp.GraphExp.GraphExpRaw;
 import catdata.aql.exp.SchExp.SchExpEmpty;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
@@ -23,6 +26,7 @@ import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
+import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
 
@@ -39,8 +43,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		return ctx.getStart().getStartIndex();
 	}
 	
-	private LocStr getLocStr(ParserRuleContext ctx) {
+	private LocStr makeLocStr(ParserRuleContext ctx) {
 		return new LocStr(ctx.getStart().getStartIndex(), ctx.getText());
+	}
+	private LocStr makeLocStr(Token node) {
+		return new LocStr(node.getStartIndex(), node.getText());
 	}
 	
 	public AqlLoaderListener() {
@@ -125,6 +132,43 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,this.exps.get(ctx.graphDef()));
 	}
 	
+
+	/** see tyExpRaw */
+	@Override 
+	public void exitGraph_Literal(AqlParser.Graph_LiteralContext ctx) {
+		final GraphLiteralSectionContext 
+		ctx_lit = ctx.graphLiteralSection();
+		
+		final List<LocStr>
+		imports = ctx_lit.graphRef().stream() 
+				.map(elt -> makeLocStr(elt))
+				.collect(Collectors.toList());
+		
+		final List<LocStr> 
+		nodes = ctx_lit.graphNodeId().stream() 
+				.map(elt -> makeLocStr(elt)) 
+				.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Pair<String, String>>> 
+		edges = ctx_lit.graphEdgeSig().stream() 
+				.map(sig -> {
+					final Pair<String,String> arrow = new Pair<String,String>(
+							sig.graphSourceNodeId().getText(),
+							sig.graphTargetNodeId().getText());
+							
+					return new LinkedList<Pair<LocStr, Pair<String,String>>>(
+							sig.graphEdgeId().stream() 
+							.map(elt -> new Pair<LocStr, Pair<String,String>>(
+									makeLocStr(elt), arrow))
+							.collect(Collectors.toList()));
+				})
+				.flatMap(x -> x.stream())
+				.collect(Collectors.toList());
+		
+		final GraphExpRaw graph = new GraphExpRaw(nodes, edges, imports);	
+		this.exps.put(ctx,graph);
+	};
+	
 	/**
 	 * TypeSide section
 	 */
@@ -169,27 +213,22 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		ctx_lit = ctx.typesideLiteralSection();
 		
 		final List<Pair<Integer,TyExp<?,?>>>
-		imports = ctx_lit
-				.typesideImport()
-				.stream() 
+		imports = ctx_lit.typesideImport().stream() 
 				.map(elt -> 
 					new Pair<Integer,TyExp<?,?>>(
 						elt.getStart().getStartIndex(),
 						new TyExpVar<Ty,Sym>(elt.getText()))) 
 				.collect(Collectors.toList());
 		
-		final List<LocStr> types = ctx_lit
-				.typesideConstantSig()
-				.stream() 
-				.map(elt -> getLocStr(elt)) 
+		final List<LocStr> 
+		types = ctx_lit.typesideConstantSig().stream() 
+				.map(elt -> makeLocStr(elt)) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Pair<List<String>, String>>>
-		functions = ctx_lit
-				.typesideFunctionSig()
-				.stream() 
+		functions = ctx_lit.typesideFunctionSig().stream() 
 				.map(elt -> new Pair<LocStr, Pair<List<String>, String>>(
-						getLocStr(elt.typesideFnName()),
+						makeLocStr(elt.typesideFnName()),
 						new Pair<List<String>,String>(
 								elt.typesideFnLocal()
 									.stream()
@@ -199,9 +238,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.collect(Collectors.toList());
 		
 		final List<Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>>
-		eqns = ctx_lit
-				.typesideEquationSig()
-				.stream() 
+		eqns = ctx_lit.typesideEquationSig().stream() 
 				.map(elt -> new Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>(
 						elt.getStart().getStartIndex(),
 						new Triple<List<Pair<String, String>>, RawTerm, RawTerm>(
@@ -216,29 +253,23 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, String>>
-		java_tys = ctx_lit
-				.typesideJavaTypeSig()
-				.stream() 
+		java_tys = ctx_lit.typesideJavaTypeSig().stream() 
 				.map(elt -> new Pair<LocStr, String>(
-						getLocStr(elt.typesideTypeId()),
+						makeLocStr(elt.typesideTypeId()),
 						elt.typesideJavaType().getText())) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, String>>
-		java_constant = ctx_lit
-				.typesideJavaConstantSig()
-				.stream() 
+		java_constant = ctx_lit.typesideJavaConstantSig().stream() 
 				.map(elt -> new Pair<LocStr, String>( 
-						getLocStr(elt.typesideConstantId()), 
+						makeLocStr(elt.typesideConstantId()), 
 						elt.typesideJavaConstantValue().getText())) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Triple<List<String>, String, String>>>
-		java_fns = ctx_lit
-				.typesideJavaFunctionSig()
-				.stream() 
+		java_fns = ctx_lit.typesideJavaFunctionSig().stream() 
 				.map(elt -> new Pair<LocStr, Triple<List<String>, String, String>>( 
-						getLocStr(elt.typesideFnName()),
+						makeLocStr(elt.typesideFnName()),
 						new Triple<List<String>, String, String>( 
 							elt.typesideFnLocal()
 								.stream() 
@@ -249,9 +280,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.collect(Collectors.toList());
 		
 		final List<Pair<String, String>>
-		options = ctx_lit
-				.allOptions().optionsDeclaration()
-				.stream() 
+		options = ctx_lit.allOptions().optionsDeclaration().stream() 
 				.map(elt -> new Pair<String, String>(
 						elt.getStart().getText(),
 						elt.getStop().getText())) 
@@ -262,7 +291,6 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				java_tys, java_constant, java_fns,
 				options);
 				
-		// final Exp<?> exp = new TyExp.TyExpLit(typeside);
 		this.exps.put(ctx,typeside);
 	};
 	
@@ -384,7 +412,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final int id = getLUid(ctx);
 		final Exp<?> exp = this.exps.get(ctx.transformDef());
 		if (exp == null) {
-			log.warning("null query exp " + name);
+			log.warning("null transform exp " + name);
 			return;
 		}
 		ns.put(name, exp);
@@ -405,7 +433,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final int id = getLUid(ctx);
 		final Exp<?> exp = this.exps.get(ctx.constraintDef());
 		if (exp == null) {
-			log.warning("null query exp " + name);
+			log.warning("null constraint exp " + name);
 			return;
 		}
 		ns.put(name, exp);
@@ -426,7 +454,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final int id = getLUid(ctx);
 		final Exp<?> exp = this.exps.get(ctx.commandDef());
 		if (exp == null) {
-			log.warning("null query exp " + name);
+			log.warning("null command exp " + name);
 			return;
 		}
 		ns.put(name, exp);
@@ -448,7 +476,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final int id = getLUid(ctx);
 		final Exp<?> exp = this.exps.get(ctx.schemaColimitDef());
 		if (exp == null) {
-			log.warning("null query exp " + name);
+			log.warning("null schema colimit exp " + name);
 			return;
 		}
 		ns.put(name, exp);

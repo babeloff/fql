@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/4kx/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/7wu/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -2762,17 +2762,17 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitGraphAssignment(AqlParser.GraphAssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code GraphExp_Literal}
+	 * Enter a parse tree produced by the {@code Graph_Literal}
 	 * labeled alternative in {@link AqlParser#graphDef}.
 	 * @param ctx the parse tree
 	 */
-	void enterGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx);
+	void enterGraph_Literal(AqlParser.Graph_LiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code GraphExp_Literal}
+	 * Exit a parse tree produced by the {@code Graph_Literal}
 	 * labeled alternative in {@link AqlParser#graphDef}.
 	 * @param ctx the parse tree
 	 */
-	void exitGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx);
+	void exitGraph_Literal(AqlParser.Graph_LiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code GraphKind_Ref}
 	 * labeled alternative in {@link AqlParser#graphKind}.
@@ -2808,6 +2808,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitGraphLiteralSection(AqlParser.GraphLiteralSectionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#graphEdgeSig}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraphEdgeSig(AqlParser.GraphEdgeSigContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#graphEdgeSig}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraphEdgeSig(AqlParser.GraphEdgeSigContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#graphNodeId}.
 	 * @param ctx the parse tree
 	 */
@@ -2817,6 +2827,26 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGraphNodeId(AqlParser.GraphNodeIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#graphSourceNodeId}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraphSourceNodeId(AqlParser.GraphSourceNodeIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#graphSourceNodeId}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraphSourceNodeId(AqlParser.GraphSourceNodeIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#graphTargetNodeId}.
+	 * @param ctx the parse tree
+	 */
+	void enterGraphTargetNodeId(AqlParser.GraphTargetNodeIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#graphTargetNodeId}.
+	 * @param ctx the parse tree
+	 */
+	void exitGraphTargetNodeId(AqlParser.GraphTargetNodeIdContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#graphEdgeId}.
 	 * @param ctx the parse tree

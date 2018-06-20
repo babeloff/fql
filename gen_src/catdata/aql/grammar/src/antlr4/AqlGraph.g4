@@ -9,7 +9,7 @@ graphAssignment : GRAPH graphId EQUAL graphDef ;
 graphDef
   : LITERAL
     (LBRACE graphLiteralSection RBRACE)?
-  #GraphExp_Literal
+  #Graph_Literal
   ;
 
 graphKind 
@@ -20,8 +20,11 @@ graphKind
 graphLiteralSection
   : (IMPORTS graphRef*)?
     (NODES graphNodeId*)?
-    (EDGES (graphEdgeId+ COLON graphNodeId RARROW graphNodeId)*)?
+    (EDGES graphEdgeSig*)?
   ;
+graphEdgeSig : graphEdgeId+ COLON graphSourceNodeId RARROW graphTargetNodeId ;
 
 graphNodeId : symbol ;
+graphSourceNodeId : symbol ;
+graphTargetNodeId : symbol ;
 graphEdgeId : symbol ;

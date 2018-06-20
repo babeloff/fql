@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/4kx/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/7wu/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -3112,13 +3112,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx) { }
+	@Override public void enterGraph_Literal(AqlParser.Graph_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx) { }
+	@Override public void exitGraph_Literal(AqlParser.Graph_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3160,6 +3160,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGraphEdgeSig(AqlParser.GraphEdgeSigContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraphEdgeSig(AqlParser.GraphEdgeSigContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGraphNodeId(AqlParser.GraphNodeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -3167,6 +3179,30 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGraphNodeId(AqlParser.GraphNodeIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGraphSourceNodeId(AqlParser.GraphSourceNodeIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraphSourceNodeId(AqlParser.GraphSourceNodeIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGraphTargetNodeId(AqlParser.GraphTargetNodeIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGraphTargetNodeId(AqlParser.GraphTargetNodeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
