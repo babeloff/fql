@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/c6m/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/90x/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -5674,8 +5674,8 @@ public class AqlParser extends Parser {
 	public static class Schema_EmptyContext extends SchemaDefContext {
 		public TerminalNode EMPTY() { return getToken(AqlParser.EMPTY, 0); }
 		public TerminalNode COLON() { return getToken(AqlParser.COLON, 0); }
-		public TypesideKindContext typesideKind() {
-			return getRuleContext(TypesideKindContext.class,0);
+		public TypesideRefContext typesideRef() {
+			return getRuleContext(TypesideRefContext.class,0);
 		}
 		public Schema_EmptyContext(SchemaDefContext ctx) { copyFrom(ctx); }
 		@Override
@@ -5750,7 +5750,7 @@ public class AqlParser extends Parser {
 				setState(984);
 				match(COLON);
 				setState(985);
-				typesideKind();
+				typesideRef();
 				}
 				break;
 			case SCHEMA_OF:
@@ -5870,29 +5870,53 @@ public class AqlParser extends Parser {
 	}
 
 	public static class SchemaKindContext extends ParserRuleContext {
+		public SchemaKindContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_schemaKind; }
+	 
+		public SchemaKindContext() { }
+		public void copyFrom(SchemaKindContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class SchemaKind_RefContext extends SchemaKindContext {
 		public SchemaRefContext schemaRef() {
 			return getRuleContext(SchemaRefContext.class,0);
 		}
+		public SchemaKind_RefContext(SchemaKindContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterSchemaKind_Ref(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitSchemaKind_Ref(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitSchemaKind_Ref(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SchemaKind_DefContext extends SchemaKindContext {
 		public SchemaDefContext schemaDef() {
 			return getRuleContext(SchemaDefContext.class,0);
 		}
 		public TerminalNode LPAREN() { return getToken(AqlParser.LPAREN, 0); }
 		public TerminalNode RPAREN() { return getToken(AqlParser.RPAREN, 0); }
-		public SchemaKindContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_schemaKind; }
+		public SchemaKind_DefContext(SchemaKindContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterSchemaKind(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterSchemaKind_Def(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitSchemaKind(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitSchemaKind_Def(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitSchemaKind(this);
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitSchemaKind_Def(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5907,6 +5931,7 @@ public class AqlParser extends Parser {
 			case UPPER_ID:
 			case LOWER_ID:
 			case SPECIAL_ID:
+				_localctx = new SchemaKind_RefContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(1006);
@@ -5918,6 +5943,7 @@ public class AqlParser extends Parser {
 			case DST:
 			case SCHEMA_OF:
 			case GET_SCHEMA:
+				_localctx = new SchemaKind_DefContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(1007);
@@ -5925,6 +5951,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case LPAREN:
+				_localctx = new SchemaKind_DefContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				{
@@ -20197,7 +20224,7 @@ public class AqlParser extends Parser {
 		"\u008d\3\2\2\2\u03d2\u03d3\5\4\3\2\u03d3\u008f\3\2\2\2\u03d4\u03d5\7\u008a"+
 		"\2\2\u03d5\u03d6\5\u008cG\2\u03d6\u03d7\7\u00b2\2\2\u03d7\u03d8\5\u0092"+
 		"J\2\u03d8\u0091\3\2\2\2\u03d9\u03da\7\32\2\2\u03da\u03db\7\u00a5\2\2\u03db"+
-		"\u03ef\5^\60\2\u03dc\u03df\7\u008b\2\2\u03dd\u03e0\7\u008d\2\2\u03de\u03e0"+
+		"\u03ef\5X-\2\u03dc\u03df\7\u008b\2\2\u03dd\u03e0\7\u008d\2\2\u03de\u03e0"+
 		"\5\u00c0a\2\u03df\u03dd\3\2\2\2\u03df\u03de\3\2\2\2\u03e0\u03ef\3\2\2"+
 		"\2\u03e1\u03e2\7\34\2\2\u03e2\u03ef\5\u014c\u00a7\2\u03e3\u03e4\7\21\2"+
 		"\2\u03e4\u03e5\7\u00a5\2\2\u03e5\u03ea\5^\60\2\u03e6\u03e7\7\u00ab\2\2"+

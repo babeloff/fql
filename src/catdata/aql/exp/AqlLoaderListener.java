@@ -15,6 +15,10 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import catdata.Pair;
 import catdata.Triple;
 import catdata.aql.RawTerm;
+import catdata.aql.exp.SchExp.SchExpEmpty;
+import catdata.aql.exp.TyExp.TyExpVar;
+import catdata.aql.exp.TyExpRaw.Sym;
+import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
@@ -47,6 +51,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
+	
 	public final Map<String, Exp<?>> ns = new HashMap<String, Exp<?>>();
 	
 	/**
@@ -135,7 +140,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(elt -> 
 					new Pair<Integer,TyExp<?,?>>(
 						elt.getStart().getStartIndex(),
-						(TyExp<?,?>) ns.get(elt.getText()))) 
+						new TyExpVar<Ty,Sym>(elt.getText()))) 
 				.collect(Collectors.toList());
 		
 		final List<LocStr> types = ctx_lit
@@ -224,6 +229,34 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				
 		// final Exp<?> exp = new TyExp.TyExpLit(typeside);
 		this.exps.put(ctx,typeside);
+	};
+	
+	/**
+	 * Schema section
+	 */
+	
+	@Override public void exitSchemaKindAssignment(AqlParser.SchemaKindAssignmentContext ctx) {
+		final String name = ctx.schemaId().getText();
+		final int id = getLUid(ctx);
+		final Exp<?> exp = this.exps.get(ctx.schemaDef());
+		if (exp == null) {
+			log.warning("null schema exp " + name);
+			return;
+		}
+		ns.put(name, exp);
+		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+	}
+	
+	@Override 
+	public void exitSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.schemaDef()));
+	}
+	
+	@Override 
+	public void exitSchema_Empty(AqlParser.Schema_EmptyContext ctx) {
+		final TyExp<Ty,Sym> ty = new TyExpVar<Ty,Sym>(ctx.typesideRef().getText());
+		final Exp<?> exp = new SchExpEmpty<Ty,Sym>(ty);
+		this.exps.put(ctx,exp);
 	};
 	
 	@Override 

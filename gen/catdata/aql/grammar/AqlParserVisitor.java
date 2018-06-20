@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/c6m/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/90x/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -594,11 +594,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaKind}.
+	 * Visit a parse tree produced by the {@code SchemaKind_Ref}
+	 * labeled alternative in {@link AqlParser#schemaKind}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaKind(AqlParser.SchemaKindContext ctx);
+	T visitSchemaKind_Ref(AqlParser.SchemaKind_RefContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaKind_Def}
+	 * labeled alternative in {@link AqlParser#schemaKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaColimitRef}.
 	 * @param ctx the parse tree

@@ -7,7 +7,9 @@ public abstract class AqlParserFactory {
 		   COMBINATOR,
 		   ANTLR4
 		}
-	public static Mode mode = Mode.ANTLR4;
+	public static Mode mode = 
+			Mode.ANTLR4;
+			// Mode.COMBINATOR ;
 			
 	protected AqlParserFactory() { }
 	

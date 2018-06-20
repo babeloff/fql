@@ -7,15 +7,19 @@ schemaRef : symbol ;
 schemaKindAssignment : SCHEMA schemaId EQUAL schemaDef ;
 
 schemaDef
-  : EMPTY COLON typesideKind                 #Schema_Empty
-  | SCHEMA_OF (INSTANCE_ALL | instanceKind)  #Schema_OfInstance
+  : EMPTY COLON typesideRef                   #Schema_Empty
+  | SCHEMA_OF (INSTANCE_ALL | instanceKind)   #Schema_OfInstance
   | DST queryRef                              #Schema_Destination
   | LITERAL COLON typesideKind
-      (LBRACE schemaLiteralSection RBRACE)? #Schema_Literal
+      (LBRACE schemaLiteralSection RBRACE)?   #Schema_Literal
   | GET_SCHEMA schemaColimitRef               #Schema_GetSchemaColimit
   ;
 
-schemaKind : schemaRef | schemaDef | (LPAREN schemaDef RPAREN) ;
+schemaKind 
+  : schemaRef # SchemaKind_Ref 
+  | schemaDef # SchemaKind_Def 
+  | (LPAREN schemaDef RPAREN) # SchemaKind_Def
+  ;
 
 schemaColimitRef : symbol ;
 

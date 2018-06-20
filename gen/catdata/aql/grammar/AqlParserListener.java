@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql/gen_src/catdata/aql/grammar/c6m/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/90x/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -988,15 +988,29 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#schemaKind}.
+	 * Enter a parse tree produced by the {@code SchemaKind_Ref}
+	 * labeled alternative in {@link AqlParser#schemaKind}.
 	 * @param ctx the parse tree
 	 */
-	void enterSchemaKind(AqlParser.SchemaKindContext ctx);
+	void enterSchemaKind_Ref(AqlParser.SchemaKind_RefContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#schemaKind}.
+	 * Exit a parse tree produced by the {@code SchemaKind_Ref}
+	 * labeled alternative in {@link AqlParser#schemaKind}.
 	 * @param ctx the parse tree
 	 */
-	void exitSchemaKind(AqlParser.SchemaKindContext ctx);
+	void exitSchemaKind_Ref(AqlParser.SchemaKind_RefContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaKind_Def}
+	 * labeled alternative in {@link AqlParser#schemaKind}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaKind_Def}
+	 * labeled alternative in {@link AqlParser#schemaKind}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaColimitRef}.
 	 * @param ctx the parse tree
