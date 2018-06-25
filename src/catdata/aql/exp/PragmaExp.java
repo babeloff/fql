@@ -206,6 +206,9 @@ public abstract class PragmaExp extends Exp<Pragma> {
 						ret += Util.sep(m.get(ed).iterator(), "\n", r->Util.sep(r.map(z->J.algebra().printX(z)).asMap(),"->",", "));
 						ret += "\n";
 					}
+					if (ret.equals("")) {
+						return "Passed";
+					}
 					return ret;
 				}
 

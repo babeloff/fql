@@ -304,7 +304,7 @@ public final class AqlOptions {
 		case eval_use_indices:
 			return true;
 		case gui_rows_to_display:
-			return 8;
+			return 32;
 		case query_remove_redundancy:
 			return true;
 		case eval_sql_persistent_indices:

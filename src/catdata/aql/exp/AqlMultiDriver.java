@@ -204,7 +204,7 @@ public final class AqlMultiDriver implements Callable<Unit> {
 			Util.anomaly();
 		}
 		if (env.prog.exps.get(n) == null) {
-			Util.anomaly();
+			return true;
 		}
 		if (changed.containsKey(n)) {
 			return changed.get(n);

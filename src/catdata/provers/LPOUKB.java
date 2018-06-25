@@ -44,6 +44,10 @@ import catdata.provers.KBExp.KBVar;
  *         described in "Decision Problems in Ordered Rewriting". This is
  *         necessary to use only-ground-complete systems as decision procedures
  *         via herbrandization. This means E-reduction is LPO specific.
+ *         (note June 5, 2018 - this is almost certainly unsound.  For example,
+ *          two different variables would get instantiated to the same minimal constant.
+ *          The paper cited gives only one example where this is sound, it doesn't
+ *          say the procedure is always sound.)
  * 
  * @param <C>
  *            the type of functions/constants (should be comparable, or silent errors occur)
@@ -51,6 +55,8 @@ import catdata.provers.KBExp.KBVar;
  *            the type of variables (should be comparable, or silent errors occur)
  * @param <T>
  *            the type of types
+ *            
+ *            
  */
 public class LPOUKB<T, C, V> extends DPKB<T, C, V> {
 
@@ -1118,6 +1124,9 @@ public class LPOUKB<T, C, V> extends DPKB<T, C, V> {
 
 	@Override
 	public boolean eq(Map<V, T> ctx, KBExp<C, V> lhs, KBExp<C, V> rhs) {
+		if (ctx.isEmpty() && !isComplete) {
+			throw new RuntimeException("System not complete, cannot decide non-ground equality");
+		}
 		return qnf(lhs, ctx).equals(qnf(rhs, ctx));
 	}
 
@@ -1130,9 +1139,9 @@ public class LPOUKB<T, C, V> extends DPKB<T, C, V> {
 		try {
 			if (isComplete) {
 				return red(this::gtX, null, Collections.emptyList(), R, e.inject(), ctx.values());
-			} else if (isCompleteGround) {
-				return red(this::gtX, null, Util.append(E, G), R, e.skolemize(), ctx.values());
-			}
+			} //else if (isCompleteGround) {
+				//return red(this::gtX, null, Util.append(E, G), R, e.skolemize(), ctx.values());
+			//}
 			throw new RuntimeException("Anomaly: please report");
 		} catch (InterruptedException e1) {
 			throw new RuntimeInterruptedException(e1);

@@ -2,6 +2,7 @@ package catdata.aql.exp;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ import catdata.aql.Anonymized;
 import catdata.aql.AqlOptions;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Collage;
+import catdata.aql.CoprodInstance;
 import catdata.aql.Eq;
 import catdata.aql.Instance;
 import catdata.aql.It;
@@ -272,9 +274,28 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			AqlOptions strat = new AqlOptions(options, col, env.defaults);
 			Set<Pair<Term<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>, Term<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>>> eqs0 = new HashSet<>();
 
+			Map<String, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> m = new HashMap<>();
+			boolean onlyFree = true;
 			for (String x : Is) {
 				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I = (Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) new InstExpVar(
 						x).eval(env);
+				if (!I.schema().equals(sch0)) {
+					throw new RuntimeException(x + " not on given schema "); 
+				}
+				m.put(x, I);
+				if (!I.algebra().hasFreeTypeAlgebra()) {
+					onlyFree = false;
+				}
+			}
+			
+			if (onlyFree) {
+				CoprodInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> k = new CoprodInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> (m, sch0, (boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe), (boolean) strat.getOrDefault(AqlOption.require_consistency));
+				Object o = k;
+				return (Instance<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID, Chc<Pair<String, Sk>, Pair<ID, Att>>>) o;
+			}
+			
+			for (String x : Is) {
+				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I = m.get(x);
 				for (Gen g : I.gens().keySet()) {
 					col.gens.put(new Pair<>(x, g), I.gens().get(g));
 				}

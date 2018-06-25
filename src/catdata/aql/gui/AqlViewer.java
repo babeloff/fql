@@ -483,9 +483,10 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		for (En en : entables.keySet()) {
 			Pair<List<String>,Object[][]> x = entables.get(en);
 			String str;
-			if (x.second.length == 0) {
-				continue;
-			} else if (x.second.length < alg.en(en).size()) {
+			//if (x.second.length == 0) {
+			//	continue;
+			//} else
+				if (x.second.length < alg.en(en).size()) {
 				str = en + " (" + x.second.length + " of " + alg.en(en).size() + ")";
 			} else {
 				str = en + " (" + x.second.length + ")";
