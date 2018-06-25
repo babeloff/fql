@@ -1,3 +1,4 @@
+
 parser grammar AqlTypeside;
 options { tokenVocab=AqlLexerRules; }
 
@@ -28,7 +29,8 @@ typesideLiteralSection
   ;
 
 typesideImport
-  : symbol          #Typeside_ImportName
+  : SQL             #Typeside_ImportSql
+  | symbol          #Typeside_ImportName
   ;
 
 typesideTypeSig : typesideTypeId ;
@@ -44,7 +46,7 @@ typesideConstantValue : symbol ;
 typesideJavaConstantSig
   : (truthy | typesideConstantLiteral) EQUAL STRING ;
 
-typesideConstantLiteral : (STRING | LOWER_ID | UPPER_ID) ;
+typesideConstantLiteral : (STRING | INTEGER | LOWER_ID | UPPER_ID) ;
 
 typesideFunctionSig
   : typesideFnName COLON typesideFnLocal

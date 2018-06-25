@@ -1,5 +1,5 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/projects/fql/src/catdata/aql/grammar/5r0/uanrg/AqlParser.g4 by ANTLR 4.7
-package catdata.aql.grammar.target;
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/aql/src/catdata/aql/grammar/4m7/-ru88jt/AqlParser.g4 by ANTLR 4.7
+package org.aql;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -123,6 +123,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitCompletionPresedenceOption(AqlParser.CompletionPresedenceOptionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitPrependEntityOnIds(AqlParser.PrependEntityOnIdsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -340,6 +347,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitTypesideLiteralSection(AqlParser.TypesideLiteralSectionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -752,6 +766,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitInstance_Union(AqlParser.Instance_UnionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitInstance_CoprodUn(AqlParser.Instance_CoprodUnContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -836,6 +857,27 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitInstance_Anonymize(AqlParser.Instance_AnonymizeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstance_Frozen(AqlParser.Instance_FrozenContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstance_Pi(AqlParser.Instance_PiContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitInstanceKind(AqlParser.InstanceKindContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -844,6 +886,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitInstanceImportJdbcAllSection(AqlParser.InstanceImportJdbcAllSectionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstancePiSection(AqlParser.InstancePiSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1047,6 +1096,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitInstanceImportCsvSection(AqlParser.InstanceImportCsvSectionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstanceCsvAssign(AqlParser.InstanceCsvAssignContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1606,182 +1662,182 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaId(AqlParser.PragmaIdContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandId(AqlParser.CommandIdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaKindAssignment(AqlParser.PragmaKindAssignmentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_CmdLine(AqlParser.Pragma_CmdLineContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_CmdLine(AqlParser.Command_CmdLineContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExecJs(AqlParser.Pragma_ExecJsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExecJs(AqlParser.Command_ExecJsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExecJdbc(AqlParser.Pragma_ExecJdbcContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExecJdbc(AqlParser.Command_ExecJdbcContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_Check(AqlParser.Pragma_CheckContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_Check(AqlParser.Command_CheckContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_AssertConsistent(AqlParser.Pragma_AssertConsistentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_AssertConsistent(AqlParser.Command_AssertConsistentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExportCsvInstance(AqlParser.Pragma_ExportCsvInstanceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExportCsvInstance(AqlParser.Command_ExportCsvInstanceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExportCsvTransform(AqlParser.Pragma_ExportCsvTransformContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExportCsvTransform(AqlParser.Command_ExportCsvTransformContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExportJdbcInstance(AqlParser.Pragma_ExportJdbcInstanceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExportJdbcInstance(AqlParser.Command_ExportJdbcInstanceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExportJdbcQuery(AqlParser.Pragma_ExportJdbcQueryContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExportJdbcQuery(AqlParser.Command_ExportJdbcQueryContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_ExportJdbcTransform(AqlParser.Pragma_ExportJdbcTransformContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_ExportJdbcTransform(AqlParser.Command_ExportJdbcTransformContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragma_AddToClasspath(AqlParser.Pragma_AddToClasspathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommand_AddToClasspath(AqlParser.Command_AddToClasspathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaKind(AqlParser.PragmaKindContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandKind(AqlParser.CommandKindContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaAddClasspathSection(AqlParser.PragmaAddClasspathSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandAddClasspathSection(AqlParser.CommandAddClasspathSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaCmdLineSection(AqlParser.PragmaCmdLineSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandCmdLineSection(AqlParser.CommandCmdLineSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaExecJsSection(AqlParser.PragmaExecJsSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandExecJsSection(AqlParser.CommandExecJsSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaExecJdbcSection(AqlParser.PragmaExecJdbcSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaExportCsvSection(AqlParser.PragmaExportCsvSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandExportCsvSection(AqlParser.CommandExportCsvSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaExportJdbcSection(AqlParser.PragmaExportJdbcSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandExportJdbcSection(AqlParser.CommandExportJdbcSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaFile(AqlParser.PragmaFileContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandFile(AqlParser.CommandFileContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaJdbcClass(AqlParser.PragmaJdbcClassContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandJdbcClass(AqlParser.CommandJdbcClassContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaJdbcUri(AqlParser.PragmaJdbcUriContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandJdbcUri(AqlParser.CommandJdbcUriContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaPrefix(AqlParser.PragmaPrefixContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandPrefix(AqlParser.CommandPrefixContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaPrefixSrc(AqlParser.PragmaPrefixSrcContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandPrefixSrc(AqlParser.CommandPrefixSrcContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPragmaPrefixDst(AqlParser.PragmaPrefixDstContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

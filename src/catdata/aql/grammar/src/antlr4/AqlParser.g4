@@ -18,7 +18,7 @@ import
   AqlTransform,
   AqlQuery,
   AqlGraph,
-  AqlPragma,
+  AqlCommand,
   AqlSchemaColimit,
   AqlConstraint;
 
@@ -50,7 +50,7 @@ kindDeclaration
   | transformKindAssignment
   | queryKindAssignment
   | graphKindAssignment
-  | pragmaKindAssignment
+  | commandKindAssignment
   | schemaColimitKindAssignment
   | constraintKindAssignment
   ;

@@ -3,12 +3,12 @@ options { tokenVocab=AqlLexerRules; }
 
 queryId : symbol ;
 
-queryFromSchema : LPAREN ID schemaId RPAREN ;
+queryFromSchema : LPAREN IDENTITY schemaId RPAREN ;
 
 queryKindAssignment : QUERY queryId EQUAL queryDef ;
 
 queryDef
-  : ID schemaId
+  : IDENTITY schemaId
   #QueryExp_Id
 
   | LITERAL COLON schemaKind RARROW schemaId
@@ -42,7 +42,7 @@ queryKind
 
 queryLiteralSection
   : (IMPORTS queryId*)?
-    (ENTITIES queryEntityExpr*)?
+    (ENTITY queryEntityExpr*)+
     (FOREIGN_KEYS queryForeignSig*)?
     allOptions
   ;
@@ -61,7 +61,8 @@ queryLiteralValue
 queryClauseExpr
   : FROM (queryGen COLON schemaEntityId)+
     (WHERE (queryPath EQUAL (queryLiteralValue | queryPath))+)?
-    (RETURN (schemaAttributeId RARROW queryPath)+)?
+    (ATTRIBUTES queryPathMapping+)?
+    (FOREIGN_KEYS queryForeignSig+)?
   ;
 
 queryForeignSig

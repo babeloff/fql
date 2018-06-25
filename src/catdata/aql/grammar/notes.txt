@@ -16,4 +16,4 @@ instance/quotient missing from  "All Syntax".
 
 What are the instance/chase/options?
 
-pragma/export_csv_instance documentation is weird.
+command/export_csv_instance documentation is weird.

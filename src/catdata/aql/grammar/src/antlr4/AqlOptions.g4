@@ -29,11 +29,13 @@ optionsDeclaration
   | coproductOptions
   | importJoinedOption
   | completionPresedenceOption
+  | prependEntityOnIds
   ;
 
 // options not mentioned in the manual
 importJoinedOption : IMPORT_JOINED EQUAL truthy;
 completionPresedenceOption : COMPLETION_PRECEDENCE EQUAL STRING;
+prependEntityOnIds : PREPEND_ENTITY_ON_IDS  EQUAL truthy ;
 
 mapNullsArbitrarilyUnsafeOption:
   MAP_NULLS_ARBITRARILY_UNSAFE EQUAL truthy;

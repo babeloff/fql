@@ -77,7 +77,7 @@ instance J = chase theEDs I
 
 command JisOk1 = check theEDs J //verify the chased instance satisfies the EDs
 
-//pragma InotOk = check theEDs I //the input instance does not satisfy the EDs
+//command InotOk = check theEDs I //the input instance does not satisfy the EDs
 
 ///////////////////////////////////////////////////////////////////////////
 //primary key constraints

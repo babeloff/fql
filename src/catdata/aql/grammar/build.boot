@@ -8,14 +8,14 @@
     :dependencies '[[org.clojure/clojure "RELEASE"]
                     [org.clojure/spec.alpha "0.1.143"]
                     [boot/core "RELEASE" :scope "test"]
-                    [babeloff/boot-antlr4 "2017.10.31"]
+                    [babeloff/boot-antlr4 "2018.06.07-SNAPSHOT"]
                     [babeloff/boot-antlr4-parser "2017.10.31"]
                     [org.antlr/antlr4 "4.7"]
                     [clj-jgit "0.8.10"]
                     [byte-streams "0.2.3"]
                     [me.raynes/fs "1.4.6"]
 
-                    [org.apache.commons/commons-rdf-jena "0.3.0-incubating"]])
+                    [org.apache.commons/commons-rdf-jena "0.5.0"]])
 
 (task-options!
  pom {:project     project
@@ -96,20 +96,6 @@
         :show true
         :input (mapv str input-file-s)))))
 
-(deftask parse-immortals-sample
-  []
-  (comp
-    (antlr/exercise
-      :parser "org.aql.AqlParser"
-      :lexer "org.aql.AqlLexerRules"
-      :start-rule "file"
-      :input ["resource/sample/cp2_1_db.aql"]
-      :tree false
-      :edn true
-      :rdf :jena
-      :postscript false
-      :tokens false)))
-
 (deftask parse-grammar
   [s show bool "show the arguments"]
   (s/check-asserts true)
@@ -139,7 +125,7 @@
                 "src/antlr4/AqlOptions.g4"
                 "src/antlr4/AqlInstance.g4"
                 "src/antlr4/AqlMapping.g4"
-                "src/antlr4/AqlPragma.g4"
+                "src/antlr4/AqlCommand.g4"
                 "src/antlr4/AqlQuery.g4"
                 "src/antlr4/AqlSchema.g4"
                 "src/antlr4/AqlSchemaColimit.g4"
@@ -167,7 +153,6 @@
   []
   (comp
     (build)
-    (parse-immortals-sample)
     (parse-grammar)
     (parse-examples)
     ;; (show :fileset true)

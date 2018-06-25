@@ -1,5 +1,5 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/projects/fql/src/catdata/aql/grammar/5r0/uanrg/AqlParser.g4 by ANTLR 4.7
-package catdata.aql.grammar.target;
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/aql/src/catdata/aql/grammar/4m7/-ru88jt/AqlParser.g4 by ANTLR 4.7
+package org.aql;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -203,6 +203,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCompletionPresedenceOption(AqlParser.CompletionPresedenceOptionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrependEntityOnIds(AqlParser.PrependEntityOnIdsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrependEntityOnIds(AqlParser.PrependEntityOnIdsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -575,6 +587,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTypesideLiteralSection(AqlParser.TypesideLiteralSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypeside_ImportSql(AqlParser.Typeside_ImportSqlContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1276,6 +1300,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInstance_Union(AqlParser.Instance_UnionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstance_Union(AqlParser.Instance_UnionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInstance_CoprodUn(AqlParser.Instance_CoprodUnContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1420,6 +1456,42 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInstance_Anonymize(AqlParser.Instance_AnonymizeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstance_Anonymize(AqlParser.Instance_AnonymizeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstance_Frozen(AqlParser.Instance_FrozenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstance_Frozen(AqlParser.Instance_FrozenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstance_Pi(AqlParser.Instance_PiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstance_Pi(AqlParser.Instance_PiContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInstanceKind(AqlParser.InstanceKindContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1439,6 +1511,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInstanceImportJdbcAllSection(AqlParser.InstanceImportJdbcAllSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstancePiSection(AqlParser.InstancePiSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstancePiSection(AqlParser.InstancePiSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1787,6 +1871,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInstanceImportCsvSection(AqlParser.InstanceImportCsvSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstanceCsvAssign(AqlParser.InstanceCsvAssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstanceCsvAssign(AqlParser.InstanceCsvAssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2740,313 +2836,313 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaId(AqlParser.PragmaIdContext ctx) { }
+	@Override public void enterCommandId(AqlParser.CommandIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaId(AqlParser.PragmaIdContext ctx) { }
+	@Override public void exitCommandId(AqlParser.CommandIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaKindAssignment(AqlParser.PragmaKindAssignmentContext ctx) { }
+	@Override public void enterCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaKindAssignment(AqlParser.PragmaKindAssignmentContext ctx) { }
+	@Override public void exitCommandKindAssignment(AqlParser.CommandKindAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_CmdLine(AqlParser.Pragma_CmdLineContext ctx) { }
+	@Override public void enterCommand_CmdLine(AqlParser.Command_CmdLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_CmdLine(AqlParser.Pragma_CmdLineContext ctx) { }
+	@Override public void exitCommand_CmdLine(AqlParser.Command_CmdLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExecJs(AqlParser.Pragma_ExecJsContext ctx) { }
+	@Override public void enterCommand_ExecJs(AqlParser.Command_ExecJsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExecJs(AqlParser.Pragma_ExecJsContext ctx) { }
+	@Override public void exitCommand_ExecJs(AqlParser.Command_ExecJsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExecJdbc(AqlParser.Pragma_ExecJdbcContext ctx) { }
+	@Override public void enterCommand_ExecJdbc(AqlParser.Command_ExecJdbcContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExecJdbc(AqlParser.Pragma_ExecJdbcContext ctx) { }
+	@Override public void exitCommand_ExecJdbc(AqlParser.Command_ExecJdbcContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_Check(AqlParser.Pragma_CheckContext ctx) { }
+	@Override public void enterCommand_Check(AqlParser.Command_CheckContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_Check(AqlParser.Pragma_CheckContext ctx) { }
+	@Override public void exitCommand_Check(AqlParser.Command_CheckContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_AssertConsistent(AqlParser.Pragma_AssertConsistentContext ctx) { }
+	@Override public void enterCommand_AssertConsistent(AqlParser.Command_AssertConsistentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_AssertConsistent(AqlParser.Pragma_AssertConsistentContext ctx) { }
+	@Override public void exitCommand_AssertConsistent(AqlParser.Command_AssertConsistentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExportCsvInstance(AqlParser.Pragma_ExportCsvInstanceContext ctx) { }
+	@Override public void enterCommand_ExportCsvInstance(AqlParser.Command_ExportCsvInstanceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExportCsvInstance(AqlParser.Pragma_ExportCsvInstanceContext ctx) { }
+	@Override public void exitCommand_ExportCsvInstance(AqlParser.Command_ExportCsvInstanceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExportCsvTransform(AqlParser.Pragma_ExportCsvTransformContext ctx) { }
+	@Override public void enterCommand_ExportCsvTransform(AqlParser.Command_ExportCsvTransformContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExportCsvTransform(AqlParser.Pragma_ExportCsvTransformContext ctx) { }
+	@Override public void exitCommand_ExportCsvTransform(AqlParser.Command_ExportCsvTransformContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExportJdbcInstance(AqlParser.Pragma_ExportJdbcInstanceContext ctx) { }
+	@Override public void enterCommand_ExportJdbcInstance(AqlParser.Command_ExportJdbcInstanceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExportJdbcInstance(AqlParser.Pragma_ExportJdbcInstanceContext ctx) { }
+	@Override public void exitCommand_ExportJdbcInstance(AqlParser.Command_ExportJdbcInstanceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExportJdbcQuery(AqlParser.Pragma_ExportJdbcQueryContext ctx) { }
+	@Override public void enterCommand_ExportJdbcQuery(AqlParser.Command_ExportJdbcQueryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExportJdbcQuery(AqlParser.Pragma_ExportJdbcQueryContext ctx) { }
+	@Override public void exitCommand_ExportJdbcQuery(AqlParser.Command_ExportJdbcQueryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_ExportJdbcTransform(AqlParser.Pragma_ExportJdbcTransformContext ctx) { }
+	@Override public void enterCommand_ExportJdbcTransform(AqlParser.Command_ExportJdbcTransformContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_ExportJdbcTransform(AqlParser.Pragma_ExportJdbcTransformContext ctx) { }
+	@Override public void exitCommand_ExportJdbcTransform(AqlParser.Command_ExportJdbcTransformContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragma_AddToClasspath(AqlParser.Pragma_AddToClasspathContext ctx) { }
+	@Override public void enterCommand_AddToClasspath(AqlParser.Command_AddToClasspathContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragma_AddToClasspath(AqlParser.Pragma_AddToClasspathContext ctx) { }
+	@Override public void exitCommand_AddToClasspath(AqlParser.Command_AddToClasspathContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaKind(AqlParser.PragmaKindContext ctx) { }
+	@Override public void enterCommandKind(AqlParser.CommandKindContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaKind(AqlParser.PragmaKindContext ctx) { }
+	@Override public void exitCommandKind(AqlParser.CommandKindContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaAddClasspathSection(AqlParser.PragmaAddClasspathSectionContext ctx) { }
+	@Override public void enterCommandAddClasspathSection(AqlParser.CommandAddClasspathSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaAddClasspathSection(AqlParser.PragmaAddClasspathSectionContext ctx) { }
+	@Override public void exitCommandAddClasspathSection(AqlParser.CommandAddClasspathSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaCmdLineSection(AqlParser.PragmaCmdLineSectionContext ctx) { }
+	@Override public void enterCommandCmdLineSection(AqlParser.CommandCmdLineSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaCmdLineSection(AqlParser.PragmaCmdLineSectionContext ctx) { }
+	@Override public void exitCommandCmdLineSection(AqlParser.CommandCmdLineSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaExecJsSection(AqlParser.PragmaExecJsSectionContext ctx) { }
+	@Override public void enterCommandExecJsSection(AqlParser.CommandExecJsSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaExecJsSection(AqlParser.PragmaExecJsSectionContext ctx) { }
+	@Override public void exitCommandExecJsSection(AqlParser.CommandExecJsSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaExecJdbcSection(AqlParser.PragmaExecJdbcSectionContext ctx) { }
+	@Override public void enterCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaExecJdbcSection(AqlParser.PragmaExecJdbcSectionContext ctx) { }
+	@Override public void exitCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaExportCsvSection(AqlParser.PragmaExportCsvSectionContext ctx) { }
+	@Override public void enterCommandExportCsvSection(AqlParser.CommandExportCsvSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaExportCsvSection(AqlParser.PragmaExportCsvSectionContext ctx) { }
+	@Override public void exitCommandExportCsvSection(AqlParser.CommandExportCsvSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaExportJdbcSection(AqlParser.PragmaExportJdbcSectionContext ctx) { }
+	@Override public void enterCommandExportJdbcSection(AqlParser.CommandExportJdbcSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaExportJdbcSection(AqlParser.PragmaExportJdbcSectionContext ctx) { }
+	@Override public void exitCommandExportJdbcSection(AqlParser.CommandExportJdbcSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaFile(AqlParser.PragmaFileContext ctx) { }
+	@Override public void enterCommandFile(AqlParser.CommandFileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaFile(AqlParser.PragmaFileContext ctx) { }
+	@Override public void exitCommandFile(AqlParser.CommandFileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaJdbcClass(AqlParser.PragmaJdbcClassContext ctx) { }
+	@Override public void enterCommandJdbcClass(AqlParser.CommandJdbcClassContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaJdbcClass(AqlParser.PragmaJdbcClassContext ctx) { }
+	@Override public void exitCommandJdbcClass(AqlParser.CommandJdbcClassContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaJdbcUri(AqlParser.PragmaJdbcUriContext ctx) { }
+	@Override public void enterCommandJdbcUri(AqlParser.CommandJdbcUriContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaJdbcUri(AqlParser.PragmaJdbcUriContext ctx) { }
+	@Override public void exitCommandJdbcUri(AqlParser.CommandJdbcUriContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaPrefix(AqlParser.PragmaPrefixContext ctx) { }
+	@Override public void enterCommandPrefix(AqlParser.CommandPrefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaPrefix(AqlParser.PragmaPrefixContext ctx) { }
+	@Override public void exitCommandPrefix(AqlParser.CommandPrefixContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaPrefixSrc(AqlParser.PragmaPrefixSrcContext ctx) { }
+	@Override public void enterCommandPrefixSrc(AqlParser.CommandPrefixSrcContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaPrefixSrc(AqlParser.PragmaPrefixSrcContext ctx) { }
+	@Override public void exitCommandPrefixSrc(AqlParser.CommandPrefixSrcContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPragmaPrefixDst(AqlParser.PragmaPrefixDstContext ctx) { }
+	@Override public void enterCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPragmaPrefixDst(AqlParser.PragmaPrefixDstContext ctx) { }
+	@Override public void exitCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
