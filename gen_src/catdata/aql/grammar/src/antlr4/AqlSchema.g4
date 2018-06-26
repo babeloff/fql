@@ -17,8 +17,8 @@ schemaDef
   ;
 
 schemaKind 
-  : schemaRef # SchemaKind_Ref 
-  | schemaDef # SchemaKind_Def 
+  : schemaRef                 # SchemaKind_Ref 
+  | schemaDef                 # SchemaKind_Def 
   | (LPAREN schemaDef RPAREN) # SchemaKind_Def
   ;
 
@@ -58,34 +58,35 @@ schemaAttributeSig
 schemaAttributeId : symbol ;
 
 schemaObservationEquationSig
-  : FORALL schemaEquationSig
-  | schemaPath EQUAL schemaPath
+  : FORALL schemaEquationSig     # SchemaObserve_Forall
+  | schemaPath EQUAL schemaPath  # SchemaObserve_Equation
   ;
 
 schemaEquationSig
   : schemaGen (COMMA schemaGen)* DOT evalSchemaFn EQUAL evalSchemaFn ;
 
 evalSchemaFn
-  : schemaLiteralValue
-  | schemaGen
+  : schemaLiteralValue         # EvalSchemaFn_Literal
+  | schemaGen                  # EvalSchemaFn_Gen
   | schemaFn LPAREN evalSchemaFn (COMMA evalSchemaFn)* RPAREN
-  | schemaFn DOT evalSchemaFn
+                               # EvalSchemaFn_Paren
+  | schemaFn DOT evalSchemaFn  # EvalSchemaFn_Dot
   ;
 
 schemaGen : symbol (COLON schemaGenType)? ;
 schemaGenType : symbol ;
 
 schemaFn
-  : typesideFnName
-  | schemaAttributeId
-  | schemaForeignId
+  : typesideFnName      # SchemaFn_Typeside
+  | schemaAttributeId   # SchemaFn_Attr
+  | schemaForeignId     # SchemaFn_Fk
   ;
 
 schemaForeignId : symbol ;
 
 schemaLiteralValue
-  : INTEGER
-  | NUMBER
-  | truthy
-  | STRING
+  : INTEGER # SchemaLiteralValue_Int
+  | NUMBER  # SchemaLiteralValue_Real
+  | truthy  # SchemaLiteralValue_Bool
+  | STRING  # SchemaLiteralValue_Text
   ;

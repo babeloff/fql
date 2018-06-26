@@ -22,8 +22,8 @@ mappingDef
   ;
 
 mappingKind
-  : mappingRef  # MappingKind_Ref 
-  | mappingDef  # MappingKind_Def 
+  : mappingRef                # MappingKind_Ref 
+  | mappingDef                # MappingKind_Def 
   | LPAREN mappingDef RPAREN  # MappingKind_Def 
   ;
 
@@ -38,16 +38,7 @@ mappingLiteralSection
 mappingEntitySig : schemaEntityId RARROW schemaEntityId ;
 
 mappingForeignSig
-  : schemaForeignId RARROW mappingForeignPath ;
-
-mappingForeignPath
-  : mappingArrowId
-  | schemaPath DOT schemaArrowId
-  | schemaArrowId LPAREN schemaPath RPAREN
-  ;
-
-// identity arrows are indicated with entity-names.
-mappingArrowId : schemaEntityId | schemaForeignId ;
+  : schemaForeignId RARROW schemaPath ;
 
 mappingAttributeSig
   : schemaAttributeId RARROW (mappingLambda | schemaPath) ;

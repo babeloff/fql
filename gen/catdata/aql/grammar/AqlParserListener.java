@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/mpv/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p30/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -1164,15 +1164,29 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaAttributeId(AqlParser.SchemaAttributeIdContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#schemaObservationEquationSig}.
+	 * Enter a parse tree produced by the {@code SchemaObserve_Forall}
+	 * labeled alternative in {@link AqlParser#schemaObservationEquationSig}.
 	 * @param ctx the parse tree
 	 */
-	void enterSchemaObservationEquationSig(AqlParser.SchemaObservationEquationSigContext ctx);
+	void enterSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#schemaObservationEquationSig}.
+	 * Exit a parse tree produced by the {@code SchemaObserve_Forall}
+	 * labeled alternative in {@link AqlParser#schemaObservationEquationSig}.
 	 * @param ctx the parse tree
 	 */
-	void exitSchemaObservationEquationSig(AqlParser.SchemaObservationEquationSigContext ctx);
+	void exitSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaObserve_Equation}
+	 * labeled alternative in {@link AqlParser#schemaObservationEquationSig}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaObserve_Equation}
+	 * labeled alternative in {@link AqlParser#schemaObservationEquationSig}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaEquationSig}.
 	 * @param ctx the parse tree
@@ -1184,15 +1198,53 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaEquationSig(AqlParser.SchemaEquationSigContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#evalSchemaFn}.
+	 * Enter a parse tree produced by the {@code EvalSchemaFn_Literal}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
 	 * @param ctx the parse tree
 	 */
-	void enterEvalSchemaFn(AqlParser.EvalSchemaFnContext ctx);
+	void enterEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#evalSchemaFn}.
+	 * Exit a parse tree produced by the {@code EvalSchemaFn_Literal}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
 	 * @param ctx the parse tree
 	 */
-	void exitEvalSchemaFn(AqlParser.EvalSchemaFnContext ctx);
+	void exitEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EvalSchemaFn_Gen}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterEvalSchemaFn_Gen(AqlParser.EvalSchemaFn_GenContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EvalSchemaFn_Gen}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitEvalSchemaFn_Gen(AqlParser.EvalSchemaFn_GenContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EvalSchemaFn_Paren}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EvalSchemaFn_Paren}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EvalSchemaFn_Dot}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EvalSchemaFn_Dot}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaGen}.
 	 * @param ctx the parse tree
@@ -1214,15 +1266,41 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaGenType(AqlParser.SchemaGenTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#schemaFn}.
+	 * Enter a parse tree produced by the {@code SchemaFn_Typeside}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
 	 * @param ctx the parse tree
 	 */
-	void enterSchemaFn(AqlParser.SchemaFnContext ctx);
+	void enterSchemaFn_Typeside(AqlParser.SchemaFn_TypesideContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#schemaFn}.
+	 * Exit a parse tree produced by the {@code SchemaFn_Typeside}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
 	 * @param ctx the parse tree
 	 */
-	void exitSchemaFn(AqlParser.SchemaFnContext ctx);
+	void exitSchemaFn_Typeside(AqlParser.SchemaFn_TypesideContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaFn_Attr}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaFn_Attr(AqlParser.SchemaFn_AttrContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaFn_Attr}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaFn_Attr(AqlParser.SchemaFn_AttrContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaFn_Fk}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaFn_Fk(AqlParser.SchemaFn_FkContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaFn_Fk}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaFn_Fk(AqlParser.SchemaFn_FkContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaForeignId}.
 	 * @param ctx the parse tree
@@ -1234,15 +1312,53 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaForeignId(AqlParser.SchemaForeignIdContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#schemaLiteralValue}.
+	 * Enter a parse tree produced by the {@code SchemaLiteralValue_Int}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterSchemaLiteralValue(AqlParser.SchemaLiteralValueContext ctx);
+	void enterSchemaLiteralValue_Int(AqlParser.SchemaLiteralValue_IntContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#schemaLiteralValue}.
+	 * Exit a parse tree produced by the {@code SchemaLiteralValue_Int}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitSchemaLiteralValue(AqlParser.SchemaLiteralValueContext ctx);
+	void exitSchemaLiteralValue_Int(AqlParser.SchemaLiteralValue_IntContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaLiteralValue_Real}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaLiteralValue_Real(AqlParser.SchemaLiteralValue_RealContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaLiteralValue_Real}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaLiteralValue_Real(AqlParser.SchemaLiteralValue_RealContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaLiteralValue_Bool}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaLiteralValue_Bool(AqlParser.SchemaLiteralValue_BoolContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaLiteralValue_Bool}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaLiteralValue_Bool(AqlParser.SchemaLiteralValue_BoolContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaLiteralValue_Text}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaLiteralValue_Text(AqlParser.SchemaLiteralValue_TextContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaLiteralValue_Text}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaLiteralValue_Text(AqlParser.SchemaLiteralValue_TextContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceId}.
 	 * @param ctx the parse tree
@@ -2071,26 +2187,6 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMappingForeignSig(AqlParser.MappingForeignSigContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AqlParser#mappingForeignPath}.
-	 * @param ctx the parse tree
-	 */
-	void enterMappingForeignPath(AqlParser.MappingForeignPathContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#mappingForeignPath}.
-	 * @param ctx the parse tree
-	 */
-	void exitMappingForeignPath(AqlParser.MappingForeignPathContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AqlParser#mappingArrowId}.
-	 * @param ctx the parse tree
-	 */
-	void enterMappingArrowId(AqlParser.MappingArrowIdContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#mappingArrowId}.
-	 * @param ctx the parse tree
-	 */
-	void exitMappingArrowId(AqlParser.MappingArrowIdContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#mappingAttributeSig}.
 	 * @param ctx the parse tree

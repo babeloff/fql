@@ -160,6 +160,8 @@
   (comp
     (build)
     (parse-grammar)
+    (parse-examples :example-dir "../../../../resources/examples/aql")
+    (parse-examples :example-dir "../../../../resources/examples/aql_extra")
     (sift :include #{ #".*\.java"})
     (target :dir #{"../../../../gen/catdata/aql/grammar"})))
 

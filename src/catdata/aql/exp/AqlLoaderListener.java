@@ -9,11 +9,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import catdata.Pair;
 import catdata.Quad;
 import catdata.Triple;
@@ -28,6 +27,8 @@ import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
 import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
+import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
 import catdata.aql.grammar.AqlParser.SchemaLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
@@ -60,13 +61,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	private final ParseTreeProperty<Pair<String,String>> value_option = new ParseTreeProperty<Pair<String,String>>();
 	private final ParseTreeProperty<Exp<?>> exps = new ParseTreeProperty<Exp<?>>();
 	private final ParseTreeProperty<List<String>> strList = new ParseTreeProperty<List<String>>();
+	private final ParseTreeProperty<RawTerm> terms = new ParseTreeProperty<RawTerm>();
+	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> quads = new ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>>();
 	
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
 	
 	public final Map<String, Exp<?>> ns = new HashMap<String, Exp<?>>();
-	private String currentRefName;
 	
 	/**
 	 * Program section
@@ -328,7 +330,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx) {
-		// TODO Ryan, what is intended here?
+		// TODO Ryan What is intended here?
 		
 		//@SuppressWarnings("unchecked")
 		//final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
@@ -398,10 +400,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final List<Pair<Integer, Pair<List<String>, List<String>>>>
 		commutes = ctx_lit.schemaPathEqnSig().stream() 
 				.map(eq -> new Pair<Integer, Pair<List<String>, List<String>>>(
-						eq.getStart().getStartIndex(),
-						new Pair<List<String>, List<String>>(
-								this.strList.get(eq.schemaPath(0)),
-								this.strList.get(eq.schemaPath(0)))))
+						eq.getStart().getStartIndex(), 
+						new Pair<List<String>,List<String>>( 
+								this.strList.get(eq.schemaPath(0)),  
+								this.strList.get(eq.schemaPath(1))))) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Pair<String, String>>>
@@ -420,13 +422,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.flatMap(x -> x.stream())
 				.collect(Collectors.toList());
 		
-		// TODO Fred
 		final List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>>
 		observes = ctx_lit.schemaObservationEquationSig().stream() 
 				.map(obs -> new Pair<Integer, Quad<String, String, RawTerm, RawTerm>>( 
-						obs.getStart().getStartIndex(),
-						new Quad<String, String, RawTerm, RawTerm>(
-								null, null, null, null)))
+						obs.getStart().getStartIndex(), this.quads.get(obs)))
 				.collect(Collectors.toList());
 		
 		final List<Pair<String, String>>
@@ -443,18 +442,78 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,schema);
 	}
 	
-	// TODO Fred
+	private Pair<String,String> loadSchemaGen(AqlParser.SchemaGenContext ctx) {
+		final String name = ctx.symbol().getText();
+		final SchemaGenTypeContext type = ctx.schemaGenType();
+		return new Pair<String,String>(name, (type == null) ? null : type.getText());
+	}
+	
+	@Override public void exitSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx) {
+		final SchemaEquationSigContext 
+		ctx_sig = ctx.schemaEquationSig();
+		
+		final Pair<String,String> gen = loadSchemaGen(ctx_sig.schemaGen(0));
+		if (ctx_sig.schemaGen().size() > 1) {
+			log.warning("excess generators");
+		}
+		final Quad<String, String, RawTerm, RawTerm>
+		obs = new Quad<String, String, RawTerm, RawTerm>(
+				gen.first, gen.second,
+				this.terms.get(ctx_sig.evalSchemaFn(0)),
+				this.terms.get(ctx_sig.evalSchemaFn(1)));
+		this.quads.put(ctx,obs);
+	}
+	
+	@Override public void exitSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx) { 
+		log.warning("observation equation failed");
+	}
+
+	@Override public void exitEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx) {
+		final RawTerm term = new RawTerm(ctx.schemaLiteralValue().getText());
+		this.terms.put(ctx,term);
+	}
+	
+	@Override public void exitEvalSchemaFn_Gen(AqlParser.EvalSchemaFn_GenContext ctx) {
+		final Pair<String,String> gen = loadSchemaGen(ctx.schemaGen());
+		final RawTerm term = (gen.second == null) 
+			? new RawTerm(gen.first)
+			: new RawTerm(gen.first, gen.second);
+		this.terms.put(ctx,term);
+	}
+	
+	@Override public void exitEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx) {
+		final List<RawTerm> eval = new LinkedList<RawTerm>();
+		ctx.evalSchemaFn().stream()
+			.map(t -> eval.add(this.terms.get(t)))
+			.collect(Collectors.toList());
+		
+		final RawTerm term = new RawTerm(ctx.schemaFn().getText(), eval);
+		this.terms.put(ctx,term);
+	}
+	
+	@Override public void exitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx) {
+		final List<RawTerm> eval = new LinkedList<RawTerm>();
+		eval.add(this.terms.get(ctx.evalSchemaFn()));
+		
+		final RawTerm term = new RawTerm(ctx.schemaFn().getText(), eval);
+		this.terms.put(ctx,term);
+	}
 	
 	@Override public void exitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) {
 		final List<String> path = new LinkedList<String>();
+		path.add(ctx.schemaArrowId().getText());
 		this.strList.put(ctx,path);
 	}
 	@Override public void exitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) {
 		final List<String> path = new LinkedList<String>();
+		path.addAll(this.strList.get(ctx.schemaPath()));
+		path.add(ctx.schemaArrowId().getText());
 		this.strList.put(ctx,path);
 	}
 	@Override public void exitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) {
 		final List<String> path = new LinkedList<String>();
+		path.addAll(this.strList.get(ctx.schemaPath()));
+		path.add(ctx.schemaArrowId().getText());
 		this.strList.put(ctx,path);
 	}
 	

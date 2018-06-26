@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/mpv/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p30/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1324,13 +1324,25 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaObservationEquationSig(AqlParser.SchemaObservationEquationSigContext ctx) { }
+	@Override public void enterSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaObservationEquationSig(AqlParser.SchemaObservationEquationSigContext ctx) { }
+	@Override public void exitSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1348,13 +1360,49 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEvalSchemaFn(AqlParser.EvalSchemaFnContext ctx) { }
+	@Override public void enterEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEvalSchemaFn(AqlParser.EvalSchemaFnContext ctx) { }
+	@Override public void exitEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEvalSchemaFn_Gen(AqlParser.EvalSchemaFn_GenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEvalSchemaFn_Gen(AqlParser.EvalSchemaFn_GenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1384,13 +1432,37 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaFn(AqlParser.SchemaFnContext ctx) { }
+	@Override public void enterSchemaFn_Typeside(AqlParser.SchemaFn_TypesideContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaFn(AqlParser.SchemaFnContext ctx) { }
+	@Override public void exitSchemaFn_Typeside(AqlParser.SchemaFn_TypesideContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaFn_Attr(AqlParser.SchemaFn_AttrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaFn_Attr(AqlParser.SchemaFn_AttrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaFn_Fk(AqlParser.SchemaFn_FkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaFn_Fk(AqlParser.SchemaFn_FkContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1408,13 +1480,49 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaLiteralValue(AqlParser.SchemaLiteralValueContext ctx) { }
+	@Override public void enterSchemaLiteralValue_Int(AqlParser.SchemaLiteralValue_IntContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaLiteralValue(AqlParser.SchemaLiteralValueContext ctx) { }
+	@Override public void exitSchemaLiteralValue_Int(AqlParser.SchemaLiteralValue_IntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaLiteralValue_Real(AqlParser.SchemaLiteralValue_RealContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaLiteralValue_Real(AqlParser.SchemaLiteralValue_RealContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaLiteralValue_Bool(AqlParser.SchemaLiteralValue_BoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaLiteralValue_Bool(AqlParser.SchemaLiteralValue_BoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaLiteralValue_Text(AqlParser.SchemaLiteralValue_TextContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaLiteralValue_Text(AqlParser.SchemaLiteralValue_TextContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2327,30 +2435,6 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMappingForeignSig(AqlParser.MappingForeignSigContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMappingForeignPath(AqlParser.MappingForeignPathContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMappingForeignPath(AqlParser.MappingForeignPathContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMappingArrowId(AqlParser.MappingArrowIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMappingArrowId(AqlParser.MappingArrowIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

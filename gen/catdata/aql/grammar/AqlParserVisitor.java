@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/mpv/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p30/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -698,11 +698,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaAttributeId(AqlParser.SchemaAttributeIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaObservationEquationSig}.
+	 * Visit a parse tree produced by the {@code SchemaObserve_Forall}
+	 * labeled alternative in {@link AqlParser#schemaObservationEquationSig}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaObservationEquationSig(AqlParser.SchemaObservationEquationSigContext ctx);
+	T visitSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaObserve_Equation}
+	 * labeled alternative in {@link AqlParser#schemaObservationEquationSig}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaEquationSig}.
 	 * @param ctx the parse tree
@@ -710,11 +718,33 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaEquationSig(AqlParser.SchemaEquationSigContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#evalSchemaFn}.
+	 * Visit a parse tree produced by the {@code EvalSchemaFn_Literal}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEvalSchemaFn(AqlParser.EvalSchemaFnContext ctx);
+	T visitEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EvalSchemaFn_Gen}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEvalSchemaFn_Gen(AqlParser.EvalSchemaFn_GenContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EvalSchemaFn_Paren}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EvalSchemaFn_Dot}
+	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaGen}.
 	 * @param ctx the parse tree
@@ -728,11 +758,26 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaGenType(AqlParser.SchemaGenTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaFn}.
+	 * Visit a parse tree produced by the {@code SchemaFn_Typeside}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaFn(AqlParser.SchemaFnContext ctx);
+	T visitSchemaFn_Typeside(AqlParser.SchemaFn_TypesideContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaFn_Attr}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaFn_Attr(AqlParser.SchemaFn_AttrContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaFn_Fk}
+	 * labeled alternative in {@link AqlParser#schemaFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaFn_Fk(AqlParser.SchemaFn_FkContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaForeignId}.
 	 * @param ctx the parse tree
@@ -740,11 +785,33 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaForeignId(AqlParser.SchemaForeignIdContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#schemaLiteralValue}.
+	 * Visit a parse tree produced by the {@code SchemaLiteralValue_Int}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaLiteralValue(AqlParser.SchemaLiteralValueContext ctx);
+	T visitSchemaLiteralValue_Int(AqlParser.SchemaLiteralValue_IntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaLiteralValue_Real}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaLiteralValue_Real(AqlParser.SchemaLiteralValue_RealContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaLiteralValue_Bool}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaLiteralValue_Bool(AqlParser.SchemaLiteralValue_BoolContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaLiteralValue_Text}
+	 * labeled alternative in {@link AqlParser#schemaLiteralValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaLiteralValue_Text(AqlParser.SchemaLiteralValue_TextContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceId}.
 	 * @param ctx the parse tree
@@ -1235,18 +1302,6 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMappingForeignSig(AqlParser.MappingForeignSigContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AqlParser#mappingForeignPath}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMappingForeignPath(AqlParser.MappingForeignPathContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AqlParser#mappingArrowId}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMappingArrowId(AqlParser.MappingArrowIdContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#mappingAttributeSig}.
 	 * @param ctx the parse tree
