@@ -26,6 +26,8 @@ import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
 import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.MappingExp_LiteralContext;
+import catdata.aql.grammar.AqlParser.MappingLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.MappingRefContext;
 import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
 import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
@@ -70,6 +72,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/***************************************************
 	 * Program section
+	 * see AqlParser.g4
 	 */
 	
 	@Override 
@@ -79,6 +82,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/***************************************************
 	 * Options section
+	 * see AqlOptions.g4
 	 */
 	
 	@Override public void exitOptionsDeclarationSection(AqlParser.OptionsDeclarationSectionContext ctx) {
@@ -95,6 +99,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/***************************************************
 	 * Comment section
+	 * see AqlComment.g4
 	 */
 	
 	@Override
@@ -117,6 +122,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/***************************************************
 	 * Graph section
+	 * see AqlGraph.g4
 	 */
 	
 	@Override public void exitGraphAssignment(AqlParser.GraphAssignmentContext ctx) {
@@ -139,7 +145,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	/** see tyExpRaw */
 	@Override 
-	public void exitGraph_Literal(AqlParser.Graph_LiteralContext ctx) {
+	public void exitGraphExp_Literal(AqlParser.GraphExp_LiteralContext ctx) {
 		final GraphLiteralSectionContext 
 		ctx_lit = ctx.graphLiteralSection();
 		
@@ -175,6 +181,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/***************************************************
 	 * TypeSide section
+	 * see AqlTypeside.g4
 	 */
 	@Override public void exitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx) {
 		final String name = ctx.typesideId().getText();
@@ -189,19 +196,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override 
-	public void exitTypeside_Empty(AqlParser.Typeside_EmptyContext ctx) {
+	public void exitTypesideExp_Empty(AqlParser.TypesideExp_EmptyContext ctx) {
 		final Exp<?> exp = new TyExp.TyExpEmpty();
 		this.exps.put(ctx,exp);
 	};
 	
 	@Override 
-	public void exitTypeside_Sql(AqlParser.Typeside_SqlContext ctx) {
+	public void exitTypesideExp_Sql(AqlParser.TypesideExp_SqlContext ctx) {
 		final Exp<?> exp = new TyExpSql();
 		this.exps.put(ctx,exp);
 	};
 	
 	@Override 
-	public void exitTypeside_Of(AqlParser.Typeside_OfContext ctx) {
+	public void exitTypesideExp_Of(AqlParser.TypesideExp_OfContext ctx) {
 		@SuppressWarnings("unchecked")
 		final Exp<?> exp = new TyExp.TyExpSch<>(
 				(SchExp<Ty, En, Sym, Fk, Att>) 
@@ -212,7 +219,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/** see tyExpRaw */
 	@Override 
-	public void exitTypeside_Literal(AqlParser.Typeside_LiteralContext ctx) {
+	public void exitTypesideExp_Literal(AqlParser.TypesideExp_LiteralContext ctx) {
 		final TypesideLiteralSectionContext 
 		ctx_lit = ctx.typesideLiteralSection();
 		
@@ -305,6 +312,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/***************************************************
 	 * Schema section
+	 * see AqlSchema.g4
 	 */
 	
 	@Override public void exitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx) {
@@ -325,14 +333,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override 
-	public void exitSchema_Empty(AqlParser.Schema_EmptyContext ctx) {
+	public void exitSchemaExp_Empty(AqlParser.SchemaExp_EmptyContext ctx) {
 		final TyExp<Ty,Sym> ty = new TyExpVar<>(ctx.typesideRef().getText());
 		final Exp<?> exp = new SchExpEmpty<>(ty);
 		this.exps.put(ctx,exp);
 	};
 	
 	@Override 
-	public void exitSchema_OfImportAll(AqlParser.Schema_OfImportAllContext ctx) {
+	public void exitSchemaExp_OfImportAll(AqlParser.SchemaExp_OfImportAllContext ctx) {
 		// TODO Ryan What is intended here?
 		
 		//@SuppressWarnings("unchecked")
@@ -343,7 +351,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	};	
 	
 	@Override 
-	public void exitSchema_OfInstance(AqlParser.Schema_OfInstanceContext ctx) {
+	public void exitSchemaExp_OfInstance(AqlParser.SchemaExp_OfInstanceContext ctx) {
 		@SuppressWarnings("unchecked")
 		final Exp<?> 
 		exp = new SchExp.SchExpInst<>(
@@ -352,7 +360,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	};
 	
-	@Override public void exitSchema_Destination(AqlParser.Schema_DestinationContext ctx) {
+	@Override public void exitSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx) {
 		@SuppressWarnings("unchecked")
 		final Exp<?> 
 		exp = new SchExp.SchExpInst<>(
@@ -361,7 +369,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	}
 
-	@Override public void exitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) {
+	@Override public void exitSchemaExp_GetSchemaColimit(AqlParser.SchemaExp_GetSchemaColimitContext ctx) {
 		@SuppressWarnings("unchecked")
 		final Exp<?> 
 		exp = new SchExp.SchExpInst<>(
@@ -370,7 +378,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	}
 
-	@Override public void exitSchema_Literal(AqlParser.Schema_LiteralContext ctx) {
+	@Override public void exitSchemaExp_Literal(AqlParser.SchemaExp_LiteralContext ctx) {
 		final SchemaLiteralSectionContext 
 		ctx_lit = ctx.schemaLiteralSection();
 		
@@ -528,6 +536,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	/***************************************************
 	 * Mapping section
+	 * see AqlMapping.g4
 	 */
 	
 	@Override public void exitMappingAssignment(AqlParser.MappingAssignmentContext ctx) {
@@ -584,9 +593,95 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		this.exps.put(ctx,comp);
 	}
+	
+	@Override public void exitMappingExp_Get(AqlParser.MappingExp_GetContext ctx) {
+		// TODO
+	}
+	
+	@Override public void exitMappingExp_Literal(AqlParser.MappingExp_LiteralContext ctx) {
+		final MappingLiteralSectionContext 
+		ctx_lit = ctx.mappingLiteralSection();
+		
+		final TyExp<Ty, Sym> 
+		typeside = new TyExp.TyExpVar<>(ctx.typesideKind().getText());
+		
+		final List<LocStr>
+		imports = ctx_lit.typesideImport().stream() 
+				.map(ty -> makeLocStr(ty))
+				.collect(Collectors.toList());
+		
+		final List<LocStr> 
+		entities = ctx_lit.mappingEntityId().stream() 
+				.map(elt -> makeLocStr(elt)) 
+				.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Pair<String, String>>>
+		arrows = ctx_lit.mappingForeignSig().stream() 
+				.map(fk -> {
+					final Pair<String,String> 
+					arrow = new Pair<>(
+							fk.MappingEntityId(0).getText(),
+							fk.MappingEntityId(1).getText());
+					
+					return new LinkedList<>(
+							fk.MappingForeignId().stream()
+								.map(fkid -> new Pair<>(makeLocStr(fkid), arrow))
+								.collect(Collectors.toList()));
+				})
+				.flatMap(x -> x.stream())
+				.collect(Collectors.toList());
+
+		final List<Pair<Integer, Pair<List<String>, List<String>>>>
+		commutes = ctx_lit.mappingPathEqnSig().stream() 
+				.map(eq -> 
+					new Pair<>(
+						eq.getStart().getStartIndex(), 
+						new Pair<>( 
+								this.strList.get(eq.MappingPath(0)),  
+								this.strList.get(eq.MappingPath(1))))) 
+				.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Pair<String, String>>>
+		attrs = ctx_lit.mappingAttributeSig().stream() 
+				.map(att -> {
+					final Pair<String,String> 
+					arrow = new Pair<>(
+							att.MappingEntityId().getText(),
+							att.typesideTypeId().getText());
+					
+					return new LinkedList<>(
+							att.MappingAttributeId().stream()
+								.map(attid -> new Pair<>(makeLocStr(attid), arrow))
+								.collect(Collectors.toList()));
+				})
+				.flatMap(x -> x.stream())
+				.collect(Collectors.toList());
+		
+		final List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>>
+		observes = ctx_lit.mappingObservationEquationSig().stream() 
+				.map(obs -> 
+					new Pair<>(obs.getStart().getStartIndex(), 
+								this.quads.get(obs)))
+				.collect(Collectors.toList());
+		
+		final List<Pair<String, String>>
+		options = ctx_lit.allOptions().optionsDeclaration().stream() 
+				.map(elt -> new Pair<>(
+						elt.getStart().getText(),
+						elt.getStop().getText())) 
+				.collect(Collectors.toList());
+		
+		final SchExpRaw mapping = 
+			new SchExpRaw(typeside, imports, 
+					entities, arrows, commutes, attrs, observes, options);
+				
+		this.exps.put(ctx,mapping);
+	}
+	
 
 	/***************************************************
 	 * Query section
+	 * see AqlQuery.g4
 	 */
 	
 	@Override public void exitQueryAssignment(AqlParser.QueryAssignmentContext ctx) {
@@ -618,6 +713,18 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	}
 	
+	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) { }
+	
+	@Override public void exitQueryExp_Get(AqlParser.QueryExp_GetContext ctx) { }
+	
+	@Override public void exitQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx) { }
+	
+	@Override public void exitQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx) { }
+	
+	@Override public void exitQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx) { }
+
+	@Override public void exitQueryExp_Literal(AqlParser.QueryExp_LiteralContext ctx) { }
+	
 	
 	/***************************************************
 	 * Instance section
@@ -641,13 +748,64 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override 
-	public void exitInstance_Empty(AqlParser.Instance_EmptyContext ctx) {
+	public void exitInstanceExp_Empty(AqlParser.InstanceExp_EmptyContext ctx) {
 		final SchExp<Ty, En, Sym, Fk, Att>
 		schema = new SchExp.SchExpVar<>(ctx.schemaKind().getText());
 		
 		final Exp<?> exp = new InstExp.InstExpEmpty<>(schema);
 		this.exps.put(ctx,exp);
 	};
+	
+	@Override public void exitInstanceExp_Src(AqlParser.InstanceExp_SrcContext ctx) { }
+	
+	@Override public void exitInstanceExp_Dst(AqlParser.InstanceExp_DstContext ctx) { }
+	
+	@Override public void exitInstanceExp_Distinct(AqlParser.InstanceExp_DistinctContext ctx) { }
+	
+	@Override public void exitInstanceExp_Eval(AqlParser.InstanceExp_EvalContext ctx) { }
+	
+	@Override public void exitInstanceExp_Coeval(AqlParser.InstanceExp_CoevalContext ctx) { }
+	
+	@Override public void exitInstanceExp_Delta(AqlParser.InstanceExp_DeltaContext ctx) { }
+	
+	@Override public void exitInstanceExp_Sigma(AqlParser.InstanceExp_SigmaContext ctx) { }
+	
+	@Override public void exitInstanceExp_CoSigma(AqlParser.InstanceExp_CoSigmaContext ctx) { }
+	
+	@Override public void exitInstanceExp_Coprod(AqlParser.InstanceExp_CoprodContext ctx) { }
+	
+	@Override public void exitInstanceExp_Union(AqlParser.InstanceExp_UnionContext ctx) { }
+	
+	@Override public void exitInstanceExp_CoprodUn(AqlParser.InstanceExp_CoprodUnContext ctx) { }
+	
+	@Override public void exitInstanceExp_CoEqual(AqlParser.InstanceExp_CoEqualContext ctx) { }
+	
+	@Override public void exitInstanceExp_CoLimit(AqlParser.InstanceExp_CoLimitContext ctx) { }
+	
+	@Override public void exitInstanceExp_ImportJdbc(AqlParser.InstanceExp_ImportJdbcContext ctx) { }
+	
+	@Override public void exitInstanceExp_QuotientJdbc(AqlParser.InstanceExp_QuotientJdbcContext ctx) { }
+	
+	@Override public void exitInstanceExp_QuotientCsv(AqlParser.InstanceExp_QuotientCsvContext ctx) { }
+	
+	@Override public void exitInstanceExp_ImportJdbcAll(AqlParser.InstanceExp_ImportJdbcAllContext ctx) { }
+	
+	@Override public void exitInstanceExp_ImportCsv(AqlParser.InstanceExp_ImportCsvContext ctx) { }
+	
+	@Override public void exitInstanceExp_Quotient(AqlParser.InstanceExp_QuotientContext ctx) { }
+	
+	@Override public void exitInstanceExp_Chase(AqlParser.InstanceExp_ChaseContext ctx) { }
+	
+	@Override public void exitInstanceExp_Random(AqlParser.InstanceExp_RandomContext ctx) { }
+	
+	@Override public void exitInstanceExp_Anonymize(AqlParser.InstanceExp_AnonymizeContext ctx) { }
+	
+	@Override public void exitInstanceExp_Frozen(AqlParser.InstanceExp_FrozenContext ctx) { }
+	
+	@Override public void exitInstanceExp_Pi(AqlParser.InstanceExp_PiContext ctx) { }
+	
+	@Override public void exitInstanceExp_Literal(AqlParser.InstanceExp_LiteralContext ctx) { }
+
 
 	/***************************************************
 	 * Transform section
@@ -671,7 +829,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 	@Override 
-	public void exitTransform_Identity(AqlParser.Transform_IdentityContext ctx) { 
+	public void exitTransformExp_Identity(AqlParser.TransformExp_IdentityContext ctx) { 
 		final InstExp.InstExpVar
 		schema = new InstExp.InstExpVar(ctx.instanceKind().getText());
 		// this.ns.get(ctx.schemaRef().getText());
@@ -684,7 +842,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 
 	@Override 
-	public void exitTransform_Compose(AqlParser.Transform_ComposeContext ctx) {
+	public void exitTransformExp_Compose(AqlParser.TransformExp_ComposeContext ctx) {
 		final TransExp<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object> 
 		primary = new TransExp.TransExpVar(ctx.transformRef(0).getText());
 			// this.ns.get(ctx.mappingRef(0).getText());
@@ -706,6 +864,30 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,comp);
 	}
 	
+	@Override public void exitTransformExp_Destination(AqlParser.TransformExp_DestinationContext ctx) { }
+	
+	@Override public void exitTransformExp_Delta(AqlParser.TransformExp_DeltaContext ctx) { }
+	
+	@Override public void exitTransformExp_Sigma(AqlParser.TransformExp_SigmaContext ctx) { }
+	
+	@Override public void exitTransformExp_Eval(AqlParser.TransformExp_EvalContext ctx) { }
+	
+	@Override public void exitTransformExp_Coeval(AqlParser.TransformExp_CoevalContext ctx) { }
+	
+	@Override public void exitTransformExp_Unit(AqlParser.TransformExp_UnitContext ctx) { }
+	
+	@Override public void exitTransformExp_Counit(AqlParser.TransformExp_CounitContext ctx) { }
+	
+	@Override public void exitTransformExp_UnitQuery(AqlParser.TransformExp_UnitQueryContext ctx) { }
+	
+	@Override public void exitTransformExp_CounitQuery(AqlParser.TransformExp_CounitQueryContext ctx) { }
+	
+	@Override public void exitTransformExp_ImportJdbc(AqlParser.TransformExp_ImportJdbcContext ctx) { }
+	
+	@Override public void exitTransformExp_ImportCsv(AqlParser.TransformExp_ImportCsvContext ctx) { }
+	
+	@Override public void exitTransformExp_Literal(AqlParser.TransformExp_LiteralContext ctx) { }
+
 
 	/***************************************************
 	 * Constraint section

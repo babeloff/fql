@@ -9,7 +9,8 @@ constraintAssignment : CONSTRAINTS constraintId EQUAL constraintExp ;
 
 constraintExp
   : LITERAL COLON schemaRef
-      (LBRACE constraintLiteralSection? RBRACE)?    #ConstraintExp_Literal
+      (LBRACE constraintLiteralSection? RBRACE)? 
+  # ConstraintExp_Literal
   ;
 
 constraintKind

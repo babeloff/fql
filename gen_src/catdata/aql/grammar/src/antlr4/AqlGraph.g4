@@ -9,7 +9,7 @@ graphAssignment : GRAPH graphId EQUAL graphExp ;
 graphExp
   : LITERAL
     (LBRACE graphLiteralSection RBRACE)?
-  #Graph_Literal
+  #GraphExp_Literal
   ;
 
 graphKind 

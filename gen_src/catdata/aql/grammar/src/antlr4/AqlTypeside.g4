@@ -9,16 +9,16 @@ typesideAssignment
 
 typesideExp
   : EMPTY
-    #Typeside_Empty
+    #TypesideExp_Empty
     
   | SQL
-    #Typeside_Sql
+    #TypesideExp_Sql
     
   | TYPESIDE_OF schemaKind
-    #Typeside_Of
+    #TypesideExp_Of
     
   | LITERAL (LBRACE typesideLiteralSection RBRACE)?
-    #Typeside_Literal
+    #TypesideExp_Literal
   ;
 
 typesideKind 

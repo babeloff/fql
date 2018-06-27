@@ -12,10 +12,6 @@ queryExp
   : IDENTITY schemaRef
   #QueryExp_Identity
 
-  | LITERAL COLON schemaKind RARROW schemaRef
-      (LBRACE queryLiteralSection RBRACE)?
-  #QueryExp_Literal
-
   | SIMPLE COLON schemaKind
       (LBRACE querySimpleSection RBRACE)?
   #QueryExp_Simple
@@ -29,10 +25,14 @@ queryExp
 
   | TO_COQUERY mappingKind
       (LBRACE queryFromSchemaSection RBRACE)?
-  #QueryExp_FromMapping
+  #QueryExp_FromSchema
 
   | LBRACK queryKind SEMI queryKind RBRACK
   #QueryExp_Composition
+
+  | LITERAL COLON schemaKind RARROW schemaRef
+      (LBRACE queryLiteralSection RBRACE)?
+  #QueryExp_Literal
   ;
 
 queryKind

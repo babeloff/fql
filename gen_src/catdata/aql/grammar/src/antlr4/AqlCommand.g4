@@ -9,49 +9,49 @@ commandAssignment : COMMAND commandId EQUAL commandExp ;
 commandExp
   : EXEC_CMDLINE
       (LBRACE commandCmdLineSection RBRACE)?
-    #Command_CmdLine
+    # CommandExp_CmdLine
 
   | EXEC_JS
       (LBRACE commandExecJsSection RBRACE)?
-    #Command_ExecJs
+    # CommandExp_ExecJs
 
   | EXEC_JDBC commandJdbcClass commandJdbcUri
       (LBRACE commandExecJdbcSection RBRACE)?
-    #Command_ExecJdbc
+    # CommandExp_ExecJdbc
 
   | CHECK constraintRef instanceRef
-    #Command_Check
+    # CommandExp_Check
 
   | ASSERT_CONSISTENT instanceRef
-    #Command_AssertConsistent
+    # CommandExp_AssertConsistent
 
   | EXPORT_CSV_INSTANCE instanceRef commandFile
       (LBRACE commandExportCsvSection RBRACE)?
-    #Command_ExportCsvInstance
+    # CommandExp_ExportCsvInstance
 
   | EXPORT_CSV_TRANSFORM transformRef commandFile
       (LBRACE commandExportCsvSection RBRACE)?
-    #Command_ExportCsvTransform
+    # CommandExp_ExportCsvTransform
 
   | EXPORT_JDBC_INSTANCE instanceRef
       (commandJdbcClass (commandJdbcUri commandPrefixDst?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
-    #Command_ExportJdbcInstance
+    # CommandExp_ExportJdbcInstance
 
   | EXPORT_JDBC_QUERY queryRef
       (commandJdbcClass (commandJdbcUri (commandPrefixSrc commandPrefixDst?)?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
-    #Command_ExportJdbcQuery
+    #CommandExp_ExportJdbcQuery
 
   | EXPORT_JDBC_TRANSFORM transformRef
       (commandJdbcClass (commandJdbcUri commandPrefix?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
       (LBRACE commandExportJdbcSection RBRACE)?
-    #Command_ExportJdbcTransform
+    #CommandExp_ExportJdbcTransform
 
   | ADD_TO_CLASSPATH
       (LBRACE commandAddClasspathSection RBRACE)?
-    #Command_AddToClasspath
+    #CommandExp_AddToClasspath
   ;
 
 commandKind 

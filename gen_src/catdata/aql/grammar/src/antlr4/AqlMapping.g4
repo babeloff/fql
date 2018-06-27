@@ -13,12 +13,12 @@ mappingExp
   | LBRACK mappingRef (SEMI mappingRef)+ RBRACK   
   # MappingExp_Compose
   
+  | GET_MAPPING schemaColimitRef schemaRef 
+  # MappingExp_Get
+  
   | LITERAL COLON schemaRef RARROW schemaRef
             LBRACE mappingLiteralSection RBRACE      
   # MappingExp_Literal
-  
-  | GET_MAPPING schemaColimitRef schemaRef 
-  # MappingExp_Get
   ;
 
 mappingKind

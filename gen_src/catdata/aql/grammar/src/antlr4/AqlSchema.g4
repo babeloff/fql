@@ -7,13 +7,24 @@ schemaRef : symbol ;
 schemaAssignment : SCHEMA schemaId EQUAL schemaExp ;
 
 schemaExp
-  : EMPTY COLON typesideRef                   # Schema_Empty
-  | SCHEMA_OF IMPORT_ALL                      # Schema_OfImportAll
-  | SCHEMA_OF instanceKind                    # Schema_OfInstance
-  | DST queryRef                              # Schema_Destination  
-  | GET_SCHEMA schemaColimitRef               # Schema_GetSchemaColimit
+  : EMPTY COLON typesideRef                   
+  # SchemaExp_Empty
+  
+  | SCHEMA_OF IMPORT_ALL                      
+  # SchemaExp_OfImportAll
+  
+  | SCHEMA_OF instanceKind                    
+  # SchemaExp_OfInstance
+  
+  | DST queryRef                              
+  # SchemaExp_Destination  
+  
+  | GET_SCHEMA schemaColimitRef               
+  # SchemaExp_GetSchemaColimit
+  
   | LITERAL COLON typesideKind
-      (LBRACE schemaLiteralSection RBRACE)?   # Schema_Literal
+      (LBRACE schemaLiteralSection RBRACE)?   
+  # SchemaExp_Literal
   ;
 
 schemaKind 

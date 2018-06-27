@@ -8,58 +8,58 @@ transformAssignment : TRANSFORM transformId EQUAL transformExp ;
 
 transformExp
   : IDENTITY instanceKind
-  #Transform_Identity
+  # TransformExp_Identity
 
   | LBRACK transformRef SEMI transformRef RBRACK
-  #Transform_Compose
+  # TransformExp_Compose
 
   | DISTINCT transformRef
-  #Transform_Destination
+  # TransformExp_Destination
 
   | DELTA mappingKind transformRef
-  #Transform_Delta
+  # TransformExp_Delta
 
   | SIGMA mappingKind transformRef
     (LBRACE transformSigmaSection RBRACE)?
     (LBRACE transformSigmaSection RBRACE)?
-  #Transform_Sigma
+  # TransformExp_Sigma
 
   | EVAL queryKind transformRef
-  #Transform_Eval
+  # TransformExp_Eval
 
   | COEVAL queryKind transformRef
     (LBRACE transformCoevalSection RBRACE)?
     (LBRACE transformCoevalSection RBRACE)?
-  #Transform_Coeval
+  # TransformExp_Coeval
 
   | UNIT mappingKind instanceRef
     (LBRACE transformUnitSection RBRACE)?
-  #Transform_Unit
+  # TransformExp_Unit
 
   | COUNIT mappingKind instanceRef
     (LBRACE transformUnitSection RBRACE)?
-  #Transform_Counit
+  # TransformExp_Counit
 
   | UNIT_QUERY queryKind instanceRef
     (LBRACE transformUnitQuerySection RBRACE)?
-  #Transform_UnitQuery
+  # TransformExp_UnitQuery
 
   | COUNIT_QUERY queryKind instanceRef
     (LBRACE transformCounitQuerySection RBRACE)?
-  #Transform_CounitQuery
+  # TransformExp_CounitQuery
 
   | IMPORT_JDBC transformJdbcClass transformJdbcUri COLON
       instanceRef RARROW instanceRef
     (LBRACE transformImportJdbcSection RBRACE)?
-  #Transform_ImportJdbc
+  # TransformExp_ImportJdbc
 
   | IMPORT_CSV transformFile COLON instanceRef RARROW instanceRef
     (LBRACE transformImportCsvSection  RBRACE)?
-  #Transform_ImportCsv
+  # TransformExp_ImportCsv
 
   | LITERAL COLON instanceKind RARROW instanceRef
     (LBRACE transformLiteralSection RBRACE)?
-  #Transform_Literal
+  # TransformExp_Literal
   ;
 
 transformKind 

@@ -9,17 +9,17 @@ schemaColimitAssignment: SCHEMA_COLIMIT schemaColimitId EQUAL schemaColimitExp ;
 schemaColimitExp
   : QUOTIENT schemaRef (PLUS schemaRef)* COLON typesideRef
       (LBRACE schemaColimitQuotientSection RBRACE)?  
-    #SchemaColimit_Quotient
+  # SchemaColimitExp_Quotient
     
   | COPRODUCT schemaRef (PLUS schemaRef)* COLON typesideRef
-    #SchemaColimit_Coproduct
+  # SchemaColimitExp_Coproduct
     
   | MODIFY schemaColimitRef
       (LBRACE schemaColimitModifySection RBRACE)?
-    #SchemaColimit_Modify
+  # SchemaColimitExp_Modify
     
   | WRAP schemaColimitRef mappingRef mappingRef
-    #SchemaColimit_Wrap
+  # SchemaColimitExp_Wrap
   ;
 
 schemaColimitKind
