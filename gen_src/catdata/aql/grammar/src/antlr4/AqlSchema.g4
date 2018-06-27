@@ -4,9 +4,9 @@ options { tokenVocab=AqlLexerRules; }
 schemaId : symbol ;
 schemaRef : symbol ;
 
-schemaAssignment : SCHEMA schemaId EQUAL schemaDef ;
+schemaAssignment : SCHEMA schemaId EQUAL schemaExp ;
 
-schemaDef
+schemaExp
   : EMPTY COLON typesideRef                   # Schema_Empty
   | SCHEMA_OF IMPORT_ALL                      # Schema_OfImportAll
   | SCHEMA_OF instanceKind                    # Schema_OfInstance
@@ -18,8 +18,8 @@ schemaDef
 
 schemaKind 
   : schemaRef                 # SchemaKind_Ref 
-  | schemaDef                 # SchemaKind_Def 
-  | (LPAREN schemaDef RPAREN) # SchemaKind_Def
+  | schemaExp                 # SchemaKind_Exp 
+  | (LPAREN schemaExp RPAREN) # SchemaKind_Exp
   ;
 
 schemaColimitRef : symbol ;

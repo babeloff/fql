@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p30/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/f04/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -736,13 +736,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTypesideKind_Def(AqlParser.TypesideKind_DefContext ctx) { }
+	@Override public void enterTypesideKind_Exp(AqlParser.TypesideKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTypesideKind_Def(AqlParser.TypesideKind_DefContext ctx) { }
+	@Override public void exitTypesideKind_Exp(AqlParser.TypesideKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1168,13 +1168,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx) { }
+	@Override public void enterSchemaKind_Exp(AqlParser.SchemaKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx) { }
+	@Override public void exitSchemaKind_Exp(AqlParser.SchemaKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1888,13 +1888,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstanceKind_Def(AqlParser.InstanceKind_DefContext ctx) { }
+	@Override public void enterInstanceKind_Exp(AqlParser.InstanceKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInstanceKind_Def(AqlParser.InstanceKind_DefContext ctx) { }
+	@Override public void exitInstanceKind_Exp(AqlParser.InstanceKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2332,49 +2332,49 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMapExp_Id(AqlParser.MapExp_IdContext ctx) { }
+	@Override public void enterMappingExp_Identity(AqlParser.MappingExp_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMapExp_Id(AqlParser.MapExp_IdContext ctx) { }
+	@Override public void exitMappingExp_Identity(AqlParser.MappingExp_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMapExp_Compose(AqlParser.MapExp_ComposeContext ctx) { }
+	@Override public void enterMappingExp_Compose(AqlParser.MappingExp_ComposeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMapExp_Compose(AqlParser.MapExp_ComposeContext ctx) { }
+	@Override public void exitMappingExp_Compose(AqlParser.MappingExp_ComposeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMapExp_Literal(AqlParser.MapExp_LiteralContext ctx) { }
+	@Override public void enterMappingExp_Literal(AqlParser.MappingExp_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMapExp_Literal(AqlParser.MapExp_LiteralContext ctx) { }
+	@Override public void exitMappingExp_Literal(AqlParser.MappingExp_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMapExp_Get(AqlParser.MapExp_GetContext ctx) { }
+	@Override public void enterMappingExp_Get(AqlParser.MappingExp_GetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMapExp_Get(AqlParser.MapExp_GetContext ctx) { }
+	@Override public void exitMappingExp_Get(AqlParser.MappingExp_GetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2392,13 +2392,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMappingKind_Def(AqlParser.MappingKind_DefContext ctx) { }
+	@Override public void enterMappingKind_Exp(AqlParser.MappingKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMappingKind_Def(AqlParser.MappingKind_DefContext ctx) { }
+	@Override public void exitMappingKind_Exp(AqlParser.MappingKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2411,6 +2411,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMappingLiteralSection(AqlParser.MappingLiteralSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMappingLiteralSubsection(AqlParser.MappingLiteralSubsectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMappingLiteralSubsection(AqlParser.MappingLiteralSubsectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2548,13 +2560,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTransform_Id(AqlParser.Transform_IdContext ctx) { }
+	@Override public void enterTransform_Identity(AqlParser.Transform_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTransform_Id(AqlParser.Transform_IdContext ctx) { }
+	@Override public void exitTransform_Identity(AqlParser.Transform_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2716,13 +2728,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTransformKind_Def(AqlParser.TransformKind_DefContext ctx) { }
+	@Override public void enterTransformKind_Exp(AqlParser.TransformKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTransformKind_Def(AqlParser.TransformKind_DefContext ctx) { }
+	@Override public void exitTransformKind_Exp(AqlParser.TransformKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2956,13 +2968,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryExp_Id(AqlParser.QueryExp_IdContext ctx) { }
+	@Override public void enterQueryExp_Identity(AqlParser.QueryExp_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryExp_Id(AqlParser.QueryExp_IdContext ctx) { }
+	@Override public void exitQueryExp_Identity(AqlParser.QueryExp_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3040,13 +3052,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryKind_Def(AqlParser.QueryKind_DefContext ctx) { }
+	@Override public void enterQueryKind_Exp(AqlParser.QueryKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryKind_Def(AqlParser.QueryKind_DefContext ctx) { }
+	@Override public void exitQueryKind_Exp(AqlParser.QueryKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3244,13 +3256,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGraphKind_Def(AqlParser.GraphKind_DefContext ctx) { }
+	@Override public void enterGraphKind_Exp(AqlParser.GraphKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGraphKind_Def(AqlParser.GraphKind_DefContext ctx) { }
+	@Override public void exitGraphKind_Exp(AqlParser.GraphKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3508,13 +3520,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCommandKind_Def(AqlParser.CommandKind_DefContext ctx) { }
+	@Override public void enterCommandKind_Exp(AqlParser.CommandKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCommandKind_Def(AqlParser.CommandKind_DefContext ctx) { }
+	@Override public void exitCommandKind_Exp(AqlParser.CommandKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3748,13 +3760,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaColimitKind_Def(AqlParser.SchemaColimitKind_DefContext ctx) { }
+	@Override public void enterSchemaColimitKind_Exp(AqlParser.SchemaColimitKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaColimitKind_Def(AqlParser.SchemaColimitKind_DefContext ctx) { }
+	@Override public void exitSchemaColimitKind_Exp(AqlParser.SchemaColimitKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3904,13 +3916,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConstraintKind_Def(AqlParser.ConstraintKind_DefContext ctx) { }
+	@Override public void enterConstraintKind_Exp(AqlParser.ConstraintKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConstraintKind_Def(AqlParser.ConstraintKind_DefContext ctx) { }
+	@Override public void exitConstraintKind_Exp(AqlParser.ConstraintKind_ExpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

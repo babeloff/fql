@@ -4,9 +4,9 @@ options { tokenVocab=AqlLexerRules; }
 commandId : symbol ;
 commandRef : symbol ;
 
-commandAssignment : COMMAND commandId EQUAL commandDef ;
+commandAssignment : COMMAND commandId EQUAL commandExp ;
 
-commandDef
+commandExp
   : EXEC_CMDLINE
       (LBRACE commandCmdLineSection RBRACE)?
     #Command_CmdLine
@@ -56,7 +56,7 @@ commandDef
 
 commandKind 
 : commandRef # CommandKind_Ref 
-| LPAREN commandDef RPAREN # CommandKind_Def
+| LPAREN commandExp RPAREN # CommandKind_Exp
 ;
 
 commandAddClasspathSection : STRING+ ;

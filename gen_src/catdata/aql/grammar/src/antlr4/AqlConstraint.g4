@@ -5,17 +5,17 @@ options { tokenVocab=AqlLexerRules; }
 constraintId : symbol ;
 constraintRef : symbol ;
 
-constraintAssignment : CONSTRAINTS constraintId EQUAL constraintDef ;
+constraintAssignment : CONSTRAINTS constraintId EQUAL constraintExp ;
 
-constraintDef
+constraintExp
   : LITERAL COLON schemaRef
       (LBRACE constraintLiteralSection? RBRACE)?    #ConstraintExp_Literal
   ;
 
 constraintKind
   : constraintRef  # ConstraintKind_Ref 
-  | constraintDef  # ConstraintKind_Def 
-  | LPAREN constraintDef RPAREN # ConstraintKind_Def 
+  | constraintExp  # ConstraintKind_Exp 
+  | LPAREN constraintExp RPAREN # ConstraintKind_Exp 
   ;
 
 constraintLiteralSection

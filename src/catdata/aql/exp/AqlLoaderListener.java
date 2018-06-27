@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import catdata.Pair;
@@ -22,14 +20,17 @@ import catdata.aql.exp.SchExp.SchExpEmpty;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
 import catdata.aql.exp.SchExpRaw.Fk;
+import catdata.aql.exp.TransExp.TransExpId;
 import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
 import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.MappingRefContext;
 import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
 import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
 import catdata.aql.grammar.AqlParser.SchemaLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.TransformRefContext;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
 
@@ -49,28 +50,25 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	private LocStr makeLocStr(ParserRuleContext ctx) {
 		return new LocStr(ctx.getStart().getStartIndex(), ctx.getText());
 	}
-	private LocStr makeLocStr(Token node) {
-		return new LocStr(node.getStartIndex(), node.getText());
-	}
 	
 	public AqlLoaderListener() {
-		this.decls = new LinkedList<Triple<String, Integer, Exp<?>>>();
-		this.global_options = new LinkedList<Pair<String, String>>();
+		this.decls = new LinkedList<>();
+		this.global_options = new LinkedList<>();
 		this.kind = q -> q.kind().toString();
 	}
-	private final ParseTreeProperty<Pair<String,String>> value_option = new ParseTreeProperty<Pair<String,String>>();
-	private final ParseTreeProperty<Exp<?>> exps = new ParseTreeProperty<Exp<?>>();
-	private final ParseTreeProperty<List<String>> strList = new ParseTreeProperty<List<String>>();
-	private final ParseTreeProperty<RawTerm> terms = new ParseTreeProperty<RawTerm>();
-	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> quads = new ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>>();
+	private final ParseTreeProperty<Pair<String,String>> value_option = new ParseTreeProperty<>();
+	private final ParseTreeProperty<Exp<?>> exps = new ParseTreeProperty<>();
+	private final ParseTreeProperty<List<String>> strList = new ParseTreeProperty<>();
+	private final ParseTreeProperty<RawTerm> terms = new ParseTreeProperty<>();
+	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> quads = new ParseTreeProperty<>();
 	
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
 	
-	public final Map<String, Exp<?>> ns = new HashMap<String, Exp<?>>();
+	public final Map<String, Exp<?>> ns = new HashMap<>();
 	
-	/**
+	/***************************************************
 	 * Program section
 	 */
 	
@@ -79,7 +77,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		if (true) ;
 	}
 	
-	/**
+	/***************************************************
 	 * Options section
 	 */
 	
@@ -92,10 +90,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override 
 	public void exitOptionsDeclaration(AqlParser.OptionsDeclarationContext ctx) { 
 		value_option.put(ctx, 
-				new Pair<String,String>(ctx.start.getText(), ctx.stop.getText()));
+				new Pair<>(ctx.start.getText(), ctx.stop.getText()));
 	}
 	
-	/**
+	/***************************************************
 	 * Comment section
 	 */
 	
@@ -105,7 +103,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				new CommentExp(ctx.htmlCommentDeclaration().HTML_MULTI_STRING().getText(), true);
 		final int id = getLUid(ctx);
 		String name = "html" + id;
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override
@@ -114,28 +112,28 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				new CommentExp(ctx.mdCommentDeclaration().MD_MULTI_STRING().getText(), true);
 		final int id = getLUid(ctx);
 		String name = "md" + id;
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
-	/**
+	/***************************************************
 	 * Graph section
 	 */
 	
 	@Override public void exitGraphAssignment(AqlParser.GraphAssignmentContext ctx) {
 		final String name = ctx.graphId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.graphDef());
+		final Exp<?> exp = this.exps.get(ctx.graphExp());
 		if (exp == null) {
 			log.warning("null graph exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitGraphKind_Def(AqlParser.GraphKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.graphDef()));
+	public void exitGraphKind_Exp(AqlParser.GraphKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.graphExp()));
 	}
 	
 
@@ -158,13 +156,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final List<Pair<LocStr, Pair<String, String>>> 
 		edges = ctx_lit.graphEdgeSig().stream() 
 				.map(sig -> {
-					final Pair<String,String> arrow = new Pair<String,String>(
+					final Pair<String,String> arrow = new Pair<>(
 							sig.graphSourceNodeId().getText(),
 							sig.graphTargetNodeId().getText());
 							
-					return new LinkedList<Pair<LocStr, Pair<String,String>>>(
+					return new LinkedList<>(
 							sig.graphEdgeId().stream() 
-							.map(elt -> new Pair<LocStr, Pair<String,String>>(
+							.map(elt -> new Pair<>(
 									makeLocStr(elt), arrow))
 							.collect(Collectors.toList()));
 				})
@@ -175,19 +173,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,graph);
 	};
 	
-	/**
+	/***************************************************
 	 * TypeSide section
 	 */
 	@Override public void exitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx) {
 		final String name = ctx.typesideId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.typesideDef());
+		final Exp<?> exp = this.exps.get(ctx.typesideExp());
 		if (exp == null) {
 			log.warning("null typeside exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
@@ -223,7 +221,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(elt -> 
 					new Pair<Integer,TyExp<?,?>>(
 						elt.getStart().getStartIndex(),
-						new TyExpVar<Ty,Sym>(elt.getText()))) 
+						new TyExpVar<>(elt.getText()))) 
 				.collect(Collectors.toList());
 		
 		final List<LocStr> 
@@ -233,9 +231,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<LocStr, Pair<List<String>, String>>>
 		functions = ctx_lit.typesideFunctionSig().stream() 
-				.map(elt -> new Pair<LocStr, Pair<List<String>, String>>(
+				.map(elt -> 
+					new Pair<>(
 						makeLocStr(elt.typesideFnName()),
-						new Pair<List<String>,String>(
+						new Pair<>(
 								elt.typesideFnLocal()
 									.stream()
 									.map(loc -> loc.getText())
@@ -245,13 +244,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>>
 		eqns = ctx_lit.typesideEquationSig().stream() 
-				.map(elt -> new Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>(
+				.map(elt -> 
+					new Pair<>(
 						elt.getStart().getStartIndex(),
-						new Triple<List<Pair<String, String>>, RawTerm, RawTerm>(
+						new Triple<>(
 								elt.typesideLocal()
 									.stream() 
 									.map(lvar -> 
-										new Pair<String, String>( 
+										new Pair<>( 
 											lvar.getText(), lvar.getText()))
 									.collect(Collectors.toList()),
 								new RawTerm(elt.typesideEval(0).getText()), 
@@ -260,23 +260,25 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<LocStr, String>>
 		java_tys = ctx_lit.typesideJavaTypeSig().stream() 
-				.map(elt -> new Pair<LocStr, String>(
+				.map(elt -> new Pair<>(
 						makeLocStr(elt.typesideTypeId()),
 						elt.typesideJavaType().getText())) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, String>>
 		java_constant = ctx_lit.typesideJavaConstantSig().stream() 
-				.map(elt -> new Pair<LocStr, String>( 
+				.map(elt -> 
+					new Pair<>( 
 						makeLocStr(elt.typesideConstantId()), 
 						elt.typesideJavaConstantValue().getText())) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Triple<List<String>, String, String>>>
 		java_fns = ctx_lit.typesideJavaFunctionSig().stream() 
-				.map(elt -> new Pair<LocStr, Triple<List<String>, String, String>>( 
+				.map(elt -> 
+					new Pair<>( 
 						makeLocStr(elt.typesideFnName()),
-						new Triple<List<String>, String, String>( 
+						new Triple<>( 
 							elt.typesideFnLocal()
 								.stream() 
 								.map(lvar -> lvar.getText())
@@ -287,7 +289,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String, String>>
 		options = ctx_lit.allOptions().optionsDeclaration().stream() 
-				.map(elt -> new Pair<String, String>(
+				.map(elt -> 
+					new Pair<>(
 						elt.getStart().getText(),
 						elt.getStop().getText())) 
 				.collect(Collectors.toList());
@@ -300,31 +303,31 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,typeside);
 	};
 	
-	/**
+	/***************************************************
 	 * Schema section
 	 */
 	
 	@Override public void exitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx) {
 		final String name = ctx.schemaId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.schemaDef());
+		final Exp<?> exp = this.exps.get(ctx.schemaExp());
 		if (exp == null) {
 			log.warning("null schema exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitSchemaKind_Def(AqlParser.SchemaKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.schemaDef()));
+	public void exitSchemaKind_Exp(AqlParser.SchemaKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.schemaExp()));
 	}
 	
 	@Override 
 	public void exitSchema_Empty(AqlParser.Schema_EmptyContext ctx) {
-		final TyExp<Ty,Sym> ty = new TyExpVar<Ty,Sym>(ctx.typesideRef().getText());
-		final Exp<?> exp = new SchExpEmpty<Ty,Sym>(ty);
+		final TyExp<Ty,Sym> ty = new TyExpVar<>(ctx.typesideRef().getText());
+		final Exp<?> exp = new SchExpEmpty<>(ty);
 		this.exps.put(ctx,exp);
 	};
 	
@@ -342,7 +345,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override 
 	public void exitSchema_OfInstance(AqlParser.Schema_OfInstanceContext ctx) {
 		@SuppressWarnings("unchecked")
-		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+		final Exp<?> 
+		exp = new SchExp.SchExpInst<>(
 				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
 				this.exps.get(ctx.instanceKind()));
 		this.exps.put(ctx,exp);
@@ -350,7 +354,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override public void exitSchema_Destination(AqlParser.Schema_DestinationContext ctx) {
 		@SuppressWarnings("unchecked")
-		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+		final Exp<?> 
+		exp = new SchExp.SchExpInst<>(
 				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
 				this.exps.get(ctx.queryRef()));
 		this.exps.put(ctx,exp);
@@ -358,7 +363,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override public void exitSchema_GetSchemaColimit(AqlParser.Schema_GetSchemaColimitContext ctx) {
 		@SuppressWarnings("unchecked")
-		final Exp<?> exp = new SchExp.SchExpInst<Ty,Sym,En,Fk,Att>(
+		final Exp<?> 
+		exp = new SchExp.SchExpInst<>(
 				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
 				this.exps.get(ctx.schemaColimitRef()));
 		this.exps.put(ctx,exp);
@@ -369,7 +375,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		ctx_lit = ctx.schemaLiteralSection();
 		
 		final TyExp<Ty, Sym> 
-		typeside = new TyExp.TyExpVar<Ty,Sym>(ctx.typesideKind().getText());
+		typeside = new TyExp.TyExpVar<>(ctx.typesideKind().getText());
 		
 		final List<LocStr>
 		imports = ctx_lit.typesideImport().stream() 
@@ -384,14 +390,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final List<Pair<LocStr, Pair<String, String>>>
 		arrows = ctx_lit.schemaForeignSig().stream() 
 				.map(fk -> {
-					final Pair<String,String> arrow = new Pair<String,String>(
+					final Pair<String,String> 
+					arrow = new Pair<>(
 							fk.schemaEntityId(0).getText(),
 							fk.schemaEntityId(1).getText());
 					
-					return new LinkedList<Pair<LocStr, Pair<String,String>>>(
+					return new LinkedList<>(
 							fk.schemaForeignId().stream()
-								.map(fkid -> new Pair<LocStr,Pair<String,String>>
-														(makeLocStr(fkid), arrow))
+								.map(fkid -> new Pair<>(makeLocStr(fkid), arrow))
 								.collect(Collectors.toList()));
 				})
 				.flatMap(x -> x.stream())
@@ -399,9 +405,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 		final List<Pair<Integer, Pair<List<String>, List<String>>>>
 		commutes = ctx_lit.schemaPathEqnSig().stream() 
-				.map(eq -> new Pair<Integer, Pair<List<String>, List<String>>>(
+				.map(eq -> 
+					new Pair<>(
 						eq.getStart().getStartIndex(), 
-						new Pair<List<String>,List<String>>( 
+						new Pair<>( 
 								this.strList.get(eq.schemaPath(0)),  
 								this.strList.get(eq.schemaPath(1))))) 
 				.collect(Collectors.toList());
@@ -409,14 +416,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final List<Pair<LocStr, Pair<String, String>>>
 		attrs = ctx_lit.schemaAttributeSig().stream() 
 				.map(att -> {
-					final Pair<String,String> arrow = new Pair<String,String>(
+					final Pair<String,String> 
+					arrow = new Pair<>(
 							att.schemaEntityId().getText(),
 							att.typesideTypeId().getText());
 					
-					return new LinkedList<Pair<LocStr, Pair<String,String>>>(
+					return new LinkedList<>(
 							att.schemaAttributeId().stream()
-								.map(attid -> new Pair<LocStr,Pair<String,String>>
-														(makeLocStr(attid), arrow))
+								.map(attid -> new Pair<>(makeLocStr(attid), arrow))
 								.collect(Collectors.toList()));
 				})
 				.flatMap(x -> x.stream())
@@ -424,13 +431,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>>
 		observes = ctx_lit.schemaObservationEquationSig().stream() 
-				.map(obs -> new Pair<Integer, Quad<String, String, RawTerm, RawTerm>>( 
-						obs.getStart().getStartIndex(), this.quads.get(obs)))
+				.map(obs -> 
+					new Pair<>(obs.getStart().getStartIndex(), 
+								this.quads.get(obs)))
 				.collect(Collectors.toList());
 		
 		final List<Pair<String, String>>
 		options = ctx_lit.allOptions().optionsDeclaration().stream() 
-				.map(elt -> new Pair<String, String>(
+				.map(elt -> new Pair<>(
 						elt.getStart().getText(),
 						elt.getStop().getText())) 
 				.collect(Collectors.toList());
@@ -445,7 +453,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	private Pair<String,String> loadSchemaGen(AqlParser.SchemaGenContext ctx) {
 		final String name = ctx.symbol().getText();
 		final SchemaGenTypeContext type = ctx.schemaGenType();
-		return new Pair<String,String>(name, (type == null) ? null : type.getText());
+		return new Pair<>(name, (type == null) ? null : type.getText());
 	}
 	
 	@Override public void exitSchemaObserve_Forall(AqlParser.SchemaObserve_ForallContext ctx) {
@@ -457,7 +465,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			log.warning("excess generators");
 		}
 		final Quad<String, String, RawTerm, RawTerm>
-		obs = new Quad<String, String, RawTerm, RawTerm>(
+		obs = new Quad<>(
 				gen.first, gen.second,
 				this.terms.get(ctx_sig.evalSchemaFn(0)),
 				this.terms.get(ctx_sig.evalSchemaFn(1)));
@@ -482,7 +490,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx) {
-		final List<RawTerm> eval = new LinkedList<RawTerm>();
+		final List<RawTerm> eval = new LinkedList<>();
 		ctx.evalSchemaFn().stream()
 			.map(t -> eval.add(this.terms.get(t)))
 			.collect(Collectors.toList());
@@ -492,7 +500,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx) {
-		final List<RawTerm> eval = new LinkedList<RawTerm>();
+		final List<RawTerm> eval = new LinkedList<>();
 		eval.add(this.terms.get(ctx.evalSchemaFn()));
 		
 		final RawTerm term = new RawTerm(ctx.schemaFn().getText(), eval);
@@ -500,179 +508,267 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) {
-		final List<String> path = new LinkedList<String>();
+		final List<String> path = new LinkedList<>();
 		path.add(ctx.schemaArrowId().getText());
 		this.strList.put(ctx,path);
 	}
 	@Override public void exitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) {
-		final List<String> path = new LinkedList<String>();
+		final List<String> path = new LinkedList<>();
 		path.addAll(this.strList.get(ctx.schemaPath()));
 		path.add(ctx.schemaArrowId().getText());
 		this.strList.put(ctx,path);
 	}
 	@Override public void exitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) {
-		final List<String> path = new LinkedList<String>();
+		final List<String> path = new LinkedList<>();
 		path.addAll(this.strList.get(ctx.schemaPath()));
 		path.add(ctx.schemaArrowId().getText());
 		this.strList.put(ctx,path);
 	}
 	
 
-	/**
+	/***************************************************
 	 * Mapping section
 	 */
 	
 	@Override public void exitMappingAssignment(AqlParser.MappingAssignmentContext ctx) {
 		final String name = ctx.mappingId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.mappingDef());
+		final Exp<?> exp = this.exps.get(ctx.mappingExp());
 		if (exp == null) {
 			log.warning("null mapping exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitMappingKind_Def(AqlParser.MappingKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.mappingDef()));
+	public void exitMappingKind_Exp(AqlParser.MappingKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.mappingExp()));
+	}
+	
+	@Override 
+	public void exitMappingKind_Ref(AqlParser.MappingKind_RefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.mappingRef()));
 	}
 
-	/**
+	@Override 
+	public void exitMappingExp_Identity(AqlParser.MappingExp_IdentityContext ctx) {
+		final SchExp<Ty, En, Sym, Fk, Att>
+		schema = new SchExp.SchExpVar<>(ctx.schemaRef().getText());
+		// this.ns.get(ctx.schemaRef().getText());
+		
+		final MapExp.MapExpId<Ty, En, Sym, Fk, Att> 
+		exp = new MapExp.MapExpId<>(schema);
+		
+		this.exps.put(ctx,exp);
+	}
+	
+	@Override 
+	public void exitMappingExp_Compose(AqlParser.MappingExp_ComposeContext ctx) {
+		final MapExp<Object, Object, Object, Object, Object, Object, Object, Object> 
+		primary = new MapExp.MapExpVar(ctx.mappingRef(0).getText());
+			// this.ns.get(ctx.mappingRef(0).getText());
+		
+		final List<MappingRefContext> 
+		secondary = ctx.mappingRef().subList(1, ctx.mappingRef().size());
+		
+		final MapExp<Object, Object, Object, Object, Object, Object, Object, Object>
+		comp = secondary.stream()
+				.map(ref -> (MapExp<Object, Object, Object, Object, Object, Object, Object, Object>)
+							new MapExp.MapExpVar(ref.getText()))     
+						// this.ns.get(ref.getText()))
+				.reduce(
+						(MapExp<Object, Object, Object, Object, Object, Object, Object, Object>) primary,
+						(acc, next) -> new MapExp.MapExpComp<>(acc, next));
+		
+		this.exps.put(ctx,comp);
+	}
+
+	/***************************************************
 	 * Query section
 	 */
 	
 	@Override public void exitQueryAssignment(AqlParser.QueryAssignmentContext ctx) {
 		final String name = ctx.queryId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.queryDef());
+		final Exp<?> exp = this.exps.get(ctx.queryExp());
 		if (exp == null) {
 			log.warning("null query exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitQueryKind_Def(AqlParser.QueryKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.queryDef()));
+	public void exitQueryKind_Exp(AqlParser.QueryKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.queryExp()));
 	}
 	
-	/**
+	@Override 
+	public void exitQueryExp_Identity(AqlParser.QueryExp_IdentityContext ctx) { 
+		final SchExp<Ty, En, Sym, Fk, Att>
+		schema = new SchExp.SchExpVar<>(ctx.schemaRef().getText());
+		// this.ns.get(ctx.schemaRef().getText());
+		
+		final QueryExp.QueryExpId<Ty, En, Sym, Fk, Att> 
+		exp = new QueryExp.QueryExpId<>(schema);
+		
+		this.exps.put(ctx,exp);
+	}
+	
+	
+	/***************************************************
 	 * Instance section
 	 */
 	
 	@Override public void exitInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) {
 		final String name = ctx.instanceId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.instanceDef());
+		final Exp<?> exp = this.exps.get(ctx.instanceExp());
 		if (exp == null) {
 			log.warning("null instance exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitInstanceKind_Def(AqlParser.InstanceKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.instanceDef()));
+	public void exitInstanceKind_Exp(AqlParser.InstanceKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.instanceExp()));
 	}
 	
 	@Override 
 	public void exitInstance_Empty(AqlParser.Instance_EmptyContext ctx) {
 		final SchExp<Ty, En, Sym, Fk, Att>
-		schema = new SchExp.SchExpVar<Ty,En,Sym,Fk,Att>(ctx.schemaKind().getText());
+		schema = new SchExp.SchExpVar<>(ctx.schemaKind().getText());
 		
-		final Exp<?> exp = new InstExp.InstExpEmpty<Ty,Sym,En,Fk,Att>(schema);
+		final Exp<?> exp = new InstExp.InstExpEmpty<>(schema);
 		this.exps.put(ctx,exp);
 	};
 
-	/**
+	/***************************************************
 	 * Transform section
 	 */
 	
 	@Override public void exitTransformAssignment(AqlParser.TransformAssignmentContext ctx) {
 		final String name = ctx.transformId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.transformDef());
+		final Exp<?> exp = this.exps.get(ctx.transformExp());
 		if (exp == null) {
 			log.warning("null transform exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitTransformKind_Def(AqlParser.TransformKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.transformDef()));
+	public void exitTransformKind_Exp(AqlParser.TransformKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.transformExp()));
 	}
 
-	/**
+	@Override 
+	public void exitTransform_Identity(AqlParser.Transform_IdentityContext ctx) { 
+		final InstExp.InstExpVar
+		schema = new InstExp.InstExpVar(ctx.instanceKind().getText());
+		// this.ns.get(ctx.schemaRef().getText());
+		
+		final TransExp<?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?>
+		exp = new TransExpId<>(schema);
+		
+		this.exps.put(ctx,exp);
+	}
+	
+
+	@Override 
+	public void exitTransform_Compose(AqlParser.Transform_ComposeContext ctx) {
+		final TransExp<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object> 
+		primary = new TransExp.TransExpVar(ctx.transformRef(0).getText());
+			// this.ns.get(ctx.mappingRef(0).getText());
+		
+		final List<TransformRefContext> 
+		secondary = ctx.transformRef().subList(1, ctx.transformRef().size());
+		
+		final TransExp<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>
+		comp = secondary.stream()
+				.map(ref -> (TransExp<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>)
+							new TransExp.TransExpVar(ref.getText()))     
+						// this.ns.get(ref.getText()))
+				.reduce(
+						(TransExp<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>) primary,
+						(acc, next) -> 
+							new TransExpCompose<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object>
+								(acc, next));
+		
+		this.exps.put(ctx,comp);
+	}
+	
+
+	/***************************************************
 	 * Constraint section
 	 */
 	
 	@Override public void exitConstraintAssignment(AqlParser.ConstraintAssignmentContext ctx) {
 		final String name = ctx.constraintId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.constraintDef());
+		final Exp<?> exp = this.exps.get(ctx.constraintExp());
 		if (exp == null) {
 			log.warning("null constraint exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitConstraintKind_Def(AqlParser.ConstraintKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.constraintDef()));
+	public void exitConstraintKind_Exp(AqlParser.ConstraintKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.constraintExp()));
 	}
 
-	/**
+	/***************************************************
 	 * Command section
 	 */
 	
 	@Override public void exitCommandAssignment(AqlParser.CommandAssignmentContext ctx) {
 		final String name = ctx.commandId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.commandDef());
+		final Exp<?> exp = this.exps.get(ctx.commandExp());
 		if (exp == null) {
 			log.warning("null command exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitCommandKind_Def(AqlParser.CommandKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.commandDef()));
+	public void exitCommandKind_Exp(AqlParser.CommandKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.commandExp()));
 	}
 	
 
-	/**
+	/***************************************************
 	 * SchemaColimit section
 	 */
 	
 	@Override public void exitSchemaColimitAssignment(AqlParser.SchemaColimitAssignmentContext ctx) {
 		final String name = ctx.schemaColimitId().getText();
 		final int id = getLUid(ctx);
-		final Exp<?> exp = this.exps.get(ctx.schemaColimitDef());
+		final Exp<?> exp = this.exps.get(ctx.schemaColimitExp());
 		if (exp == null) {
 			log.warning("null schema colimit exp " + name);
 			return;
 		}
 		ns.put(name, exp);
-		this.decls.add(new Triple<String,Integer,Exp<?>>(name,id,exp));
+		this.decls.add(new Triple<>(name,id,exp));
 	}
 	
 	@Override 
-	public void exitSchemaColimitKind_Def(AqlParser.SchemaColimitKind_DefContext ctx) {
-		this.exps.put(ctx,this.exps.get(ctx.schemaColimitDef()));
+	public void exitSchemaColimitKind_Exp(AqlParser.SchemaColimitKind_ExpContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.schemaColimitExp()));
 	}
 
 }

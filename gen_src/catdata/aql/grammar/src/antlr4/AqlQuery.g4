@@ -6,11 +6,11 @@ queryRef : symbol ;
 
 queryFromSchema : LPAREN IDENTITY schemaRef RPAREN ;
 
-queryAssignment : QUERY queryId EQUAL queryDef ;
+queryAssignment : QUERY queryId EQUAL queryExp ;
 
-queryDef
+queryExp
   : IDENTITY schemaRef
-  #QueryExp_Id
+  #QueryExp_Identity
 
   | LITERAL COLON schemaKind RARROW schemaRef
       (LBRACE queryLiteralSection RBRACE)?
@@ -37,8 +37,8 @@ queryDef
 
 queryKind
   : queryRef  # QueryKind_Ref 
-  | queryDef  # QueryKind_Def 
-  | LPAREN queryDef RPAREN  # QueryKind_Def 
+  | queryExp  # QueryKind_Exp 
+  | LPAREN queryExp RPAREN  # QueryKind_Exp 
   ;
 
 queryLiteralSection

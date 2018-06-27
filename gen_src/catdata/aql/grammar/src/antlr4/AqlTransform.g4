@@ -4,11 +4,11 @@ options { tokenVocab=AqlLexerRules; }
 transformId : symbol ;
 transformRef : symbol ;
 
-transformAssignment : TRANSFORM transformId EQUAL transformDef ;
+transformAssignment : TRANSFORM transformId EQUAL transformExp ;
 
-transformDef
+transformExp
   : IDENTITY instanceKind
-  #Transform_Id
+  #Transform_Identity
 
   | LBRACK transformRef SEMI transformRef RBRACK
   #Transform_Compose
@@ -63,8 +63,8 @@ transformDef
   ;
 
 transformKind 
-: transformRef    # TransformKind_Def 
-| (LPAREN transformDef RPAREN)   # TransformKind_Def 
+: transformRef    # TransformKind_Exp 
+| (LPAREN transformExp RPAREN)   # TransformKind_Exp 
 ;
 
 transformJdbcClass : STRING ;

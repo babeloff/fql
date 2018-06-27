@@ -5,9 +5,9 @@ typesideId: symbol ;
 typesideRef: symbol ;
 
 typesideAssignment
-  : TYPESIDE typesideId EQUAL typesideDef ;
+  : TYPESIDE typesideId EQUAL typesideExp ;
 
-typesideDef
+typesideExp
   : EMPTY
     #Typeside_Empty
     
@@ -23,8 +23,8 @@ typesideDef
 
 typesideKind 
 : typesideRef    # TypesideKind_Ref 
-| typesideDef    # TypesideKind_Def 
-| (LPAREN typesideDef RPAREN)     # TypesideKind_Def 
+| typesideExp    # TypesideKind_Exp 
+| (LPAREN typesideExp RPAREN)     # TypesideKind_Exp 
 ;
 
 typesideLiteralSection

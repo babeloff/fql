@@ -4,9 +4,9 @@ options { tokenVocab=AqlLexerRules; }
 instanceId : symbol ;
 instanceRef : symbol ;
 
-instanceAssignment : INSTANCE instanceId EQUAL instanceDef ;
+instanceAssignment : INSTANCE instanceId EQUAL instanceExp ;
 
-instanceDef
+instanceExp
   : EMPTY COLON schemaKind
   #Instance_Empty
 
@@ -66,7 +66,7 @@ instanceDef
     (LBRACE instanceQuotientJdbcSection RBRACE)?
   #Instance_QuotientJdbc
 
-  | QUOTIENT_CSV schemaDef
+  | QUOTIENT_CSV schemaExp
     (LBRACE instanceQuotientCsvSection RBRACE)?
   #Instance_QuotientCsv
 
@@ -106,8 +106,8 @@ instanceDef
 
 instanceKind 
   : instanceRef # InstanceKind_Ref 
-  | instanceDef # InstanceKind_Def 
-  | (LPAREN instanceDef RPAREN) # InstanceKind_Def
+  | instanceExp # InstanceKind_Exp 
+  | (LPAREN instanceExp RPAREN) # InstanceKind_Exp
   ;
 
 instanceImportJdbcAllSection : allOptions ;

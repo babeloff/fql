@@ -64,7 +64,7 @@ public class ViewFrame extends ModelFrame<ViewFrame, ViewGraphModel, View, Query
 	private JMenuItem _AddQueryNodePopItem;
 
 	/**  */
-	private JMenuItem _DefineQueryNodePopItem;
+	private JMenuItem _ExpineQueryNodePopItem;
 
 	/**  */
 	private JMenuItem _DeletePopItem;
@@ -275,7 +275,7 @@ public class ViewFrame extends ModelFrame<ViewFrame, ViewGraphModel, View, Query
 		_manipModePopMenu.add(_ViewQueryPopItem = new JMenuItem(new ViewQueryAction(_ourView)));
 
 		_editModePopMenu.add(_AddQueryNodePopItem = new JMenuItem(new NewQueryNodeAction(_popupPosition, this)));
-		_editModePopMenu.add(_DefineQueryNodePopItem = new JMenuItem(new DefineQueryNodeAction(this)));
+		_editModePopMenu.add(_ExpineQueryNodePopItem = new JMenuItem(new DefineQueryNodeAction(this)));
 		// commented out for automatic insertion of existing edges
 		// _editModePopMenu.add(_AddEdgePopItem = new JMenuItem(new
 		// NewViewEdgeAction(this)));
@@ -387,7 +387,7 @@ public class ViewFrame extends ModelFrame<ViewFrame, ViewGraphModel, View, Query
 		}
 
 		if (selected1 instanceof QueryNode) {
-			_DefineQueryNodePopItem.setEnabled(true);
+			_ExpineQueryNodePopItem.setEnabled(true);
 			_DeletePopItem.setEnabled(true);
 
 			return _editModePopMenu;

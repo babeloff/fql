@@ -4,35 +4,38 @@ options { tokenVocab=AqlLexerRules; }
 mappingId : symbol ;
 mappingRef : symbol ;
 
-mappingAssignment : MAPPING mappingId EQUAL mappingDef ;
+mappingAssignment : MAPPING mappingId EQUAL mappingExp ;
 
-mappingDef
+mappingExp
   : IDENTITY schemaRef                       
-  #MapExp_Id
+  # MappingExp_Identity
   
-  | LBRACK mappingRef SEMI mappingRef RBRACK   
-  #MapExp_Compose
+  | LBRACK mappingRef (SEMI mappingRef)+ RBRACK   
+  # MappingExp_Compose
   
   | LITERAL COLON schemaRef RARROW schemaRef
             LBRACE mappingLiteralSection RBRACE      
-  #MapExp_Literal
+  # MappingExp_Literal
   
   | GET_MAPPING schemaColimitRef schemaRef 
-  #MapExp_Get
+  # MappingExp_Get
   ;
 
 mappingKind
   : mappingRef                # MappingKind_Ref 
-  | mappingDef                # MappingKind_Def 
-  | LPAREN mappingDef RPAREN  # MappingKind_Def 
+  | mappingExp                # MappingKind_Exp 
+  | LPAREN mappingExp RPAREN  # MappingKind_Exp 
   ;
 
 mappingLiteralSection
   : (IMPORTS mappingRef*)?
-    ( ENTITY mappingEntitySig*
-    | FOREIGN_KEYS mappingForeignSig*
-    | ATTRIBUTES mappingAttributeSig* )*
+    mappingLiteralSubsection*
     allOptions
+  ;
+mappingLiteralSubsection
+  : ENTITY mappingEntitySig*         
+    (FOREIGN_KEYS mappingForeignSig*)? 
+    (ATTRIBUTES mappingAttributeSig*)? 
   ;
 
 mappingEntitySig : schemaEntityId RARROW schemaEntityId ;

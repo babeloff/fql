@@ -4,9 +4,9 @@ options { tokenVocab=AqlLexerRules; }
 graphId : symbol ;
 graphRef : symbol ;
 
-graphAssignment : GRAPH graphId EQUAL graphDef ;
+graphAssignment : GRAPH graphId EQUAL graphExp ;
 
-graphDef
+graphExp
   : LITERAL
     (LBRACE graphLiteralSection RBRACE)?
   #Graph_Literal
@@ -14,7 +14,7 @@ graphDef
 
 graphKind 
 : graphRef # GraphKind_Ref 
-| LPAREN graphDef RPAREN # GraphKind_Def
+| LPAREN graphExp RPAREN # GraphKind_Exp
 ;
 
 graphLiteralSection
