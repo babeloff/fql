@@ -42,6 +42,17 @@ public final class RawTerm {
 		}
 		return head + "(" + Util.sep(args, ", ") + ")";
 	}
+	
+	public List<String> unpack() {
+		final LinkedList<String> 
+		ls = new LinkedList<>(
+				this.args.stream()
+				.map(x -> x.unpack())
+				.flatMap(x -> x.stream())
+				.collect(Collectors.toList()));
+		ls.addFirst(this.head);
+		return ls;
+	}
 
 	private static Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> infer_good(
 			RawTerm e, Chc<Ty, En> expected, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js,
@@ -539,6 +550,32 @@ public final class RawTerm {
 
 	public RawTerm(String head) {
 		this(head, Collections.emptyList(), null);
+	}
+	
+	public RawTerm clone() {
+		final List<RawTerm> args = new LinkedList<>();
+		for (final RawTerm term : this.args) {
+			args.add(term.clone());
+		}
+		return new RawTerm(this.head, args);
+	}	
+	
+	/**
+	 * Make a clone (deep-copy) first.
+	 * 
+	 * @param tail
+	 * @return
+	 */
+	public RawTerm append(String tail) {
+		final List<RawTerm> last = new LinkedList<>();
+		last.add(new RawTerm(tail));
+		
+		List<RawTerm> c = this.args;
+		while (!c.isEmpty()) {
+			c = c.get(0).args;
+		}
+		c.addAll(last);
+		return this;
 	}
 
 	// TODO: aql use of toString here is ugly

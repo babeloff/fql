@@ -33,7 +33,7 @@ mappingLiteralSection
     allOptions
   ;
 mappingLiteralSubsection
-  : ENTITY mappingEntitySig*         
+  : ENTITY mappingEntitySig         
     (FOREIGN_KEYS mappingForeignSig*)? 
     (ATTRIBUTES mappingAttributeSig*)? 
   ;
@@ -44,18 +44,28 @@ mappingForeignSig
   : schemaForeignId RARROW schemaPath ;
 
 mappingAttributeSig
-  : schemaAttributeId RARROW (mappingLambda | schemaPath) ;
+  : schemaAttributeId RARROW mappingAttributeTerm ;
 
-mappingLambda
-  : LAMBDA mappingGen (COMMA mappingGen)* DOT evalMappingFn ;
+mappingAttributeTerm
+  : LAMBDA mappingGen (COMMA mappingGen)* DOT evalMappingFn
+  # MappingAttrTerm_Lambda
+  
+  | schemaPath
+  # MappingAttrTerm_Path
+  ;
 
 mappingGen : symbol (COLON mappingGenType)? ;
 mappingGenType : symbol ;
 
 evalMappingFn
-  : mappingGen
-  | mappingFn LPAREN evalMappingFn (COMMA evalMappingFn)* RPAREN
-  | LPAREN evalMappingFn (typesideFnName evalMappingFn)* RPAREN
+  : mappingGen   
+  # EvalMappingFn_Gen
+  
+  | mappingFn LPAREN evalMappingFn (COMMA evalMappingFn)* RPAREN   
+  # EvalMappingFn_Mapping
+  
+  | LPAREN evalMappingFn (typesideFnName evalMappingFn)* RPAREN   
+  # EvalMappingFn_Typeside
   ;
 
 mappingFn : typesideFnName | schemaAttributeId | schemaForeignId ;

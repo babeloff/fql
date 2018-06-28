@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -26,9 +25,10 @@ import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
 import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
-import catdata.aql.grammar.AqlParser.MappingExp_LiteralContext;
+import catdata.aql.grammar.AqlParser.MappingGenContext;
 import catdata.aql.grammar.AqlParser.MappingLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.MappingRefContext;
+import catdata.aql.grammar.AqlParser.SchemaEntityIdContext;
 import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
 import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
 import catdata.aql.grammar.AqlParser.SchemaLiteralSectionContext;
@@ -53,20 +53,31 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		return new LocStr(ctx.getStart().getStartIndex(), ctx.getText());
 	}
 	
+	public class Loc<Ob> extends Pair<Integer, Ob> {
+		private static final long serialVersionUID = 1L;
+	
+		public Loc(final ParserRuleContext ctx, final Ob ob) {
+			super(ctx.getStart().getStartIndex(), ob);
+		}	
+	}
+	
 	public AqlLoaderListener() {
 		this.decls = new LinkedList<>();
 		this.global_options = new LinkedList<>();
 		this.kind = q -> q.kind().toString();
+
+		this.exps = new ParseTreeProperty<>();
+		this.mapped_terms = new ParseTreeProperty<>();
+		this.value_option = new ParseTreeProperty<>();
+		this.terms = new ParseTreeProperty<>();
+		this.quads = new ParseTreeProperty<>();
 	}
-	private final ParseTreeProperty<Pair<String,String>> value_option = new ParseTreeProperty<>();
-	private final ParseTreeProperty<Exp<?>> exps = new ParseTreeProperty<>();
-	private final ParseTreeProperty<List<String>> strList = new ParseTreeProperty<>();
-	private final ParseTreeProperty<RawTerm> terms = new ParseTreeProperty<>();
-	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> quads = new ParseTreeProperty<>();
-	
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
+	
+	private final ParseTreeProperty<Exp<?>> exps;
+	private final ParseTreeProperty<RawTerm> terms;
 	
 	public final Map<String, Exp<?>> ns = new HashMap<>();
 	
@@ -84,6 +95,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 * Options section
 	 * see AqlOptions.g4
 	 */
+
+	private final ParseTreeProperty<Pair<String,String>> value_option;
 	
 	@Override public void exitOptionsDeclarationSection(AqlParser.OptionsDeclarationSectionContext ctx) {
 		for(final ParseTree child : ctx.optionsDeclaration() ) {
@@ -378,6 +391,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	}
 
+
+	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> quads;
+	
 	@Override public void exitSchemaExp_Literal(AqlParser.SchemaExp_LiteralContext ctx) {
 		final SchemaLiteralSectionContext 
 		ctx_lit = ctx.schemaLiteralSection();
@@ -417,8 +433,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 					new Pair<>(
 						eq.getStart().getStartIndex(), 
 						new Pair<>( 
-								this.strList.get(eq.schemaPath(0)),  
-								this.strList.get(eq.schemaPath(1))))) 
+								this.terms.get(eq.schemaPath(0)).unpack(),  
+								this.terms.get(eq.schemaPath(1)).unpack()))) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Pair<String, String>>>
@@ -516,21 +532,24 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitSchemaPath_ArrowId(AqlParser.SchemaPath_ArrowIdContext ctx) {
-		final List<String> path = new LinkedList<>();
-		path.add(ctx.schemaArrowId().getText());
-		this.strList.put(ctx,path);
+		final RawTerm term = new RawTerm(ctx.schemaArrowId().getText());
+		this.terms.put(ctx,term);
 	}
+	
 	@Override public void exitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) {
-		final List<String> path = new LinkedList<>();
-		path.addAll(this.strList.get(ctx.schemaPath()));
-		path.add(ctx.schemaArrowId().getText());
-		this.strList.put(ctx,path);
+		final List<RawTerm> args = new LinkedList<>();
+		args.add(this.terms.get(ctx.schemaPath()));
+		
+		final RawTerm term = new RawTerm(ctx.schemaArrowId().getText(), args);
+		this.terms.put(ctx,term);
 	}
+	
 	@Override public void exitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx) {
-		final List<String> path = new LinkedList<>();
-		path.addAll(this.strList.get(ctx.schemaPath()));
-		path.add(ctx.schemaArrowId().getText());
-		this.strList.put(ctx,path);
+		final List<RawTerm> args = new LinkedList<>();
+		args.add(this.terms.get(ctx.schemaPath()));
+		
+		final RawTerm term = new RawTerm(ctx.schemaArrowId().getText(), args);
+		this.terms.put(ctx,term);
 	}
 	
 
@@ -598,70 +617,38 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		// TODO
 	}
 	
+	private final ParseTreeProperty<
+	Pair<LocStr, // old entity name/loc
+         Triple<String, // new entity name
+                List<Pair<LocStr, // old fk name/loc
+                          List<String>>>, // new fk path (names)
+                List<Pair<LocStr, // old attr name/loc
+                          Triple<String, // universal variable
+                                 String, // entity for universal variable
+                                 RawTerm>>>>>> // new path to attribute
+		mapping = new ParseTreeProperty<>();
+	
 	@Override public void exitMappingExp_Literal(AqlParser.MappingExp_LiteralContext ctx) {
-		final MappingLiteralSectionContext 
-		ctx_lit = ctx.mappingLiteralSection();
+		final SchExp<Ty, En, Sym, Fk, Att>
+		schemaSrc = new SchExp.SchExpVar<>(ctx.schemaRef(0).getText());
+
+		final SchExp<Ty, En, Sym, Fk, Att>
+		schemaTgt = new SchExp.SchExpVar<>(ctx.schemaRef(1).getText());
 		
-		final TyExp<Ty, Sym> 
-		typeside = new TyExp.TyExpVar<>(ctx.typesideKind().getText());
+		final MappingLiteralSectionContext 
+		ctx_lit = ctx.mappingLiteralSection();	
 		
 		final List<LocStr>
-		imports = ctx_lit.typesideImport().stream() 
-				.map(ty -> makeLocStr(ty))
+		imports = ctx_lit.mappingRef().stream() 
+				.map(ref -> makeLocStr(ref))
 				.collect(Collectors.toList());
 		
-		final List<LocStr> 
-		entities = ctx_lit.mappingEntityId().stream() 
-				.map(elt -> makeLocStr(elt)) 
-				.collect(Collectors.toList());
-		
-		final List<Pair<LocStr, Pair<String, String>>>
-		arrows = ctx_lit.mappingForeignSig().stream() 
-				.map(fk -> {
-					final Pair<String,String> 
-					arrow = new Pair<>(
-							fk.MappingEntityId(0).getText(),
-							fk.MappingEntityId(1).getText());
-					
-					return new LinkedList<>(
-							fk.MappingForeignId().stream()
-								.map(fkid -> new Pair<>(makeLocStr(fkid), arrow))
-								.collect(Collectors.toList()));
-				})
-				.flatMap(x -> x.stream())
-				.collect(Collectors.toList());
-
-		final List<Pair<Integer, Pair<List<String>, List<String>>>>
-		commutes = ctx_lit.mappingPathEqnSig().stream() 
-				.map(eq -> 
-					new Pair<>(
-						eq.getStart().getStartIndex(), 
-						new Pair<>( 
-								this.strList.get(eq.MappingPath(0)),  
-								this.strList.get(eq.MappingPath(1))))) 
-				.collect(Collectors.toList());
-		
-		final List<Pair<LocStr, Pair<String, String>>>
-		attrs = ctx_lit.mappingAttributeSig().stream() 
-				.map(att -> {
-					final Pair<String,String> 
-					arrow = new Pair<>(
-							att.MappingEntityId().getText(),
-							att.typesideTypeId().getText());
-					
-					return new LinkedList<>(
-							att.MappingAttributeId().stream()
-								.map(attid -> new Pair<>(makeLocStr(attid), arrow))
-								.collect(Collectors.toList()));
-				})
-				.flatMap(x -> x.stream())
-				.collect(Collectors.toList());
-		
-		final List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>>
-		observes = ctx_lit.mappingObservationEquationSig().stream() 
-				.map(obs -> 
-					new Pair<>(obs.getStart().getStartIndex(), 
-								this.quads.get(obs)))
+		final List<Pair<LocStr, 
+		                Triple<String, 
+		                       List<Pair<LocStr, List<String>>>, 
+		                       List<Pair<LocStr, Triple<String, String, RawTerm>>>>>>  
+		entities = ctx_lit.mappingLiteralSubsection().stream() 
+				.map(elt -> this.mapping.get(elt)) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<String, String>>
@@ -671,14 +658,99 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 						elt.getStop().getText())) 
 				.collect(Collectors.toList());
 		
-		final SchExpRaw mapping = 
-			new SchExpRaw(typeside, imports, 
-					entities, arrows, commutes, attrs, observes, options);
+		final MapExpRaw mapping = new MapExpRaw(schemaSrc, schemaTgt, imports, entities, options);
 				
 		this.exps.put(ctx,mapping);
 	}
 	
+	private final ParseTreeProperty<Triple<String,String,RawTerm>> mapped_terms;
 
+	@Override public void exitMappingLiteralSubsection(AqlParser.MappingLiteralSubsectionContext ctx) { 
+		final List<SchemaEntityIdContext>
+		entity = ctx.mappingEntitySig().schemaEntityId();
+		
+		final List<Pair<LocStr, // old fk name/loc
+                        List<String>>> // new fk path (names)
+		arrows = ctx.mappingForeignSig().stream() 
+				.map(fk -> 
+					new Pair<>(
+							makeLocStr(fk.schemaForeignId()),
+							this.terms.get(fk.schemaPath()).unpack()))
+				.collect(Collectors.toList());
+
+		final List<Pair<LocStr, // old attr name/loc
+                        Triple<String, // universal variable
+                               String, // entity for universal variable
+                               RawTerm>>> // new path to attribute
+		attrs = ctx.mappingAttributeSig().stream() 
+				.map(att -> 
+					new Pair<>(
+							makeLocStr(att.schemaAttributeId()),
+							this.mapped_terms.get(att.mappingAttributeTerm())))
+				.collect(Collectors.toList());
+		
+		this.mapping.put(ctx,
+				new Pair<>(
+					makeLocStr(entity.get(0)), // old entity name/loc
+					new Triple<>(
+							entity.get(1).getText(), // new entity name
+							arrows, // foreign_keys
+							attrs)));  // attributes	
+	}
+	
+	@Override public void exitMappingAttrTerm_Lambda(AqlParser.MappingAttrTerm_LambdaContext ctx) {
+		// universal variable
+		final MappingGenContext ctx_map = ctx.mappingGen(0);
+		final String lvar = ctx_map.symbol().getText();
+		// entity for universal variable
+		final String lvar_type = 
+				(ctx_map.mappingGenType() == null) ? null : ctx_map.mappingGenType().getText();
+		// new path to attribute
+		final RawTerm rt = this.terms.get(ctx.evalMappingFn());
+		
+		this.mapped_terms.put(ctx, new Triple<>(lvar, lvar_type, rt));
+	}
+	
+	@Override public void exitMappingAttrTerm_Path(AqlParser.MappingAttrTerm_PathContext ctx) {
+		final RawTerm rt = this.terms.get(ctx.schemaPath());
+		final Triple<String, // universal variable
+		             String, // entity for universal variable
+		             RawTerm> // new path to attribute
+		term = new Triple<>("_x", null, rt.clone().append("_x"));
+		this.mapped_terms.put(ctx, term);
+	}
+
+	@Override public void exitEvalMappingFn_Gen(AqlParser.EvalMappingFn_GenContext ctx) {
+		this.terms.put(ctx, new RawTerm(ctx.mappingGen().symbol().getText()));
+	}
+	
+	@Override public void exitEvalMappingFn_Mapping(AqlParser.EvalMappingFn_MappingContext ctx) {
+		final String mappingFn = ctx.mappingFn().getText();
+		final List<RawTerm> term_list = ctx.evalMappingFn().stream()
+				.map(x -> this.terms.get(x))
+				.collect(Collectors.toList());
+		this.terms.put(ctx, new RawTerm(mappingFn, term_list));
+	}
+	
+	@Override public void exitEvalMappingFn_Typeside(AqlParser.EvalMappingFn_TypesideContext ctx) {
+		final List<RawTerm> 
+		children = ctx.evalMappingFn().stream()
+				.map(x -> this.terms.get(x)).collect(Collectors.toList());
+		
+		final List<String> 
+		actions = ctx.typesideFnName().stream()
+				.map(x -> x.getText()).collect(Collectors.toList());
+		
+		RawTerm acc = children.get(0);
+		for (int ix=0; ix < actions.size(); ix++) {
+			final LinkedList<RawTerm> rl = new LinkedList<>();
+			rl.add(acc);
+			rl.add(children.get(ix+1));
+			acc = new RawTerm(actions.get(ix), rl);
+		}
+		this.terms.put(ctx,acc);
+	}
+	
 	/***************************************************
 	 * Query section
 	 * see AqlQuery.g4
@@ -909,6 +981,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public void exitConstraintKind_Exp(AqlParser.ConstraintKind_ExpContext ctx) {
 		this.exps.put(ctx,this.exps.get(ctx.constraintExp()));
 	}
+	
+	@Override public void exitConstraintExp_Literal(AqlParser.ConstraintExp_LiteralContext ctx) { }
 
 	/***************************************************
 	 * Command section
@@ -931,6 +1005,28 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,this.exps.get(ctx.commandExp()));
 	}
 	
+	@Override public void exitCommandExp_CmdLine(AqlParser.CommandExp_CmdLineContext ctx) { }
+	
+	@Override public void exitCommandExp_ExecJs(AqlParser.CommandExp_ExecJsContext ctx) { }
+	
+	@Override public void exitCommandExp_ExecJdbc(AqlParser.CommandExp_ExecJdbcContext ctx) { }
+	
+	@Override public void exitCommandExp_Check(AqlParser.CommandExp_CheckContext ctx) { }
+	
+	@Override public void exitCommandExp_AssertConsistent(AqlParser.CommandExp_AssertConsistentContext ctx) { }
+	
+	@Override public void exitCommandExp_ExportCsvInstance(AqlParser.CommandExp_ExportCsvInstanceContext ctx) { }
+	
+	@Override public void exitCommandExp_ExportCsvTransform(AqlParser.CommandExp_ExportCsvTransformContext ctx) { }
+	
+	@Override public void exitCommandExp_ExportJdbcInstance(AqlParser.CommandExp_ExportJdbcInstanceContext ctx) { }
+	
+	@Override public void exitCommandExp_ExportJdbcQuery(AqlParser.CommandExp_ExportJdbcQueryContext ctx) { }
+	
+	@Override public void exitCommandExp_ExportJdbcTransform(AqlParser.CommandExp_ExportJdbcTransformContext ctx) { }
+	
+	@Override public void exitCommandExp_AddToClasspath(AqlParser.CommandExp_AddToClasspathContext ctx) { }
+
 
 	/***************************************************
 	 * SchemaColimit section
@@ -952,5 +1048,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public void exitSchemaColimitKind_Exp(AqlParser.SchemaColimitKind_ExpContext ctx) {
 		this.exps.put(ctx,this.exps.get(ctx.schemaColimitExp()));
 	}
+	
+	@Override public void exitSchemaColimitExp_Quotient(AqlParser.SchemaColimitExp_QuotientContext ctx) { }
+	
+	@Override public void exitSchemaColimitExp_Coproduct(AqlParser.SchemaColimitExp_CoproductContext ctx) { }
+	
+	@Override public void exitSchemaColimitExp_Modify(AqlParser.SchemaColimitExp_ModifyContext ctx) { }
+	
+	@Override public void exitSchemaColimitExp_Wrap(AqlParser.SchemaColimitExp_WrapContext ctx) { }
 
 }

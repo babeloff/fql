@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/9qb/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fjo/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -2208,15 +2208,29 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitMappingAttributeSig(AqlParser.MappingAttributeSigContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#mappingLambda}.
+	 * Enter a parse tree produced by the {@code MappingAttrTerm_Lambda}
+	 * labeled alternative in {@link AqlParser#mappingAttributeTerm}.
 	 * @param ctx the parse tree
 	 */
-	void enterMappingLambda(AqlParser.MappingLambdaContext ctx);
+	void enterMappingAttrTerm_Lambda(AqlParser.MappingAttrTerm_LambdaContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#mappingLambda}.
+	 * Exit a parse tree produced by the {@code MappingAttrTerm_Lambda}
+	 * labeled alternative in {@link AqlParser#mappingAttributeTerm}.
 	 * @param ctx the parse tree
 	 */
-	void exitMappingLambda(AqlParser.MappingLambdaContext ctx);
+	void exitMappingAttrTerm_Lambda(AqlParser.MappingAttrTerm_LambdaContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MappingAttrTerm_Path}
+	 * labeled alternative in {@link AqlParser#mappingAttributeTerm}.
+	 * @param ctx the parse tree
+	 */
+	void enterMappingAttrTerm_Path(AqlParser.MappingAttrTerm_PathContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MappingAttrTerm_Path}
+	 * labeled alternative in {@link AqlParser#mappingAttributeTerm}.
+	 * @param ctx the parse tree
+	 */
+	void exitMappingAttrTerm_Path(AqlParser.MappingAttrTerm_PathContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#mappingGen}.
 	 * @param ctx the parse tree
@@ -2238,15 +2252,41 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitMappingGenType(AqlParser.MappingGenTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#evalMappingFn}.
+	 * Enter a parse tree produced by the {@code EvalMappingFn_Gen}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
 	 * @param ctx the parse tree
 	 */
-	void enterEvalMappingFn(AqlParser.EvalMappingFnContext ctx);
+	void enterEvalMappingFn_Gen(AqlParser.EvalMappingFn_GenContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#evalMappingFn}.
+	 * Exit a parse tree produced by the {@code EvalMappingFn_Gen}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
 	 * @param ctx the parse tree
 	 */
-	void exitEvalMappingFn(AqlParser.EvalMappingFnContext ctx);
+	void exitEvalMappingFn_Gen(AqlParser.EvalMappingFn_GenContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EvalMappingFn_Mapping}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterEvalMappingFn_Mapping(AqlParser.EvalMappingFn_MappingContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EvalMappingFn_Mapping}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitEvalMappingFn_Mapping(AqlParser.EvalMappingFn_MappingContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EvalMappingFn_Typeside}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
+	 * @param ctx the parse tree
+	 */
+	void enterEvalMappingFn_Typeside(AqlParser.EvalMappingFn_TypesideContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EvalMappingFn_Typeside}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
+	 * @param ctx the parse tree
+	 */
+	void exitEvalMappingFn_Typeside(AqlParser.EvalMappingFn_TypesideContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#mappingFn}.
 	 * @param ctx the parse tree

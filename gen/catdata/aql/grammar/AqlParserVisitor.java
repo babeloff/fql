@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/9qb/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fjo/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1315,11 +1315,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMappingAttributeSig(AqlParser.MappingAttributeSigContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#mappingLambda}.
+	 * Visit a parse tree produced by the {@code MappingAttrTerm_Lambda}
+	 * labeled alternative in {@link AqlParser#mappingAttributeTerm}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMappingLambda(AqlParser.MappingLambdaContext ctx);
+	T visitMappingAttrTerm_Lambda(AqlParser.MappingAttrTerm_LambdaContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MappingAttrTerm_Path}
+	 * labeled alternative in {@link AqlParser#mappingAttributeTerm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMappingAttrTerm_Path(AqlParser.MappingAttrTerm_PathContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#mappingGen}.
 	 * @param ctx the parse tree
@@ -1333,11 +1341,26 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMappingGenType(AqlParser.MappingGenTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#evalMappingFn}.
+	 * Visit a parse tree produced by the {@code EvalMappingFn_Gen}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEvalMappingFn(AqlParser.EvalMappingFnContext ctx);
+	T visitEvalMappingFn_Gen(AqlParser.EvalMappingFn_GenContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EvalMappingFn_Mapping}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEvalMappingFn_Mapping(AqlParser.EvalMappingFn_MappingContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EvalMappingFn_Typeside}
+	 * labeled alternative in {@link AqlParser#evalMappingFn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEvalMappingFn_Typeside(AqlParser.EvalMappingFn_TypesideContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#mappingFn}.
 	 * @param ctx the parse tree
