@@ -7,7 +7,10 @@ schemaRef : symbol ;
 schemaAssignment : SCHEMA schemaId EQUAL schemaExp ;
 
 schemaExp
-  : EMPTY COLON typesideRef                   
+  : IDENTITY schemaRef                   
+  # SchemaExp_Identity
+  
+  | EMPTY COLON typesideRef                   
   # SchemaExp_Empty
   
   | SCHEMA_OF IMPORT_ALL                      

@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fjo/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8jt/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -941,6 +941,18 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SchemaExp_Identity}
+	 * labeled alternative in {@link AqlParser#schemaExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SchemaExp_Identity}
+	 * labeled alternative in {@link AqlParser#schemaExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code SchemaExp_Empty}
 	 * labeled alternative in {@link AqlParser#schemaExp}.
@@ -2710,18 +2722,6 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryExp_Identity(AqlParser.QueryExp_IdentityContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code QueryExp_Simple}
-	 * labeled alternative in {@link AqlParser#queryExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code QueryExp_Simple}
-	 * labeled alternative in {@link AqlParser#queryExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code QueryExp_Get}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
@@ -2734,41 +2734,53 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryExp_Get(AqlParser.QueryExp_GetContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code QueryExp_FromMapping}
+	 * Enter a parse tree produced by the {@code QueryExp_ToQuery}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx);
+	void enterQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code QueryExp_FromMapping}
+	 * Exit a parse tree produced by the {@code QueryExp_ToQuery}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx);
+	void exitQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code QueryExp_FromSchema}
+	 * Enter a parse tree produced by the {@code QueryExp_ToCoquery}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx);
+	void enterQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code QueryExp_FromSchema}
+	 * Exit a parse tree produced by the {@code QueryExp_ToCoquery}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx);
+	void exitQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code QueryExp_Composition}
+	 * Enter a parse tree produced by the {@code QueryExp_Compose}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx);
+	void enterQueryExp_Compose(AqlParser.QueryExp_ComposeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code QueryExp_Composition}
+	 * Exit a parse tree produced by the {@code QueryExp_Compose}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx);
+	void exitQueryExp_Compose(AqlParser.QueryExp_ComposeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code QueryExp_Simple}
+	 * labeled alternative in {@link AqlParser#queryExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code QueryExp_Simple}
+	 * labeled alternative in {@link AqlParser#queryExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code QueryExp_Literal}
 	 * labeled alternative in {@link AqlParser#queryExp}.
@@ -2806,6 +2818,36 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryKind_Exp(AqlParser.QueryKind_ExpContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#queryDeltaEvalSection}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryDeltaEvalSection(AqlParser.QueryDeltaEvalSectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#queryDeltaEvalSection}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryDeltaEvalSection(AqlParser.QueryDeltaEvalSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#queryDeltaCoEvalSection}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryDeltaCoEvalSection(AqlParser.QueryDeltaCoEvalSectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#queryDeltaCoEvalSection}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryDeltaCoEvalSection(AqlParser.QueryDeltaCoEvalSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#querySimpleSection}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#querySimpleSection}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#queryLiteralSection}.
 	 * @param ctx the parse tree
 	 */
@@ -2826,26 +2868,6 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryEntityExpr(AqlParser.QueryEntityExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#querySimpleSection}.
-	 * @param ctx the parse tree
-	 */
-	void enterQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#querySimpleSection}.
-	 * @param ctx the parse tree
-	 */
-	void exitQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AqlParser#queryLiteralValue}.
-	 * @param ctx the parse tree
-	 */
-	void enterQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#queryLiteralValue}.
-	 * @param ctx the parse tree
-	 */
-	void exitQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link AqlParser#queryClauseExpr}.
 	 * @param ctx the parse tree
 	 */
@@ -2856,15 +2878,25 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryClauseExpr(AqlParser.QueryClauseExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#queryForeignSig}.
+	 * Enter a parse tree produced by {@link AqlParser#queryClauseFrom}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryForeignSig(AqlParser.QueryForeignSigContext ctx);
+	void enterQueryClauseFrom(AqlParser.QueryClauseFromContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#queryForeignSig}.
+	 * Exit a parse tree produced by {@link AqlParser#queryClauseFrom}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryForeignSig(AqlParser.QueryForeignSigContext ctx);
+	void exitQueryClauseFrom(AqlParser.QueryClauseFromContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#queryClauseWhere}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryClauseWhere(AqlParser.QueryClauseWhereContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#queryClauseWhere}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryClauseWhere(AqlParser.QueryClauseWhereContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#queryPathMapping}.
 	 * @param ctx the parse tree
@@ -2876,6 +2908,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryPathMapping(AqlParser.QueryPathMappingContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#queryForeignSig}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryForeignSig(AqlParser.QueryForeignSigContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#queryForeignSig}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryForeignSig(AqlParser.QueryForeignSigContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#queryGen}.
 	 * @param ctx the parse tree
 	 */
@@ -2886,35 +2928,75 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitQueryGen(AqlParser.QueryGenContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#queryPath}.
+	 * Enter a parse tree produced by the {@code QueryPath_Literal}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryPath(AqlParser.QueryPathContext ctx);
+	void enterQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#queryPath}.
+	 * Exit a parse tree produced by the {@code QueryPath_Literal}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryPath(AqlParser.QueryPathContext ctx);
+	void exitQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#queryFromMappingSection}.
+	 * Enter a parse tree produced by the {@code QueryPath_TypeConst}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryFromMappingSection(AqlParser.QueryFromMappingSectionContext ctx);
+	void enterQueryPath_TypeConst(AqlParser.QueryPath_TypeConstContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#queryFromMappingSection}.
+	 * Exit a parse tree produced by the {@code QueryPath_TypeConst}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryFromMappingSection(AqlParser.QueryFromMappingSectionContext ctx);
+	void exitQueryPath_TypeConst(AqlParser.QueryPath_TypeConstContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#queryFromSchemaSection}.
+	 * Enter a parse tree produced by the {@code QueryPath_GenBare}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 */
-	void enterQueryFromSchemaSection(AqlParser.QueryFromSchemaSectionContext ctx);
+	void enterQueryPath_GenBare(AqlParser.QueryPath_GenBareContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#queryFromSchemaSection}.
+	 * Exit a parse tree produced by the {@code QueryPath_GenBare}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 */
-	void exitQueryFromSchemaSection(AqlParser.QueryFromSchemaSectionContext ctx);
+	void exitQueryPath_GenBare(AqlParser.QueryPath_GenBareContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code QueryPath_GenArrow}
+	 * labeled alternative in {@link AqlParser#queryPath}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryPath_GenArrow(AqlParser.QueryPath_GenArrowContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code QueryPath_GenArrow}
+	 * labeled alternative in {@link AqlParser#queryPath}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryPath_GenArrow(AqlParser.QueryPath_GenArrowContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code QueryPath_GenParam}
+	 * labeled alternative in {@link AqlParser#queryPath}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryPath_GenParam(AqlParser.QueryPath_GenParamContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code QueryPath_GenParam}
+	 * labeled alternative in {@link AqlParser#queryPath}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryPath_GenParam(AqlParser.QueryPath_GenParamContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#queryLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#queryLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#graphId}.
 	 * @param ctx the parse tree

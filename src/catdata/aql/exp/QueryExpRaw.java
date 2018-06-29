@@ -266,9 +266,11 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 			this.en = new En(en.str);
 			this.enLoc = en.loc;
 			this.gens = new HashSet<>();
-			this.atts = LocStr.set2(b.atts).stream().map(x -> new Pair<>(new Att(new En(en.str), x.first), x.second))
+			this.atts = LocStr.set2(b.atts).stream()
+					.map(x -> new Pair<>(new Att(new En(en.str), x.first), x.second))
 					.collect(Collectors.toSet());
-			this.fks = LocStr.set2(b.fks).stream().map(x -> new Pair<>(new Fk(new En(en.str), x.first), x.second))
+			this.fks = LocStr.set2(b.fks).stream()
+					.map(x -> new Pair<>(new Fk(new En(en.str), x.first), x.second))
 					.collect(Collectors.toSet());
 
 			for (Pair<LocStr, String> gen : b.gens) {
@@ -479,7 +481,8 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 		return "literal : " + src + " -> " + dst + " {\n" + toString + "}";
 	}
 
-	public QueryExpRaw(List<Pair<LocStr, String>> params, List<Pair<LocStr, RawTerm>> consts, SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,
+	public QueryExpRaw(List<Pair<LocStr, String>> params, List<Pair<LocStr, RawTerm>> consts, 
+			SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,
 			List<Pair<LocStr, PreBlock>> list, List<Pair<String, String>> options) {
 		this.src = (SchExp<Ty, En, Sym, Fk, Att>) c;
 		this.dst = (SchExp<Ty, En, Sym, Fk, Att>) d;
@@ -489,6 +492,41 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 		this.params = new Ctx<>(Util.toMapSafely(LocStr.set2(params)));
 		this.blocks = Util.toSetSafely(list).stream().map(x -> new Block(x.second, x.first))
 				.collect(Collectors.toSet());
+		
+		for (Pair<LocStr, PreBlock> x : list) {
+			b1.put(new En(x.first.str), x.first.loc);
+
+			for (Pair<LocStr, Trans> y : x.second.fks) {
+				b2.put(new Fk(new En(x.first.str), y.first.str), y.first.loc);
+			}
+
+			for (Pair<LocStr, RawTerm> y : x.second.atts) {
+				b3.put(new Att(new En(x.first.str), y.first.str), y.first.loc);
+			}
+		}
+
+		raw.put("imports", InteriorLabel.imports("imports", imports));
+
+		for (Pair<LocStr, PreBlock> p : list) {
+			List<InteriorLabel<Object>> f = new LinkedList<>();
+
+			f.add(new InteriorLabel<>("entities", p.second, p.first.loc, x -> p.first.str).conv());
+
+			raw.put(p.first.str, f);
+		}
+
+	}	
+	
+	public QueryExpRaw(Integer mode, List<Pair<LocStr, String>> params, List<Pair<LocStr, RawTerm>> consts, 
+			SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,
+			List<Block> list, List<Pair<String, String>> options) {
+		this.src = (SchExp<Ty, En, Sym, Fk, Att>) c;
+		this.dst = (SchExp<Ty, En, Sym, Fk, Att>) d;
+		this.imports = LocStr.set1(imports);
+		this.options = Util.toMapSafely(options);
+		this.consts = new Ctx<>(Util.toMapSafely(LocStr.set2(consts)));
+		this.params = new Ctx<>(Util.toMapSafely(LocStr.set2(params)));
+		this.blocks = Util.toSetSafely(list);
 		
 		for (Pair<LocStr, PreBlock> x : list) {
 			b1.put(new En(x.first.str), x.first.loc);

@@ -618,8 +618,9 @@ public final class RawTerm {
 					throw new RuntimeException("Ambiguous: " + p.second + " is an entity and a type");
 				} else if (col.tys.contains(p.second)) {
 					Ty tt = new Ty(p.second);
-					ctx.put(p.first, Chc.inLeft(tt)); // TODO aql remove for
-														// loops for other ones
+					// TODO aql remove for loops for other ones
+					ctx.put(p.first, Chc.inLeft(tt)); 
+														
 				} else if (col.ens.contains(p.second)) {
 					En tt = new En(p.second);
 					ctx.put(p.first, Chc.inRight(tt));

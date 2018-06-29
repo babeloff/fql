@@ -72,11 +72,17 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 
 	private final Block block;
 	
-	public QueryExpRawSimple(SchExp<?, ?, ?, ?, ?> src,
-			Integer i, PreBlock block
-			) {
+
+	@SuppressWarnings("unchecked")
+	public QueryExpRawSimple(SchExp<?, ?, ?, ?, ?> src, Integer i, PreBlock block) {
 		this.src = (SchExp<Ty, En, Sym, Fk, Att>) src;
 		this.block = new Block(block, new LocStr(i, "Q"));
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public QueryExpRawSimple(SchExp<?, ?, ?, ?, ?> src,	Integer i, Block block) {
+		this.src = (SchExp<Ty, En, Sym, Fk, Att>) src;
+		this.block = block;
 	}
 
 	@Override

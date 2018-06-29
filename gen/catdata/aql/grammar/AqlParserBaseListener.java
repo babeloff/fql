@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fjo/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8jt/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1079,6 +1079,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3016,18 +3028,6 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterQueryExp_Get(AqlParser.QueryExp_GetContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -3040,37 +3040,49 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx) { }
+	@Override public void enterQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx) { }
+	@Override public void exitQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx) { }
+	@Override public void enterQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx) { }
+	@Override public void exitQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx) { }
+	@Override public void enterQueryExp_Compose(AqlParser.QueryExp_ComposeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx) { }
+	@Override public void exitQueryExp_Compose(AqlParser.QueryExp_ComposeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3112,6 +3124,42 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterQueryDeltaEvalSection(AqlParser.QueryDeltaEvalSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryDeltaEvalSection(AqlParser.QueryDeltaEvalSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQueryDeltaCoEvalSection(AqlParser.QueryDeltaCoEvalSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryDeltaCoEvalSection(AqlParser.QueryDeltaCoEvalSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterQueryLiteralSection(AqlParser.QueryLiteralSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -3136,30 +3184,6 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterQueryClauseExpr(AqlParser.QueryClauseExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -3172,13 +3196,25 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryForeignSig(AqlParser.QueryForeignSigContext ctx) { }
+	@Override public void enterQueryClauseFrom(AqlParser.QueryClauseFromContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryForeignSig(AqlParser.QueryForeignSigContext ctx) { }
+	@Override public void exitQueryClauseFrom(AqlParser.QueryClauseFromContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQueryClauseWhere(AqlParser.QueryClauseWhereContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryClauseWhere(AqlParser.QueryClauseWhereContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -3196,6 +3232,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterQueryForeignSig(AqlParser.QueryForeignSigContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryForeignSig(AqlParser.QueryForeignSigContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterQueryGen(AqlParser.QueryGenContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -3208,37 +3256,73 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryPath(AqlParser.QueryPathContext ctx) { }
+	@Override public void enterQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryPath(AqlParser.QueryPathContext ctx) { }
+	@Override public void exitQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryFromMappingSection(AqlParser.QueryFromMappingSectionContext ctx) { }
+	@Override public void enterQueryPath_TypeConst(AqlParser.QueryPath_TypeConstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryFromMappingSection(AqlParser.QueryFromMappingSectionContext ctx) { }
+	@Override public void exitQueryPath_TypeConst(AqlParser.QueryPath_TypeConstContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterQueryFromSchemaSection(AqlParser.QueryFromSchemaSectionContext ctx) { }
+	@Override public void enterQueryPath_GenBare(AqlParser.QueryPath_GenBareContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitQueryFromSchemaSection(AqlParser.QueryFromSchemaSectionContext ctx) { }
+	@Override public void exitQueryPath_GenBare(AqlParser.QueryPath_GenBareContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQueryPath_GenArrow(AqlParser.QueryPath_GenArrowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryPath_GenArrow(AqlParser.QueryPath_GenArrowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQueryPath_GenParam(AqlParser.QueryPath_GenParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryPath_GenParam(AqlParser.QueryPath_GenParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -15,7 +15,12 @@ import catdata.Quad;
 import catdata.Triple;
 import catdata.aql.RawTerm;
 import catdata.aql.exp.GraphExp.GraphExpRaw;
+import catdata.aql.exp.QueryExpRaw.Block;
+import catdata.aql.exp.QueryExpRaw.PreBlock;
+import catdata.aql.exp.QueryExpRaw.Trans;
+import catdata.aql.exp.MapExpColim;
 import catdata.aql.exp.SchExp.SchExpEmpty;
+import catdata.aql.exp.SchExp.SchExpVar;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
 import catdata.aql.exp.SchExpRaw.Fk;
@@ -28,10 +33,19 @@ import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.MappingGenContext;
 import catdata.aql.grammar.AqlParser.MappingLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.MappingRefContext;
+import catdata.aql.grammar.AqlParser.OptionsDeclarationContext;
+import catdata.aql.grammar.AqlParser.QueryGenContext;
+import catdata.aql.grammar.AqlParser.QueryKindContext;
+import catdata.aql.grammar.AqlParser.QueryLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.QueryPathContext;
+import catdata.aql.grammar.AqlParser.QuerySimpleSectionContext;
+import catdata.aql.grammar.AqlParser.SchemaArrowIdContext;
 import catdata.aql.grammar.AqlParser.SchemaEntityIdContext;
 import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
 import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
+import catdata.aql.grammar.AqlParser.SchemaKindContext;
 import catdata.aql.grammar.AqlParser.SchemaLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.SchemaRefContext;
 import catdata.aql.grammar.AqlParser.TransformRefContext;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
@@ -108,6 +122,16 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public void exitOptionsDeclaration(AqlParser.OptionsDeclarationContext ctx) { 
 		value_option.put(ctx, 
 				new Pair<>(ctx.start.getText(), ctx.stop.getText()));
+	}
+	
+	private List<Pair<String, String>> 
+	parseOptions(final List<OptionsDeclarationContext> options) {
+		return options.stream() 
+			.map(elt -> 
+				new Pair<>(
+					elt.getStart().getText(),
+					elt.getStop().getText())) 
+			.collect(Collectors.toList());
 	}
 	
 	/***************************************************
@@ -307,18 +331,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							elt.typesideJavaStatement().getText())))
 				.collect(Collectors.toList());
 		
-		final List<Pair<String, String>>
-		options = ctx_lit.allOptions().optionsDeclaration().stream() 
-				.map(elt -> 
-					new Pair<>(
-						elt.getStart().getText(),
-						elt.getStop().getText())) 
-				.collect(Collectors.toList());
-		
 		final TyExpRaw typeside = 
 			new TyExpRaw(imports, types, functions, eqns,
 				java_tys, java_constant, java_fns,
-				options);
+				parseOptions(ctx_lit.allOptions().optionsDeclaration()));
 				
 		this.exps.put(ctx,typeside);
 	};
@@ -344,6 +360,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public void exitSchemaKind_Exp(AqlParser.SchemaKind_ExpContext ctx) {
 		this.exps.put(ctx,this.exps.get(ctx.schemaExp()));
 	}
+	
+	@Override 
+	public void exitSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx) {
+		final SchExpVar<Object, Object, Object, Object, Object> 
+		sch = new SchExp.SchExpVar<>(ctx.schemaRef().getText());
+	
+		this.exps.put(ctx,sch);
+	};
 	
 	@Override 
 	public void exitSchemaExp_Empty(AqlParser.SchemaExp_EmptyContext ctx) {
@@ -460,16 +484,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 								this.quads.get(obs)))
 				.collect(Collectors.toList());
 		
-		final List<Pair<String, String>>
-		options = ctx_lit.allOptions().optionsDeclaration().stream() 
-				.map(elt -> new Pair<>(
-						elt.getStart().getText(),
-						elt.getStop().getText())) 
-				.collect(Collectors.toList());
-		
 		final SchExpRaw schema = 
 			new SchExpRaw(typeside, imports, 
-					entities, arrows, commutes, attrs, observes, options);
+					entities, arrows, commutes, attrs, observes, 
+					parseOptions(ctx_lit.allOptions().optionsDeclaration()));
 				
 		this.exps.put(ctx,schema);
 	}
@@ -614,7 +632,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitMappingExp_Get(AqlParser.MappingExp_GetContext ctx) {
-		// TODO
+		// TODO complete mapping get
 	}
 	
 	private final ParseTreeProperty<
@@ -651,14 +669,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(elt -> this.mapping.get(elt)) 
 				.collect(Collectors.toList());
 		
-		final List<Pair<String, String>>
-		options = ctx_lit.allOptions().optionsDeclaration().stream() 
-				.map(elt -> new Pair<>(
-						elt.getStart().getText(),
-						elt.getStop().getText())) 
-				.collect(Collectors.toList());
-		
-		final MapExpRaw mapping = new MapExpRaw(schemaSrc, schemaTgt, imports, entities, options);
+		final MapExpRaw mapping = new MapExpRaw(schemaSrc, schemaTgt, imports, entities, 
+				parseOptions(ctx_lit.allOptions().optionsDeclaration()));
 				
 		this.exps.put(ctx,mapping);
 	}
@@ -785,17 +797,178 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,exp);
 	}
 	
-	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) { }
+	@Override public void exitQueryExp_Get(AqlParser.QueryExp_GetContext ctx) {
+		@SuppressWarnings("unchecked")
+		final ColimSchExp<SchemaKindContext>
+		colim_exp = (ColimSchExp<SchemaKindContext>) this.exps.get(ctx.schemaColimitRef());
+		
+		final MapExpColim<SchemaKindContext> 
+		getmap = new MapExpColim<SchemaKindContext>(ctx.schemaKind(), colim_exp);
+		
+		this.exps.put(ctx, getmap);
+	}
 	
-	@Override public void exitQueryExp_Get(AqlParser.QueryExp_GetContext ctx) { }
+	@Override public void exitQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx) {
+		final List<Pair<String, String>> 
+		options = parseOptions(ctx.queryDeltaEvalSection()
+				.allOptions().optionsDeclaration());
+		
+		final MapExp<?, ?, ?, ?, ?, ?, ?, ?> 
+		mapExp = new MapExp.MapExpVar(ctx.mappingKind().getText());
+		
+		final QueryExp<?, ?, ?, ?, ?, ?, ?, ?>
+		toQuery = new QueryExp.QueryExpDeltaEval<>(mapExp, options);
+		
+		this.exps.put(ctx, toQuery);
+	}
 	
-	@Override public void exitQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx) { }
+	@Override public void exitQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx) {
+		final List<Pair<String, String>> 
+		options = parseOptions(ctx.queryDeltaCoEvalSection()
+				.allOptions().optionsDeclaration());
+		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		final MapExp<?, ?, ?, ?, ?, ?, ?, ?> 
+		mapExp = new MapExp.MapExpId((SchExp) this.exps.get(ctx.schemaKind()));
+		
+		final QueryExp<?, ?, ?, ?, ?, ?, ?, ?>
+		toCoQuery = new QueryExp.QueryExpDeltaCoEval<>(mapExp, options);
+		
+		this.exps.put(ctx, toCoQuery);
+	}
 	
-	@Override public void exitQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx) { }
-	
-	@Override public void exitQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx) { }
+	@Override public void exitQueryExp_Compose(AqlParser.QueryExp_ComposeContext ctx) {
+		final List<QueryKindContext> qk = ctx.queryKind();
+		
+		@SuppressWarnings("rawtypes")
+		final List<QueryExp> 
+		queries = qk.stream()
+		     .map(x -> (QueryExp<?, ?, ?, ?, ?, ?, ?, ?>) this.exps.get(x))
+		     .collect(Collectors.toList());
+		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		final QueryExp<?, ?, ?, ?, ?, ?, ?, ?> 
+		comp = new QueryExp.QueryExpCompose(
+				queries.get(0), queries.get(1), 
+				parseOptions(ctx.allOptions().optionsDeclaration()));
+				
+		this.exps.put(ctx, comp);
+	}
 
-	@Override public void exitQueryExp_Literal(AqlParser.QueryExp_LiteralContext ctx) { }
+	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) {
+		final SchemaKindContext sKind = ctx.schemaKind();
+		final QuerySimpleSectionContext simpleSec = ctx.querySimpleSection();
+		
+		final SchExp<Ty, En, Sym, Fk, Att>
+		src = new SchExp.SchExpVar<>(sKind.getText());
+		
+		final QueryExpRaw.Block 
+		block = (Block) this.exps.get(simpleSec.queryClauseExpr());
+		
+		@SuppressWarnings("rawtypes")
+		final QueryExp
+		simple = new QueryExpRawSimple(
+				src, 
+				ctx.getStart().getStartIndex(), 
+				block);
+		
+		this.exps.put(ctx, simple);
+	}
+
+	@Override public void exitQueryExp_Literal(AqlParser.QueryExp_LiteralContext ctx) {
+		final SchemaKindContext skind = ctx.schemaKind();
+		final SchemaRefContext sref = ctx.schemaRef();
+		final QueryLiteralSectionContext lits = ctx.queryLiteralSection();
+		
+		final SchExp<Ty, En, Sym, Fk, Att>
+		src = new SchExp.SchExpVar<>(ctx.schemaKind().getText());
+		
+		final QueryExpRaw.Block 
+		block = (Block) this.exps.get(lits.queryClauseExpr());
+		
+		@SuppressWarnings("rawtypes")
+		final QueryExp
+		simple = new QueryExpRawSimple(
+				src, 
+				ctx.getStart().getStartIndex(), 
+				block);
+		
+		this.exps.put(ctx, simple);
+	}
+	
+	//--- helpers ------------------
+	
+	@Override public void exitQueryClauseExpr(AqlParser.QueryClauseExprContext ctx) { 
+		final List<Pair<LocStr, String>>
+		fromClause = ctx.queryClauseFrom().stream()
+			.map(x -> new Pair<>(makeLocStr(x.queryGen()), x.schemaEntityId().getText())) 
+			.collect(Collectors.toList());
+		
+		final List<Pair<Integer, Pair<RawTerm, RawTerm>>>
+		whereClause = ctx.queryClauseWhere().stream()
+		    .map(x -> new Pair<>(x.getStart().getStartIndex(),
+		    		             new Pair<>(this.terms.get(x.queryPath(0)), 
+		    		            		    this.terms.get(x.queryPath(1)))))
+		    .collect(Collectors.toList());
+		    
+		final List<Pair<LocStr, RawTerm>>
+		atts = ctx.queryPathMapping().stream()
+			.map(x -> new Pair<>(makeLocStr(x.queryGen()), this.terms.get(x.queryPath())))
+			.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Trans>> 
+		fks = ctx.queryForeignSig().stream()
+			.map(x -> 
+			     new Pair<>(
+			    		    makeLocStr(x.schemaForeignId()), 
+					        new Trans(x.queryPathMapping().stream() 
+					    		       .map(y -> 
+					    		            new Pair<>(makeLocStr(y.queryGen()), 
+					    				               this.terms.get(y.queryPath())))
+					    		       .collect(Collectors.toList()), 
+					    		      new LinkedList<>())))
+			.collect(Collectors.toList());
+		
+		final PreBlock 
+		preblock = new PreBlock(fromClause, whereClause, atts, fks, 
+				parseOptions(ctx.allOptions().optionsDeclaration()));
+		
+		final Block 
+		block = new Block(preblock, new LocStr(ctx.getStart().getStartIndex(), "Q"));
+		
+		this.exps.put(ctx, block);
+	}
+	
+	@Override public void exitQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx) {
+		this.terms.put(ctx, new RawTerm(ctx.queryLiteralValue().getText()));
+	}
+	@Override public void exitQueryPath_TypeConst(AqlParser.QueryPath_TypeConstContext ctx) {
+		this.terms.put(ctx, new RawTerm(ctx.typesideConstantId().getText()));
+	}
+	@Override public void exitQueryPath_GenBare(AqlParser.QueryPath_GenBareContext ctx) {
+		this.terms.put(ctx, new RawTerm(ctx.queryGen().getText()));
+	}
+	@Override public void exitQueryPath_GenArrow(AqlParser.QueryPath_GenArrowContext ctx) {
+		final QueryGenContext gen = ctx.queryGen();
+		final List<SchemaArrowIdContext> arrows = ctx.schemaArrowId();
+		
+		RawTerm acc = new RawTerm(gen.getText());
+		for (int ix=0; ix < arrows.size(); ix++) {
+			LinkedList<RawTerm> rts = new LinkedList<>();
+			rts.add(acc);
+			acc = new RawTerm(arrows.get(ix).getText(), rts);
+		}
+		this.terms.put(ctx, acc);
+	}
+	@Override public void exitQueryPath_GenParam(AqlParser.QueryPath_GenParamContext ctx) {
+		final QueryGenContext gens = ctx.queryGen();
+		final List<QueryPathContext> paths = ctx.queryPath();
+		
+		final List<RawTerm> lrt = paths.stream() 
+				.map(x -> this.terms.get(x))
+				.collect(Collectors.toList());
+		this.terms.put(ctx, new RawTerm(gens.getText(), lrt));
+	}
 	
 	
 	/***************************************************

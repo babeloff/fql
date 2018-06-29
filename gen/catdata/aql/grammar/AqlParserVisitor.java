@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fjo/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8jt/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -566,6 +566,13 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSchemaAssignment(AqlParser.SchemaAssignmentContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SchemaExp_Identity}
+	 * labeled alternative in {@link AqlParser#schemaExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SchemaExp_Empty}
 	 * labeled alternative in {@link AqlParser#schemaExp}.
@@ -1612,13 +1619,6 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryExp_Identity(AqlParser.QueryExp_IdentityContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code QueryExp_Simple}
-	 * labeled alternative in {@link AqlParser#queryExp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code QueryExp_Get}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
@@ -1626,26 +1626,33 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryExp_Get(AqlParser.QueryExp_GetContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code QueryExp_FromMapping}
+	 * Visit a parse tree produced by the {@code QueryExp_ToQuery}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryExp_FromMapping(AqlParser.QueryExp_FromMappingContext ctx);
+	T visitQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code QueryExp_FromSchema}
+	 * Visit a parse tree produced by the {@code QueryExp_ToCoquery}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryExp_FromSchema(AqlParser.QueryExp_FromSchemaContext ctx);
+	T visitQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code QueryExp_Composition}
+	 * Visit a parse tree produced by the {@code QueryExp_Compose}
 	 * labeled alternative in {@link AqlParser#queryExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryExp_Composition(AqlParser.QueryExp_CompositionContext ctx);
+	T visitQueryExp_Compose(AqlParser.QueryExp_ComposeContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code QueryExp_Simple}
+	 * labeled alternative in {@link AqlParser#queryExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code QueryExp_Literal}
 	 * labeled alternative in {@link AqlParser#queryExp}.
@@ -1668,6 +1675,24 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryKind_Exp(AqlParser.QueryKind_ExpContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#queryDeltaEvalSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryDeltaEvalSection(AqlParser.QueryDeltaEvalSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#queryDeltaCoEvalSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryDeltaCoEvalSection(AqlParser.QueryDeltaCoEvalSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#querySimpleSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#queryLiteralSection}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -1680,29 +1705,23 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryEntityExpr(AqlParser.QueryEntityExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#querySimpleSection}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQuerySimpleSection(AqlParser.QuerySimpleSectionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryLiteralValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AqlParser#queryClauseExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitQueryClauseExpr(AqlParser.QueryClauseExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryForeignSig}.
+	 * Visit a parse tree produced by {@link AqlParser#queryClauseFrom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryForeignSig(AqlParser.QueryForeignSigContext ctx);
+	T visitQueryClauseFrom(AqlParser.QueryClauseFromContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#queryClauseWhere}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryClauseWhere(AqlParser.QueryClauseWhereContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#queryPathMapping}.
 	 * @param ctx the parse tree
@@ -1710,29 +1729,58 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQueryPathMapping(AqlParser.QueryPathMappingContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#queryForeignSig}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryForeignSig(AqlParser.QueryForeignSigContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#queryGen}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitQueryGen(AqlParser.QueryGenContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryPath}.
+	 * Visit a parse tree produced by the {@code QueryPath_Literal}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryPath(AqlParser.QueryPathContext ctx);
+	T visitQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryFromMappingSection}.
+	 * Visit a parse tree produced by the {@code QueryPath_TypeConst}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryFromMappingSection(AqlParser.QueryFromMappingSectionContext ctx);
+	T visitQueryPath_TypeConst(AqlParser.QueryPath_TypeConstContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#queryFromSchemaSection}.
+	 * Visit a parse tree produced by the {@code QueryPath_GenBare}
+	 * labeled alternative in {@link AqlParser#queryPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitQueryFromSchemaSection(AqlParser.QueryFromSchemaSectionContext ctx);
+	T visitQueryPath_GenBare(AqlParser.QueryPath_GenBareContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code QueryPath_GenArrow}
+	 * labeled alternative in {@link AqlParser#queryPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryPath_GenArrow(AqlParser.QueryPath_GenArrowContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code QueryPath_GenParam}
+	 * labeled alternative in {@link AqlParser#queryPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryPath_GenParam(AqlParser.QueryPath_GenParamContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#queryLiteralValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQueryLiteralValue(AqlParser.QueryLiteralValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#graphId}.
 	 * @param ctx the parse tree
