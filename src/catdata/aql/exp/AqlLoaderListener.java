@@ -84,6 +84,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.mapped_terms = new ParseTreeProperty<>();
 		this.value_option = new ParseTreeProperty<>();
 		this.terms = new ParseTreeProperty<>();
+		this.prexps = new ParseTreeProperty<>();
 		this.quads = new ParseTreeProperty<>();
 	}
 	public final List<Triple<String, Integer, Exp<?>>> decls;
@@ -855,6 +856,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx, comp);
 	}
 
+
+	private final ParseTreeProperty<PreBlock> prexps;
+	
 	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) {
 		final SchemaKindContext sKind = ctx.schemaKind();
 		final QuerySimpleSectionContext simpleSec = ctx.querySimpleSection();
@@ -862,8 +866,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final SchExp<Ty, En, Sym, Fk, Att>
 		src = new SchExp.SchExpVar<>(sKind.getText());
 		
+		final QueryExpRaw.PreBlock 
+		preblock = (PreBlock) this.prexps.get(simpleSec.queryClauseExpr());
+		
 		final QueryExpRaw.Block 
-		block = (Block) this.exps.get(simpleSec.queryClauseExpr());
+		block = new Block(preblock, new LocStr(ctx.getStart().getStartIndex(), "Q"));
 		
 		@SuppressWarnings("rawtypes")
 		final QueryExp
@@ -878,20 +885,37 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitQueryExp_Literal(AqlParser.QueryExp_LiteralContext ctx) {
 		final SchemaKindContext skind = ctx.schemaKind();
 		final SchemaRefContext sref = ctx.schemaRef();
-		final QueryLiteralSectionContext lits = ctx.queryLiteralSection();
+		final QueryLiteralSectionContext ctx_lit = ctx.queryLiteralSection();
+		
+		final List<LocStr>
+		imports = ctx_lit.queryRef().stream() 
+				.map(elt -> makeLocStr(elt))
+				.collect(Collectors.toList());
 		
 		final SchExp<Ty, En, Sym, Fk, Att>
-		src = new SchExp.SchExpVar<>(ctx.schemaKind().getText());
+		src = new SchExp.SchExpVar<>(skind.getText());
 		
-		final QueryExpRaw.Block 
-		block = (Block) this.exps.get(lits.queryClauseExpr());
+		final SchExp<Ty, En, Sym, Fk, Att>
+		tgt = new SchExp.SchExpVar<>(sref.getText());
+		
+		final List<Pair<LocStr, PreBlock>>
+		preblocks = ctx_lit.queryEntityExpr().stream() 
+			.map(x -> (Pair<LocStr,PreBlock>) 
+					new Pair<>(makeLocStr(x.queryClauseExpr()), 
+							this.prexps.get(x.queryClauseExpr())))
+			.collect(Collectors.toList());
+		
+		final List<Pair<String, String>> 
+		options = parseOptions(ctx_lit.allOptions().optionsDeclaration());
+		
+		final List<Pair<LocStr, String>> params = new LinkedList<>();
+		final List<Pair<LocStr, RawTerm>> consts = new LinkedList<>();
 		
 		@SuppressWarnings("rawtypes")
 		final QueryExp
-		simple = new QueryExpRawSimple(
-				src, 
-				ctx.getStart().getStartIndex(), 
-				block);
+		simple = new QueryExpRaw(
+				params, consts, src, tgt, imports,
+				preblocks, options);
 		
 		this.exps.put(ctx, simple);
 	}
@@ -933,10 +957,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		preblock = new PreBlock(fromClause, whereClause, atts, fks, 
 				parseOptions(ctx.allOptions().optionsDeclaration()));
 		
-		final Block 
-		block = new Block(preblock, new LocStr(ctx.getStart().getStartIndex(), "Q"));
-		
-		this.exps.put(ctx, block);
+		this.prexps.put(ctx, preblock);
 	}
 	
 	@Override public void exitQueryPath_Literal(AqlParser.QueryPath_LiteralContext ctx) {
