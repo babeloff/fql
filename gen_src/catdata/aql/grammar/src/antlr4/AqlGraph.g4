@@ -13,7 +13,7 @@ graphExp
   ;
 
 graphKind 
-: graphRef # GraphKind_Ref 
+: graphRef               # GraphKind_Ref 
 | LPAREN graphExp RPAREN # GraphKind_Exp
 ;
 

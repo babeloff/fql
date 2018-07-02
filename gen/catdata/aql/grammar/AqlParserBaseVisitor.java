@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8jt/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8mw/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -990,7 +990,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceExp_Coprod(AqlParser.InstanceExp_CoprodContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceExp_CoProd(AqlParser.InstanceExp_CoProdContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1004,7 +1004,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceExp_CoprodUn(AqlParser.InstanceExp_CoprodUnContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceExp_CoProdUn(AqlParser.InstanceExp_CoProdUnContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1138,6 +1138,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitInstanceColimitSection(AqlParser.InstanceColimitSectionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitInstanceCoProdPair(AqlParser.InstanceCoProdPairContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1305,21 +1312,21 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceCoprodSection(AqlParser.InstanceCoprodSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceCoProdSection(AqlParser.InstanceCoProdSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceCoprodSigmaSection(AqlParser.InstanceCoprodSigmaSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceCoProdSigmaSection(AqlParser.InstanceCoProdSigmaSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInstanceCoprodUnrestrictSection(AqlParser.InstanceCoprodUnrestrictSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInstanceCoProdUnrestrictSection(AqlParser.InstanceCoProdUnrestrictSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1621,6 +1628,13 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitTransformExp_Literal(AqlParser.TransformExp_LiteralContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTransformKind_Ref(AqlParser.TransformKind_RefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2250,7 +2264,7 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSchemaColimitExp_Coproduct(AqlParser.SchemaColimitExp_CoproductContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSchemaColimitExp_CoProduct(AqlParser.SchemaColimitExp_CoProductContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -12,7 +12,7 @@ schemaColimitExp
   # SchemaColimitExp_Quotient
     
   | COPRODUCT schemaRef (PLUS schemaRef)* COLON typesideRef
-  # SchemaColimitExp_Coproduct
+  # SchemaColimitExp_CoProduct
     
   | MODIFY schemaColimitRef
       (LBRACE schemaColimitModifySection RBRACE)?

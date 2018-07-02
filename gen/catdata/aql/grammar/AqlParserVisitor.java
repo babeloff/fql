@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8jt/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8mw/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -901,12 +901,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceExp_CoSigma(AqlParser.InstanceExp_CoSigmaContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code InstanceExp_Coprod}
+	 * Visit a parse tree produced by the {@code InstanceExp_CoProd}
 	 * labeled alternative in {@link AqlParser#instanceExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceExp_Coprod(AqlParser.InstanceExp_CoprodContext ctx);
+	T visitInstanceExp_CoProd(AqlParser.InstanceExp_CoProdContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code InstanceExp_Union}
 	 * labeled alternative in {@link AqlParser#instanceExp}.
@@ -915,12 +915,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceExp_Union(AqlParser.InstanceExp_UnionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code InstanceExp_CoprodUn}
+	 * Visit a parse tree produced by the {@code InstanceExp_CoProdUn}
 	 * labeled alternative in {@link AqlParser#instanceExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceExp_CoprodUn(AqlParser.InstanceExp_CoprodUnContext ctx);
+	T visitInstanceExp_CoProdUn(AqlParser.InstanceExp_CoProdUnContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code InstanceExp_CoEqual}
 	 * labeled alternative in {@link AqlParser#instanceExp}.
@@ -1051,6 +1051,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInstanceColimitSection(AqlParser.InstanceColimitSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceCoProdPair}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceCoProdPair(AqlParser.InstanceCoProdPairContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceLiteralSection}.
 	 * @param ctx the parse tree
@@ -1190,23 +1196,23 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceSigmaSection(AqlParser.InstanceSigmaSectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceCoprodSection}.
+	 * Visit a parse tree produced by {@link AqlParser#instanceCoProdSection}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceCoprodSection(AqlParser.InstanceCoprodSectionContext ctx);
+	T visitInstanceCoProdSection(AqlParser.InstanceCoProdSectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceCoprodSigmaSection}.
+	 * Visit a parse tree produced by {@link AqlParser#instanceCoProdSigmaSection}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceCoprodSigmaSection(AqlParser.InstanceCoprodSigmaSectionContext ctx);
+	T visitInstanceCoProdSigmaSection(AqlParser.InstanceCoProdSigmaSectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceCoprodUnrestrictSection}.
+	 * Visit a parse tree produced by {@link AqlParser#instanceCoProdUnrestrictSection}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceCoprodUnrestrictSection(AqlParser.InstanceCoprodUnrestrictSectionContext ctx);
+	T visitInstanceCoProdUnrestrictSection(AqlParser.InstanceCoProdUnrestrictSectionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceCoequalizeSection}.
 	 * @param ctx the parse tree
@@ -1490,6 +1496,13 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTransformExp_Literal(AqlParser.TransformExp_LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TransformKind_Ref}
+	 * labeled alternative in {@link AqlParser#transformKind}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTransformKind_Ref(AqlParser.TransformKind_RefContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TransformKind_Exp}
 	 * labeled alternative in {@link AqlParser#transformKind}.
@@ -2057,12 +2070,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaColimitExp_Quotient(AqlParser.SchemaColimitExp_QuotientContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code SchemaColimitExp_Coproduct}
+	 * Visit a parse tree produced by the {@code SchemaColimitExp_CoProduct}
 	 * labeled alternative in {@link AqlParser#schemaColimitExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaColimitExp_Coproduct(AqlParser.SchemaColimitExp_CoproductContext ctx);
+	T visitSchemaColimitExp_CoProduct(AqlParser.SchemaColimitExp_CoProductContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SchemaColimitExp_Modify}
 	 * labeled alternative in {@link AqlParser#schemaColimitExp}.

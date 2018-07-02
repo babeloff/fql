@@ -256,5 +256,4 @@ public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> {
 		
 	}
 	
-	
 }

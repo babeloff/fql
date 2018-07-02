@@ -34,21 +34,21 @@ instanceExp
     (LBRACE instanceSigmaSection RBRACE)?
   # InstanceExp_Sigma
 
-  | COPRODUCT_SIGMA (mappingKind instanceKind)+ COLON schemaKind
-    (LBRACE instanceCoprodSigmaSection RBRACE)?
+  | COPRODUCT_SIGMA instanceCoProdPair+ COLON schemaKind
+    (LBRACE instanceCoProdSigmaSection RBRACE)?
   # InstanceExp_CoSigma
 
-  | COPRODUCT instanceKind (PLUS instanceKind)* COLON schemaKind
-    (LBRACE instanceCoprodSection RBRACE)?
-  # InstanceExp_Coprod
+  | COPRODUCT instanceRef (PLUS instanceRef)* COLON schemaKind
+    (LBRACE instanceCoProdSection RBRACE)?
+  # InstanceExp_CoProd
 
   | UNION instanceKind (PLUS instanceKind)* COLON schemaKind
-    (LBRACE instanceCoprodSection RBRACE)?
+    (LBRACE instanceCoProdSection RBRACE)?
   # InstanceExp_Union
 
   | COPRODUCT_UNRESTRICTED instanceRef (PLUS instanceRef)* COLON schemaKind
-    (LBRACE instanceCoprodUnrestrictSection RBRACE)?
-  # InstanceExp_CoprodUn
+    (LBRACE instanceCoProdUnrestrictSection RBRACE)?
+  # InstanceExp_CoProdUn
 
   | COEQUALIZE transformKind transformKind
     (LBRACE instanceCoequalizeSection RBRACE)?
@@ -105,8 +105,8 @@ instanceExp
   ;
 
 instanceKind 
-  : instanceRef # InstanceKind_Ref 
-  | instanceExp # InstanceKind_Exp 
+  : instanceRef                 # InstanceKind_Ref 
+  | instanceExp                 # InstanceKind_Exp 
   | (LPAREN instanceExp RPAREN) # InstanceKind_Exp
   ;
 
@@ -118,7 +118,9 @@ instanceColimitSection
     EDGES (schemaArrowId RARROW transformKind)+
     allOptions
   ;
-
+  
+instanceCoProdPair : mappingKind instanceKind ;
+ 
 instanceLiteralSection
   : (IMPORTS instanceRef*)?
     (GENERATORS (instanceGen+ COLON schemaEntityId)+)?
@@ -199,9 +201,9 @@ instanceRandomSection
 instanceEvalSection : allOptions ;
 instanceCoevalSection : allOptions  ;
 instanceSigmaSection : allOptions ;
-instanceCoprodSection : allOptions ;
-instanceCoprodSigmaSection : allOptions ;
-instanceCoprodUnrestrictSection : allOptions ;
+instanceCoProdSection : allOptions ;
+instanceCoProdSigmaSection : allOptions ;
+instanceCoProdUnrestrictSection : allOptions ;
 instanceCoequalizeSection : allOptions ;
 
 instanceImportCsvSection

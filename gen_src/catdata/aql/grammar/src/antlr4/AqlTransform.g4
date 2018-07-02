@@ -7,7 +7,7 @@ transformRef : symbol ;
 transformAssignment : TRANSFORM transformId EQUAL transformExp ;
 
 transformExp
-  : IDENTITY instanceKind
+  : IDENTITY instanceRef
   # TransformExp_Identity
 
   | LBRACK transformRef SEMI transformRef RBRACK
@@ -63,7 +63,7 @@ transformExp
   ;
 
 transformKind 
-: transformRef    # TransformKind_Exp 
+: transformRef                   # TransformKind_Ref 
 | (LPAREN transformExp RPAREN)   # TransformKind_Exp 
 ;
 

@@ -12,7 +12,7 @@ queryExp
   : IDENTITY schemaRef
   #QueryExp_Identity
 
-  | GET_MAPPING schemaColimitRef schemaKind
+  | GET_MAPPING schemaColimitKind schemaRef
   #QueryExp_Get
 
   | TO_QUERY mappingKind
@@ -36,8 +36,8 @@ queryExp
   ;
 
 queryKind
-  : queryRef  # QueryKind_Ref 
-  | queryExp  # QueryKind_Exp 
+  : queryRef                # QueryKind_Ref 
+  | queryExp                # QueryKind_Exp 
   | LPAREN queryExp RPAREN  # QueryKind_Exp 
   ;
 

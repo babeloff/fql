@@ -82,7 +82,7 @@ UNTERMINATED_STRING_LITERAL
 
 CHAR : CharLiteral ;
 STRING :  DQuoteLiteral ;
-MULTI_STRING : DQuoteMulti ;
+MULTI_STRING : DQuote MultiLine DQuote ;
 
 // -------------------------
 // Keywords
@@ -339,18 +339,12 @@ ERRCHAR
 // ------------------------------------------------------
 
 mode Html ;
-
-HTML_END
-   : RDocQuote -> popMode;
-
-HTML_MULTI_STRING : DQuoteMulti ;
+HTML_END : RDocQuote -> popMode;
+HTML_MULTI_STRING : DQuote MultiLine DQuote ;
 
 mode MarkDown ;
-
-MD_END
-   : RDocQuote -> popMode;
-
-MD_MULTI_STRING : DQuoteMulti ;
+MD_END : RDocQuote -> popMode;
+MD_MULTI_STRING : DQuote MultiLine DQuote ;
 
 // ======================================================
 // Grammar specific fragments
@@ -364,4 +358,4 @@ fragment LDocQuote : LBrace Ws* LParen Star Ws+ ;
 fragment RDocQuote : Ws+ Star RParen Ws* RBrace ;
 
 fragment Exponent : [Ee] [+\-]? DecimalNumeral ;
-fragment DQuoteMulti : DQuote (EscSeq | ~ ["\\])* DQuote  ;
+fragment MultiLine : (EscSeq | ~ ["\\])* ;
