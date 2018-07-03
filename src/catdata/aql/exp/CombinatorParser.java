@@ -488,7 +488,7 @@ public class CombinatorParser implements IAqlParser {
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	private static Parser<InstExpCsv> instExpCsv() {
 		Parser<catdata.Pair<List<catdata.Pair<LocStr, String>>, List<catdata.Pair<String, String>>>> b = Parsers
 				.tuple(token("{"), env(ident, "->"), options, token("}")).map(x -> new catdata.Pair<>(x.b, x.c));
@@ -714,6 +714,7 @@ public class CombinatorParser implements IAqlParser {
 		l = Parsers.tuple(token("literal"), token(":"), ty_ref.lazy(), token("{")); // .map(x -> x.c);
 
 		// needs tyexp
+		@SuppressWarnings("unchecked")
 		Parser<SchExpRaw> 
 		ret = Parsers.tuple(l, pa, pb, token("}"))
 				.map(x -> new SchExpRaw((TyExp<Ty, Sym>) x.a.c, x.b.a, Util.newIfNull(x.b.b), Util.newIfNull(x.b.c),
@@ -883,6 +884,7 @@ public class CombinatorParser implements IAqlParser {
 		Parser<Tuple3<Token, InstExp<?, ?, ?, ?, ?, ?, ?, ?, ?>, Token>> 
 		l = Parsers.tuple(token("quotient"), inst_ref.lazy(), token("{")); // .map(x -> x.c);
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Parser<InstExpQuotient<?, ?>> ret = Parsers.tuple(l, pa, token("}")).map(x -> new InstExpQuotient(x.a.b,
 				new LinkedList<>(Util.append(Util.newIfNull(x.b.a), Util.newIfNull(x.b.b))), x.b.c));
 
@@ -1015,6 +1017,7 @@ public class CombinatorParser implements IAqlParser {
 	 * }
 	 */
 	private static void queryExp() {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		Parser<QueryExp<?, ?, ?, ?, ?, ?, ?, ?>> var = ident.map(QueryExpVar::new),
 				deltaQueryEval = Parsers
 						.tuple(token("toQuery"), map_ref.lazy(), options.between(token("{"), token("}")).optional())
@@ -1185,12 +1188,10 @@ public class CombinatorParser implements IAqlParser {
 		return ret;
 	}
 
-	@SuppressWarnings("rawtypes")
 	private static Parser<InstExpJdbc> instExpJdbc() {
 		Parser<Pair<List<catdata.Pair<LocStr, String>>, List<catdata.Pair<String, String>>>> 
 		qs = Parsers.tuple(env(ident, "->"), options).between(token("{"), token("}"));
 
-		@SuppressWarnings("unchecked")
 		Parser<InstExpJdbc> 
 		ret = Parsers
 				.tuple(token("import_jdbc"), ident, ident.followedBy(token(":")), sch_ref.lazy(), qs)
@@ -1235,9 +1236,9 @@ public class CombinatorParser implements IAqlParser {
 		// List<Pair<LocStr, Triple<String, List<Pair<LocStr, List<String>>>,
 		// List<Pair<LocStr, Triple<String, String, RawTerm>>>>>> list,
 
-		Parser<List<catdata.Pair<LocStr, String>>> 
-		ens = Parsers.tuple(token("entities"), env(ident, "->"))
-				.map(x -> x.b);
+		// Parser<List<catdata.Pair<LocStr, String>>> 
+		// ens = Parsers.tuple(token("entities"), env(ident, "->"))
+		// 		.map(x -> x.b);
 
 		Parser<Tuple3<List<LocStr>, List<catdata.Pair<LocStr, Triple<String, List<catdata.Pair<LocStr, List<String>>>, List<catdata.Pair<LocStr, Triple<String, String, RawTerm>>>>>>, List<catdata.Pair<String, String>>>> 
 		pa = Parsers.tuple(imports, Parsers
@@ -1258,7 +1259,6 @@ public class CombinatorParser implements IAqlParser {
 		return ret;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static Parser<ColimSchExpModify<?>> colimExpModify() {
 		Parser<List<catdata.Pair<LocStr, String>>> 
 		ens = Parsers.tuple(token("rename").followedBy(token("entities")), env(ident, "->")).map(x -> x.b);

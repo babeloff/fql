@@ -72,6 +72,7 @@ public class EasikAql {
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@SuppressWarnings("hiding")
 	private static <Ty,En,Sym,Fk,Att> String aqlToEasik(String name, Schema<Ty,En,Sym,Fk,Att> schema, int x, int y, int len, Set<String> warnings) {
 		String pre = "\n<easketch cascade=\"cascade\" name=\"" + name + "\" partial-cascade=\"set_null\" x=\"" + x + "\" y=\"" + y + "\">"
 				+ "\n<header>"
@@ -134,11 +135,13 @@ public class EasikAql {
 		return pre + str;
 	}
 
+	@SuppressWarnings("hiding")
 	private static <Ty,En,Sym,Fk,Att> String aqlTypeToString(Schema<Ty,En,Sym,Fk,Att> schema, Ty t) {
 		String s = schema.typeSide.js.java_tys.containsKey(t) ? schema.typeSide.js.java_tys.get(t) : "";
 		return easikTypeFor(s);
 	}
 
+	@SuppressWarnings("hiding")
 	private static <Ty,En,Sym,Fk,Att> String aqlToEasik(Schema<Ty,En,Sym,Fk,Att> schema, Pair<Var, En> p, Term<Ty, En, Sym, Fk, Att, Void, Void> term) {
 		String str = "\n<path codomain=\"" + schema.type(p, term).r + "\" domain=\"" + p.second +"\">";
 		List<String> l = new LinkedList<>();
@@ -157,6 +160,7 @@ public class EasikAql {
 		return s.replace(" ", "_").replace("-", "_").replace(".", "_").replaceAll("/", "_");
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static Pair<SchExp<?, ?, ?, ?, ?>,List<Pair<String,EdsExpRaw>>> translate1(Node sketch, Set<String> used, Set<String> warnings, String sname) {
 		List<String> ens = new LinkedList<>();
 		List<Pair<String, Pair<String, Ty>>> atts = new LinkedList<>();
@@ -595,6 +599,7 @@ public class EasikAql {
 		return new TyExpRaw(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>(), java_tys, java_parsers, new LinkedList<>(), new LinkedList<>());
 	} */
 
+	@SuppressWarnings("rawtypes")
 	public static String easikToAql(String in) {
 		String ret = "";
 		Set<String> tys = new HashSet<>();

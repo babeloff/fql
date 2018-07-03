@@ -107,9 +107,10 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return ret;
 	}
 
+	@SuppressWarnings("hiding")
 	private static <Ty, En1, Sym, Fk1, Att1, Gen1, Sk1, En2, Fk2, Att2, Gen2, Sk2> JComponent 
-	viewMorphism(Morphism /*<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1, En2, Sym, Fk2, Att2, Gen2, Sk2>*/ m, 
-			AqlJs /*<Ty, Sym>*/ js) {
+	viewMorphism(@SuppressWarnings("rawtypes") Morphism /*<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1, En2, Sym, Fk2, Att2, Gen2, Sk2>*/ m, 
+			@SuppressWarnings("rawtypes") AqlJs /*<Ty, Sym>*/ js) {
 		CodeTextPanel input = new CodeTextPanel("Input term-in-ctx", "");
 		CodeTextPanel output = new CodeTextPanel("Output term-in-ctx", "");
 
@@ -130,9 +131,11 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 				final Pair<List<Pair<String, String>>, RawTerm> 
                                 y = AqlParserFactory.getParser().parseTermInCtx(input.getText());
 				
+				@SuppressWarnings("unchecked")
 				final Triple<Ctx<Var, Chc<Ty, En1>>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>> 
 				z = RawTerm.infer2(y.first, y.second, y.second, m.src(), js);
 				
+				@SuppressWarnings("unchecked")
 				final Pair<Ctx<Var, Chc<Ty, En2>>, Term<Ty, En2, Sym, Fk2, Att2, Gen2, Sk2>> 
 				a = m.translate(z.first, z.second);
 				
@@ -201,6 +204,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 	}	
 
 	
+	@SuppressWarnings("hiding")
 	private  <Ty, En, Sym, Fk, Att> JComponent 
 	viewSchema(Schema<Ty, En, Sym, Fk, Att> schema) {
 		Graph<Chc<Ty, En>, Chc<Fk, Att>> sgv = new DirectedSparseMultigraph<>();
@@ -310,10 +314,11 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return graphComponent;
 	}	*/
 
+	@SuppressWarnings("hiding")
 	private static <Ty, En, Sym, Fk, Att, Gen, Sk> JComponent 
 	viewDP(DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp, 
-			Collage /*<Ty, En, Sym, Fk, Att, Gen, Sk>*/ col, 
-			AqlJs /*<Ty, Sym>*/ js) {
+			@SuppressWarnings("rawtypes") Collage /*<Ty, En, Sym, Fk, Att, Gen, Sk>*/ col, 
+			@SuppressWarnings("rawtypes") AqlJs /*<Ty, Sym>*/ js) {
 		CodeTextPanel input = new CodeTextPanel("Input (either equation-in-ctx or term-in-ctx)", "");
 		CodeTextPanel output = new CodeTextPanel("Output", "");
 
@@ -342,6 +347,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 				final Triple<List<Pair<String, String>>, RawTerm, RawTerm> 
 				y = AqlParserFactory.getParser().parseEq(input.getText());
 				
+				@SuppressWarnings("unchecked")
 				final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>
 				z = RawTerm.infer2(y.first, y.second, y.third, col, js);
 				
@@ -357,6 +363,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 				final Pair<List<Pair<String, String>>, RawTerm> 
                                 y = AqlParserFactory.getParser().parseTermInCtx(input.getText());
 				
+				@SuppressWarnings("unchecked")
 				final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> 
 				z = RawTerm.infer2(y.first, y.second, y.second, col, js);
 				
@@ -374,6 +381,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 	}
 	
 
+	@SuppressWarnings("hiding")
 	private static <Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> JComponent 
 	viewTransform(Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t) {
 		List<JComponent> list = new LinkedList<>();
@@ -427,6 +435,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 
 
 
+	@SuppressWarnings("hiding")
 	private <Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> Map<Ty, Object[][]> 
 	makeTyTables(Map<Ty, Set<Y>> m, Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> alg) {
 		Map<Ty, Object[][]> ret = new LinkedHashMap<>();
@@ -545,6 +554,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En, Sym, Fk, Att> Unit 
 	visit(JTabbedPane ret, Schema<Ty, En, Sym, Fk, Att> S)  {
@@ -555,6 +565,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings({ "hiding", "unchecked" })
 	@Override
 	public <Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> Unit 
 	visit(JTabbedPane ret, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I)  {
@@ -571,6 +582,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> Unit 
 	visit(JTabbedPane ret, Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h)  {
@@ -588,6 +600,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Unit 
 	visit(JTabbedPane ret, Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q) {
@@ -602,6 +615,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> JComponent 
 	makeQueryPanel(Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q) {
 		try {
@@ -614,6 +628,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		}
 	} 
 	
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Unit 
 	visit(JTabbedPane ret, Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> M) {
@@ -633,6 +648,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit(); //TODO aql
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En, Sym, Fk, Att> Unit 
 	visit(JTabbedPane arg, Constraints<Ty, En, Sym, Fk, Att> S) throws RuntimeException {

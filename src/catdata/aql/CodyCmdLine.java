@@ -39,12 +39,14 @@ public class CodyCmdLine {
 				Util.writeFile(s, f.getAbsolutePath());
 			}
 			for (String k : env.defs.insts.keySet()) {
+				@SuppressWarnings("rawtypes")
 				Instance ts = env.defs.insts.get(k);
 				File f = new File(dir, k + ".tptp");
 				String s = ts.collage().toKB().tptp(true); //maedmax is unsound with empty sorts, but true here proceeds anyway
 				Util.writeFile(s, f.getAbsolutePath());
 			}
 			for (String k : env.defs.schs.keySet()) {
+				@SuppressWarnings("rawtypes")
 				Schema ts = env.defs.schs.get(k);
 				File f = new File(dir, k + ".tptp");
 				String s = ts.collage().toKB().tptp(true); //maedmax is unsound with empty sorts, but true here proceeds anyway

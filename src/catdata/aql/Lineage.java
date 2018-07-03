@@ -5,6 +5,7 @@ public class Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> {
 	public final Integer i;
 	public final Term<Ty,En,Sym,Fk,Att,Gen,Sk> t;
 	
+	@SuppressWarnings({ "hiding", "unchecked" })
 	public <Ty,En,Sym,Fk,Att,Gen,Sk> Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> convert() {
 		return (Lineage<Ty, En, Sym, Fk, Att, Gen, Sk>) this;
 	}
@@ -28,6 +29,7 @@ public class Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> {
 			return true;
 		if (obj == null)
 			return false;
+		@SuppressWarnings("rawtypes")
 		Lineage other = (Lineage) obj;
 		if (i == null) {
 			if (other.i != null)

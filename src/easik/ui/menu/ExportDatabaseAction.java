@@ -46,7 +46,7 @@ public class ExportDatabaseAction extends AbstractAction {
 
 		_theSketch = inSketch;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_D));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_D));
 
 		String[] ds = DriverInfo.availableDatabaseDrivers();
 		String available = "";

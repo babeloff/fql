@@ -36,7 +36,7 @@ public class FileNewOverviewAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_N));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_N));
 		putValue(Action.SHORT_DESCRIPTION, "Clears the current overview and starts a new, empty overview");
 	}
 

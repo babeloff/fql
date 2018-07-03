@@ -1076,6 +1076,7 @@ public abstract class OplExp implements OplObject {
 			return ret;
 		}
 
+		@SuppressWarnings("unlikely-arg-type")
 		private OplTerm<Chc<C, Chc<C1, C2>>, V> inject2(OplTerm<C2, V> term) {
 			if (term.var != null) {
 				return new OplTerm<>(term.var);
@@ -1088,6 +1089,7 @@ public abstract class OplExp implements OplObject {
 			return F1.src.projT().symbols.containsKey(term.head) ? new OplTerm<>(Chc.inLeft((C) term.head), args) : new OplTerm<>(Chc.inRight(Chc.inRight(term.head)), args);
 		}
 
+		@SuppressWarnings("unlikely-arg-type")
 		private OplTerm<Chc<C, Chc<C1, C2>>, V> inject1(OplTerm<C1, V> term) {
 			if (term.var != null) {
 				return new OplTerm<>(term.var);
@@ -1100,6 +1102,7 @@ public abstract class OplExp implements OplObject {
 			return F1.src.projT().symbols.containsKey(term.head) ? new OplTerm<>(Chc.inLeft((C) term.head), args) : new OplTerm<>(Chc.inRight(Chc.inLeft(term.head)), args);
 		}
 
+		@SuppressWarnings("unlikely-arg-type")
 		private OplCtx<Chc<S, Chc<S1, S2>>, V> inject2(OplCtx<S2, V> ctx) {
 			List<Pair<V, Chc<S, Chc<S1, S2>>>> ret = new LinkedList<>();
 
@@ -2690,6 +2693,7 @@ public abstract class OplExp implements OplObject {
 			return new OplPres<>(prec, S, sig, gens, eqs);
 		}
 
+		@SuppressWarnings("unlikely-arg-type")
 		public OplSig<S, Chc<C, X>, V> toSig() {
 			if (toSig != null) {
 				return toSig;
@@ -3082,6 +3086,7 @@ public abstract class OplExp implements OplObject {
 			return new OplCtx<>(m);
 		}
 
+		@SuppressWarnings("unlikely-arg-type")
 		private OplTerm<C2, V> replaceVarsByConsts(OplCtx<S2, V> g, OplTerm<C2, V> e) {
 			if (e.var != null) {
 				if (dst.symbols.containsKey(e.var)) {
@@ -3609,7 +3614,7 @@ public abstract class OplExp implements OplObject {
 					Set<X> m = new HashSet<>();
 					Map<X, X> inj2 = new HashMap<>();
 					for (X x : sorts.get(s)) {
-						X j = (X) new Integer(i);
+						X j = (X) Integer.valueOf(i);
 						inj2.put(x, j);
 						m.add(j);
 						i++;

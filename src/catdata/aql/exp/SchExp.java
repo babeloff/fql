@@ -265,6 +265,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
+			@SuppressWarnings("rawtypes")
 			SchExpVar other = (SchExpVar) obj;
             return var.equals(other.var);
         }

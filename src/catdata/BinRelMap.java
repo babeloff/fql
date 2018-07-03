@@ -28,6 +28,7 @@ public class BinRelMap<X, Y> implements Iterable<Pair<X, Y>> {
 			return false;
 		if (!(obj instanceof BinRelMap))
 			return false;
+		@SuppressWarnings("rawtypes")
 		BinRelMap other = (BinRelMap) obj;
 		if (R == null) {
 			if (other.R != null)

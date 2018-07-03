@@ -72,6 +72,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		
 		
 
+		@SuppressWarnings("unchecked")
 		public ColimSchExpQuotient(TyExp<Ty, Sym> ty, List<LocStr> nodes, List<Pair<Integer, Quad<String, String, String, String>>> eqEn, List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>> eqTerms, List<Pair<Integer, Pair<List<String>, List<String>>>> eqTerms2, List<Pair<String, String>> options) {
 			this.ty = ty;
 			this.nodes = new Ctx<>();
@@ -318,6 +319,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
+			@SuppressWarnings("rawtypes")
 			ColimSchExpVar other = (ColimSchExpVar) obj;
 			return var.equals(other.var);
 		}
@@ -472,6 +474,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 			return nodes.get(n);
 		}
 
+		@SuppressWarnings("unchecked")
 		public ColimSchExpRaw(GraphExp<N, E> shape, TyExp<Ty, Sym> ty, List<Pair<LocStr, SchExp<Ty, En, Sym, Fk, Att>>> nodes, List<Pair<LocStr, MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>>> edges, List<Pair<String, String>> options) {
 			this.shape = shape;
 			this.ty = ty;

@@ -21,7 +21,6 @@ import catdata.aql.exp.SchExpRaw;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
 import catdata.aql.exp.SchExpRaw.Fk;
-import catdata.aql.exp.TyExpRaw;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.graph.DMG;
@@ -405,6 +404,7 @@ public class ColimitSchema<N> implements Semantics {
 	}
 	
 	//should be real terms in the String schema
+	@SuppressWarnings("unchecked")
 	public ColimitSchema(TypeSide<Ty, Sym> ty, Ctx<N, Schema<Ty, En, Sym, Fk, Att>> nodes, 
 			Set<Quad<N,En,N,En>> eqEn, 
 			Set<Quad<String,String,RawTerm,RawTerm>> eqTerms,
@@ -459,6 +459,7 @@ public class ColimitSchema<N> implements Semantics {
 		for (N n : x.second.keySet()) {
 			Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> f = x.second.get(n);
 			
+			@SuppressWarnings({ "rawtypes" })
 			Mapping g 
 			= new Mapping(f.ens.map, f.atts.map, f.fks.map, f.src, q, b);
 			

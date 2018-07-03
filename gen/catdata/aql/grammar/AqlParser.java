@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/iqs/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p48/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -13535,6 +13535,26 @@ public class AqlParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class TransformExp_DistinctContext extends TransformExpContext {
+		public TerminalNode DISTINCT() { return getToken(AqlParser.DISTINCT, 0); }
+		public TransformRefContext transformRef() {
+			return getRuleContext(TransformRefContext.class,0);
+		}
+		public TransformExp_DistinctContext(TransformExpContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTransformExp_Distinct(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTransformExp_Distinct(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTransformExp_Distinct(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class TransformExp_DeltaContext extends TransformExpContext {
 		public TerminalNode DELTA() { return getToken(AqlParser.DELTA, 0); }
 		public MappingKindContext mappingKind() {
@@ -13816,26 +13836,6 @@ public class AqlParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class TransformExp_DestinationContext extends TransformExpContext {
-		public TerminalNode DISTINCT() { return getToken(AqlParser.DISTINCT, 0); }
-		public TransformRefContext transformRef() {
-			return getRuleContext(TransformRefContext.class,0);
-		}
-		public TransformExp_DestinationContext(TransformExpContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTransformExp_Destination(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTransformExp_Destination(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTransformExp_Destination(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 
 	public final TransformExpContext transformExp() throws RecognitionException {
 		TransformExpContext _localctx = new TransformExpContext(_ctx, getState());
@@ -13872,7 +13872,7 @@ public class AqlParser extends Parser {
 				}
 				break;
 			case DISTINCT:
-				_localctx = new TransformExp_DestinationContext(_localctx);
+				_localctx = new TransformExp_DistinctContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(1883);

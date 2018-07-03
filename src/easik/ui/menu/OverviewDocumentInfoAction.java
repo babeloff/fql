@@ -34,7 +34,7 @@ public class OverviewDocumentInfoAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_I));
 		putValue(Action.SHORT_DESCRIPTION, "Information about the current sketches");
 	}
 

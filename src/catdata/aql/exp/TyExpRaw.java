@@ -137,6 +137,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 
 //	private final Set<Triple<Ctx<Var, String>, Term<String, Void, String, Void, Void, Void, Void>, Term<String, Void, String, Void, Void, Void, Void>>> eqs0 = new HashSet<>();
 
+	@SuppressWarnings("unchecked")
 	public TyExpRaw(
 			List<Pair<Integer,TyExp<?,?>>> imports, 
 			List<LocStr> types, 
@@ -177,9 +178,10 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 	
 	}
 
+	@SuppressWarnings("unchecked")
 	private Triple<Ctx<Var, Chc<Ty, Void>>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> infer1x(
 		Map<String, Chc<Ty, En>> ctx0, RawTerm e0, RawTerm f, Chc<Ty, Void> expected,
-		Collage col, String pre, AqlJs<Ty, Sym> js) {
+		@SuppressWarnings("rawtypes") Collage col, String pre, AqlJs<Ty, Sym> js) {
 	return RawTerm.infer1x(ctx0, e0, f, (Chc<Ty,En>)((Object)expected), col, pre, js).first3();
 }
 

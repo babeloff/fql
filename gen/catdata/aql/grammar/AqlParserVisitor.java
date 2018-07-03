@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/iqs/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p48/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1479,12 +1479,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTransformExp_Compose(AqlParser.TransformExp_ComposeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TransformExp_Destination}
+	 * Visit a parse tree produced by the {@code TransformExp_Distinct}
 	 * labeled alternative in {@link AqlParser#transformExp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTransformExp_Destination(AqlParser.TransformExp_DestinationContext ctx);
+	T visitTransformExp_Distinct(AqlParser.TransformExp_DistinctContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TransformExp_Delta}
 	 * labeled alternative in {@link AqlParser#transformExp}.

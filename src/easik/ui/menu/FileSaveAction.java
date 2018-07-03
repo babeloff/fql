@@ -46,7 +46,7 @@ public class FileSaveAction extends AbstractAction {
 		_theFrame = inFrame;
 
 		// FIXME -- what does this do?
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_S));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_S));
 		putValue(Action.SHORT_DESCRIPTION, "Export current overview as XML document");
 	}
 

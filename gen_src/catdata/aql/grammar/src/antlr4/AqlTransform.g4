@@ -14,7 +14,7 @@ transformExp
   # TransformExp_Compose
 
   | DISTINCT transformRef
-  # TransformExp_Destination
+  # TransformExp_Distinct
 
   | DELTA mappingKind transformRef
   # TransformExp_Delta

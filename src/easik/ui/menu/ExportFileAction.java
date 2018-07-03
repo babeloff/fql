@@ -51,7 +51,7 @@ public class ExportFileAction extends AbstractAction {
 
 		_theSketch = inSketch;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_F));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_F));
 
 		String[] ds = DriverInfo.availableFileDrivers();
 		String available = "";

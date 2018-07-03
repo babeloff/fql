@@ -252,9 +252,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return true;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
 			for (String x : Is) {
+				@SuppressWarnings("rawtypes")
 				SchExp t = new InstExpVar(x).type(G);
 				if (!G.eq(t, sch)) { // TODO aql schema equality
 					throw new RuntimeException(
@@ -273,6 +275,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			Set<Pair<Term<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>, Term<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>>> eqs0 = new HashSet<>();
 
 			for (String x : Is) {
+				@SuppressWarnings("unchecked")
 				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I = (Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) new InstExpVar(
 						x).eval(env);
 				for (Gen g : I.gens().keySet()) {
@@ -784,6 +787,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return options;
 		}
 
+		@SuppressWarnings("unchecked")
 		public InstExpColim(GraphExp<N, E> shape, SchExp<Ty, En, Sym, Fk, Att> schema,
 				List<Pair<LocStr, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>>> nodes,
 				List<Pair<LocStr, TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>>> edges,
@@ -1192,7 +1196,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 				col.gens.put(gen, F.ens.get(I.gens().get(gen)));
 			}
 			
-			Set<Pair<Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> eqs = new HashSet<>();
+			@SuppressWarnings("unused")
+			Set<Pair<Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> 
+			eqs = new HashSet<>();
+			
 			for (Pair<Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>, Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>> eq : I.eqs()) {
 				col.eqs.add(new Eq<>(new Ctx<>(), F.trans(eq.first), F.trans(eq.second)));
 			}
@@ -1280,6 +1287,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@Override
 		public String toString() {
+			@SuppressWarnings("unused")
 			String l = "";
 			if (!options.isEmpty()) {
 				l = " {\n" + Util.sep(options, " = ", "\n\t") + "\n}";

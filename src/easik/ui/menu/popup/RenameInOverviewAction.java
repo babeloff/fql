@@ -41,7 +41,7 @@ public class RenameInOverviewAction extends AbstractAction {
 
 		_theOverview = inOverview;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_R));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_R));
 		putValue(Action.SHORT_DESCRIPTION, "Change the name of selection");
 	}
 

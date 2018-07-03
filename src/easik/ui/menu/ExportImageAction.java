@@ -47,7 +47,7 @@ public class ExportImageAction<F extends ModelFrame<F, GM, M, N, E>, GM extends 
 
 		if (inFrame != null) {
 			_theModel = inFrame.getMModel();
-			putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_I));
+			putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_I));
 		}
 
 		putValue(Action.SHORT_DESCRIPTION, "Export an image of the current M.");

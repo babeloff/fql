@@ -221,6 +221,7 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 				return false;
 			if (!(obj instanceof QueryExpCompose))
 				return false;
+			@SuppressWarnings("rawtypes")
 			QueryExpCompose other = (QueryExpCompose) obj;
 			if (Q1 == null) {
 				if (other.Q1 != null)
@@ -507,11 +508,15 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 						.eqs()) {
 
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Chc<Var, Pair<ID, Att2>>> tz = eq.first.mapGen(genf);
+					@SuppressWarnings("rawtypes")
 					Term tt0 = tz;
+					@SuppressWarnings("unchecked")
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Var> lhs = tt0.replace(surjX);
 
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Chc<Var, Pair<ID, Att2>>> qw = eq.second.mapGen(genf);
+					@SuppressWarnings("rawtypes")
 					Term qw1 = qw;
+					@SuppressWarnings("unchecked")
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Var> rhs = qw1.replace(surjX);
 
 					if (!lhs.equals(rhs)) {
@@ -563,7 +568,9 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 						+ h.dst().algebra().printX(h.dst().algebra().gen(p)));
 
 				Term<Ty, En1, Sym, Fk1, Att1, Var, Chc<Var, Pair<ID, Att2>>> tz = u.mapGen(genf);
+				@SuppressWarnings("rawtypes")
 				Term tt0 = tz;
+				@SuppressWarnings("unchecked")
 				Term<Ty, En1, Sym, Fk1, Att1, Var, Var> tt = tt0.replace(surj.get(q2.dst.atts.get(att3).first));
 
 				atts.put(att3, tt);
@@ -616,6 +623,7 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 				return false;
 			if (!(obj instanceof QueryExpDeltaEval))
 				return false;
+			@SuppressWarnings("rawtypes")
 			QueryExpDeltaEval other = (QueryExpDeltaEval) obj;
 			if (F == null) {
 				if (other.F != null)
@@ -714,6 +722,7 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 				return false;
 			if (!(obj instanceof QueryExpDeltaCoEval))
 				return false;
+			@SuppressWarnings("rawtypes")
 			QueryExpDeltaCoEval other = (QueryExpDeltaCoEval) obj;
 			if (F == null) {
 				if (other.F != null)
@@ -820,11 +829,15 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 					Function<Pair<En1, ID>, Var> genf = x -> new Var(iso.first.get(x).toString() );
 
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Chc<Void, Pair<ID, Att2>>> tz = eq.first.mapGen(genf);
+					@SuppressWarnings("rawtypes")
 					Term tt0 = tz;
+					@SuppressWarnings("unchecked")
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Var> tt = tt0.replace(surjX);
 
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Chc<Void, Pair<ID, Att2>>> qw = eq.second.mapGen(genf);
+					@SuppressWarnings("rawtypes")
 					Term qw1 = qw;
+					@SuppressWarnings("unchecked")
 					Term<Ty, En1, Sym, Fk1, Att1, Var, Var> ttA = qw1.replace(surjX);
 
 					if (!tt.equals(ttA)) {
@@ -872,6 +885,7 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 				fks.put(fk2, new Pair<>(g, (Boolean) ops.getOrDefault(AqlOption.dont_validate_unsafe)));
 			}
 			for (Att2 att2 : F0.dst.atts.keySet()) {
+				@SuppressWarnings("unused")
 				Term<Ty, En1, Sym, Fk1, Att1, Var, Void> g = null;
 
 				Term<Ty, Void, Sym, Void, Void, Void, Chc<Void, Pair<ID, Att2>>> t = ys.get(F0.dst.atts.get(att2).first)
@@ -896,7 +910,9 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 	
 				// Function<Void, Pair<ID, Att2>> skf = vv -> Util.abort(vv);
 				Term<Ty, En1, Sym, Fk1, Att1, Var, Chc<Void, Pair<ID, Att2>>> tz = s.mapGen(genf);
+				@SuppressWarnings("rawtypes")
 				Term tt0 = tz;
+				@SuppressWarnings("unchecked")
 				Term<Ty, En1, Sym, Fk1, Att1, Var, Var> tt = tt0.replace(surj.get(F0.dst.atts.get(att2).first));
 
 				atts.put(att2, tt); // t.map(Function.identity(),

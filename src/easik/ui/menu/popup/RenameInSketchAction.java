@@ -41,7 +41,7 @@ public class RenameInSketchAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_R));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_R));
 		putValue(Action.SHORT_DESCRIPTION, "Change the name of the selected entity");
 	}
 

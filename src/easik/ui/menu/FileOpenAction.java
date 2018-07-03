@@ -39,7 +39,7 @@ public class FileOpenAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_O));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_O));
 		putValue(Action.SHORT_DESCRIPTION, "Import an existing Easik document");
 	}
 

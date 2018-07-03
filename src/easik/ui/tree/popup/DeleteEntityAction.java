@@ -43,7 +43,7 @@ public class DeleteEntityAction<F extends ModelFrame<F, GM, M, N, E>, GM extends
 
 		_theFrame = _theFrame2;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_D));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_D));
 		putValue(Action.SHORT_DESCRIPTION, "Deletes the currently selected entity");
 	}
 

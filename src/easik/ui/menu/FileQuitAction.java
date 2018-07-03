@@ -38,7 +38,7 @@ public class FileQuitAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_Q));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_Q));
 		putValue(Action.SHORT_DESCRIPTION, (inFrame instanceof ApplicationFrame) ? "Quit the EASIK Application" : "Close this EASIK Sketch Window");
 	}
 

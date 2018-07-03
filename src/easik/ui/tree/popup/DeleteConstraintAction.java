@@ -39,12 +39,13 @@ public class DeleteConstraintAction<F extends ModelFrame<F, GM, M, N, E>, GM ext
 	 *
 	 * @param _theFrame2
 	 */
+	@SuppressWarnings("deprecation")
 	public DeleteConstraintAction(F _theFrame2) {
 		super("Delete ModelConstraint");
 
 		_theFrame = _theFrame2;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_D));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_D));
 		putValue(Action.SHORT_DESCRIPTION, "Deletes the currently selected constraint");
 	}
 

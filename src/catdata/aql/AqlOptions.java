@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import catdata.Util;
 import catdata.aql.AqlProver.ProverName;
-import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
 import catdata.aql.exp.SchExpRaw.Att;
@@ -356,10 +355,12 @@ public final class AqlOptions {
 	 * @param map
 	 * @param col possibly null
 	 */ 
-	public <Ty, En, Sym, Fk, Att, Gen, Sk> AqlOptions(Map<String, String> map, Collage col, AqlOptions defaults) {
+	@SuppressWarnings("hiding")
+	public <Ty, En, Sym, Fk, Att, Gen, Sk> AqlOptions(Map<String, String> map, @SuppressWarnings("rawtypes") Collage col, AqlOptions defaults) {
 		options = new HashMap<>(defaults.options);
 		for (String key : map.keySet()) {
 			AqlOption op = AqlOption.valueOf(key);
+			@SuppressWarnings("unchecked")
 			Object ob = getFromMap(map, col, op);
 			options.put(op, ob);
 		}		

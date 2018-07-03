@@ -723,13 +723,13 @@ public abstract class Model<F extends ModelFrame<F, GM, M, N, E>, GM extends Eas
 			}
 
 			if (!counts.containsKey(sk.getCoDomain())) {
-				counts.put(sk.getCoDomain(), new Integer(1));
+				counts.put(sk.getCoDomain(), Integer.valueOf(1));
 			} else {
 				counts.put(sk.getCoDomain(), counts.get(sk.getCoDomain()) + 1);
 			}
 
 			if (!counts.containsKey(sk.getDomain())) {
-				counts.put(sk.getDomain(), new Integer(1));
+				counts.put(sk.getDomain(), Integer.valueOf(1));
 			} else {
 				counts.put(sk.getDomain(), counts.get(sk.getDomain()) + 1);
 			}

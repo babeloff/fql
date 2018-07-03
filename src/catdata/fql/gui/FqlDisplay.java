@@ -437,7 +437,9 @@ public class FqlDisplay implements Disp {
 
 		frame.getRootPane().registerKeyboardAction(escListener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		@SuppressWarnings("deprecation")
 		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
+		@SuppressWarnings("deprecation")
 		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_MASK);
 		frame.getRootPane().registerKeyboardAction(escListener, ctrlW,
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -455,7 +457,9 @@ public class FqlDisplay implements Disp {
 		ActionListener escListener = (ActionEvent e) -> f.dispose();
 		f.getRootPane().registerKeyboardAction(escListener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		@SuppressWarnings("deprecation")
 		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
+		@SuppressWarnings("deprecation")
 		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_MASK);
 		f.getRootPane().registerKeyboardAction(escListener, ctrlW,
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -480,7 +484,9 @@ public class FqlDisplay implements Disp {
 		ActionListener escListener = (ActionEvent e) -> f.dispose();
 		f.getRootPane().registerKeyboardAction(escListener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		@SuppressWarnings("deprecation")
 		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
+		@SuppressWarnings("deprecation")
 		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_MASK);
 		f.getRootPane().registerKeyboardAction(escListener, ctrlW,
 				JComponent.WHEN_IN_FOCUSED_WINDOW);

@@ -43,7 +43,7 @@ public class FileSaveAsAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_A));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_A));
 		putValue(Action.SHORT_DESCRIPTION, "Export current overview as XML document");
 	}
 

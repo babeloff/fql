@@ -42,7 +42,7 @@ public class DeleteFromOverviewFromTreeAction extends AbstractAction {
 
 		_theFrame = inFrame;
 
-		putValue(Action.MNEMONIC_KEY, new Integer(KeyEvent.VK_D));
+		putValue(Action.MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_D));
 		putValue(Action.SHORT_DESCRIPTION, "Deletes the currently selected entity");
 	}
 

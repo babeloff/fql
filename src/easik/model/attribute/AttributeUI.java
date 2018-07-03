@@ -237,6 +237,7 @@ public class AttributeUI<F extends ModelFrame<F, GM, M, N, E>, GM extends EasikG
 		// Add a change listener to update the scale maximum to the current
 		// precision value:
 		_decPrec.addChangeListener(new ChangeListener() {
+			@SuppressWarnings("deprecation")
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				int scaleMax = ((SpinnerNumberModel) _decPrec.getModel()).getNumber().intValue();
@@ -244,7 +245,7 @@ public class AttributeUI<F extends ModelFrame<F, GM, M, N, E>, GM extends EasikG
 				((SpinnerNumberModel) _decScale.getModel()).setMaximum(scaleMax);
 
 				if (((SpinnerNumberModel) _decScale.getModel()).getNumber().intValue() > scaleMax) {
-					_decScale.setValue(new Integer(scaleMax));
+					_decScale.setValue(Integer.valueOf(scaleMax));
 				}
 			}
 		});
