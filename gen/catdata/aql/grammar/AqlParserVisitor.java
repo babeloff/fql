@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/ib4/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/iqs/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -943,6 +943,13 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceExp_ImportJdbc(AqlParser.InstanceExp_ImportJdbcContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code InstanceExp_Quotient}
+	 * labeled alternative in {@link AqlParser#instanceExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceExp_Quotient(AqlParser.InstanceExp_QuotientContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code InstanceExp_QuotientJdbc}
 	 * labeled alternative in {@link AqlParser#instanceExp}.
 	 * @param ctx the parse tree
@@ -970,13 +977,6 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInstanceExp_ImportCsv(AqlParser.InstanceExp_ImportCsvContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code InstanceExp_Quotient}
-	 * labeled alternative in {@link AqlParser#instanceExp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInstanceExp_Quotient(AqlParser.InstanceExp_QuotientContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code InstanceExp_Chase}
 	 * labeled alternative in {@link AqlParser#instanceExp}.
@@ -1225,6 +1225,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInstanceQuotientSection(AqlParser.InstanceQuotientSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceQuotientEqn}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceQuotientEqn(AqlParser.InstanceQuotientEqnContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceChaseSection}.
 	 * @param ctx the parse tree

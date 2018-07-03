@@ -47,14 +47,12 @@ import catdata.aql.grammar.AqlParser.InstanceCoProdUnrestrictSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceCoequalizeSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceCoevalSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceColimitSectionContext;
-import catdata.aql.grammar.AqlParser.InstanceEquationIdContext;
 import catdata.aql.grammar.AqlParser.InstanceEvalSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceKindContext;
 import catdata.aql.grammar.AqlParser.InstanceLiteralSectionContext;
-import catdata.aql.grammar.AqlParser.InstanceLiteralValueContext;
+import catdata.aql.grammar.AqlParser.InstanceQuotientSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceRefContext;
 import catdata.aql.grammar.AqlParser.InstanceSigmaSectionContext;
-import catdata.aql.grammar.AqlParser.InstanceSymbolContext;
 import catdata.aql.grammar.AqlParser.MappingGenContext;
 import catdata.aql.grammar.AqlParser.MappingKindContext;
 import catdata.aql.grammar.AqlParser.MappingLiteralSectionContext;
@@ -1393,7 +1391,32 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override public void exitInstanceExp_ImportCsv(AqlParser.InstanceExp_ImportCsvContext ctx) { }
 	
-	@Override public void exitInstanceExp_Quotient(AqlParser.InstanceExp_QuotientContext ctx) { }
+	@Override public void exitInstanceExp_Quotient(AqlParser.InstanceExp_QuotientContext ctx) {
+		final InstanceKindContext instKind = ctx.instanceKind();
+		final InstanceQuotientSectionContext instSect = ctx.instanceQuotientSection();
+		
+		final List<Pair<String, String>> 
+		options = (instSect == null) ? new LinkedList<>() : parseOptions(instSect.allOptions());
+		
+		@SuppressWarnings("unchecked")
+		final InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,?,?> 
+		instexp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ?, ?>) this.exps.get(instKind);
+		
+		final List<Pair<Integer, Pair<RawTerm, RawTerm>>> 
+		eqs = instSect.instanceQuotientEqn().stream()
+			.map(eqn -> 
+					new Pair<>(
+							getLoc(eqn), 
+							new Pair<>(
+									this.terms.get(eqn.instancePath(0)),
+									this.terms.get(eqn.instancePath(1)))))
+			.collect(Collectors.toList());
+		
+		final InstExp<?,?,?,?,?, Gen, Sk, ?, ?> 
+		inst = new InstExpQuotient<>(instexp, eqs, options);
+		
+		this.exps.put(ctx, inst);
+	}
 	
 	@Override public void exitInstanceExp_Chase(AqlParser.InstanceExp_ChaseContext ctx) {
 		final ConstraintKindContext constraintKind = ctx.constraintKind();
@@ -1558,7 +1581,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override public void exitInstanceLiteral(AqlParser.InstanceLiteralContext ctx) {
 		final String value = ctx.instanceLiteralValue().getText();
-		final InstanceSymbolContext symbol = ctx.instanceSymbol();
+		// final InstanceSymbolContext symbol = ctx.instanceSymbol();
 		
 		final RawTerm term = new RawTerm(value);
 		this.terms.put(ctx,  term);

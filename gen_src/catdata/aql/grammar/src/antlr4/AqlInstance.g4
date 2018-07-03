@@ -61,6 +61,10 @@ instanceExp
   | IMPORT_JDBC jdbcClass jdbcUri COLON schemaKind
     (LBRACE instanceImportJdbcSection RBRACE)?
   # InstanceExp_ImportJdbc
+  
+  | QUOTIENT instanceKind
+    (LBRACE instanceQuotientSection RBRACE)?
+  # InstanceExp_Quotient
 
   | QUOTIENT_JDBC (jdbcClass (jdbcUri)?)? instanceKind
     (LBRACE instanceQuotientJdbcSection RBRACE)?
@@ -77,10 +81,6 @@ instanceExp
   | IMPORT_CSV instanceFile COLON schemaRef
     (LBRACE instanceImportCsvSection RBRACE)?
   # InstanceExp_ImportCsv
-
-  | QUOTIENT instanceRef
-    (LBRACE instanceQuotientSection RBRACE)?
-  # InstanceExp_Quotient
 
   | CHASE constraintKind instanceKind INTEGER?
     (LBRACE instanceChaseSection RBRACE)?
@@ -199,9 +199,11 @@ instanceQuotientJdbcSection
   ;
 
 instanceQuotientSection
-  : EQUATIONS (instancePath EQUAL instancePath)*
+  : EQUATIONS instanceQuotientEqn*
     allOptions
   ;
+  
+instanceQuotientEqn : instancePath EQUAL instancePath ;
   
 instanceChaseSection : allOptions  ;
 
