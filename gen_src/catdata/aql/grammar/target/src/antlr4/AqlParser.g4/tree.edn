@@ -1,0 +1,242 @@
+[:grammarSpec
+ "/**\n    A grammar for the  Algebreic Query Language (AQL)\n    See http://categoricaldata.net/\n\n    This grammar follows the grammar as outlined\n    in 'All Syntax.aql'.\n */"
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlParser"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:prequelConstruct
+  [:delegateGrammars
+   "import"
+   [:delegateGrammar [:identifier "AqlComment"]]
+   ","
+   [:delegateGrammar [:identifier "AqlOptions"]]
+   ","
+   [:delegateGrammar [:identifier "AqlTypeside"]]
+   ","
+   [:delegateGrammar [:identifier "AqlSchema"]]
+   ","
+   [:delegateGrammar [:identifier "AqlInstance"]]
+   ","
+   [:delegateGrammar [:identifier "AqlMapping"]]
+   ","
+   [:delegateGrammar [:identifier "AqlTransform"]]
+   ","
+   [:delegateGrammar [:identifier "AqlQuery"]]
+   ","
+   [:delegateGrammar [:identifier "AqlGraph"]]
+   ","
+   [:delegateGrammar [:identifier "AqlCommand"]]
+   ","
+   [:delegateGrammar [:identifier "AqlSchemaColimit"]]
+   ","
+   [:delegateGrammar [:identifier "AqlConstraint"]]
+   ";"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "file"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "program"]]]
+        [:element [:atom [:terminal "EOF"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "symbol"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "LOWER_ID"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "SPECIAL_ID"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "program"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:atom [:ruleref "optionsDeclarationSection"]]
+         [:ebnfSuffix "?"]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "commentDeclarationSection"]]]]
+            "|"
+            [:alternative
+             [:element [:atom [:ruleref "kindDeclaration"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "optionsDeclarationSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "OPTIONS"]]]
+        [:element
+         [:atom [:ruleref "optionsDeclaration"]]
+         [:ebnfSuffix "*"]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commentDeclarationSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "htmlCommentDeclaration"]]]]
+       "#"
+       [:identifier "Comment_HTML"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "mdCommentDeclaration"]]]]
+       "#"
+       [:identifier "Comment_MD"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "kindDeclaration"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideAssignment"]]]]
+       "#"
+       [:identifier "Kind_Typeside"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "schemaAssignment"]]]]
+       "#"
+       [:identifier "Kind_Schema"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceAssignment"]]]]
+       "#"
+       [:identifier "Kind_Instance"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "mappingAssignment"]]]]
+       "#"
+       [:identifier "Kind_Mapping"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "transformAssignment"]]]]
+       "#"
+       [:identifier "Kind_Transform"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "queryAssignment"]]]]
+       "#"
+       [:identifier "Program_QueryKind"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "graphAssignment"]]]]
+       "#"
+       [:identifier "Program_GraphKind"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "commandAssignment"]]]]
+       "#"
+       [:identifier "Program_CommandKind"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaColimitAssignment"]]]]
+       "#"
+       [:identifier "Program_SchemaKind"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "constraintAssignment"]]]]
+       "#"
+       [:identifier "Program_ConstraintKind"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "path"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "pathNodeId"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "DOT"]]]
+             [:element [:atom [:ruleref "pathNodeId"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "pathNodeId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "value"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "NUMBER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "LOWER_ID"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

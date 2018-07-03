@@ -1,0 +1,195 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlGraph"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GRAPH"]]]
+        [:element [:atom [:ruleref "graphId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "graphExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LITERAL"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "graphLiteralSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "GraphExp_Literal"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "graphRef"]]]]
+       "#"
+       [:identifier "GraphKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "graphExp"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "GraphKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphLiteralSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "IMPORTS"]]]
+             [:element
+              [:atom [:ruleref "graphRef"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "NODES"]]]
+             [:element
+              [:atom [:ruleref "graphNodeId"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "EDGES"]]]
+             [:element
+              [:atom [:ruleref "graphEdgeSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphEdgeSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "graphEdgeId"]] [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "graphSourceNodeId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "graphTargetNodeId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphNodeId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphSourceNodeId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphTargetNodeId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "graphEdgeId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

@@ -46,7 +46,9 @@
 
 (deftask store
   []
-  (target :dir #{"target"}))
+  (comp 
+   (sift :invert true :include #{ #".*\.(java|class)"})
+   (target :dir #{"target"})))
 
 (deftask build
   [s show bool "show the arguments"]

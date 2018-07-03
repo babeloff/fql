@@ -153,7 +153,12 @@ instanceGen
   | instanceLiteralValue
   ;
 
-instanceEquation : instancePath EQUAL (instanceLiteral | instancePath) ;
+instanceEquation : instancePath EQUAL instanceEquationValue ;
+
+instanceEquationValue 
+: instanceLiteral  # InstanceEq_Literal
+| instancePath     # InstanceEq_Path
+; 
 
 instanceMultiEquation
   : instanceEquationId RARROW
@@ -162,12 +167,11 @@ instanceMultiEquation
 
 instanceEquationId : symbol ;
 
-instanceMultiBind
-  : instancePath (instanceSymbol | instanceLiteral) ;
-
-instanceSymbol : symbol ;
+instanceMultiBind : instancePath instanceEquationValue ;
 
 instanceLiteral :  instanceLiteralValue (AT instanceSymbol)? ;
+
+instanceSymbol : symbol ;
 
 instanceLiteralValue
   : truthy

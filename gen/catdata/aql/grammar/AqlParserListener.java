@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/bvf/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/ib4/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -1898,6 +1898,30 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitInstanceEquation(AqlParser.InstanceEquationContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code InstanceEq_Literal}
+	 * labeled alternative in {@link AqlParser#instanceEquationValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstanceEq_Literal(AqlParser.InstanceEq_LiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InstanceEq_Literal}
+	 * labeled alternative in {@link AqlParser#instanceEquationValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstanceEq_Literal(AqlParser.InstanceEq_LiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InstanceEq_Path}
+	 * labeled alternative in {@link AqlParser#instanceEquationValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstanceEq_Path(AqlParser.InstanceEq_PathContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InstanceEq_Path}
+	 * labeled alternative in {@link AqlParser#instanceEquationValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstanceEq_Path(AqlParser.InstanceEq_PathContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceMultiEquation}.
 	 * @param ctx the parse tree
 	 */
@@ -1928,16 +1952,6 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitInstanceMultiBind(AqlParser.InstanceMultiBindContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#instanceSymbol}.
-	 * @param ctx the parse tree
-	 */
-	void enterInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#instanceSymbol}.
-	 * @param ctx the parse tree
-	 */
-	void exitInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceLiteral}.
 	 * @param ctx the parse tree
 	 */
@@ -1947,6 +1961,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInstanceLiteral(AqlParser.InstanceLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#instanceSymbol}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#instanceSymbol}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceLiteralValue}.
 	 * @param ctx the parse tree

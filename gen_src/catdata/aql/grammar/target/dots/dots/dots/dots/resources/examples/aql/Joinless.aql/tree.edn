@@ -1,0 +1,448 @@
+[:file
+ [:program
+  [:kindDeclaration
+   [:typesideAssignment
+    "typeside"
+    [:typesideId [:symbol "Ty"]]
+    "="
+    [:typesideExp
+     "literal"
+     "{"
+     [:typesideLiteralSection
+      "java_types"
+      [:typesideJavaTypeSig
+       [:typesideTypeId [:symbol "String"]]
+       "="
+       [:typesideJavaType "\"java.lang.String\""]]
+      "java_constants"
+      [:typesideJavaConstantSig
+       [:typesideConstantId "String"]
+       "="
+       [:typesideJavaConstantValue "\"return input[0]\""]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "Schools"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Person"]]
+      [:schemaEntityId [:symbol "School"]]
+      [:schemaEntityId [:symbol "Dept"]]
+      "foreign_keys"
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "instituteOf"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:schemaEntityId [:symbol "School"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "deptOf"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:schemaEntityId [:symbol "Dept"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "biggestDept"]]
+       ":"
+       [:schemaEntityId [:symbol "School"]]
+       "->"
+       [:schemaEntityId [:symbol "Dept"]]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "lastName"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "schoolName"]]
+       ":"
+       [:schemaEntityId [:symbol "School"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "deptName"]]
+       ":"
+       [:schemaEntityId [:symbol "Dept"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "BostonSchools"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Schools"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "ryan"]]
+       [:instanceGen [:symbol "david"]]
+       [:instanceGen [:symbol "adam"]]
+       [:instanceGen [:symbol "greg"]]
+       [:instanceGen [:symbol "gregory"]]
+       [:instanceGen [:symbol "jason"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "harvard"]]
+       [:instanceGen [:symbol "mit"]]
+       ":"
+       [:schemaEntityId [:symbol "School"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "math"]]
+       [:instanceGen [:symbol "cs"]]
+       ":"
+       [:schemaEntityId [:symbol "Dept"]]]
+      "multi_equations"
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "lastName"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "ryan"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Wisnesky"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "david"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Spivak"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "adam"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Chlipala"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "greg"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Morrisett"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "gregory"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Malecha"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "jason"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Gross"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "schoolName"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "harvard"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "Harvard"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "mit"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "MIT"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "deptName"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "math"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId
+           [:schemaEntityId [:symbol "Mathematics"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "cs"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "CompSci"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "instituteOf"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "ryan"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "harvard"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "david"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "mit"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "adam"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "mit"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "greg"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "harvard"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "gregory"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "harvard"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "jason"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "mit"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "deptOf"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "ryan"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "math"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "david"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "math"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "adam"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "cs"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "greg"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "cs"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "gregory"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "cs"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "jason"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "cs"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "biggestDept"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "harvard"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "math"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "mit"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "cs"]]]]]]
+       "}"]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "Person"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Person"]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "lastName"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "schoolName"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:queryAssignment
+    "query"
+    [:queryId [:symbol "BiggestDeptIsMathQuery"]]
+    "="
+    [:queryExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Schools"]]]
+     "->"
+     [:schemaRef [:symbol "Person"]]
+     "{"
+     [:queryLiteralSection
+      "entity"
+      [:queryEntityExpr
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       "{"
+       [:queryClauseExpr
+        "from"
+        [:queryClauseFrom
+         [:queryGen [:symbol "p"]]
+         ":"
+         [:schemaEntityId [:symbol "Person"]]]
+        "where"
+        [:queryClauseWhere
+         [:queryPath
+          [:queryGen [:symbol "p"]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "instituteOf"]]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "biggestDept"]]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "deptName"]]]]
+         "="
+         [:queryPath [:typesideConstantId "Mathematics"]]]
+        "attributes"
+        [:queryPathMapping
+         [:queryGen [:symbol "lastName"]]
+         "->"
+         [:queryPath
+          [:queryGen [:symbol "p"]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "lastName"]]]]]
+        [:queryPathMapping
+         [:queryGen [:symbol "schoolName"]]
+         "->"
+         [:queryPath
+          [:queryGen [:symbol "p"]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "instituteOf"]]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "schoolName"]]]]]
+        "allOptions"]
+       "}"]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:queryAssignment
+    "query"
+    [:queryId [:symbol "BiggestDeptIsMathQuery_simple"]]
+    "="
+    [:queryExp
+     "simple"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Schools"]]]
+     "{"
+     [:querySimpleSection
+      [:queryClauseExpr
+       "from"
+       [:queryClauseFrom
+        [:queryGen [:symbol "p"]]
+        ":"
+        [:schemaEntityId [:symbol "Person"]]]
+       "where"
+       [:queryClauseWhere
+        [:queryPath
+         [:queryGen [:symbol "p"]]
+         "."
+         [:schemaArrowId [:schemaEntityId [:symbol "instituteOf"]]]
+         "."
+         [:schemaArrowId [:schemaEntityId [:symbol "biggestDept"]]]
+         "."
+         [:schemaArrowId [:schemaEntityId [:symbol "deptName"]]]]
+        "="
+        [:queryPath [:typesideConstantId "Mathematics"]]]
+       "attributes"
+       [:queryPathMapping
+        [:queryGen [:symbol "lastName"]]
+        "->"
+        [:queryPath
+         [:queryGen [:symbol "p"]]
+         "."
+         [:schemaArrowId [:schemaEntityId [:symbol "lastName"]]]]]
+       [:queryPathMapping
+        [:queryGen [:symbol "schoolName"]]
+        "->"
+        [:queryPath
+         [:queryGen [:symbol "p"]]
+         "."
+         [:schemaArrowId [:schemaEntityId [:symbol "instituteOf"]]]
+         "."
+         [:schemaArrowId [:schemaEntityId [:symbol "schoolName"]]]]]
+       "allOptions"]]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "BiggestDeptIsMathInBoston"]]
+    "="
+    [:instanceExp
+     "eval"
+     [:queryKind [:queryRef [:symbol "BiggestDeptIsMathQuery"]]]
+     [:instanceKind [:instanceRef [:symbol "BostonSchools"]]]]]]]
+ "<EOF>"]

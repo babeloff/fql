@@ -1,0 +1,2302 @@
+[:grammarSpec
+ "/**\n *\tA lexical grammar for Aql\n *\n *\tModified 2017.10.12\n *\t-- initial\n */"
+ [:grammarType "lexer" "grammar"]
+ [:identifier "AqlLexerRules"]
+ ";"
+ [:prequelConstruct [:optionsSpec "options" "{" "}"]]
+ [:prequelConstruct
+  [:delegateGrammars
+   "import"
+   [:delegateGrammar [:identifier "LexBasic"]]
+   ";"]]
+ [:prequelConstruct
+  [:channelsSpec
+   "channels"
+   "{"
+   [:idList
+    [:identifier "HIDDEN_CHANNEL"]
+    ","
+    [:identifier "WHITESPACE_CHANNEL"]
+    ","
+    [:identifier "BLOCK_COMMENT_CHANNEL"]
+    ","
+    [:identifier "LINE_COMMENT_CHANNEL"]
+    ","
+    [:identifier "DOC_COMMENT_CHANNEL"]]
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DOC_COMMENT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "DocComment"]]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "channel"]]
+         "("
+         [:lexerCommandExpr [:identifier "DOC_COMMENT_CHANNEL"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "BLOCK_COMMENT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "BlockComment"]]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "channel"]]
+         "("
+         [:lexerCommandExpr [:identifier "BLOCK_COMMENT_CHANNEL"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "BLOCK_COMMMENT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "BlockComment"]]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "channel"]]
+         "("
+         [:lexerCommandExpr [:identifier "HIDDEN_CHANNEL"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LINE_COMMENT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "LineComment"]]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "channel"]]
+         "("
+         [:lexerCommandExpr [:identifier "HIDDEN_CHANNEL"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "INTEGER"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "DecimalNumeral"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "NUMBER"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'-'"]]
+         [:ebnfSuffix "?"]]
+        [:lexerElement [:lexerAtom [:terminal "DecimalNumeral"]]]
+        [:lexerElement [:lexerAtom [:terminal "Dot"]]]
+        [:lexerElement [:lexerAtom [:terminal "DecimalNumeral"]]]
+        [:lexerElement
+         [:lexerAtom [:terminal "Exponent"]]
+         [:ebnfSuffix "?"]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'-'"]]
+         [:ebnfSuffix "?"]]
+        [:lexerElement [:lexerAtom [:terminal "DecimalNumeral"]]]
+        [:lexerElement [:lexerAtom [:terminal "Exponent"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'-'"]]
+         [:ebnfSuffix "?"]]
+        [:lexerElement [:lexerAtom [:terminal "DecimalNumeral"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "STRING_LITERAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "SQuoteLiteral"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "UNTERMINATED_STRING_LITERAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "USQuoteLiteral"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CHAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "CharLiteral"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "STRING"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "DQuoteLiteral"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MULTI_STRING"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "DQuote"]]]
+        [:lexerElement [:lexerAtom [:terminal "MultiLine"]]]
+        [:lexerElement [:lexerAtom [:terminal "DQuote"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "HTML"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'html'"]]]
+        [:lexerElement [:lexerAtom [:terminal "Ws"]] [:ebnfSuffix "*"]]
+        [:lexerElement [:lexerAtom [:terminal "LDocQuote"]]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "pushMode"]]
+         "("
+         [:lexerCommandExpr [:identifier "Html"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MARKDOWN"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'md'"]]]
+        [:lexerElement [:lexerAtom [:terminal "Ws"]] [:ebnfSuffix "*"]]
+        [:lexerElement [:lexerAtom [:terminal "LDocQuote"]]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "pushMode"]]
+         "("
+         [:lexerCommandExpr [:identifier "MarkDown"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "OPTIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'options'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LITERAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'literal'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORTS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'imports'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FORALL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'forall'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "WHERE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'where'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXISTS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'exists'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GRAPH"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'graph'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "NODES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'nodes'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EDGES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'edges'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "INSTANCE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'instance'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EMPTY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'empty'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SRC"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'src'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DST"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'dst'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DISTINCT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'distinct'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'eval'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COEVAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'coeval'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DELTA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'delta'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SIGMA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'sigma'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COPRODUCT_SIGMA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'coproduct_sigma'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COPRODUCT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'coproduct'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "UNION"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'union'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COPRODUCT_UNRESTRICTED"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'coproduct_unrestricted'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COEQUALIZE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'coequalize'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COLIMIT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'colimit'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORT_JDBC"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'import_jdbc'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUOTIENT_JDBC"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'quotient_jdbc'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUOTIENT_CSV"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'quotient_csv'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORT_JDBC_ALL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'import_jdbc_all'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORT_CSV"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'import_csv'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "STATIC_TYPING"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'static_typing'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUOTIENT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'quotient'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CHASE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'chase'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RANDOM"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'random'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GENERATORS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'generators'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EQUATIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'equations'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MULTI_EQUATIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'multi_equations'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RANDOM_SEED"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'random_seed'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ANONYMIZE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'anonymize'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FROZEN"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'frozen'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PI"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'pi'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MAPPING"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'mapping'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IDENTITY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'identity'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ENTITY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'entity'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ENTITIES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'entities'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FOREIGN_KEYS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'foreign_keys'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ATTRIBUTES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'attributes'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LAMBDA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'lambda'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORT_JOINED"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'import_joined'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MAP_NULLS_ARBITRARILY_UNSAFE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'map_nulls_arbitrarily_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "INTERPRET_AS_ALGEGRA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'interpret_as_algebra'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PREPEND_ENTITY_ON_IDS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'prepend_entity_on_ids'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "NUM_THREADS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'num_threads'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TIMEOUT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'timeout'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "REQUIRE_CONSISTENCY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'require_consistency'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SCHEMA_ONLY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'schema_only'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ALLOW_JAVA_EQS_UNSAFE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'allow_java_eqs_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DONT_VALIDATE_UNSAFE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'dont_validate_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ALWAYS_RELOAD"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'always_reload'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CSV_FIELD_DELIM_CHAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'csv_field_delim_char'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CSV_ESCAPE_CHAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'csv_escape_char'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CSV_QUOTE_CHAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'csv_quote_char'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CSV_FILE_EXTENSION"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'csv_file_extension'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CSV_GENERATE_IDS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'csv_generate_ids'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ID_COLUMN_NAME"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'id_column_name'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "VARCHAR_LENGTH"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'varchar_length'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "START_IDS_AT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'start_ids_at'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORT_AS_THEORY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'import_as_theory'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "JDBC_DEFAULT_CLASS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'jdbc_default_class'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "JDBC_DEFAULT_STRING"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'jdbc_default_string'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DONT_VERIFY_FOR_UNSAFE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom
+          [:terminal
+           "'dont_verify_is_appropriate_for_prover_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PROVER"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'prover'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PROGRAM_ALLOW_NONTERM_UNSAFE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom
+          [:terminal "'program_allow_nontermination_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMPLETION_PRECEDENCE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'completion_precedence'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMPLETION_SORT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'completion_sort'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMPLETION_COMPOSE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'completion_compose'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMPLETION_FILTER_SUBSUMED"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'completion_filter_subsumed'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMPLETION_SYNTACTIC_AC"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'completion_syntactic_ac'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUERY_COMPOSE_USE_INCOMPLETE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'query_compose_use_incomplete'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GUI_MAX_TABLE_SIZE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'gui_max_table_size'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GUI_MAX_GRAPH_SIZE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'gui_max_graph_size'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GUI_MAX_STRING_SIZE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'gui_max_string_size'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GUI_ROWS_TO_DISPLAY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'gui_rows_to_display'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_MAX_TEMP_SIZE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_max_temp_size'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_REORDER_JOINS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_reorder_joins'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_MAX_PLAN_DEPTH"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_max_plan_depth'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_JOIN_SELECTIVITY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_join_selectivity'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_USE_INDICES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_use_indices'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_USE_SQL_ABOVE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_use_sql_above'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_APPROX_SQL_UNSAFE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_approx_sql_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EVAL_SQL_PERSISTENT_INDICIES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'eval_sql_persistent_indices'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COPRODUCT_ALLOW_ENTITY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom
+          [:terminal
+           "'coproduct_allow_entity_collisions_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COPRODUCT_ALLOW_TYPE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom
+          [:terminal "'coproduct_allow_type_collisions_unsafe'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUERY_REMOVE_REDUNDANCY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'query_remove_redundancy'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TRUE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'true'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FALSE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'false'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "AUTO"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'auto'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FAIL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'fail'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FREE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'free'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SATURATED"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'saturated'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CONGRUENCE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'congruence'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MONOIDAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'monoidal'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PROGRAM"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'program'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMPLETION"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'completion'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMMAND"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'command'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXEC_CMDLINE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'exec_cmdline'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXEC_JS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'exec_js'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXEC_JDBC"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'exec_jdbc'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CHECK"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'check'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ASSERT_CONSISTENT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'assert_consistent'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXPORT_CSV_INSTANCE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'export_csv_instance'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXPORT_CSV_TRANSFORM"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'export_csv_transform'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXPORT_JDBC_INSTANCE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'export_jdbc_instance'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXPORT_JDBC_QUERY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'export_jdbc_query'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EXPORT_JDBC_TRANSFORM"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'export_jdbc_transform'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ADD_TO_CLASSPATH"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'add_to_classpath'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUERY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'query'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SIMPLE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'simple'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GET_MAPPING"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'getMapping'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FROM"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'from'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RETURN"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'return'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TO_QUERY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'toQuery'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TO_COQUERY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'toCoQuery'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SCHEMA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'schema'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SCHEMA_OF"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'schemaOf'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GET_SCHEMA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'getSchema'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "IMPORT_ALL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'import_all'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SCHEMA_COLIMIT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'schema_colimit'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MODIFY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'modify'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "WRAP"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'wrap'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ENTITY_EQUATIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'entity_equations'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PATH_EQUATIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'path_equations'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "OBSERVATION_EQUATIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "'observation_equations'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RENAME"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'rename'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "REMOVE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'remove'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TRANSFORM"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'transform'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "UNIT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'unit'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COUNIT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'counit'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "UNIT_QUERY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'unit_query'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COUNIT_QUERY"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'counit_query'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TYPESIDE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'typeside'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SQL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'sql'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TYPESIDE_OF"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'typesideOf'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "TYPES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'types'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CONSTANTS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'constants'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "FUNCTIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'functions'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "JAVA_TYPES"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'java_types'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "JAVA_CONSTANTS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'java_constants'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "JAVA_FUNCTIONS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'java_functions'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "CONSTRAINTS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'constraints'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COLON"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Colon"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COLON_COLON"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "DColon"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "COMMA"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Comma"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SEMI"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Semi"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LPAREN"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "LParen"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RPAREN"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "RParen"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LBRACE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "LBrace"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RBRACE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "RBrace"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LBRACK"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "LBrack"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RBRACK"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "RBrack"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RARROW"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "RArrow"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Lt"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "GT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Gt"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "EQUAL"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Equal"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "QUESTION"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Question"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "STAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Star"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PLUS_ASSIGN"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "PlusAssign"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "PLUS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Plus"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "OR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Pipe"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DOLLAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Dollar"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "RANGE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Range"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "DOT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Dot"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "AT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "At"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "POUND"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Pound"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "NOT"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Tilde"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "UNDERSCORE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Underscore"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "UPPER_ID"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "UpperIdLetter"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "IdLetter"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "DecDigit"]]]]]]
+          ")"]
+         [:ebnfSuffix "*"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "LOWER_ID"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "LowerIdLetter"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "IdLetter"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "DecDigit"]]]]]]
+          ")"]
+         [:ebnfSuffix "*"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "SPECIAL_ID"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "IdLetter"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "IdLetter"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "DecDigit"]]]]]]
+          ")"]
+         [:ebnfSuffix "*"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "WS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:terminal "Ws"]]
+         [:ebnfSuffix "+"]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "channel"]]
+         "("
+         [:lexerCommandExpr [:identifier "HIDDEN_CHANNEL"]]
+         ")"]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "ERRCHAR"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom "."]]]
+       [:lexerCommands
+        "->"
+        [:lexerCommand
+         [:lexerCommandName [:identifier "channel"]]
+         "("
+         [:lexerCommandExpr [:identifier "HIDDEN_CHANNEL"]]
+         ")"]]]]]
+    ";"]]]
+ [:modeSpec
+  "mode"
+  [:identifier "Html"]
+  ";"
+  [:lexerRuleSpec
+   "HTML_END"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "RDocQuote"]]]]
+      [:lexerCommands
+       "->"
+       [:lexerCommand [:lexerCommandName [:identifier "popMode"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "HTML_MULTI_STRING"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "DQuote"]]]
+       [:lexerElement [:lexerAtom [:terminal "MultiLine"]]]
+       [:lexerElement [:lexerAtom [:terminal "DQuote"]]]]]]]
+   ";"]]
+ [:modeSpec
+  "mode"
+  [:identifier "MarkDown"]
+  ";"
+  [:lexerRuleSpec
+   "MD_END"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "RDocQuote"]]]]
+      [:lexerCommands
+       "->"
+       [:lexerCommand [:lexerCommandName [:identifier "popMode"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "MD_MULTI_STRING"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "DQuote"]]]
+       [:lexerElement [:lexerAtom [:terminal "MultiLine"]]]
+       [:lexerElement [:lexerAtom [:terminal "DQuote"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "IdLetter"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement
+        [:lexerAtom [:characterRange "'a'" ".." "'z'"]]]]]
+     "|"
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement
+        [:lexerAtom [:characterRange "'A'" ".." "'Z'"]]]]]
+     "|"
+     [:lexerAlt
+      [:lexerElements [:lexerElement [:lexerAtom [:terminal "'_'"]]]]]
+     "|"
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "'$'"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "UpperIdLetter"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement
+        [:lexerAtom [:characterRange "'A'" ".." "'Z'"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "LowerIdLetter"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement
+        [:lexerAtom [:characterRange "'a'" ".." "'z'"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "LDocQuote"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "LBrace"]]]
+       [:lexerElement [:lexerAtom [:terminal "Ws"]] [:ebnfSuffix "*"]]
+       [:lexerElement [:lexerAtom [:terminal "LParen"]]]
+       [:lexerElement [:lexerAtom [:terminal "Star"]]]
+       [:lexerElement
+        [:lexerAtom [:terminal "Ws"]]
+        [:ebnfSuffix "+"]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "RDocQuote"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom [:terminal "Ws"]] [:ebnfSuffix "+"]]
+       [:lexerElement [:lexerAtom [:terminal "Star"]]]
+       [:lexerElement [:lexerAtom [:terminal "RParen"]]]
+       [:lexerElement [:lexerAtom [:terminal "Ws"]] [:ebnfSuffix "*"]]
+       [:lexerElement [:lexerAtom [:terminal "RBrace"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "Exponent"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement [:lexerAtom "[Ee]"]]
+       [:lexerElement [:lexerAtom "[+\\-]"] [:ebnfSuffix "?"]]
+       [:lexerElement [:lexerAtom [:terminal "DecimalNumeral"]]]]]]]
+   ";"]
+  [:lexerRuleSpec
+   "fragment"
+   "MultiLine"
+   ":"
+   [:lexerRuleBlock
+    [:lexerAltList
+     [:lexerAlt
+      [:lexerElements
+       [:lexerElement
+        [:lexerBlock
+         "("
+         [:lexerAltList
+          [:lexerAlt
+           [:lexerElements
+            [:lexerElement [:lexerAtom [:terminal "EscSeq"]]]]]
+          "|"
+          [:lexerAlt
+           [:lexerElements
+            [:lexerElement
+             [:lexerAtom [:notSet "~" [:setElement "[\"\\\\]"]]]]]]]
+         ")"]
+        [:ebnfSuffix "*"]]]]]]
+   ";"]]
+ "<EOF>"]

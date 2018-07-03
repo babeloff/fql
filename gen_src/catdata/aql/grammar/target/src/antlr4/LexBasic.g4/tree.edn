@@ -1,0 +1,783 @@
+[:grammarSpec
+ "/**\n * A generally reusable set of fragments for import in to Lexer grammars.\n *\n *\tModified 2015.06.16 gbr -\n *\t-- generalized for inclusion into the ANTLRv4 grammar distribution\n *\n */"
+ [:grammarType "lexer" "grammar"]
+ [:identifier "LexBasic"]
+ ";"
+ [:rules
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Ws"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom [:terminal "Hws"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Vws"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Hws"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom "[ \\t]"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Vws"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom "[\\r\\n\\f]"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "BlockComment"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'/*'"]]]
+        [:lexerElement [:lexerAtom "."] [:ebnfSuffix "*" "?"]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "'*/'"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EOF"]]]]]]
+          ")"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "DocComment"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'/**'"]]]
+        [:lexerElement [:lexerAtom "."] [:ebnfSuffix "*" "?"]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "'*/'"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EOF"]]]]]]
+          ")"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "LineComment"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'//'"]]]
+        [:lexerElement
+         [:lexerAtom [:notSet "~" [:setElement "[\\r\\n]"]]]
+         [:ebnfSuffix "*"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "EscSeq"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Esc"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom "[btnfr\"'\\\\]"]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "UnicodeEsc"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements [:lexerElement [:lexerAtom "."]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EOF"]]]]]]
+          ")"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "EscAny"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Esc"]]]
+        [:lexerElement [:lexerAtom "."]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "UnicodeEsc"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'u'"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "HexDigit"]]]
+             [:lexerElement
+              [:lexerBlock
+               "("
+               [:lexerAltList
+                [:lexerAlt
+                 [:lexerElements
+                  [:lexerElement [:lexerAtom [:terminal "HexDigit"]]]
+                  [:lexerElement
+                   [:lexerBlock
+                    "("
+                    [:lexerAltList
+                     [:lexerAlt
+                      [:lexerElements
+                       [:lexerElement
+                        [:lexerAtom [:terminal "HexDigit"]]]
+                       [:lexerElement
+                        [:lexerAtom [:terminal "HexDigit"]]
+                        [:ebnfSuffix "?"]]]]]
+                    ")"]
+                   [:ebnfSuffix "?"]]]]]
+               ")"]
+              [:ebnfSuffix "?"]]]]]
+          ")"]
+         [:ebnfSuffix "?"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "DecimalNumeral"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom [:terminal "'0'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom "[1-9]"]]
+        [:lexerElement
+         [:lexerAtom [:terminal "DecDigit"]]
+         [:ebnfSuffix "*"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "HexDigit"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom "[0-9a-fA-F]"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "DecDigit"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements [:lexerElement [:lexerAtom "[0-9]"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "BoolLiteral"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "TRUE"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "FALSE"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "CharLiteral"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "SQuote"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EscSeq"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement
+              [:lexerAtom
+               [:notSet "~" [:setElement "['\\r\\n\\\\]"]]]]]]]
+          ")"]]
+        [:lexerElement [:lexerAtom [:terminal "SQuote"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "SQuoteLiteral"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "SQuote"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EscSeq"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement
+              [:lexerAtom
+               [:notSet "~" [:setElement "['\\r\\n\\\\]"]]]]]]]
+          ")"]
+         [:ebnfSuffix "*"]]
+        [:lexerElement [:lexerAtom [:terminal "SQuote"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "DQuoteLiteral"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "DQuote"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EscSeq"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement
+              [:lexerAtom
+               [:notSet "~" [:setElement "[\"\\r\\n\\\\]"]]]]]]]
+          ")"]
+         [:ebnfSuffix "*"]]
+        [:lexerElement [:lexerAtom [:terminal "DQuote"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "USQuoteLiteral"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "SQuote"]]]
+        [:lexerElement
+         [:lexerBlock
+          "("
+          [:lexerAltList
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement [:lexerAtom [:terminal "EscSeq"]]]]]
+           "|"
+           [:lexerAlt
+            [:lexerElements
+             [:lexerElement
+              [:lexerAtom
+               [:notSet "~" [:setElement "['\\r\\n\\\\]"]]]]]]]
+          ")"]
+         [:ebnfSuffix "*"]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "NameChar"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "NameStartChar"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'0'" ".." "'9'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "Underscore"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'\\u00B7'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u0300'" ".." "'\\u036F'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom
+          [:characterRange "'\\u203F'" ".." "'\\u2040'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "NameStartChar"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'A'" ".." "'Z'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'a'" ".." "'z'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u00C0'" ".." "'\\u00D6'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u00D8'" ".." "'\\u00F6'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u00F8'" ".." "'\\u02FF'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u0370'" ".." "'\\u037D'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u037F'" ".." "'\\u1FFF'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u200C'" ".." "'\\u200D'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u2070'" ".." "'\\u218F'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u2C00'" ".." "'\\u2FEF'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\u3001'" ".." "'\\uD7FF'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom [:characterRange "'\\uF900'" ".." "'\\uFDCF'"]]]]]
+      "|"
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement
+         [:lexerAtom
+          [:characterRange "'\\uFDF0'" ".." "'\\uFFFD'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Int"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'int'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Esc"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'\\\\'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Colon"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "':'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "DColon"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'::'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "SQuote"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'\\''"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "DQuote"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'\"'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "LParen"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'('"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "RParen"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "')'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "LBrace"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'{'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "RBrace"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'}'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "LBrack"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'['"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "RBrack"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "']'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "RArrow"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'->'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Lt"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'<'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Gt"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'>'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Equal"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'='"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Question"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'?'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Star"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'*'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Plus"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'+'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "PlusAssign"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'+='"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Underscore"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'_'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Pipe"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'|'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Dollar"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'$'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Comma"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "','"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Semi"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "';'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Dot"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'.'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Range"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'..'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "At"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'@'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Pound"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'#'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "fragment"
+    "Tilde"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'~'"]]]]]]]
+    ";"]]]
+ "<EOF>"]

@@ -1,0 +1,358 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlMapping"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "MAPPING"]]]
+        [:element [:atom [:ruleref "mappingId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "mappingExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IDENTITY"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]]
+       "#"
+       [:identifier "MappingExp_Identity"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LBRACK"]]]
+        [:element [:atom [:ruleref "mappingRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "SEMI"]]]
+             [:element [:atom [:ruleref "mappingRef"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "+"]]]]
+        [:element [:atom [:terminal "RBRACK"]]]]
+       "#"
+       [:identifier "MappingExp_Compose"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GET_MAPPING"]]]
+        [:element [:atom [:ruleref "schemaColimitRef"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]]
+       "#"
+       [:identifier "MappingExp_Get"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LITERAL"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]
+        [:element [:atom [:terminal "LBRACE"]]]
+        [:element [:atom [:ruleref "mappingLiteralSection"]]]
+        [:element [:atom [:terminal "RBRACE"]]]]
+       "#"
+       [:identifier "MappingExp_Literal"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "mappingRef"]]]]
+       "#"
+       [:identifier "MappingKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "mappingExp"]]]]
+       "#"
+       [:identifier "MappingKind_Exp"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "mappingExp"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "MappingKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingLiteralSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "IMPORTS"]]]
+             [:element
+              [:atom [:ruleref "mappingRef"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:atom [:ruleref "mappingLiteralSubsection"]]
+         [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingLiteralSubsection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ENTITY"]]]
+        [:element [:atom [:ruleref "mappingEntitySig"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "FOREIGN_KEYS"]]]
+             [:element
+              [:atom [:ruleref "mappingForeignSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "ATTRIBUTES"]]]
+             [:element
+              [:atom [:ruleref "mappingAttributeSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingEntitySig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaEntityId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "schemaEntityId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingForeignSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaForeignId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "schemaPath"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingAttributeSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaAttributeId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "mappingAttributeTerm"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingAttributeTerm"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LAMBDA"]]]
+        [:element [:atom [:ruleref "mappingGen"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COMMA"]]]
+             [:element [:atom [:ruleref "mappingGen"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "DOT"]]]
+        [:element [:atom [:ruleref "evalMappingFn"]]]]
+       "#"
+       [:identifier "MappingAttrTerm_Lambda"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "schemaPath"]]]]
+       "#"
+       [:identifier "MappingAttrTerm_Path"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingGen"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "symbol"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COLON"]]]
+             [:element [:atom [:ruleref "mappingGenType"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingGenType"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "evalMappingFn"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "mappingGen"]]]]
+       "#"
+       [:identifier "EvalMappingFn_Gen"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "mappingFn"]]]
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "evalMappingFn"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COMMA"]]]
+             [:element [:atom [:ruleref "evalMappingFn"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "EvalMappingFn_Mapping"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "evalMappingFn"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "typesideFnName"]]]
+             [:element [:atom [:ruleref "evalMappingFn"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "EvalMappingFn_Typeside"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mappingFn"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideFnName"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaAttributeId"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaForeignId"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

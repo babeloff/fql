@@ -1,0 +1,1238 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlInstance"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "INSTANCE"]]]
+        [:element [:atom [:ruleref "instanceId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "instanceExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EMPTY"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Empty"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "SRC"]]]
+        [:element [:atom [:ruleref "transformKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Src"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DST"]]]
+        [:element [:atom [:ruleref "transformKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Dst"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DISTINCT"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Distinct"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceEvalSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Eval"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COEVAL"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceCoevalSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Coeval"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DELTA"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Delta"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "SIGMA"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceSigmaSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Sigma"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COPRODUCT_SIGMA"]]]
+        [:element
+         [:atom [:ruleref "instanceCoProdPair"]]
+         [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceCoProdSigmaSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_CoSigma"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COPRODUCT"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "PLUS"]]]
+             [:element [:atom [:ruleref "instanceRef"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceCoProdSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_CoProd"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "UNION"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "PLUS"]]]
+             [:element [:atom [:ruleref "instanceKind"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceCoProdSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Union"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COPRODUCT_UNRESTRICTED"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "PLUS"]]]
+             [:element [:atom [:ruleref "instanceKind"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element
+              [:atom [:ruleref "instanceCoProdUnrestrictSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_CoProdUn"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COEQUALIZE"]]]
+        [:element [:atom [:ruleref "transformKind"]]]
+        [:element [:atom [:ruleref "transformKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceCoequalizeSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_CoEqual"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COLIMIT"]]]
+        [:element [:atom [:ruleref "graphKind"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceColimitSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_CoLimit"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_JDBC"]]]
+        [:element [:atom [:ruleref "jdbcClass"]]]
+        [:element [:atom [:ruleref "jdbcUri"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceImportJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_ImportJdbc"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "QUOTIENT_JDBC"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "jdbcClass"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "jdbcUri"]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "?"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element
+              [:atom [:ruleref "instanceQuotientJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_QuotientJdbc"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "QUOTIENT_CSV"]]]
+        [:element [:atom [:ruleref "schemaExp"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceQuotientCsvSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_QuotientCsv"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_JDBC_ALL"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "jdbcClass"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "jdbcUri"]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "?"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element
+              [:atom [:ruleref "instanceImportJdbcAllSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_ImportJdbcAll"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_CSV"]]]
+        [:element [:atom [:ruleref "instanceFile"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceImportCsvSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_ImportCsv"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "QUOTIENT"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceQuotientSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Quotient"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CHASE"]]]
+        [:element [:atom [:ruleref "constraintKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element [:atom [:terminal "INTEGER"]] [:ebnfSuffix "?"]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceChaseSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Chase"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "RANDOM"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceRandomSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Random"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ANONYMIZE"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Anonymize"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "FROZEN"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]]
+       "#"
+       [:identifier "InstanceExp_Frozen"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "PI"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instancePiSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Pi"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LITERAL"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceLiteralSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Literal"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "instanceRef"]]]]
+       "#"
+       [:identifier "InstanceKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "instanceExp"]]]]
+       "#"
+       [:identifier "InstanceKind_Exp"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LPAREN"]]]
+             [:element [:atom [:ruleref "instanceExp"]]]
+             [:element [:atom [:terminal "RPAREN"]]]]]
+           ")"]]]]
+       "#"
+       [:identifier "InstanceKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceImportJdbcAllSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instancePiSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceColimitSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "NODES"]]]
+        [:element
+         [:atom [:ruleref "instanceColimitNode"]]
+         [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "EDGES"]]]
+        [:element
+         [:atom [:ruleref "instanceColimitEdge"]]
+         [:ebnfSuffix "+"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCoProdPair"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceColimitNode"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceColimitEdge"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaArrowId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "transformKind"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceLiteralSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "IMPORTS"]]]
+             [:element
+              [:atom [:ruleref "instanceRef"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "GENERATORS"]]]
+             [:element
+              [:atom [:ruleref "instanceLiteralGen"]]
+              [:ebnfSuffix "+"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "EQUATIONS"]]]
+             [:element
+              [:atom [:ruleref "instanceEquation"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "MULTI_EQUATIONS"]]]
+             [:element
+              [:atom [:ruleref "instanceMultiEquation"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceLiteralGen"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceGen"]] [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaEntityId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceImportJdbcSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "schemaEntityId"]]]]
+                 "|"
+                 [:alternative
+                  [:element [:atom [:ruleref "schemaAttributeId"]]]]
+                 "|"
+                 [:alternative
+                  [:element [:atom [:ruleref "schemaForeignId"]]]]
+                 "|"
+                 [:alternative
+                  [:element [:atom [:ruleref "typesideTypeId"]]]]]
+                ")"]]]
+             [:element [:atom [:terminal "RARROW"]]]
+             [:element [:atom [:ruleref "instanceSql"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "+"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "jdbcClass"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "jdbcUri"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceSql"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "MULTI_STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceQuotientCsvSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:atom [:ruleref "instanceFile"]]
+         [:ebnfSuffix "+"]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceFile"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceGen"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceLiteralValue"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceEquation"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instancePath"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "instanceEquationValue"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceEquationValue"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "instanceLiteral"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "instancePath"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceMultiEquation"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceEquationId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:terminal "LBRACE"]]]
+        [:element [:atom [:ruleref "instanceMultiBind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COMMA"]]]
+             [:element [:atom [:ruleref "instanceMultiBind"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "RBRACE"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceEquationId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceMultiBind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instancePath"]]]
+        [:element [:atom [:ruleref "instanceEquationValue"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceLiteral"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceLiteralValue"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "AT"]]]
+             [:element [:atom [:ruleref "instanceSymbol"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceSymbol"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceLiteralValue"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "NUMBER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instancePath"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "instanceArrowId"]]]]
+       "#"
+       [:identifier "InstancePath_ArrowId"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceLiteralValue"]]]]
+       "#"
+       [:identifier "InstancePath_Literal"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instancePath"]]]
+        [:element [:atom [:terminal "DOT"]]]
+        [:element [:atom [:ruleref "instanceArrowId"]]]]
+       "#"
+       [:identifier "InstancePath_Dotted"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceArrowId"]]]
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "instancePath"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "InstancePath_Param"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceArrowId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "schemaEntityId"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaForeignId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceQuotientJdbcSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "schemaEntityId"]]]]
+                 "|"
+                 [:alternative
+                  [:element [:atom [:ruleref "schemaAttributeId"]]]]
+                 "|"
+                 [:alternative
+                  [:element [:atom [:ruleref "schemaForeignId"]]]]
+                 "|"
+                 [:alternative
+                  [:element [:atom [:ruleref "typesideTypeId"]]]]]
+                ")"]]]
+             [:element [:atom [:terminal "RARROW"]]]
+             [:element [:atom [:ruleref "instanceSql"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "+"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceQuotientSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EQUATIONS"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "instancePath"]]]
+             [:element [:atom [:terminal "EQUAL"]]]
+             [:element [:atom [:ruleref "instancePath"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceChaseSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceRandomSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GENERATORS"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "schemaEntityId"]]]
+             [:element [:atom [:terminal "RARROW"]]]
+             [:element [:atom [:terminal "INTEGER"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "OPTIONS"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "RANDOM_SEED"]]]
+             [:element [:atom [:terminal "EQUAL"]]]
+             [:element [:atom [:terminal "INTEGER"]]]]]
+           ")"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceEvalSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCoevalSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceSigmaSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCoProdSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCoProdSigmaSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCoProdUnrestrictSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCoequalizeSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceImportCsvSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "schemaEntityId"]]]
+             [:element [:atom [:terminal "RARROW"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:terminal "LBRACE"]]]
+                  [:element
+                   [:atom [:ruleref "instanceCsvAssign"]]
+                   [:ebnfSuffix "+"]]
+                  [:element [:atom [:terminal "RBRACE"]]]]]
+                ")"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCsvAssign"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instanceCsvId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "instanceCsvId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceCsvId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

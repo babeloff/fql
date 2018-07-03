@@ -1,0 +1,476 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlQuery"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryFromSchema"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:terminal "IDENTITY"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "QUERY"]]]
+        [:element [:atom [:ruleref "queryId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "queryExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IDENTITY"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]]
+       "#"
+       [:identifier "QueryExp_Identity"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GET_MAPPING"]]]
+        [:element [:atom [:ruleref "schemaColimitKind"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]]
+       "#"
+       [:identifier "QueryExp_Get"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "TO_QUERY"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "queryDeltaEvalSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "QueryExp_ToQuery"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "TO_COQUERY"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "queryDeltaCoEvalSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "QueryExp_ToCoquery"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LBRACK"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:terminal "SEMI"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:terminal "RBRACK"]]]
+        [:element [:atom [:ruleref "allOptions"]]]]
+       "#"
+       [:identifier "QueryExp_Compose"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "SIMPLE"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "querySimpleSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "QueryExp_Simple"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LITERAL"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "schemaRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "queryLiteralSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "QueryExp_Literal"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "queryRef"]]]]
+       "#"
+       [:identifier "QueryKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "queryExp"]]]]
+       "#"
+       [:identifier "QueryKind_Exp"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "queryExp"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "QueryKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryDeltaEvalSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryDeltaCoEvalSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "querySimpleSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryClauseExpr"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryLiteralSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "IMPORTS"]]]
+             [:element
+              [:atom [:ruleref "queryRef"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "ENTITY"]]]
+             [:element
+              [:atom [:ruleref "queryEntityExpr"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "+"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryEntityExpr"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaEntityId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:terminal "LBRACE"]]]
+        [:element [:atom [:ruleref "queryClauseExpr"]]]
+        [:element [:atom [:terminal "RBRACE"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryClauseExpr"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "FROM"]]]
+        [:element
+         [:atom [:ruleref "queryClauseFrom"]]
+         [:ebnfSuffix "+"]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "WHERE"]]]
+             [:element
+              [:atom [:ruleref "queryClauseWhere"]]
+              [:ebnfSuffix "+"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "ATTRIBUTES"]]]
+             [:element
+              [:atom [:ruleref "queryPathMapping"]]
+              [:ebnfSuffix "+"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "FOREIGN_KEYS"]]]
+             [:element
+              [:atom [:ruleref "queryForeignSig"]]
+              [:ebnfSuffix "+"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryClauseFrom"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryGen"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "schemaEntityId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryClauseWhere"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryPath"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "queryPath"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryPathMapping"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryGen"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "queryPath"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryForeignSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaForeignId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:terminal "LBRACE"]]]
+        [:element
+         [:atom [:ruleref "queryPathMapping"]]
+         [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "RBRACE"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryGen"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryPath"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "queryLiteralValue"]]]]
+       "#"
+       [:identifier "QueryPath_Literal"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideConstantId"]]]]
+       "#"
+       [:identifier "QueryPath_TypeConst"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "queryGen"]]]]
+       "#"
+       [:identifier "QueryPath_GenBare"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryGen"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "DOT"]]]
+             [:element [:atom [:ruleref "schemaArrowId"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "+"]]]]]
+       "#"
+       [:identifier "QueryPath_GenArrow"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryGen"]]]
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "queryPath"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COMMA"]]]
+             [:element [:atom [:ruleref "queryPath"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "QueryPath_GenParam"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryLiteralValue"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "NUMBER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "TRUE"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "FALSE"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

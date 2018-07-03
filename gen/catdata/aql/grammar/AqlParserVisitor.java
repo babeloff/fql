@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/bvf/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/ib4/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1130,6 +1130,20 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceEquation(AqlParser.InstanceEquationContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code InstanceEq_Literal}
+	 * labeled alternative in {@link AqlParser#instanceEquationValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceEq_Literal(AqlParser.InstanceEq_LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InstanceEq_Path}
+	 * labeled alternative in {@link AqlParser#instanceEquationValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceEq_Path(AqlParser.InstanceEq_PathContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceMultiEquation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -1148,17 +1162,17 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceMultiBind(AqlParser.InstanceMultiBindContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceSymbol}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceLiteral}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitInstanceLiteral(AqlParser.InstanceLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceSymbol}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceLiteralValue}.
 	 * @param ctx the parse tree

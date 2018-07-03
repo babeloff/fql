@@ -1,0 +1,892 @@
+[:file
+ [:program
+  [:kindDeclaration
+   [:typesideAssignment
+    "typeside"
+    [:typesideId [:symbol "Type"]]
+    "="
+    [:typesideExp
+     "literal"
+     "{"
+     [:typesideLiteralSection
+      "java_types"
+      [:typesideJavaTypeSig
+       [:typesideTypeId [:symbol "dom"]]
+       "="
+       [:typesideJavaType "\"java.lang.Object\""]]
+      "java_constants"
+      [:typesideJavaConstantSig
+       [:typesideConstantId "dom"]
+       "="
+       [:typesideJavaConstantValue "\"return input[0]\""]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "S1"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Type"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Observation"]]
+      [:schemaEntityId [:symbol "Person"]]
+      [:schemaEntityId [:symbol "Gender"]]
+      [:schemaEntityId [:symbol "ObsType"]]
+      "foreign_keys"
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "f"]]
+       ":"
+       [:schemaEntityId [:symbol "Observation"]]
+       "->"
+       [:schemaEntityId [:symbol "Person"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "h"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:schemaEntityId [:symbol "Gender"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "g"]]
+       ":"
+       [:schemaEntityId [:symbol "Observation"]]
+       "->"
+       [:schemaEntityId [:symbol "ObsType"]]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "Person_att"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]
+       "->"
+       [:typesideTypeId [:symbol "dom"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "Gender_att"]]
+       ":"
+       [:schemaEntityId [:symbol "Gender"]]
+       "->"
+       [:typesideTypeId [:symbol "dom"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "ObsType_att"]]
+       ":"
+       [:schemaEntityId [:symbol "ObsType"]]
+       "->"
+       [:typesideTypeId [:symbol "dom"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "S2"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Type"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Observation"]]
+      [:schemaEntityId [:symbol "Patient"]]
+      [:schemaEntityId [:symbol "Method"]]
+      [:schemaEntityId [:symbol "Type"]]
+      "foreign_keys"
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "f"]]
+       ":"
+       [:schemaEntityId [:symbol "Observation"]]
+       "->"
+       [:schemaEntityId [:symbol "Patient"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "g1"]]
+       ":"
+       [:schemaEntityId [:symbol "Observation"]]
+       "->"
+       [:schemaEntityId [:symbol "Method"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "g2"]]
+       ":"
+       [:schemaEntityId [:symbol "Method"]]
+       "->"
+       [:schemaEntityId [:symbol "Type"]]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "Patient_att"]]
+       ":"
+       [:schemaEntityId [:symbol "Patient"]]
+       "->"
+       [:typesideTypeId [:symbol "dom"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "Type_att"]]
+       ":"
+       [:schemaEntityId [:symbol "Type"]]
+       "->"
+       [:typesideTypeId [:symbol "dom"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaColimitAssignment
+    "schema_colimit"
+    [:schemaColimitId [:symbol "ColimAuto"]]
+    "="
+    [:schemaColimitExp
+     "quotient"
+     [:schemaRef [:symbol "S1"]]
+     "+"
+     [:schemaRef [:symbol "S2"]]
+     ":"
+     [:typesideRef [:symbol "Type"]]
+     "{"
+     [:schemaColimitQuotientSection
+      "entity_equations"
+      [:scEntityPath
+       [:schemaRef [:symbol "S1"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "Observation"]]]]
+      "="
+      [:scEntityPath
+       [:schemaRef [:symbol "S2"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "Observation"]]]]
+      [:scEntityPath
+       [:schemaRef [:symbol "S1"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "Person"]]]]
+      "="
+      [:scEntityPath
+       [:schemaRef [:symbol "S2"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "Patient"]]]]
+      [:scEntityPath
+       [:schemaRef [:symbol "S1"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "ObsType"]]]]
+      "="
+      [:scEntityPath
+       [:schemaRef [:symbol "S2"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "Type"]]]]
+      "path_equations"
+      [:scFkPath
+       [:schemaTermId [:schemaEntityId [:symbol "S1_Observation_f"]]]]
+      "="
+      [:scFkPath
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Observation_f"]]]]
+      [:scFkPath
+       [:schemaTermId [:schemaEntityId [:symbol "S1_Observation_g"]]]]
+      "="
+      [:scFkPath
+       [:schemaRef [:symbol "S2_Observation_g1"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Method_g2"]]]]]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaColimitAssignment
+    "schema_colimit"
+    [:schemaColimitId [:symbol "Coproduct"]]
+    "="
+    [:schemaColimitExp
+     "coproduct"
+     [:schemaRef [:symbol "S1"]]
+     "+"
+     [:schemaRef [:symbol "S2"]]
+     ":"
+     [:typesideRef [:symbol "Type"]]]]]
+  [:kindDeclaration
+   [:schemaColimitAssignment
+    "schema_colimit"
+    [:schemaColimitId [:symbol "Colim"]]
+    "="
+    [:schemaColimitExp
+     "modify"
+     [:schemaColimitRef [:symbol "ColimAuto"]]
+     "{"
+     [:schemaColimitModifySection
+      "rename"
+      "entities"
+      [:scEntityPath
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S1_Observation__S2_Observation"]]]]
+      "->"
+      [:scEntityPath [:schemaTermId [:schemaEntityId [:symbol "O"]]]]
+      [:scEntityPath
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S1_Person__S2_Patient"]]]]
+      "->"
+      [:scEntityPath [:schemaTermId [:schemaEntityId [:symbol "P"]]]]
+      [:scEntityPath
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S1_ObsType__S2_Type"]]]]
+      "->"
+      [:scEntityPath [:schemaTermId [:schemaEntityId [:symbol "T"]]]]
+      [:scEntityPath
+       [:schemaTermId [:schemaEntityId [:symbol "S1_Gender"]]]]
+      "->"
+      [:scEntityPath [:schemaTermId [:schemaEntityId [:symbol "G"]]]]
+      [:scEntityPath
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Method"]]]]
+      "->"
+      [:scEntityPath [:schemaTermId [:schemaEntityId [:symbol "M"]]]]
+      "rename"
+      "foreign_keys"
+      [:scFkPath
+       [:schemaRef [:symbol "O"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S1_Observation_f"]]]]
+      "->"
+      [:scFkPath [:schemaTermId [:schemaEntityId [:symbol "f"]]]]
+      [:scFkPath
+       [:schemaRef [:symbol "P"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S1_Person_h"]]]]
+      "->"
+      [:scFkPath [:schemaTermId [:schemaEntityId [:symbol "h"]]]]
+      [:scFkPath
+       [:schemaRef [:symbol "O"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Observation_g1"]]]]
+      "->"
+      [:scFkPath [:schemaTermId [:schemaEntityId [:symbol "g1"]]]]
+      [:scFkPath
+       [:schemaRef [:symbol "M"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Method_g2"]]]]
+      "->"
+      [:scFkPath [:schemaTermId [:schemaEntityId [:symbol "g2"]]]]
+      "rename"
+      "attributes"
+      [:scAttrPath
+       [:schemaRef [:symbol "T"]]
+       "."
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S1_ObsType_ObsType_att"]]]]
+      "->"
+      [:scAttrPath
+       [:schemaTermId [:schemaEntityId [:symbol "T_att1"]]]]
+      [:scAttrPath
+       [:schemaRef [:symbol "G"]]
+       "."
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S1_Gender_Gender_att"]]]]
+      "->"
+      [:scAttrPath [:schemaTermId [:schemaEntityId [:symbol "G_att"]]]]
+      [:scAttrPath
+       [:schemaRef [:symbol "P"]]
+       "."
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S1_Person_Person_att"]]]]
+      "->"
+      [:scAttrPath
+       [:schemaTermId [:schemaEntityId [:symbol "P_att1"]]]]
+      [:scAttrPath
+       [:schemaRef [:symbol "T"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Type_Type_att"]]]]
+      "->"
+      [:scAttrPath
+       [:schemaTermId [:schemaEntityId [:symbol "T_att2"]]]]
+      [:scAttrPath
+       [:schemaRef [:symbol "P"]]
+       "."
+       [:schemaTermId
+        [:schemaEntityId [:symbol "S2_Patient_Patient_att"]]]]
+      "->"
+      [:scAttrPath
+       [:schemaTermId [:schemaEntityId [:symbol "P_att2"]]]]
+      "remove"
+      "foreign_keys"
+      [:scFkPath
+       [:schemaRef [:symbol "O"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S2_Observation_f"]]]]
+      "->"
+      [:scFkPath [:schemaTermId [:schemaEntityId [:symbol "f"]]]]
+      [:scFkPath
+       [:schemaRef [:symbol "O"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "S1_Observation_g"]]]]
+      "->"
+      [:scFkPath
+       [:schemaRef [:symbol "g1"]]
+       "."
+       [:schemaTermId [:schemaEntityId [:symbol "g2"]]]]]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "I1"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "S1"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "one"]]
+       [:instanceGen [:symbol "two"]]
+       [:instanceGen [:symbol "three"]]
+       ":"
+       [:schemaEntityId [:symbol "Observation"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "Peter"]]
+       [:instanceGen [:symbol "Paul"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "M"]]
+       [:instanceGen [:symbol "F"]]
+       ":"
+       [:schemaEntityId [:symbol "Gender"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "BloodPressure"]]
+       [:instanceGen [:symbol "BodyWeight"]]
+       [:instanceGen [:symbol "HeartRate"]]
+       ":"
+       [:schemaEntityId [:symbol "ObsType"]]]
+      "equations"
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Person_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xPeter"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Paul"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Person_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xPaul"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "M"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Gender_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xM"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "F"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Gender_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xF"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId
+          [:schemaEntityId [:symbol "BloodPressure"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "ObsType_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId
+          [:schemaEntityId [:symbol "xBloodPressure"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "ObsType_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId
+          [:schemaEntityId [:symbol "xBodyWeight"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "HeartRate"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "ObsType_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xHeartRate"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "one"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "two"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "three"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Paul"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "h"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "M"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Paul"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "h"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "M"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "one"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId
+          [:schemaEntityId [:symbol "BloodPressure"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "two"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "three"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "HeartRate"]]]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "I2"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "S2"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "o1"]]
+       [:instanceGen [:symbol "o2"]]
+       [:instanceGen [:symbol "o3"]]
+       [:instanceGen [:symbol "o4"]]
+       ":"
+       [:schemaEntityId [:symbol "Observation"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "Pete"]]
+       [:instanceGen [:symbol "Jane"]]
+       ":"
+       [:schemaEntityId [:symbol "Patient"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "m1"]]
+       [:instanceGen [:symbol "m2"]]
+       [:instanceGen [:symbol "m3"]]
+       [:instanceGen [:symbol "m4"]]
+       ":"
+       [:schemaEntityId [:symbol "Method"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "BP"]]
+       [:instanceGen [:symbol "Wt"]]
+       ":"
+       [:schemaEntityId [:symbol "Type"]]]
+      "equations"
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Pete"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Patient_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xPete"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Jane"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Patient_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "xJane"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "BP"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Type_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId
+          [:schemaEntityId [:symbol "xBloodPressure"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Wt"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "Type_att"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId
+          [:schemaEntityId [:symbol "xBodyWeight"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o1"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Pete"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o2"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Pete"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o3"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Jane"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o4"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Jane"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o1"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g1"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m1"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o2"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g1"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m2"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o3"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g1"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m3"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "o4"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g1"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m1"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m1"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g2"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "BP"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m2"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g2"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "BP"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m3"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g2"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Wt"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "m4"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "g2"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Wt"]]]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "CoProd"]]
+    "="
+    [:instanceExp
+     "coproduct_sigma"
+     [:instanceCoProdPair
+      [:mappingKind
+       "("
+       [:mappingExp
+        "getMapping"
+        [:schemaColimitRef [:symbol "Colim"]]
+        [:schemaRef [:symbol "S1"]]]
+       ")"]
+      [:instanceKind [:instanceRef [:symbol "I1"]]]]
+     [:instanceCoProdPair
+      [:mappingKind
+       "("
+       [:mappingExp
+        "getMapping"
+        [:schemaColimitRef [:symbol "Colim"]]
+        [:schemaRef [:symbol "S2"]]]
+       ")"]
+      [:instanceKind [:instanceRef [:symbol "I2"]]]]
+     ":"
+     [:schemaKind
+      [:schemaExp
+       "getSchema"
+       [:schemaColimitRef [:symbol "Colim"]]]]]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "CoProd2"]]
+    "="
+    [:instanceExp
+     "union"
+     [:instanceKind
+      "("
+      [:instanceExp
+       "sigma"
+       [:mappingKind
+        "("
+        [:mappingExp
+         "getMapping"
+         [:schemaColimitRef [:symbol "Colim"]]
+         [:schemaRef [:symbol "S1"]]]
+        ")"]
+       [:instanceKind [:instanceRef [:symbol "I1"]]]]
+      ")"]
+     "+"
+     [:instanceKind
+      "("
+      [:instanceExp
+       "sigma"
+       [:mappingKind
+        "("
+        [:mappingExp
+         "getMapping"
+         [:schemaColimitRef [:symbol "Colim"]]
+         [:schemaRef [:symbol "S2"]]]
+        ")"]
+       [:instanceKind [:instanceRef [:symbol "I2"]]]]
+      ")"]
+     ":"
+     [:schemaKind
+      [:schemaExp
+       "getSchema"
+       [:schemaColimitRef [:symbol "Colim"]]]]]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "E"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind
+      [:schemaExp "getSchema" [:schemaColimitRef [:symbol "Colim"]]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "P"]]
+       ":"
+       [:schemaEntityId [:symbol "P"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "B"]]
+       [:instanceGen [:symbol "W"]]
+       ":"
+       [:schemaEntityId [:symbol "T"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:transformAssignment
+    "transform"
+    [:transformId [:symbol "a1"]]
+    "="
+    [:transformExp
+     "literal"
+     ":"
+     [:instanceKind [:instanceRef [:symbol "E"]]]
+     "->"
+     [:instanceRef [:symbol "CoProd"]]
+     "{"
+     [:transformLiteralSection
+      "generators"
+      [:transformGen [:symbol "P"]]
+      "->"
+      [:schemaPath
+       [:schemaArrowId [:schemaEntityId [:symbol "Peter"]]]]
+      [:transformGen [:symbol "B"]]
+      "->"
+      [:schemaPath
+       [:schemaArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]
+      [:transformGen [:symbol "W"]]
+      "->"
+      [:schemaPath
+       [:schemaArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:transformAssignment
+    "transform"
+    [:transformId [:symbol "a2"]]
+    "="
+    [:transformExp
+     "literal"
+     ":"
+     [:instanceKind [:instanceRef [:symbol "E"]]]
+     "->"
+     [:instanceRef [:symbol "CoProd"]]
+     "{"
+     [:transformLiteralSection
+      "generators"
+      [:transformGen [:symbol "P"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Pete"]]]]
+      [:transformGen [:symbol "B"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "BP"]]]]
+      [:transformGen [:symbol "W"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Wt"]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "answer"]]
+    "="
+    [:instanceExp
+     "coequalize"
+     [:transformKind [:transformRef [:symbol "a1"]]]
+     [:transformKind [:transformRef [:symbol "a2"]]]]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "answer2"]]
+    "="
+    [:instanceExp
+     "quotient"
+     [:instanceRef [:symbol "CoProd"]]
+     "{"
+     [:instanceQuotientSection
+      "equations"
+      [:instancePath
+       [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]
+      "="
+      [:instancePath
+       [:instanceArrowId [:schemaEntityId [:symbol "Pete"]]]]
+      [:instancePath
+       [:instanceArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]
+      "="
+      [:instancePath
+       [:instanceArrowId [:schemaEntityId [:symbol "BP"]]]]
+      [:instancePath
+       [:instanceArrowId [:schemaEntityId [:symbol "Wt"]]]]
+      "="
+      [:instancePath
+       [:instanceArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]
+      "allOptions"]
+     "}"]]]]
+ "<EOF>"]

@@ -1,0 +1,42 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlComment"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "htmlCommentDeclaration"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "HTML"]]]
+        [:element [:atom [:terminal "HTML_MULTI_STRING"]]]
+        [:element [:atom [:terminal "HTML_END"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mdCommentDeclaration"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "MARKDOWN"]]]
+        [:element [:atom [:terminal "MD_MULTI_STRING"]]]
+        [:element [:atom [:terminal "MD_END"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

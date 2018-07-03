@@ -1,0 +1,182 @@
+[:file
+ [:program
+  [:kindDeclaration
+   [:typesideAssignment
+    "typeside"
+    [:typesideId [:symbol "Ty"]]
+    "="
+    [:typesideExp
+     "literal"
+     "{"
+     [:typesideLiteralSection
+      "types"
+      [:typesideTypeSig [:typesideTypeId [:symbol "String"]]]
+      [:typesideTypeSig [:typesideTypeId [:symbol "Integer"]]]
+      "constants"
+      [:typesideConstantSig
+       [:typesideConstantId "50"]
+       ":"
+       [:typesideConstantValue [:symbol "Integer"]]]
+      "functions"
+      [:typesideFunctionSig
+       [:typesideFnName [:symbol "int_to_str"]]
+       ":"
+       [:typesideFnLocal [:symbol "Integer"]]
+       "->"
+       [:typesideFnTarget [:symbol "String"]]]
+      [:typesideFunctionSig
+       [:typesideFnName [:symbol "str_to_int"]]
+       ":"
+       [:typesideFnLocal [:symbol "String"]]
+       "->"
+       [:typesideFnTarget [:symbol "Integer"]]]
+      "equations"
+      [:typesideEquationSig
+       "forall"
+       [:typesideLocal [:symbol "x"]]
+       "."
+       [:typesideEval
+        [:typesideFnName [:symbol "str_to_int"]]
+        "("
+        [:typesideEval
+         [:typesideFnName [:symbol "int_to_str"]]
+         "("
+         [:typesideEval [:typesideLiteral "x"]]
+         ")"]
+        ")"]
+       "="
+       [:typesideEval [:typesideLiteral "x"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "S"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "S_E"]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "S_att_str"]]
+       ":"
+       [:schemaEntityId [:symbol "S_E"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "T"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "T_E"]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "T_att_int"]]
+       ":"
+       [:schemaEntityId [:symbol "T_E"]]
+       "->"
+       [:typesideTypeId [:symbol "Integer"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:mappingAssignment
+    "mapping"
+    [:mappingId [:symbol "F"]]
+    "="
+    [:mappingExp
+     "literal"
+     ":"
+     [:schemaRef [:symbol "S"]]
+     "->"
+     [:schemaRef [:symbol "T"]]
+     "{"
+     [:mappingLiteralSection
+      [:mappingLiteralSubsection
+       "entity"
+       [:mappingEntitySig
+        [:schemaEntityId [:symbol "S_E"]]
+        "->"
+        [:schemaEntityId [:symbol "T_E"]]]
+       "attributes"
+       [:mappingAttributeSig
+        [:schemaAttributeId [:symbol "S_att_str"]]
+        "->"
+        [:mappingAttributeTerm
+         [:schemaPath
+          [:schemaPath
+           [:schemaArrowId [:schemaEntityId [:symbol "T_att_int"]]]]
+          "."
+          [:schemaArrowId [:schemaEntityId [:symbol "int_to_str"]]]]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "I"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "T"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "g"]]
+       ":"
+       [:schemaEntityId [:symbol "T_E"]]]
+      "equations"
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "g"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "T_att_int"]]]]
+       "="
+       [:instanceEquationValue
+        [:instanceLiteral [:instanceLiteralValue "50"]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "J"]]
+    "="
+    [:instanceExp
+     "delta"
+     [:mappingKind [:mappingRef [:symbol "F"]]]
+     [:instanceKind [:instanceRef [:symbol "I"]]]]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "K"]]
+    "="
+    [:instanceExp
+     "sigma"
+     [:mappingKind [:mappingRef [:symbol "F"]]]
+     [:instanceKind [:instanceRef [:symbol "J"]]]
+     "{"
+     [:instanceSigmaSection
+      [:allOptions
+       "options"
+       [:optionsDeclaration
+        [:requireConsistencyOption
+         "require_consistency"
+         "="
+         [:truthy "false"]]]]]
+     "}"]]]]
+ "<EOF>"]

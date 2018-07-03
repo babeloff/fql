@@ -1,0 +1,656 @@
+[:file
+ [:program
+  [:kindDeclaration
+   [:typesideAssignment
+    "typeside"
+    [:typesideId [:symbol "Ty"]]
+    "="
+    [:typesideExp
+     "literal"
+     "{"
+     [:typesideLiteralSection
+      "java_types"
+      [:typesideJavaTypeSig
+       [:typesideTypeId [:symbol "String"]]
+       "="
+       [:typesideJavaType "\"java.lang.String\""]]
+      [:typesideJavaTypeSig
+       [:typesideTypeId [:symbol "Bool"]]
+       "="
+       [:typesideJavaType "\"java.lang.Boolean\""]]
+      "java_constants"
+      [:typesideJavaConstantSig
+       [:typesideConstantId "String"]
+       "="
+       [:typesideJavaConstantValue "\"return input[0]\""]]
+      [:typesideJavaConstantSig
+       [:typesideConstantId "Bool"]
+       "="
+       [:typesideJavaConstantValue
+        "\"return java.lang.Boolean.parseBoolean(input[0])\""]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "Source"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Man"]]
+      [:schemaEntityId [:symbol "Woman"]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "fav_book_m"]]
+       ":"
+       [:schemaEntityId [:symbol "Man"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "fav_book_w"]]
+       ":"
+       [:schemaEntityId [:symbol "Woman"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "name_m"]]
+       ":"
+       [:schemaEntityId [:symbol "Man"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "name_w"]]
+       ":"
+       [:schemaEntityId [:symbol "Woman"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "paying"]]
+       ":"
+       [:schemaEntityId [:symbol "Man"]]
+       "->"
+       [:typesideTypeId [:symbol "Bool"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "Target"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Male"]]
+      [:schemaEntityId [:symbol "GoodMatch"]]
+      [:schemaEntityId [:symbol "PayingGoodMatch"]]
+      "foreign_keys"
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "is_a"]]
+       ":"
+       [:schemaEntityId [:symbol "PayingGoodMatch"]]
+       "->"
+       [:schemaEntityId [:symbol "GoodMatch"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "for_man"]]
+       ":"
+       [:schemaEntityId [:symbol "GoodMatch"]]
+       "->"
+       [:schemaEntityId [:symbol "Male"]]]
+      "attributes"
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "man_name"]]
+       ":"
+       [:schemaEntityId [:symbol "Male"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      [:schemaAttributeSig
+       [:schemaAttributeId [:symbol "woman_name"]]
+       ":"
+       [:schemaEntityId [:symbol "GoodMatch"]]
+       "->"
+       [:typesideTypeId [:symbol "String"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:queryAssignment
+    "query"
+    [:queryId [:symbol "Q"]]
+    "="
+    [:queryExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Source"]]]
+     "->"
+     [:schemaRef [:symbol "Target"]]
+     "{"
+     [:queryLiteralSection
+      "entity"
+      [:queryEntityExpr
+       [:schemaEntityId [:symbol "GoodMatch"]]
+       "->"
+       "{"
+       [:queryClauseExpr
+        "from"
+        [:queryClauseFrom
+         [:queryGen [:symbol "m"]]
+         ":"
+         [:schemaEntityId [:symbol "Man"]]]
+        [:queryClauseFrom
+         [:queryGen [:symbol "w"]]
+         ":"
+         [:schemaEntityId [:symbol "Woman"]]]
+        "where"
+        [:queryClauseWhere
+         [:queryPath
+          [:queryGen [:symbol "fav_book_m"]]
+          "("
+          [:queryPath [:typesideConstantId "m"]]
+          ")"]
+         "="
+         [:queryPath
+          [:queryGen [:symbol "fav_book_w"]]
+          "("
+          [:queryPath [:typesideConstantId "w"]]
+          ")"]]
+        "attributes"
+        [:queryPathMapping
+         [:queryGen [:symbol "woman_name"]]
+         "->"
+         [:queryPath
+          [:queryGen [:symbol "name_w"]]
+          "("
+          [:queryPath [:typesideConstantId "w"]]
+          ")"]]
+        "foreign_keys"
+        [:queryForeignSig
+         [:schemaForeignId [:symbol "for_man"]]
+         "->"
+         "{"
+         [:queryPathMapping
+          [:queryGen [:symbol "man"]]
+          "->"
+          [:queryPath [:typesideConstantId "m"]]]
+         "}"]
+        "allOptions"]
+       "}"]
+      "entity"
+      [:queryEntityExpr
+       [:schemaEntityId [:symbol "Male"]]
+       "->"
+       "{"
+       [:queryClauseExpr
+        "from"
+        [:queryClauseFrom
+         [:queryGen [:symbol "man"]]
+         ":"
+         [:schemaEntityId [:symbol "Man"]]]
+        "attributes"
+        [:queryPathMapping
+         [:queryGen [:symbol "man_name"]]
+         "->"
+         [:queryPath
+          [:queryGen [:symbol "name_m"]]
+          "("
+          [:queryPath [:typesideConstantId "man"]]
+          ")"]]
+        "allOptions"]
+       "}"]
+      "entity"
+      [:queryEntityExpr
+       [:schemaEntityId [:symbol "PayingGoodMatch"]]
+       "->"
+       "{"
+       [:queryClauseExpr
+        "from"
+        [:queryClauseFrom
+         [:queryGen [:symbol "man"]]
+         ":"
+         [:schemaEntityId [:symbol "Man"]]]
+        [:queryClauseFrom
+         [:queryGen [:symbol "woman"]]
+         ":"
+         [:schemaEntityId [:symbol "Woman"]]]
+        "where"
+        [:queryClauseWhere
+         [:queryPath
+          [:queryGen [:symbol "fav_book_m"]]
+          "("
+          [:queryPath [:typesideConstantId "man"]]
+          ")"]
+         "="
+         [:queryPath
+          [:queryGen [:symbol "fav_book_w"]]
+          "("
+          [:queryPath [:typesideConstantId "woman"]]
+          ")"]]
+        [:queryClauseWhere
+         [:queryPath
+          [:queryGen [:symbol "paying"]]
+          "("
+          [:queryPath [:typesideConstantId "man"]]
+          ")"]
+         "="
+         [:queryPath [:queryLiteralValue "true"]]]
+        "foreign_keys"
+        [:queryForeignSig
+         [:schemaForeignId [:symbol "is_a"]]
+         "->"
+         "{"
+         [:queryPathMapping
+          [:queryGen [:symbol "m"]]
+          "->"
+          [:queryPath [:typesideConstantId "man"]]]
+         [:queryPathMapping
+          [:queryGen [:symbol "w"]]
+          "->"
+          [:queryPath [:typesideConstantId "woman"]]]
+         "}"]
+        "allOptions"]
+       "}"]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "I"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Source"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "a"]]
+       [:instanceGen [:symbol "d"]]
+       [:instanceGen [:symbol "e"]]
+       [:instanceGen [:symbol "g"]]
+       ":"
+       [:schemaEntityId [:symbol "Woman"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "b"]]
+       [:instanceGen [:symbol "c"]]
+       [:instanceGen [:symbol "f"]]
+       [:instanceGen [:symbol "h"]]
+       ":"
+       [:schemaEntityId [:symbol "Man"]]]
+      "multi_equations"
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "paying"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "b"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "true"]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "c"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "false"]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "true"]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "h"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "true"]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "name_m"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "b"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "bob"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "c"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "charlie"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "frank"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "h"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "henry"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "name_w"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "a"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "alice"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "d"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "doris"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "e"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "ellie"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "g"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "gina"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "fav_book_m"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "b"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book1"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "c"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book1"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "f"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book2"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "h"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book3"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "fav_book_w"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "a"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book1"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "d"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book2"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "e"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book2"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "g"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book4"]]]]]]
+       "}"]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "J"]]
+    "="
+    [:instanceExp
+     "eval"
+     [:queryKind [:queryRef [:symbol "Q"]]]
+     [:instanceKind [:instanceRef [:symbol "I"]]]]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "I0"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Source"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "a0"]]
+       [:instanceGen [:symbol "d0"]]
+       [:instanceGen [:symbol "e0"]]
+       ":"
+       [:schemaEntityId [:symbol "Woman"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "b0"]]
+       [:instanceGen [:symbol "c0"]]
+       [:instanceGen [:symbol "f0"]]
+       ":"
+       [:schemaEntityId [:symbol "Man"]]]
+      "multi_equations"
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "paying"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "b0"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "true"]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "c0"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "false"]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "f0"]]]]
+        [:instanceEquationValue
+         [:instanceLiteral [:instanceLiteralValue [:truthy "true"]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "name_m"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "b0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "bob"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "c0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "charlie"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "f0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "frank"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "name_w"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "a0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "alice"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "d0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "doris"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "e0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "ellie"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "fav_book_m"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "b0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book1"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "c0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book1"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "f0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book2"]]]]]]
+       "}"]
+      [:instanceMultiEquation
+       [:instanceEquationId [:symbol "fav_book_w"]]
+       "->"
+       "{"
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "a0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book1"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "d0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book2"]]]]]]
+       ","
+       [:instanceMultiBind
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "e0"]]]]
+        [:instanceEquationValue
+         [:instancePath
+          [:instanceArrowId [:schemaEntityId [:symbol "book2"]]]]]]
+       "}"]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:transformAssignment
+    "transform"
+    [:transformId [:symbol "h"]]
+    "="
+    [:transformExp
+     "literal"
+     ":"
+     [:instanceKind [:instanceRef [:symbol "I0"]]]
+     "->"
+     [:instanceRef [:symbol "I"]]
+     "{"
+     [:transformLiteralSection
+      "generators"
+      [:transformGen [:symbol "a0"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "a"]]]]
+      [:transformGen [:symbol "d0"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
+      [:transformGen [:symbol "e0"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
+      [:transformGen [:symbol "b0"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "b"]]]]
+      [:transformGen [:symbol "c0"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "c"]]]]
+      [:transformGen [:symbol "f0"]]
+      "->"
+      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "f"]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:transformAssignment
+    "transform"
+    [:transformId [:symbol "k"]]
+    "="
+    [:transformExp
+     "eval"
+     [:queryKind [:queryRef [:symbol "Q"]]]
+     [:transformRef [:symbol "h"]]]]]
+  [:kindDeclaration
+   [:transformAssignment
+    "transform"
+    [:transformId [:symbol "kk"]]
+    "="
+    [:transformExp
+     "coeval"
+     [:queryKind [:queryRef [:symbol "Q"]]]
+     [:transformRef [:symbol "k"]]]]]]
+ "<EOF>"]

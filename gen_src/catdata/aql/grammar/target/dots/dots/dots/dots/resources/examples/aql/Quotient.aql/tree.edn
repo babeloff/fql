@@ -1,0 +1,220 @@
+[:file
+ [:program
+  [:kindDeclaration
+   [:typesideAssignment
+    "typeside"
+    [:typesideId [:symbol "Ty"]]
+    "="
+    [:typesideExp "empty"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "Likes"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Like"]]
+      [:schemaEntityId [:symbol "Person"]]
+      "foreign_keys"
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "likee"]]
+       ":"
+       [:schemaEntityId [:symbol "Like"]]
+       "->"
+       [:schemaEntityId [:symbol "Person"]]]
+      [:schemaForeignSig
+       [:schemaForeignId [:symbol "liker"]]
+       ":"
+       [:schemaEntityId [:symbol "Like"]]
+       "->"
+       [:schemaEntityId [:symbol "Person"]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:schemaAssignment
+    "schema"
+    [:schemaId [:symbol "Connections"]]
+    "="
+    [:schemaExp
+     "literal"
+     ":"
+     [:typesideKind [:typesideRef [:symbol "Ty"]]]
+     "{"
+     [:schemaLiteralSection
+      "entities"
+      [:schemaEntityId [:symbol "Connection"]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "SimpsonsLikes"]]
+    "="
+    [:instanceExp
+     "literal"
+     ":"
+     [:schemaKind [:schemaRef [:symbol "Likes"]]]
+     "{"
+     [:instanceLiteralSection
+      "generators"
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "Ned"]]
+       [:instanceGen [:symbol "Maud"]]
+       [:instanceGen [:symbol "Rodd"]]
+       [:instanceGen [:symbol "Todd"]]
+       [:instanceGen [:symbol "MrBurns"]]
+       [:instanceGen [:symbol "Smithers"]]
+       ":"
+       [:schemaEntityId [:symbol "Person"]]]
+      [:instanceLiteralGen
+       [:instanceGen [:symbol "l1"]]
+       [:instanceGen [:symbol "l2"]]
+       [:instanceGen [:symbol "l3"]]
+       [:instanceGen [:symbol "l4"]]
+       ":"
+       [:schemaEntityId [:symbol "Like"]]]
+      "equations"
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l1"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "liker"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Ned"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l1"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "likee"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Maud"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l2"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "liker"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Maud"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l2"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "likee"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Rodd"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l3"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "liker"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Rodd"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l3"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "likee"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Todd"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l4"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "liker"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "Smithers"]]]]]]
+      [:instanceEquation
+       [:instancePath
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "l4"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "likee"]]]]
+       "="
+       [:instanceEquationValue
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "MrBurns"]]]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:mappingAssignment
+    "mapping"
+    [:mappingId [:symbol "FindConnections"]]
+    "="
+    [:mappingExp
+     "literal"
+     ":"
+     [:schemaRef [:symbol "Likes"]]
+     "->"
+     [:schemaRef [:symbol "Connections"]]
+     "{"
+     [:mappingLiteralSection
+      [:mappingLiteralSubsection
+       "entity"
+       [:mappingEntitySig
+        [:schemaEntityId [:symbol "Person"]]
+        "->"
+        [:schemaEntityId [:symbol "Connection"]]]]
+      [:mappingLiteralSubsection
+       "entity"
+       [:mappingEntitySig
+        [:schemaEntityId [:symbol "Like"]]
+        "->"
+        [:schemaEntityId [:symbol "Connection"]]]
+       "foreign_keys"
+       [:mappingForeignSig
+        [:schemaForeignId [:symbol "likee"]]
+        "->"
+        [:schemaPath
+         [:schemaArrowId [:schemaEntityId [:symbol "Connection"]]]]]
+       [:mappingForeignSig
+        [:schemaForeignId [:symbol "liker"]]
+        "->"
+        [:schemaPath
+         [:schemaArrowId [:schemaEntityId [:symbol "Connection"]]]]]]
+      "allOptions"]
+     "}"]]]
+  [:kindDeclaration
+   [:instanceAssignment
+    "instance"
+    [:instanceId [:symbol "SimpsonsConnections"]]
+    "="
+    [:instanceExp
+     "sigma"
+     [:mappingKind [:mappingRef [:symbol "FindConnections"]]]
+     [:instanceKind [:instanceRef [:symbol "SimpsonsLikes"]]]]]]
+  [:kindDeclaration
+   [:transformAssignment
+    "transform"
+    [:transformId [:symbol "whichConnection"]]
+    "="
+    [:transformExp
+     "unit"
+     [:mappingKind [:mappingRef [:symbol "FindConnections"]]]
+     [:instanceRef [:symbol "SimpsonsLikes"]]]]]]
+ "<EOF>"]

@@ -1,0 +1,478 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlCommand"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMMAND"]]]
+        [:element [:atom [:ruleref "commandId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "commandExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXEC_CMDLINE"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandCmdLineSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_CmdLine"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXEC_JS"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExecJsSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExecJs"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXEC_JDBC"]]]
+        [:element [:atom [:ruleref "commandJdbcClass"]]]
+        [:element [:atom [:ruleref "commandJdbcUri"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExecJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExecJdbc"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CHECK"]]]
+        [:element [:atom [:ruleref "constraintRef"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]]
+       "#"
+       [:identifier "CommandExp_Check"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ASSERT_CONSISTENT"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]]
+       "#"
+       [:identifier "CommandExp_AssertConsistent"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXPORT_CSV_INSTANCE"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element [:atom [:ruleref "commandFile"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExportCsvSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExportCsvInstance"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXPORT_CSV_TRANSFORM"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element [:atom [:ruleref "commandFile"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExportCsvSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExportCsvTransform"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXPORT_JDBC_INSTANCE"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "commandJdbcClass"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "commandJdbcUri"]]]
+                  [:element
+                   [:atom [:ruleref "commandPrefixDst"]]
+                   [:ebnfSuffix "?"]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "?"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExportJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExportJdbcInstance"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXPORT_JDBC_QUERY"]]]
+        [:element [:atom [:ruleref "queryRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "commandJdbcClass"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "commandJdbcUri"]]]
+                  [:element
+                   [:ebnf
+                    [:block
+                     "("
+                     [:altList
+                      [:alternative
+                       [:element [:atom [:ruleref "commandPrefixSrc"]]]
+                       [:element
+                        [:atom [:ruleref "commandPrefixDst"]]
+                        [:ebnfSuffix "?"]]]]
+                     ")"]
+                    [:blockSuffix [:ebnfSuffix "?"]]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "?"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExportJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExportJdbcQuery"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EXPORT_JDBC_TRANSFORM"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "commandJdbcClass"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "commandJdbcUri"]]]
+                  [:element
+                   [:atom [:ruleref "commandPrefix"]]
+                   [:ebnfSuffix "?"]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "?"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExportJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandExportJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_ExportJdbcTransform"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ADD_TO_CLASSPATH"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandAddClasspathSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_AddToClasspath"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "commandRef"]]]]
+       "#"
+       [:identifier "CommandKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "commandExp"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "CommandKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandAddClasspathSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "+"]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandCmdLineSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandExecJsSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandExecJdbcSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative [:element [:atom [:terminal "STRING"]]]]
+            "|"
+            [:alternative
+             [:element [:atom [:terminal "MULTI_STRING"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "+"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandExportCsvSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandExportJdbcSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandFile"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandJdbcClass"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandJdbcUri"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandPrefix"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandPrefixSrc"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandPrefixDst"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

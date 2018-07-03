@@ -47,6 +47,7 @@ import catdata.aql.grammar.AqlParser.InstanceCoProdUnrestrictSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceCoequalizeSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceCoevalSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceColimitSectionContext;
+import catdata.aql.grammar.AqlParser.InstanceEquationIdContext;
 import catdata.aql.grammar.AqlParser.InstanceEvalSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceKindContext;
 import catdata.aql.grammar.AqlParser.InstanceLiteralSectionContext;
@@ -1408,7 +1409,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		edsExp = (EdsExp) this.exps.get(constraintKind);
 		
 		final List<Pair<String, String>> 
-		options = parseOptions(instSect.allOptions());
+		options = (instSect == null) ? new LinkedList<>() : parseOptions(instSect.allOptions());
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
@@ -1491,23 +1492,45 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<Integer, Pair<RawTerm, RawTerm>>> 
 		eqs = ctx_lit.instanceEquation().stream() 
-			.map(x -> 
-				new Pair<Integer, Pair<RawTerm, RawTerm>>(
-						6, //x.instancePath(), 
+			.map(x -> new Pair<Integer, Pair<RawTerm, RawTerm>>(
+						getLoc(x.instancePath()), 
 						new Pair<RawTerm, RawTerm>( 
-								this.terms.get(x.instancePath(0)),
-								this.terms.get((x.instanceLiteral() == null) 
-										? x.instancePath(1) : x.instanceLiteral()))))
+								this.terms.get(x.instancePath()),
+								this.terms.get(x.instanceEquationValue()))))
+			.collect(Collectors.toList());
+		
+		final List<Pair<Integer, Pair<RawTerm, RawTerm>>> 
+		meqs = ctx_lit.instanceMultiEquation().stream() 
+			.map(eq -> 
+			{
+				final String eqid = eq.instanceEquationId().getText();
+				
+				return eq.instanceMultiBind().stream()
+					.map(bind -> 
+					{
+						final List<RawTerm> rt = new LinkedList<>();
+						rt.add(this.terms.get(bind.instancePath()));
+						
+						return new Pair<>(
+							getLoc(bind.instancePath()), 
+							new Pair<>( 
+									new RawTerm(eqid, rt),
+									this.terms.get(bind.instanceEquationValue())));
+					})
+					.collect(Collectors.toList());
+			})
+			.flatMap(s -> s.stream())
 			.collect(Collectors.toList());
 		
 		final List<Pair<String, String>> 
 		options = parseOptions(ctx_lit.allOptions());
 		
+		eqs.addAll(meqs);
 		
-		final InstExp
-		simple = new InstExpRaw(schema, imports, gens, eqs, options);
+		final InstExp<?,?,?,?,?,?,?,?,?>
+		literal = new InstExpRaw(schema, imports, gens, eqs, options);
 		
-		this.exps.put(ctx, simple);
+		this.exps.put(ctx, literal);
 	}
 
 	//**** helpers ****
@@ -1534,12 +1557,26 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 	@Override public void exitInstanceLiteral(AqlParser.InstanceLiteralContext ctx) {
-		final InstanceLiteralValueContext value = ctx.instanceLiteralValue();
+		final String value = ctx.instanceLiteralValue().getText();
 		final InstanceSymbolContext symbol = ctx.instanceSymbol();
 		
-		final RawTerm term = new RawTerm(value.getText(), args);
-		this.terms.put(ctx,term);
+		final RawTerm term = new RawTerm(value);
+		this.terms.put(ctx,  term);
 	}
+	
+	@Override public void exitInstanceEq_Literal(AqlParser.InstanceEq_LiteralContext ctx) { 
+		this.terms.put(ctx,  this.terms.get(ctx.instanceLiteral()));
+	}	
+	
+	@Override public void exitInstanceEq_Path(AqlParser.InstanceEq_PathContext ctx) { 
+		this.terms.put(ctx,  this.terms.get(ctx.instancePath()));
+	}
+		
+	@Override public void exitInstanceMultiBind(AqlParser.InstanceMultiBindContext ctx) { 
+		this.terms.put(ctx, new RawTerm(ctx.getText()));
+	}
+
+	
 
 	/***************************************************
 	 * Transform section

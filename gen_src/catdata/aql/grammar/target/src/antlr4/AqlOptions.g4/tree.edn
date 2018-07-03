@@ -1,0 +1,658 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlOptions"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "allOptions"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "OPTIONS"]]]
+             [:element
+              [:atom [:ruleref "optionsDeclaration"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "optionsDeclaration"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "numThreadsOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "randomSeedOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "timeoutOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "requireConsistencyOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "schemaOnlyOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "allowJavaEqsUnsafeOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "dontValidateUnsafeOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "alwaysReloadOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryComposeUseIncomplete"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "csvOptions"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "idColumnNameOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "varcharLengthOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "startIdsAtOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "importAsTheoryOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "jdbcDefaultClassOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "jdbDefaultStringOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "dVIAFProverUnsafeOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "proverOptions"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "guiOptions"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "evalOptions"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "queryRemoveRedundancyOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "coproductOptions"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "importJoinedOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "completionPresedenceOption"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "prependEntityOnIds"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "importJoinedOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_JOINED"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "completionPresedenceOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMPLETION_PRECEDENCE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "prependEntityOnIds"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "PREPEND_ENTITY_ON_IDS"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "mapNullsArbitrarilyUnsafeOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "MAP_NULLS_ARBITRARILY_UNSAFE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "interpretAsAlgebraOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "INTERPRET_AS_ALGEGRA"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "numThreadsOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "NUM_THREADS"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "randomSeedOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "RANDOM_SEED"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "timeoutOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "TIMEOUT"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "requireConsistencyOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "REQUIRE_CONSISTENCY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "schemaOnlyOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "SCHEMA_ONLY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "allowJavaEqsUnsafeOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ALLOW_JAVA_EQS_UNSAFE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "dontValidateUnsafeOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DONT_VALIDATE_UNSAFE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "alwaysReloadOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ALWAYS_RELOAD"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryComposeUseIncomplete"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "QUERY_COMPOSE_USE_INCOMPLETE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "csvOptions"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CSV_FIELD_DELIM_CHAR"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "CHAR"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CSV_ESCAPE_CHAR"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "CHAR"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CSV_QUOTE_CHAR"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "CHAR"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CSV_FILE_EXTENSION"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "STRING"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "CSV_GENERATE_IDS"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "idColumnNameOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "ID_COLUMN_NAME"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "varcharLengthOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "VARCHAR_LENGTH"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "startIdsAtOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "START_IDS_AT"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "importAsTheoryOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_AS_THEORY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "jdbcDefaultClassOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "JDBC_DEFAULT_CLASS"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "jdbDefaultStringOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "JDBC_DEFAULT_STRING"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "dVIAFProverUnsafeOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DONT_VERIFY_FOR_UNSAFE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "proverOptions"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "PROVER"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "proverType"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "PROGRAM_ALLOW_NONTERM_UNSAFE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMPLETION_PRECEDENCE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "LBRACK"]]]
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "RBRACK"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMPLETION_SORT"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMPLETION_COMPOSE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMPLETION_FILTER_SUBSUMED"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COMPLETION_SYNTACTIC_AC"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "guiOptions"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GUI_MAX_TABLE_SIZE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GUI_MAX_GRAPH_SIZE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GUI_MAX_STRING_SIZE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "GUI_ROWS_TO_DISPLAY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "evalOptions"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_MAX_TEMP_SIZE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_REORDER_JOINS"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_MAX_PLAN_DEPTH"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_JOIN_SELECTIVITY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_USE_INDICES"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_USE_SQL_ABOVE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_APPROX_SQL_UNSAFE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL_SQL_PERSISTENT_INDICIES"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "coproductOptions"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COPRODUCT_ALLOW_ENTITY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COPRODUCT_ALLOW_TYPE"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "queryRemoveRedundancyOption"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "QUERY_REMOVE_REDUNDANCY"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "truthy"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "truthy"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "TRUE"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "FALSE"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "proverType"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "AUTO"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "FAIL"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "FREE"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "SATURATED"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "CONGRUENCE"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "MONOIDAL"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "PROGRAM"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "COMPLETION"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

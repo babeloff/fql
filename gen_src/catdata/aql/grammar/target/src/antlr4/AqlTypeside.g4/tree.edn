@@ -1,0 +1,614 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlTypeside"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "TYPESIDE"]]]
+        [:element [:atom [:ruleref "typesideId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "typesideExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "EMPTY"]]]]
+       "#"
+       [:identifier "TypesideExp_Empty"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "SQL"]]]]
+       "#"
+       [:identifier "TypesideExp_Sql"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "TYPESIDE_OF"]]]
+        [:element [:atom [:ruleref "schemaKind"]]]]
+       "#"
+       [:identifier "TypesideExp_Of"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LITERAL"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "typesideLiteralSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TypesideExp_Literal"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideRef"]]]]
+       "#"
+       [:identifier "TypesideKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideExp"]]]]
+       "#"
+       [:identifier "TypesideKind_Exp"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LPAREN"]]]
+             [:element [:atom [:ruleref "typesideExp"]]]
+             [:element [:atom [:terminal "RPAREN"]]]]]
+           ")"]]]]
+       "#"
+       [:identifier "TypesideKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideLiteralSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "IMPORTS"]]]
+             [:element
+              [:atom [:ruleref "typesideImport"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "TYPES"]]]
+             [:element
+              [:atom [:ruleref "typesideTypeSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "CONSTANTS"]]]
+             [:element
+              [:atom [:ruleref "typesideConstantSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "FUNCTIONS"]]]
+             [:element
+              [:atom [:ruleref "typesideFunctionSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "JAVA_TYPES"]]]
+             [:element
+              [:atom [:ruleref "typesideJavaTypeSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "JAVA_CONSTANTS"]]]
+             [:element
+              [:atom [:ruleref "typesideJavaConstantSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "JAVA_FUNCTIONS"]]]
+             [:element
+              [:atom [:ruleref "typesideJavaFunctionSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "EQUATIONS"]]]
+             [:element
+              [:atom [:ruleref "typesideEquationSig"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideImport"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt [:alternative [:element [:atom [:terminal "SQL"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideRef"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideTypeSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideTypeId"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideJavaTypeSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideTypeId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "typesideJavaType"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideTypeId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative [:element [:atom [:terminal "TRUE"]]]]
+            "|"
+            [:alternative [:element [:atom [:terminal "FALSE"]]]]
+            "|"
+            [:alternative [:element [:atom [:ruleref "symbol"]]]]]
+           ")"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideJavaType"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideConstantSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:atom [:ruleref "typesideConstantId"]]
+         [:ebnfSuffix "+"]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "typesideConstantValue"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideConstantValue"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideJavaConstantSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideConstantId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "typesideJavaConstantValue"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideConstantId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative [:element [:atom [:ruleref "truthy"]]]]
+            "|"
+            [:alternative [:element [:atom [:terminal "STRING"]]]]
+            "|"
+            [:alternative [:element [:atom [:terminal "INTEGER"]]]]
+            "|"
+            [:alternative [:element [:atom [:terminal "LOWER_ID"]]]]
+            "|"
+            [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]
+           ")"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideJavaConstantValue"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideFunctionSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideFnName"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "typesideFnLocal"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:terminal "COMMA"]]]
+                  [:element [:atom [:ruleref "typesideFnLocal"]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "*"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "typesideFnTarget"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideFnName"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideFnLocal"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideFnTarget"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideJavaFunctionSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideFnName"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "typesideFnLocal"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:terminal "COMMA"]]]
+                  [:element [:atom [:ruleref "typesideFnLocal"]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "*"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "typesideFnTarget"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "typesideJavaStatement"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideJavaStatement"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideEquationSig"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "FORALL"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:ruleref "typesideLocal"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:terminal "COMMA"]]]
+                  [:element [:atom [:ruleref "typesideLocal"]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "*"]]]]]
+            "|"
+            [:alternative
+             [:element
+              [:atom [:ruleref "typesideLocal"]]
+              [:ebnfSuffix "+"]]]]
+           ")"]]]
+        [:element [:atom [:terminal "DOT"]]]
+        [:element [:atom [:ruleref "typesideEval"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "typesideEval"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideEval"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "typesideEval"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideLocal"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "symbol"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COLON"]]]
+             [:element [:atom [:ruleref "typesideLocalType"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideLocalType"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideEval"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "NUMBER"]]]]
+       "#"
+       [:identifier "Typeside_EvalNumber"]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideLiteral"]]]]
+       "#"
+       [:identifier "Typeside_EvalGen"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "typesideEval"]]]
+        [:element [:atom [:ruleref "typesideFnName"]]]
+        [:element [:atom [:ruleref "typesideEval"]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "Typeside_InfixFunction"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "typesideFnName"]]]
+        [:element [:atom [:terminal "LPAREN"]]]
+        [:element [:atom [:ruleref "typesideEval"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "COMMA"]]]
+             [:element [:atom [:ruleref "typesideEval"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
+        [:element [:atom [:terminal "RPAREN"]]]]
+       "#"
+       [:identifier "Typeside_EvalFunction"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "typesideLiteral"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "LOWER_ID"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]

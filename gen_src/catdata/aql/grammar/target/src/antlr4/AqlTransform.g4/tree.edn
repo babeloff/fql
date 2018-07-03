@@ -1,0 +1,512 @@
+[:grammarSpec
+ [:grammarType "parser" "grammar"]
+ [:identifier "AqlTransform"]
+ ";"
+ [:prequelConstruct
+  [:optionsSpec
+   "options"
+   "{"
+   [:option
+    [:identifier "tokenVocab"]
+    "="
+    [:optionValue [:identifier "AqlLexerRules"]]]
+   ";"
+   "}"]]
+ [:rules
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformId"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformRef"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformAssignment"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "TRANSFORM"]]]
+        [:element [:atom [:ruleref "transformId"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "transformExp"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformExp"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IDENTITY"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]]
+       "#"
+       [:identifier "TransformExp_Identity"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LBRACK"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element [:atom [:terminal "SEMI"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element [:atom [:terminal "RBRACK"]]]]
+       "#"
+       [:identifier "TransformExp_Compose"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DISTINCT"]]]
+        [:element [:atom [:ruleref "transformRef"]]]]
+       "#"
+       [:identifier "TransformExp_Destination"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DELTA"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "transformRef"]]]]
+       "#"
+       [:identifier "TransformExp_Delta"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "SIGMA"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformSigmaSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformSigmaSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_Sigma"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "EVAL"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "transformRef"]]]]
+       "#"
+       [:identifier "TransformExp_Eval"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COEVAL"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformCoevalSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformCoevalSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_Coeval"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "UNIT"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformUnitSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_Unit"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COUNIT"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformUnitSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_Counit"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "UNIT_QUERY"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformUnitQuerySection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_UnitQuery"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "COUNIT_QUERY"]]]
+        [:element [:atom [:ruleref "queryKind"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element
+              [:atom [:ruleref "transformCounitQuerySection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_CounitQuery"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_JDBC"]]]
+        [:element [:atom [:ruleref "transformJdbcClass"]]]
+        [:element [:atom [:ruleref "transformJdbcUri"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformImportJdbcSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_ImportJdbc"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "IMPORT_CSV"]]]
+        [:element [:atom [:ruleref "transformFile"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformImportCsvSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_ImportCsv"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "LITERAL"]]]
+        [:element [:atom [:terminal "COLON"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformLiteralSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_Literal"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformKind"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "transformRef"]]]]
+       "#"
+       [:identifier "TransformKind_Ref"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LPAREN"]]]
+             [:element [:atom [:ruleref "transformExp"]]]
+             [:element [:atom [:terminal "RPAREN"]]]]]
+           ")"]]]]
+       "#"
+       [:identifier "TransformKind_Exp"]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformJdbcClass"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformJdbcUri"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformFile"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformSqlExpr"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformSigmaSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformCoevalSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformUnitSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformUnitQuerySection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformCounitQuerySection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformImportJdbcSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:atom [:ruleref "transformSqlEntityExpr"]]
+         [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformImportCsvSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:atom [:ruleref "transformFileExpr"]]
+         [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformSqlEntityExpr"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaEntityId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "transformSqlExpr"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformFileExpr"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaEntityId"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "transformFile"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformLiteralSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "GENERATORS"]]]
+             [:element
+              [:ebnf
+               [:block
+                "("
+                [:altList
+                 [:alternative
+                  [:element [:atom [:ruleref "transformGen"]]]
+                  [:element [:atom [:terminal "RARROW"]]]
+                  [:element [:atom [:ruleref "schemaPath"]]]]]
+                ")"]
+               [:blockSuffix [:ebnfSuffix "*"]]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "transformGen"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+    ";"
+    "exceptionGroup"]]]
+ "<EOF>"]
