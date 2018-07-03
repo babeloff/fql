@@ -57,7 +57,7 @@ schemaPathEqnSig : schemaPath EQUAL schemaPath ;
 
 schemaPath
   : schemaArrowId                           # SchemaPath_ArrowId
-  | schemaPath DOT schemaArrowId            # SchemaPath_Dot
+  | schemaPath DOT schemaArrowId            # SchemaPath_Dotted
   | schemaArrowId LPAREN schemaPath RPAREN  # SchemaPath_Paren
   ;
 
@@ -84,7 +84,7 @@ evalSchemaFn
   | schemaGen                  # EvalSchemaFn_Gen
   | schemaFn LPAREN evalSchemaFn (COMMA evalSchemaFn)* RPAREN
                                # EvalSchemaFn_Paren
-  | schemaFn DOT evalSchemaFn  # EvalSchemaFn_Dot
+  | schemaFn DOT evalSchemaFn  # EvalSchemaFn_Dotted
   ;
 
 schemaGen : symbol (COLON schemaGenType)? ;

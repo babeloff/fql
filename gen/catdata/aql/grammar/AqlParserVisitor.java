@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8mw/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/bvf/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -674,12 +674,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaPath_Paren(AqlParser.SchemaPath_ParenContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code SchemaPath_Dot}
+	 * Visit a parse tree produced by the {@code SchemaPath_Dotted}
 	 * labeled alternative in {@link AqlParser#schemaPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx);
+	T visitSchemaPath_Dotted(AqlParser.SchemaPath_DottedContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaArrowId}.
 	 * @param ctx the parse tree
@@ -746,12 +746,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEvalSchemaFn_Paren(AqlParser.EvalSchemaFn_ParenContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code EvalSchemaFn_Dot}
+	 * Visit a parse tree produced by the {@code EvalSchemaFn_Dotted}
 	 * labeled alternative in {@link AqlParser#evalSchemaFn}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx);
+	T visitEvalSchemaFn_Dotted(AqlParser.EvalSchemaFn_DottedContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaGen}.
 	 * @param ctx the parse tree
@@ -1058,11 +1058,29 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceCoProdPair(AqlParser.InstanceCoProdPairContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceColimitNode}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceColimitNode(AqlParser.InstanceColimitNodeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceColimitEdge}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceColimitEdge(AqlParser.InstanceColimitEdgeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceLiteralSection}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitInstanceLiteralSection(AqlParser.InstanceLiteralSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceLiteralGen}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceLiteralGen(AqlParser.InstanceLiteralGenContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceImportJdbcSection}.
 	 * @param ctx the parse tree
@@ -1148,11 +1166,33 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceLiteralValue(AqlParser.InstanceLiteralValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instancePath}.
+	 * Visit a parse tree produced by the {@code InstancePath_Literal}
+	 * labeled alternative in {@link AqlParser#instancePath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstancePath(AqlParser.InstancePathContext ctx);
+	T visitInstancePath_Literal(AqlParser.InstancePath_LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InstancePath_ArrowId}
+	 * labeled alternative in {@link AqlParser#instancePath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstancePath_ArrowId(AqlParser.InstancePath_ArrowIdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InstancePath_Param}
+	 * labeled alternative in {@link AqlParser#instancePath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstancePath_Param(AqlParser.InstancePath_ParamContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InstancePath_Dotted}
+	 * labeled alternative in {@link AqlParser#instancePath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstancePath_Dotted(AqlParser.InstancePath_DottedContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceArrowId}.
 	 * @param ctx the parse tree
@@ -1171,6 +1211,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInstanceQuotientSection(AqlParser.InstanceQuotientSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceChaseSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceChaseSection(AqlParser.InstanceChaseSectionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceRandomSection}.
 	 * @param ctx the parse tree

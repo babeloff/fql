@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/8mw/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/bvf/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1276,13 +1276,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) { }
+	@Override public void enterSchemaPath_Dotted(AqlParser.SchemaPath_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSchemaPath_Dot(AqlParser.SchemaPath_DotContext ctx) { }
+	@Override public void exitSchemaPath_Dotted(AqlParser.SchemaPath_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1408,13 +1408,13 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx) { }
+	@Override public void enterEvalSchemaFn_Dotted(AqlParser.EvalSchemaFn_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEvalSchemaFn_Dot(AqlParser.EvalSchemaFn_DotContext ctx) { }
+	@Override public void exitEvalSchemaFn_Dotted(AqlParser.EvalSchemaFn_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1960,6 +1960,30 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInstanceColimitNode(AqlParser.InstanceColimitNodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstanceColimitNode(AqlParser.InstanceColimitNodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstanceColimitEdge(AqlParser.InstanceColimitEdgeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstanceColimitEdge(AqlParser.InstanceColimitEdgeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterInstanceLiteralSection(AqlParser.InstanceLiteralSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1967,6 +1991,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInstanceLiteralSection(AqlParser.InstanceLiteralSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstanceLiteralGen(AqlParser.InstanceLiteralGenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstanceLiteralGen(AqlParser.InstanceLiteralGenContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2140,13 +2176,49 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInstancePath(AqlParser.InstancePathContext ctx) { }
+	@Override public void enterInstancePath_Literal(AqlParser.InstancePath_LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInstancePath(AqlParser.InstancePathContext ctx) { }
+	@Override public void exitInstancePath_Literal(AqlParser.InstancePath_LiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstancePath_ArrowId(AqlParser.InstancePath_ArrowIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstancePath_ArrowId(AqlParser.InstancePath_ArrowIdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstancePath_Param(AqlParser.InstancePath_ParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstancePath_Param(AqlParser.InstancePath_ParamContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstancePath_Dotted(AqlParser.InstancePath_DottedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstancePath_Dotted(AqlParser.InstancePath_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2183,6 +2255,18 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInstanceQuotientSection(AqlParser.InstanceQuotientSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInstanceChaseSection(AqlParser.InstanceChaseSectionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInstanceChaseSection(AqlParser.InstanceChaseSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

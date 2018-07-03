@@ -46,7 +46,7 @@ instanceExp
     (LBRACE instanceCoProdSection RBRACE)?
   # InstanceExp_Union
 
-  | COPRODUCT_UNRESTRICTED instanceRef (PLUS instanceRef)* COLON schemaKind
+  | COPRODUCT_UNRESTRICTED instanceKind (PLUS instanceKind)* COLON schemaKind
     (LBRACE instanceCoProdUnrestrictSection RBRACE)?
   # InstanceExp_CoProdUn
 
@@ -82,20 +82,21 @@ instanceExp
     (LBRACE instanceQuotientSection RBRACE)?
   # InstanceExp_Quotient
 
-  | CHASE constraintKind+ instanceKind INTEGER?
+  | CHASE constraintKind instanceKind INTEGER?
+    (LBRACE instanceChaseSection RBRACE)?
   # InstanceExp_Chase
 
   | RANDOM COLON schemaRef
     (LBRACE instanceRandomSection RBRACE)?
   # InstanceExp_Random
 
-  | ANONYMIZE instanceRef
+  | ANONYMIZE instanceKind
   # InstanceExp_Anonymize
 
-  | FROZEN queryRef schemaRef
+  | FROZEN queryKind schemaKind
   # InstanceExp_Frozen
 
-  | PI queryKind instanceKind
+  | PI mappingKind instanceKind
     (LBRACE instancePiSection RBRACE)?
   # InstanceExp_Pi
 
@@ -114,20 +115,24 @@ instanceImportJdbcAllSection : allOptions ;
 instancePiSection : allOptions ;
 
 instanceColimitSection
-  : NODES (instanceRef RARROW instanceKind)+
-    EDGES (schemaArrowId RARROW transformKind)+
+  : NODES instanceColimitNode+ 
+    EDGES instanceColimitEdge+
     allOptions
   ;
   
 instanceCoProdPair : mappingKind instanceKind ;
- 
+instanceColimitNode : instanceRef RARROW instanceKind ;
+instanceColimitEdge : schemaArrowId RARROW transformKind ;
+
 instanceLiteralSection
   : (IMPORTS instanceRef*)?
-    (GENERATORS (instanceGen+ COLON schemaEntityId)+)?
+    (GENERATORS instanceLiteralGen+)?
     (EQUATIONS instanceEquation*)?
     (MULTI_EQUATIONS instanceMultiEquation*)?
     allOptions
   ;
+  
+instanceLiteralGen : instanceGen+ COLON schemaEntityId ;
 
 instanceImportJdbcSection
   : ((schemaEntityId | schemaAttributeId | schemaForeignId | typesideTypeId)
@@ -172,10 +177,11 @@ instanceLiteralValue
   ;
 
 instancePath
-  : instanceArrowId
-  | instanceLiteralValue
-  | instancePath DOT instanceArrowId
+  : instanceArrowId                     # InstancePath_ArrowId
+  | instanceLiteralValue                # InstancePath_Literal
+  | instancePath DOT instanceArrowId    # InstancePath_Dotted
   | instanceArrowId LPAREN instancePath RPAREN
+                                        # InstancePath_Param
   ;
 
 // identity arrows are indicated with entity-names.
@@ -192,6 +198,8 @@ instanceQuotientSection
   : EQUATIONS (instancePath EQUAL instancePath)*
     allOptions
   ;
+  
+instanceChaseSection : allOptions  ;
 
 instanceRandomSection
   : GENERATORS (schemaEntityId RARROW INTEGER)*
