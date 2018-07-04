@@ -17,6 +17,7 @@ import catdata.Util;
 
 public class SqlSchema {
 
+	@SuppressWarnings("unused")
 	private static int fkidx = 0;
 
 	public final Set<SqlType> types = new HashSet<>();

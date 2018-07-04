@@ -1,7 +1,6 @@
 package catdata.aql.exp;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -28,7 +27,6 @@ import catdata.aql.Term;
 import catdata.aql.Var;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
-import catdata.aql.exp.QueryExpRaw.Trans;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
 import catdata.aql.exp.SchExpRaw.Fk;
@@ -479,6 +477,7 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 		return "literal : " + src + " -> " + dst + " {\n" + toString + "}";
 	}
 
+	@SuppressWarnings("unchecked")
 	public QueryExpRaw(List<Pair<LocStr, String>> params, List<Pair<LocStr, RawTerm>> consts, SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,
 			List<Pair<LocStr, PreBlock>> list, List<Pair<String, String>> options) {
 		this.src = (SchExp<Ty, En, Sym, Fk, Att>) c;
@@ -705,6 +704,7 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 		ens0.put(p.en, b);
 	}
 
+	@SuppressWarnings("hiding")
 	public static <Ty, En, Sym, Fk, Att> Term<Ty, En, Sym, Fk, Att, Var, Var> freeze(
 			Term<Ty, En, Sym, Fk, Att, Var, Var> term, Ctx<String, String> params) {
 		Map<Var, Term<Ty, En, Sym, Fk, Att, Var, Var>> m = new HashMap<>();

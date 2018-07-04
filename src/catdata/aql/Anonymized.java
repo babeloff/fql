@@ -111,6 +111,7 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 		}
 		
 	};
+	@SuppressWarnings("hiding")
 	private <En, Sym, Fk, Att, Gen, Sk> Object iso1(Object obj, Ty ty)  {
 		if (I.schema().typeSide.js.java_tys.containsKey(ty)) {
 			String ty2 = I.schema().typeSide.js.java_tys.map.get(ty);
@@ -145,6 +146,7 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 		return obj;
 	}
 	
+	@SuppressWarnings("hiding")
 	private <En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> iso1(Term<Ty, En, Sym, Fk, Att, Gen, Sk> t) {
 		return t.visit(x->Term.Var(x),(obj,ty)->Term.Obj(iso1(obj,ty),ty), (sym,x)->Term.Sym(sym, x), (fk,x)->Term.Fk(fk,x), (att,x)->Term.Att(att,x), x->Term.Gen(x), x->Term.Sk(x));
 	}

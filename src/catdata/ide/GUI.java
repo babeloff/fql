@@ -182,7 +182,7 @@ public class GUI extends JPanel {
 		closeItem.addActionListener(e -> closeAction());
 		saveAsItem.addActionListener(e -> saveAsActionAlternate(getSelectedEditor()));
 	
-		KeyStroke ctrlS = KeyStroke.getKeyStroke(KeyEvent.VK_S,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlS = KeyStroke.getKeyStroke(KeyEvent.VK_S,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut s = new MenuShortcut(ctrlS.getKeyCode());
 		saveItem.setShortcut(s);
 
@@ -191,13 +191,13 @@ public class GUI extends JPanel {
 		saveAllItem.setShortcut(sA);
 		saveAllItem.addActionListener(e -> saveAllAction());
 
-		KeyStroke ctrlQ = KeyStroke.getKeyStroke(KeyEvent.VK_Q,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlQ = KeyStroke.getKeyStroke(KeyEvent.VK_Q,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut q = new MenuShortcut(ctrlQ.getKeyCode());
 		exitItem.setShortcut(q);
 		
 	
-		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
-//		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_MASK);
+		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
+//		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_DOWN_MASK);
 		MenuShortcut c = new MenuShortcut(ctrlW.getKeyCode());
 		closeItem.setShortcut(c);
 
@@ -208,10 +208,10 @@ public class GUI extends JPanel {
 		exitItem.addActionListener(e -> exitAction());
 
 		
-		KeyStroke ctrlN = KeyStroke.getKeyStroke(KeyEvent.VK_N,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlN = KeyStroke.getKeyStroke(KeyEvent.VK_N,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut n = new MenuShortcut(ctrlN.getKeyCode());
 		newItems.get(Language.getDefault()).setShortcut(n);
-		KeyStroke ctrlO = KeyStroke.getKeyStroke(KeyEvent.VK_O,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlO = KeyStroke.getKeyStroke(KeyEvent.VK_O,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut o = new MenuShortcut(ctrlO.getKeyCode());
 		openItem.setShortcut(o);
 		return fileMenu;
@@ -234,7 +234,7 @@ public class GUI extends JPanel {
 		});
 		
 		
-		KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlR = KeyStroke.getKeyStroke(KeyEvent.VK_R,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 
 		MenuShortcut q2 = new MenuShortcut(ctrlR.getKeyCode());
 		runItem.setShortcut(q2);
@@ -288,7 +288,7 @@ public class GUI extends JPanel {
 		
 		MenuItem gotoDef = new MenuItem("Goto Definition");
 		editMenu.add(gotoDef);
-		KeyStroke ctrlShiftR = KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlShiftR = KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut fx = new MenuShortcut(ctrlShiftR.getKeyCode(), true);
 		gotoDef.setShortcut(fx);
 		gotoDef.addActionListener(x -> {
@@ -298,7 +298,7 @@ public class GUI extends JPanel {
 			}
 		});
 		
-		KeyStroke ctrlF = KeyStroke.getKeyStroke(KeyEvent.VK_F,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlF = KeyStroke.getKeyStroke(KeyEvent.VK_F,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut f = new MenuShortcut(ctrlF.getKeyCode());
 		findItem.setShortcut(f);
 
@@ -310,7 +310,7 @@ public class GUI extends JPanel {
 				ed.topArea.copy();
 			}
 		});
-		KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlC = KeyStroke.getKeyStroke(KeyEvent.VK_C,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut cc = new MenuShortcut(ctrlC.getKeyCode());
 		copy.setShortcut(cc);
 		editMenu.add(copy);
@@ -331,7 +331,7 @@ public class GUI extends JPanel {
 				ed.topArea.cut();
 			}
 		});
-		KeyStroke ctrlX = KeyStroke.getKeyStroke(KeyEvent.VK_X,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlX = KeyStroke.getKeyStroke(KeyEvent.VK_X,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut cx = new MenuShortcut(ctrlX.getKeyCode());
 		cut.setShortcut(cx);
 		editMenu.add(cut);
@@ -343,7 +343,7 @@ public class GUI extends JPanel {
 				ed.topArea.paste();
 			}
 		});
-		KeyStroke ctrlV = KeyStroke.getKeyStroke(KeyEvent.VK_V,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlV = KeyStroke.getKeyStroke(KeyEvent.VK_V,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut cv = new MenuShortcut(ctrlV.getKeyCode());
 		paste.setShortcut(cv);
 		editMenu.add(paste);
@@ -355,7 +355,7 @@ public class GUI extends JPanel {
 				ed.topArea.undoLastAction();
 			}
 		});
-		KeyStroke ctrlZ = KeyStroke.getKeyStroke(KeyEvent.VK_Z,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlZ = KeyStroke.getKeyStroke(KeyEvent.VK_Z,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut z = new MenuShortcut(ctrlZ.getKeyCode());
 		undo.setShortcut(z);
 		editMenu.add(undo);
@@ -367,7 +367,7 @@ public class GUI extends JPanel {
 				ed.topArea.redoLastAction();
 			}
 		});
-		KeyStroke ctrlShiftZ = KeyStroke.getKeyStroke(KeyEvent.VK_Z,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
+		KeyStroke ctrlShiftZ = KeyStroke.getKeyStroke(KeyEvent.VK_Z,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx());
 		MenuShortcut sz = new MenuShortcut(ctrlShiftZ.getKeyCode(), true);
 		redo.setShortcut(sz);
 		editMenu.add(redo);

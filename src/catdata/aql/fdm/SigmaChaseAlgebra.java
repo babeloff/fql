@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,8 +27,7 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		extends Algebra<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>>
 		implements DP<Ty, En2, Sym, Fk2, Att2, Gen, Sk> {
 
-	
-
+	@SuppressWarnings("unused")
 	private final Schema<Ty, En1, Sym, Fk1, Att1> A;
 	private final Schema<Ty, En2, Sym, Fk2, Att2> B;
 	private final Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;

@@ -2,7 +2,6 @@ package catdata.aql.exp;
 
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;

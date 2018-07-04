@@ -53,6 +53,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@SuppressWarnings("hiding")
 	public static final class PragmaExpConsistent<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends PragmaExp {
 		public final InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I;
 		@Override
@@ -125,6 +126,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("hiding")
 	public static final class PragmaExpCheck<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends PragmaExp {
 		public InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I;
 		public EdsExp<Ty,En,Sym,Fk,Att> C;
@@ -531,6 +533,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("hiding")
 	public static final class PragmaExpToCsvInst<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> extends PragmaExp {
 
 		public final String file;
@@ -612,6 +615,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 	///////////////////////////////////////////////////////////////////
 
+	@SuppressWarnings("hiding")
 	public static final class PragmaExpToCsvTrans<Ty, En, Sym, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> extends PragmaExp {
 
 		public final String file;
@@ -906,6 +910,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 	/////////////////////////////////////////////////
 
+	@SuppressWarnings("hiding")
 	public static class PragmaExpToJdbcInst<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> extends PragmaExp {
 
 		public final String jdbcString;
@@ -1137,6 +1142,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	@SuppressWarnings("hiding")
 	public static class PragmaExpToJdbcQuery<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> extends PragmaExp {
 
 		public final String jdbcString;

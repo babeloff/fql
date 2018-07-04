@@ -18,6 +18,7 @@ public class ToJdbcPragmaQuery<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>  extends
 	private final String ty;
 	//private final String clazz;
 	private final String idCol;
+	@SuppressWarnings("unused")
 	private final int len;
 	
 	private final Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>  Q;

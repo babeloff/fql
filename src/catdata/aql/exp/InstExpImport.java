@@ -48,6 +48,7 @@ public abstract class InstExpImport<Handle, Q>
 		return raw;
 	}
 	
+	@SuppressWarnings("hiding")
 	public static <En> Gen toGen(En en, String o, boolean b, String sep) {
 		if (b) {
 			return new Gen(en + sep + o);
@@ -268,6 +269,7 @@ public abstract class InstExpImport<Handle, Q>
 	protected abstract void joinedEn(Handle h, En en, Q s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
 	
 
+	@SuppressWarnings("hiding")
 	public static <Ty, En, Sym, Fk, Att, Gen> Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> forTheory(
 			Schema<Ty, En, Sym, Fk, Att> sch, Ctx<En, Collection<Gen>> ens0, Ctx<Ty, Collection<Null<?>>> tys0,
 			Ctx<Gen, Ctx<Fk, Gen>> fks0, Ctx<Gen, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Null<?>>>> atts0,
@@ -337,6 +339,7 @@ public abstract class InstExpImport<Handle, Q>
 		}
 	} */
 	
+	@SuppressWarnings("unused")
 	private void totalityCheck(Schema<Ty, En, Sym, Fk, Att> sch, Map<En, Q> ens, Map<Ty, Q> tys,
 			Map<Att, Q> atts, Map<Fk, Q> fks) {
 		// for (En En : sch.ens) {

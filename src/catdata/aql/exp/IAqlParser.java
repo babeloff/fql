@@ -9,7 +9,6 @@ import catdata.Pair;
 import catdata.ParseException;
 import catdata.Program;
 import catdata.Triple;
-import catdata.Util;
 import catdata.aql.AqlOptions;
 import catdata.aql.RawTerm;
 

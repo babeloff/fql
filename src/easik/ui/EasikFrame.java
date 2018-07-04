@@ -97,7 +97,7 @@ public abstract class EasikFrame extends JFrame {
 		menu.add(item);
 
 		if (keyCode != null) {
-			item.setAccelerator(KeyStroke.getKeyStroke(keyCode.intValue(), Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | extraMask));
+			item.setAccelerator(KeyStroke.getKeyStroke(keyCode.intValue(), Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | extraMask));
 		}
 	}
 

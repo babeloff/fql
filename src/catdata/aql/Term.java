@@ -925,7 +925,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "hiding" })
 	public <En> Term<Ty, En, Sym, Fk, Att, Gen, Sk> mapEn() {
 		return (Term<Ty, En, Sym, Fk, Att, Gen, Sk>) this;
 	} 

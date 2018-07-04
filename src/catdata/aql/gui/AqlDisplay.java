@@ -156,9 +156,9 @@ public final class AqlDisplay implements Disp {
                 }
             }
 
-            private boolean isMenuShortcutKeyDown(InputEvent event) {
-                return (event.getModifiers() & Toolkit.getDefaultToolkit()
-                        .getMenuShortcutKeyMask()) != 0;
+			private boolean isMenuShortcutKeyDown(InputEvent event) {
+                return (event.getModifiersEx() & Toolkit.getDefaultToolkit()
+                        .getMenuShortcutKeyMaskEx()) != 0;
             }
         });
 		
@@ -377,8 +377,8 @@ public final class AqlDisplay implements Disp {
 
 		frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
-		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK);
-		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_MASK);
+		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK);
+		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_DOWN_MASK);
 		frame.getRootPane().registerKeyboardAction(escListener, ctrlW, JComponent.WHEN_IN_FOCUSED_WINDOW);
 		frame.getRootPane().registerKeyboardAction(escListener, commandW, JComponent.WHEN_IN_FOCUSED_WINDOW);
 

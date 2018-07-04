@@ -75,12 +75,14 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		}
 		for (Att1 a : src.atts.keySet()) {
 			En1 v = src.atts.get(a).first;
+			@SuppressWarnings("unused")
 			Ty w = src.atts.get(a).second;
 			//a = m_v.F(a)
 			Var x = atts.get(a).first;
 			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> lhs
 			= Term.Att(Chc.inLeft(a), Term.Var(x));
 					
+			@SuppressWarnings("unused")
 			En2 en2 = atts.get(a).second;
 			Term<Ty, Chc<En1, En2>, Sym, Fk2, Att2, Void, Void> l = atts.get(a).third.mapEn();
 			Function<Fk2,Chc<Chc<Fk1,Fk2>,En1>> f = xx->Chc.inLeft(Chc.inRight(xx));
@@ -109,6 +111,7 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		return ret;
 	}
 	
+	@SuppressWarnings("hiding")
 	private <Att1, Att2> Map<Chc<Chc<Att1, Att2>,En1>, Pair<Chc<En1, En2>, Chc<En1,En2>>> or2(Ctx<Att1, Pair<En1, En1>> xs,
 			Ctx<Att2, Pair<En2, En2>> ys) {
 		Map<Chc<Chc<Att1, Att2>,En1>, Pair<Chc<En1, En2>, Chc<En1,En2>>> ret = new HashMap<>();

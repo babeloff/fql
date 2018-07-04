@@ -6,14 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import catdata.Ctx;
-import catdata.Triple;
 import catdata.Util;
 
 public class MaedmaxProver<T, C, V> extends DPKB<T, C, V>  {

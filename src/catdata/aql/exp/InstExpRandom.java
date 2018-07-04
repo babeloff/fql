@@ -14,7 +14,6 @@ import catdata.aql.AqlOptions;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.DP;
 import catdata.aql.ImportAlgebra;
-import catdata.aql.Instance;
 import catdata.aql.Kind;
 import catdata.aql.Schema;
 import catdata.aql.Term;

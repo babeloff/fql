@@ -99,6 +99,7 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 				Set<Map<SqlColumn, Optional<Object>>> tuples = inst.get(table);
 	
 				Map<Map<SqlColumn, Optional<Object>>, Gen> i1 = new HashMap<>();
+				@SuppressWarnings("unused")
 				SqlColumn thePk = null;
 				if (table.pk.size() == 1) {
 					thePk = Util.get0(table.pk);

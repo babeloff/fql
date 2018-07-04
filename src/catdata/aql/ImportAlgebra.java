@@ -2,8 +2,6 @@ package catdata.aql;
 
 import java.util.Collection;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import catdata.Chc;
 import catdata.Ctx;
 import catdata.Triple;

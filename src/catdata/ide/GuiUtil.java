@@ -7,7 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -53,6 +53,7 @@ public class GuiUtil {
 	}
 	
 
+	@SuppressWarnings("unused")
 	private static JPanel makeRowOrCol(List<JComponent> list, int orientation) {
 		if (list.isEmpty()) {
 			JPanel ret = new JPanel();
@@ -225,17 +226,17 @@ public class GuiUtil {
 
 		try
 		{
-			Rectangle r = component.modelToView(component.getCaretPosition());
+			Rectangle2D r = component.modelToView2D(component.getCaretPosition());
 			JViewport viewport = (JViewport)container;
 			int extentHeight = viewport.getExtentSize().height;
 			int viewHeight = viewport.getViewSize().height;
 			if (r == null || viewport == null) {
 				return;
 			}
-			int y = Math.max(0, r.y - ((extentHeight - r.height) / 2));
+			double y = Math.max(0, r.getY() - ((extentHeight - r.getHeight()) / 2));
 			y = Math.min(y, viewHeight - extentHeight);
 
-			viewport.setViewPosition(new Point(0, y));
+			viewport.setViewPosition(new Point(0, (int) y));
 		}
 		catch(BadLocationException ble) {}
 	}

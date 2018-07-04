@@ -25,6 +25,7 @@ import catdata.provers.KBTheory;
 //TODO: aql validate collage
 public class Collage<Ty, En, Sym, Fk, Att, Gen, Sk> {
 
+	@SuppressWarnings({ "hiding", "unchecked" })
 	public <Ty, En, Sym, Fk, Att, Gen, Sk> Collage<Ty, En, Sym, Fk, Att, Gen, Sk> convert() {
 		return (Collage<Ty, En, Sym, Fk, Att, Gen, Sk>) this;
 	}

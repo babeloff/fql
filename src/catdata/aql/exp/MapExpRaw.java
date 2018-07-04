@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import catdata.Chc;
 import catdata.Ctx;
 import catdata.Pair;
@@ -67,6 +65,7 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 	private Ctx<Fk, Integer> fkPos = new Ctx<>();
 	private Ctx<Att, Integer> attPos = new Ctx<>();
 
+	@SuppressWarnings("unchecked")
 	public MapExpRaw(SchExp<?, ?, ?, ?, ?> src, SchExp<?, ?, ?, ?, ?> dst, List<LocStr> imports,
 			List<Pair<LocStr, Triple<String, List<Pair<LocStr, List<String>>>, List<Pair<LocStr, Triple<String, String, RawTerm>>>>>> list,
 			List<Pair<String, String>> options) {

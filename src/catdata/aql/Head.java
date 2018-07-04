@@ -1,6 +1,5 @@
 package catdata.aql;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import catdata.Util;
@@ -359,6 +358,7 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 			if (x.getClass() != getClass()) {
 				return false;
 			}
+			@SuppressWarnings("unchecked")
 			Head<Ty, En, Sym, Fk, Att, Gen, Sk> o = (Head<Ty, En, Sym, Fk, Att, Gen, Sk>) x;
 			if (ty != null) {
 				return (ty.equals(o.ty) && obj.equals(o.obj));

@@ -7,9 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import catdata.aql.Lineage;
-import catdata.aql.Term;
-
 public class BinRelMap<X, Y> implements Iterable<Pair<X, Y>> {
 
 	@Override
@@ -191,7 +188,7 @@ public class BinRelMap<X, Y> implements Iterable<Pair<X, Y>> {
 
 	public int size() {
 		int i = 0;
-		for (Pair<X, Y> x : this) {
+		for (@SuppressWarnings("unused") Pair<X, Y> x : this) {
 			i++;
 		}
 		return i;

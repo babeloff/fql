@@ -87,7 +87,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 			for (Att2 att : F.dst.atts.keySet()) {
 				atts.put(att, new BinRelMap<>());
 			}
-			for (Ty ty : F.src.typeSide.tys) {
+			for (@SuppressWarnings("unused") Ty ty : F.src.typeSide.tys) {
 				// vs.put(ty, new Ctx<>());
 			}
 		}

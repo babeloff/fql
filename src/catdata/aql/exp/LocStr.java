@@ -10,7 +10,6 @@ import catdata.Ctx;
 import catdata.Pair;
 import catdata.Quad;
 import catdata.Triple;
-import catdata.Util;
 import catdata.aql.RawTerm;
 
 public class LocStr {

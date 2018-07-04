@@ -10,7 +10,6 @@ import java.util.Vector;
 import javax.swing.JList;
 
 import catdata.Prog;
-import catdata.Util;
 
 public class ListOutline<Progg extends Prog, Env, DDisp extends Disp> extends Outline<Progg, Env, DDisp> {
 
@@ -52,7 +51,7 @@ public class ListOutline<Progg extends Prog, Env, DDisp extends Disp> extends Ou
 			}
 
 			private boolean isMenuShortcutKeyDown(InputEvent event) {
-				return (event.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0;
+				return (event.getModifiersEx() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()) != 0;
 			}
 		});
 
