@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -24,7 +27,6 @@ import catdata.aql.exp.InstExpRaw.Sk;
 import catdata.aql.exp.QueryExpRaw.Block;
 import catdata.aql.exp.QueryExpRaw.PreBlock;
 import catdata.aql.exp.QueryExpRaw.Trans;
-import catdata.aql.exp.MapExpColim;
 import catdata.aql.exp.SchExp.SchExpEmpty;
 import catdata.aql.exp.SchExp.SchExpVar;
 import catdata.aql.exp.SchExpRaw.Att;
@@ -38,7 +40,6 @@ import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
-import catdata.aql.grammar.AqlParser.AllOptionsContext;
 import catdata.aql.grammar.AqlParser.ConstraintKindContext;
 import catdata.aql.grammar.AqlParser.GraphKindContext;
 import catdata.aql.grammar.AqlParser.GraphLiteralSectionContext;
@@ -53,6 +54,7 @@ import catdata.aql.grammar.AqlParser.InstanceColimitSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceEvalSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceKindContext;
 import catdata.aql.grammar.AqlParser.InstanceLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.InstancePiSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceQuotientSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceRefContext;
 import catdata.aql.grammar.AqlParser.InstanceSigmaSectionContext;
@@ -120,8 +122,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.mapped_terms = new ParseTreeProperty<>();
 		this.value_option = new ParseTreeProperty<>();
 		this.terms = new ParseTreeProperty<>();
+		
 		this.prexps = new ParseTreeProperty<>();
 		this.quads = new ParseTreeProperty<>();
+		this.aopts = new ParseTreeProperty<>();
 	}
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
@@ -153,28 +157,25 @@ public class AqlLoaderListener extends AqlParserBaseListener {
  * @param sect TODO
  */
 
-	private List<Pair<String, String>> 
-	listOptions(final AllOptionsContext options) {
-		return 
-			(options == null)
-			? new LinkedList<>()
-			: options.optionsDeclaration().stream() 
-				.map(elt -> 
-					new Pair<>(
-						elt.getStart().getText(),
-						elt.getStop().getText())) 
-				.collect(Collectors.toList());
-	}
-
-	private Map<String, String> 
-	mapOptions(final AllOptionsContext options) {
-		return 
-			(options == null)
-			? new HashMap<>()
-			: options.optionsDeclaration().stream() 
-				.collect(Collectors.toMap(
-						p -> p.getStart().getText(), 
-						p -> p.getStop().getText()));
+	private Collector<Pair<String,String>,?, Map<String, String>> 
+	toMap = Collectors.toMap(p -> p.first, p -> p.second);
+	
+	private Map<String, String>
+	tomap(final List<Pair<String,String>> options) 
+	{ return options.stream().collect(toMap); }
+	
+	private final ParseTreeProperty<List<Pair<String,String>>> aopts;
+	
+	@Override public void exitAllOptions(AqlParser.AllOptionsContext ctx) {
+		final List<Pair<String,String>>	
+		options = ctx.optionsDeclaration().stream() 
+					.map(elt -> 
+						new Pair<>(
+							elt.getStart().getText(),
+							elt.getStop().getText())) 
+					.collect(Collectors.toList());
+		
+		this.aopts.put(ctx, options);
 	}
 	
 	
@@ -422,7 +423,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final TyExpRaw typeside = 
 			new TyExpRaw(imports, types, functions, eqns,
 				java_tys, java_constant, java_fns,
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+				Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new));
 				
 		this.exps.put(ctx,typeside);
 	};
@@ -578,10 +581,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 								this.quads.get(obs)))
 				.collect(Collectors.toList());
 		
-		final SchExpRaw schema = 
-			new SchExpRaw(typeside, imports, 
-					entities, arrows, commutes, attrs, observes, 
-					(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+		final SchExpRaw 
+		schema = new SchExpRaw(typeside, imports, 
+					entities, arrows, commutes, attrs, observes,
+					Optional.ofNullable(sect)
+						.map(s -> this.aopts.get(s.allOptions()))
+						.orElseGet(LinkedList::new));
 				
 		this.exps.put(ctx,schema);
 	}
@@ -772,7 +777,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.collect(Collectors.toList());
 		
 		final MapExpRaw mapping = new MapExpRaw(schemaSrc, schemaTgt, imports, entities, 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 				
 		this.exps.put(ctx,mapping);
 	}
@@ -919,14 +926,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitQueryExp_ToQuery(AqlParser.QueryExp_ToQueryContext ctx) {
 		final QueryDeltaEvalSectionContext sect = ctx.queryDeltaEvalSection();
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		final MapExp<?,?,?,?,?,?,?,?> 
 		mapExp = (MapExp<?,?,?,?,?,?,?,?>) this.exps.get(ctx.mappingKind());
 		
 		final QueryExp<?,?,?,?,?,?,?,?>
-		toQuery = new QueryExp.QueryExpDeltaEval<>(mapExp, options);
+		toQuery = new QueryExp.QueryExpDeltaEval<>(mapExp, 
+				Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, toQuery);
 	}
@@ -934,14 +941,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitQueryExp_ToCoquery(AqlParser.QueryExp_ToCoqueryContext ctx) {
 		final QueryDeltaCoEvalSectionContext sect = ctx.queryDeltaCoEvalSection();
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		final MapExp<?,?,?,?,?,?,?,?> 
 		mapExp = new MapExp.MapExpId<>((SchExp<?,?,?,?,?>) this.exps.get(ctx.schemaKind()));
 		
 		final QueryExp<?,?,?,?,?,?,?,?>
-		toCoQuery = new QueryExp.QueryExpDeltaCoEval<>(mapExp, options);
+		toCoQuery = new QueryExp.QueryExpDeltaCoEval<>(mapExp, 
+				Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, toCoQuery);
 	}
@@ -959,7 +966,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final QueryExp<?,?,?,?,?,?,?,?> 
 		comp = new QueryExp.QueryExpCompose<>(
 				queries.get(0), queries.get(1), 
-				listOptions(ctx.allOptions()));
+				Optional.ofNullable(ctx)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 				
 		this.exps.put(ctx, comp);
 	}
@@ -1011,16 +1020,16 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							this.prexps.get(x.queryClauseExpr())))
 			.collect(Collectors.toList());
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		final List<Pair<LocStr, String>> params = new LinkedList<>();
 		final List<Pair<LocStr, RawTerm>> consts = new LinkedList<>();
 		
 		final QueryExp<?,?,?,?,?,?,?,?>
 		simple = new QueryExpRaw(
 				params, consts, src, tgt, imports,
-				preblocks, options);
+				preblocks, 			 
+				Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, simple);
 	}
@@ -1060,7 +1069,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final PreBlock 
 		preblock = new PreBlock(fromClause, whereClause, atts, fks, 
-				listOptions(ctx.allOptions()));
+				Optional.ofNullable(ctx)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.prexps.put(ctx, preblock);
 	}
@@ -1176,12 +1187,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstExp<?,?,?,?,?,?,?,?,?> 
 		instKindExp = (InstExp<?,?,?,?,?,?,?,?,?>) this.exps.get(instKind);
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp
-		inst = new InstExp.InstExpEval(queryKindExp, instKindExp, options);
+		inst = new InstExp.InstExpEval(queryKindExp, instKindExp,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1197,12 +1208,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstExp<?,?,?,?,?,?,?,?,?> 
 		instKindExp = (InstExp<?,?,?,?,?,?,?,?,?>) this.exps.get(instKind);
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final InstExp
-		inst = new InstExp.InstExpCoEval(queryKindExp, instKindExp, options);
+		inst = new InstExp.InstExpCoEval(queryKindExp, instKindExp,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1237,8 +1248,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final InstExp<?,?,?,?,?,?,?,?,?>
-		inst = new InstExp.InstExpSigma(mapKindExp, instKindExp, 
-				(sect == null) ? new HashMap<>() : mapOptions(sect.allOptions()));
+		inst = new InstExp.InstExpSigma(mapKindExp, instKindExp,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new));
 		
 		this.exps.put(ctx, inst);
 	 }
@@ -1260,12 +1274,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final SchExp<Ty, En, Sym, Fk, Att>
 		schema = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(schemaKind);
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExp.InstExpCoProdSigma(instList, schema, options);	
+		inst = new InstExp.InstExpCoProdSigma(instList, schema, 
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1284,12 +1298,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final SchExp<Ty, En, Sym, Fk, Att>
 		schema = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(schemaKind);
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExp.InstExpCoProdFull(instList, schema, options);	
+		inst = new InstExp.InstExpCoProdFull(instList, schema,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	 }
@@ -1312,12 +1326,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.map(x -> new Pair(mapping, (InstExp) this.exps.get(x)))
 			.collect(Collectors.toList());
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExp.InstExpCoProdSigma(instList, schema, options);	
+		inst = new InstExp.InstExpCoProdSigma(instList, schema,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1340,12 +1354,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.map(x -> new Pair(mapping, (InstExp) this.exps.get(x)))
 			.collect(Collectors.toList());
 		
-		final List<Pair<String, String>> 
-		options = (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions());
-		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExp.InstExpCoProdFull(instList, schema, options);	
+		inst = new InstExp.InstExpCoProdFull(instList, schema,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1364,7 +1378,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExpCoEq(transLhs, transRhs, (sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));	
+		inst = new InstExpCoEq(transLhs, transRhs,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1400,8 +1417,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExp.InstExpColim(graph, schema, nodes, edges, 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));	
+		inst = new InstExp.InstExpColim(graph, schema, nodes, edges,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1435,8 +1454,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.collect(Collectors.toList());
 		
 		final InstExp<?,?,?,?,?, Gen, Sk, ?,?> 
-		inst = new InstExpQuotient<>(instexp, eqs, 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+		inst = new InstExpQuotient<>(instexp, eqs,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1456,8 +1477,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final InstExp<Ty, En, Sym, Fk, Att, ?,?,?,?>
-		inst = new InstExp.InstExpChase(edsExp, instExp, 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));	
+		inst = new InstExp.InstExpChase(edsExp, instExp,   
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));	
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1491,18 +1514,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitInstanceExp_Pi(AqlParser.InstanceExp_PiContext ctx) {
-		@SuppressWarnings("rawtypes")
-		final MapExp 
-		mapExp = (MapExp) this.exps.get(ctx.mappingKind());
+		final MappingKindContext mapKind = ctx.mappingKind();
+		final InstanceKindContext instKind = ctx.instanceKind();
+		final InstancePiSectionContext sect = ctx.instancePiSection();
 		
-		@SuppressWarnings("rawtypes")
-		final InstExp 
-		instExp = (InstExp) this.exps.get(ctx.instanceKind());
-		
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final InstExp<?,?,?,?,?,?,?,?,?>
-		inst = new InstExp.InstExpPi<>(mapExp, instExp, 
-				mapOptions(ctx.instancePiSection().allOptions()));
+		inst = new InstExp.InstExpPi<>(
+				(MapExp) this.exps.get(mapKind), 
+				(InstExp) this.exps.get(instKind), 
+				Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.map(s -> tomap(s))
+					.orElseGet(HashMap::new));
 		
 		this.exps.put(ctx, inst);
 	 }
@@ -1567,8 +1591,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		eqs.addAll(meqs);
 		
 		final InstExp<?,?,?,?,?,?,?,?,?>
-		literal = new InstExpRaw(schema, imports, gens, eqs, 
-				(sect == null) ? new LinkedList<>() : listOptions(sect.allOptions()));
+		literal = new InstExpRaw(schema, imports, gens, eqs,   
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 		
 		this.exps.put(ctx, literal);
 	}
@@ -1716,9 +1742,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings("unchecked")
 		final TransExp.TransExpCoEval<Ty,En,Sym,Fk, Att,Gen,Sk,En, Fk,Att,Gen,Sk, ?,?,?,?> 
-		trans = new TransExp.TransExpCoEval<>(queryExp, transExp, 
-				(sect0 == null) ? new LinkedList<>() : listOptions(sect0.allOptions()), 
-				(sect1 == null) ? new LinkedList<>() : listOptions(sect1.allOptions()));
+		trans = new TransExp.TransExpCoEval<>(queryExp, transExp, 		  
+				Optional.ofNullable(sect0)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new), 
+				Optional.ofNullable(sect1)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1737,9 +1767,15 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings("unchecked")
 		final TransExp.TransExpSigma<?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?> 
-		trans = new TransExp.TransExpSigma<>(mapExp, transExp, 
-				(sect0 == null) ? new HashMap<>() : mapOptions(sect0.allOptions()), 
-				(sect1 == null) ? new HashMap<>() : mapOptions(sect1.allOptions()));
+		trans = new TransExp.TransExpSigma<>(mapExp, transExp,  
+				Optional.ofNullable(sect0)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new),  
+				Optional.ofNullable(sect1)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1774,8 +1810,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings("unchecked")
 		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
-		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp, 
-				(sect == null) ? new HashMap<>() : mapOptions(sect.allOptions()));
+		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1793,8 +1832,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings("unchecked")
 		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
-		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp, 
-				(sect == null) ? new HashMap<>() : mapOptions(sect.allOptions()));
+		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1808,8 +1850,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final TransExpCoEvalEvalUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExpCoEvalEvalUnit<>(
 				(QueryExp) this.exps.get(queryKind), 
-				new InstExp.InstExpVar(instRef.getText()), 
-				(sect == null) ? new HashMap<>() : mapOptions(sect.allOptions()));
+				new InstExp.InstExpVar(instRef.getText()),   
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1827,8 +1872,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings("unchecked")
 		final TransExpCoEvalEvalCoUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
-		trans = new TransExpCoEvalEvalCoUnit<>(queryExp, instExp, 
-				(sect == null) ? new HashMap<>() : mapOptions(sect.allOptions()));
+		trans = new TransExpCoEvalEvalCoUnit<>(queryExp, instExp,   
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> tomap(s))
+				.orElseGet(HashMap::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1851,8 +1899,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 					.map(x -> new Pair<>(
 						makeLocStr(x.schemaEntityId()),
 						x.transformSqlExpr().getText()))
-		            .collect(Collectors.toList()), 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+		            .collect(Collectors.toList()),  
+					Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1873,8 +1923,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 					.map(x -> new Pair<>(
 						makeLocStr(x.schemaEntityId()),
 						x.transformFile().getText()))
-		            .collect(Collectors.toList()), 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+		            .collect(Collectors.toList()),  
+					Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1903,8 +1955,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.collect(Collectors.toList());
 		
 		final TransExpRaw 
-		trans = new TransExpRaw(instSrcExp, instTgtExp, imports, gens, 
-				(sect == null) ? new LinkedList<>() : listOptions( sect.allOptions()));
+		trans = new TransExpRaw(instSrcExp, instTgtExp, imports, gens,  
+				Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new));
 			
 		this.exps.put(ctx,trans);
 	}
