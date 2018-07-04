@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/p48/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/np3/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1486,20 +1486,6 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTransformExp_Distinct(AqlParser.TransformExp_DistinctContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code TransformExp_Delta}
-	 * labeled alternative in {@link AqlParser#transformExp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTransformExp_Delta(AqlParser.TransformExp_DeltaContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code TransformExp_Sigma}
-	 * labeled alternative in {@link AqlParser#transformExp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTransformExp_Sigma(AqlParser.TransformExp_SigmaContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code TransformExp_Eval}
 	 * labeled alternative in {@link AqlParser#transformExp}.
 	 * @param ctx the parse tree
@@ -1513,6 +1499,20 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTransformExp_Coeval(AqlParser.TransformExp_CoevalContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TransformExp_Sigma}
+	 * labeled alternative in {@link AqlParser#transformExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTransformExp_Sigma(AqlParser.TransformExp_SigmaContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TransformExp_Delta}
+	 * labeled alternative in {@link AqlParser#transformExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTransformExp_Delta(AqlParser.TransformExp_DeltaContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code TransformExp_Unit}
 	 * labeled alternative in {@link AqlParser#transformExp}.

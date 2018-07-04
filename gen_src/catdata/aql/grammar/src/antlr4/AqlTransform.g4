@@ -16,14 +16,6 @@ transformExp
   | DISTINCT transformRef
   # TransformExp_Distinct
 
-  | DELTA mappingKind transformRef
-  # TransformExp_Delta
-
-  | SIGMA mappingKind transformRef
-    (LBRACE transformSigmaSection RBRACE)?
-    (LBRACE transformSigmaSection RBRACE)?
-  # TransformExp_Sigma
-
   | EVAL queryKind transformRef
   # TransformExp_Eval
 
@@ -31,6 +23,14 @@ transformExp
     (LBRACE transformCoevalSection RBRACE)?
     (LBRACE transformCoevalSection RBRACE)?
   # TransformExp_Coeval
+
+  | SIGMA mappingKind transformRef
+    (LBRACE transformSigmaSection RBRACE)?
+    (LBRACE transformSigmaSection RBRACE)?
+  # TransformExp_Sigma
+
+  | DELTA mappingKind transformRef
+  # TransformExp_Delta
 
   | UNIT mappingKind instanceRef
     (LBRACE transformUnitSection RBRACE)?
@@ -86,8 +86,9 @@ transformSqlEntityExpr : schemaEntityId RARROW transformSqlExpr ;
 transformFileExpr : schemaEntityId RARROW transformFile ;
 
 transformLiteralSection
-  : (GENERATORS (transformGen RARROW schemaPath)*)?
+  : (IMPORTS schemaRef*)?
+    (GENERATORS transformGen*)?
     allOptions
   ;
 
-transformGen : symbol ;
+transformGen : symbol RARROW schemaPath ;
