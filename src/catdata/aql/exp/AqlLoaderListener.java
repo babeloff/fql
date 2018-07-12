@@ -461,22 +461,24 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitSchemaKind_Ref(AqlParser.SchemaKind_RefContext ctx) {
-		this.exps.put(ctx, new SchExp.SchExpVar<>(ctx.schemaRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.schemaRef()));
+	}
+	
+	@Override 
+	public void exitSchemaRef(AqlParser.SchemaRefContext ctx) {
+		final Exp<?> schRef = new SchExp.SchExpVar<>(ctx.getText());
+		this.exps.put(ctx, schRef);
 	}
 	
 	@Override 
 	public void exitSchemaExp_Identity(AqlParser.SchemaExp_IdentityContext ctx) {
-		final SchExpVar<?,?,?,?,?> 
-		sch = new SchExp.SchExpVar<>(ctx.schemaRef().getText());
-	
-		this.exps.put(ctx,sch);
+		this.exps.put(ctx, new SchExp.SchExpVar<>(ctx.schemaRef().getText()));
 	};
 	
 	@Override 
 	public void exitSchemaExp_Empty(AqlParser.SchemaExp_EmptyContext ctx) {
 		final TyExp<Ty,Sym> ty = new TyExpVar<>(ctx.typesideRef().getText());
-		final Exp<?> exp = new SchExpEmpty<>(ty);
-		this.exps.put(ctx,exp);
+		this.exps.put(ctx, new SchExpEmpty<>(ty));
 	};
 	
 	@Override 
@@ -493,29 +495,29 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override 
 	public void exitSchemaExp_OfInstance(AqlParser.SchemaExp_OfInstanceContext ctx) {
 		@SuppressWarnings("unchecked")
-		final Exp<?> 
-		exp = new SchExp.SchExpInst<>(
-				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
-				this.exps.get(ctx.instanceKind()));
-		this.exps.put(ctx,exp);
+		final InstExp<Ty,Sym,En,Fk,Att,?,?,?,?> 
+		instExp = (InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+			this.exps.get(ctx.instanceKind());
+		
+		this.exps.put(ctx, new SchExp.SchExpInst<>(instExp));
 	};
 	
 	@Override public void exitSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx) {
 		@SuppressWarnings("unchecked")
-		final Exp<?> 
-		exp = new SchExp.SchExpInst<>(
-				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
-				this.exps.get(ctx.queryRef()));
-		this.exps.put(ctx,exp);
+		final InstExp<Ty,Sym,En,Fk,Att,?,?,?,?> 
+		queryRef = (InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+			this.exps.get(ctx.queryRef());
+		
+		this.exps.put(ctx, new SchExp.SchExpInst<>(queryRef));
 	}
 
 	@Override public void exitSchemaExp_GetSchemaColimit(AqlParser.SchemaExp_GetSchemaColimitContext ctx) {
 		@SuppressWarnings("unchecked")
-		final Exp<?> 
-		exp = new SchExp.SchExpInst<>(
-				(InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
-				this.exps.get(ctx.schemaColimitRef()));
-		this.exps.put(ctx,exp);
+		final InstExp<Ty,Sym,En,Fk,Att,?,?,?,?> 
+		schColimRef = (InstExp<Ty,Sym,En,Fk,Att,?,?,?,?>) 
+			this.exps.get(ctx.schemaColimitRef());
+				
+		this.exps.put(ctx, new SchExp.SchExpInst<>(schColimRef));
 	}
 
 
@@ -1140,9 +1142,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitInstanceKind_Ref(AqlParser.InstanceKind_RefContext ctx) {
+		this.exps.put(ctx,this.exps.get(ctx.instanceRef()));
+	}
+	
+	@Override 
+	public void exitInstanceRef(AqlParser.InstanceRefContext ctx) {
 		this.exps.put(ctx, 
 				new InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>
-					(ctx.instanceRef().getText()));
+					(ctx.getText()));
 	}
 	
 	@Override 
@@ -1509,15 +1516,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		this.exps.put(ctx, inst);
 	}
-	private QueryExp<?,?,?,?,?,?,?,?> castInstanceFrozen(final Object qk) {
-		if (qk instanceof QueryExp<?,?,?,?,?,?,?,?>) {
-			return (QueryExp<?,?,?,?,?,?,?,?>) qk;
-		}
-		return null;
-	}
+	
 	@Override public void exitInstanceExp_Frozen(AqlParser.InstanceExp_FrozenContext ctx) {
 		final QueryExp<?,?,?,?,?,?,?,?> 
-		queryExp = castInstanceFrozen(ctx.queryKind());
+		queryExp = (QueryExp<?,?,?,?,?,?,?,?>) this.exps.get(ctx.queryKind());
 		
 		final SchExp<?, ?, ?, ?, ?> 
 		schemaExp = (SchExp<?, ?, ?, ?, ?>) this.exps.get(ctx.schemaKind());
@@ -2010,7 +2012,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final SchemaRefContext schemaRef = ctx.schemaRef();
 		final ConstraintLiteralSectionContext sect = ctx.constraintLiteralSection();
 		
-		final SchExp<?,?,?,?,?> schemaExp = (SchExp<?,?,?,?,?>) this.exps.get(schemaRef);
+		@SuppressWarnings("unchecked")
+		final SchExp<Ty,En,Sym,Fk,Att> 
+		schemaExp = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(schemaRef);
 		
 		if (sect == null) {
 			final EdsExpRaw 
