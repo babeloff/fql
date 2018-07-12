@@ -321,6 +321,24 @@
       "|"
       [:labeledAlt
        [:alternative
+        [:element [:atom [:terminal "QUOTIENT"]]]
+        [:element [:atom [:ruleref "instanceKind"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "instanceQuotientSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "InstanceExp_Quotient"]]
+      "|"
+      [:labeledAlt
+       [:alternative
         [:element [:atom [:terminal "QUOTIENT_JDBC"]]]
         [:element
          [:ebnf
@@ -429,24 +447,6 @@
           [:blockSuffix [:ebnfSuffix "?"]]]]]
        "#"
        [:identifier "InstanceExp_ImportCsv"]]
-      "|"
-      [:labeledAlt
-       [:alternative
-        [:element [:atom [:terminal "QUOTIENT"]]]
-        [:element [:atom [:ruleref "instanceRef"]]]
-        [:element
-         [:ebnf
-          [:block
-           "("
-           [:altList
-            [:alternative
-             [:element [:atom [:terminal "LBRACE"]]]
-             [:element [:atom [:ruleref "instanceQuotientSection"]]]
-             [:element [:atom [:terminal "RBRACE"]]]]]
-           ")"]
-          [:blockSuffix [:ebnfSuffix "?"]]]]]
-       "#"
-       [:identifier "InstanceExp_Quotient"]]
       "|"
       [:labeledAlt
        [:alternative
@@ -850,10 +850,14 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:ruleref "instanceLiteral"]]]]]
+       [:alternative [:element [:atom [:ruleref "instanceLiteral"]]]]
+       "#"
+       [:identifier "InstanceEq_Literal"]]
       "|"
       [:labeledAlt
-       [:alternative [:element [:atom [:ruleref "instancePath"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "instancePath"]]]]
+       "#"
+       [:identifier "InstanceEq_Path"]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -1050,17 +1054,22 @@
        [:alternative
         [:element [:atom [:terminal "EQUATIONS"]]]
         [:element
-         [:ebnf
-          [:block
-           "("
-           [:altList
-            [:alternative
-             [:element [:atom [:ruleref "instancePath"]]]
-             [:element [:atom [:terminal "EQUAL"]]]
-             [:element [:atom [:ruleref "instancePath"]]]]]
-           ")"]
-          [:blockSuffix [:ebnfSuffix "*"]]]]
+         [:atom [:ruleref "instanceQuotientEqn"]]
+         [:ebnfSuffix "*"]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceQuotientEqn"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "instancePath"]]]
+        [:element [:atom [:terminal "EQUAL"]]]
+        [:element [:atom [:ruleref "instancePath"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec

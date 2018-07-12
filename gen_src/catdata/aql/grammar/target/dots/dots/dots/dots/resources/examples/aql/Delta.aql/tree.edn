@@ -464,16 +464,21 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "XF667"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "aXF66"]]]]
-      [:transformGen [:symbol "XF891"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "XF89"]]]]
-      [:transformGen [:symbol "XF221"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "XF22"]]]]
+      [:transformGen
+       [:symbol "XF667"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "aXF66"]]]]]
+      [:transformGen
+       [:symbol "XF891"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "XF89"]]]]]
+      [:transformGen
+       [:symbol "XF221"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "XF22"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

@@ -27,18 +27,17 @@ constraintLiteralSection
 
 constraintExpr
   : FORALL constraintUniversal+
-    (WHERE constraintEquation+)?
+    (WHERE constraintUniversalEquation+)?
     RARROW
-    (EXISTS constraintExistential+)?
-    (WHERE constraintEquation+)?
+    (EXISTS UNIQUE? constraintExistential+)?
+    (WHERE constraintExistentialEquation+)?
   ;
   
 constraintUniversal : constraintGen+ COLON schemaEntityId ;
-constraintExistential : constraintGen COLON schemaEntityId ;
+constraintExistential : constraintGen+ COLON schemaEntityId ;
 
-constraintGen : symbol ;
-
-constraintEquation : constraintPath EQUAL constraintPath ;
+constraintUniversalEquation : constraintPath EQUAL constraintPath ;
+constraintExistentialEquation : constraintPath EQUAL constraintPath ;
 
 constraintPath
   : schemaArrowId                      # ConstraintPath_ArrowId
@@ -46,3 +45,5 @@ constraintPath
   | schemaArrowId LPAREN constraintPath RPAREN
                                        # ConstraintPath_Param
   ;
+  
+constraintGen : symbol ;

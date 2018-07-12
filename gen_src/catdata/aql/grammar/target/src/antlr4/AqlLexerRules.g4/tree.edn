@@ -288,6 +288,16 @@
     ";"]]
   [:ruleSpec
    [:lexerRuleSpec
+    "UNIQUE"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'unique'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
     "GRAPH"
     ":"
     [:lexerRuleBlock

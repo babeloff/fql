@@ -131,16 +131,18 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "d"]]
-       ":"
-       [:schemaEntityId [:symbol "TDept"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "d"]]
+        ":"
+        [:schemaEntityId [:symbol "TDept"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "e"]]
-       ":"
-       [:schemaEntityId [:symbol "TEmp"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "e"]]
+        ":"
+        [:schemaEntityId [:symbol "TEmp"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
@@ -152,7 +154,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "TwrksIn"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
@@ -166,16 +168,18 @@
          [:schemaArrowId [:schemaEntityId [:symbol "TempId"]]]]]]
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "e"]]
-       ":"
-       [:schemaEntityId [:symbol "TEmp"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "e"]]
+        ":"
+        [:schemaEntityId [:symbol "TEmp"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "d"]]
-       ":"
-       [:schemaEntityId [:symbol "TDept"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "d"]]
+        ":"
+        [:schemaEntityId [:symbol "TDept"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
@@ -189,19 +193,22 @@
          [:schemaArrowId [:schemaEntityId [:symbol "TwrksIn"]]]]]]
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "de"]]
-       ":"
-       [:schemaEntityId [:symbol "SDeptEmp"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "de"]]
+        ":"
+        [:schemaEntityId [:symbol "SDeptEmp"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "d"]]
-       ":"
-       [:schemaEntityId [:symbol "TDept"]]
-       [:constraintGen [:symbol "e"]]
-       ":"
-       [:schemaEntityId [:symbol "TEmp"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "d"]]
+        ":"
+        [:schemaEntityId [:symbol "TDept"]]]
+       [:constraintExistential
+        [:constraintGen [:symbol "e"]]
+        ":"
+        [:schemaEntityId [:symbol "TEmp"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "de"]]]]
@@ -213,7 +220,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "TdeptId"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
@@ -225,7 +232,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "TwrksIn"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "de"]]]]
@@ -237,7 +244,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "TdeptId"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "de"]]]]
@@ -354,12 +361,13 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "x"]]
-       [:constraintGen [:symbol "y"]]
-       ":"
-       [:schemaEntityId [:symbol "E"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "x"]]
+        [:constraintGen [:symbol "y"]]
+        ":"
+        [:schemaEntityId [:symbol "E"]]]
        "where"
-       [:constraintEquation
+       [:constraintUniversalEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "x"]]]]
@@ -371,7 +379,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "y"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "att1"]]]]]
-       [:constraintEquation
+       [:constraintUniversalEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "x"]]]]
@@ -385,7 +393,7 @@
          [:schemaArrowId [:schemaEntityId [:symbol "att3"]]]]]
        "->"
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "x"]]]]

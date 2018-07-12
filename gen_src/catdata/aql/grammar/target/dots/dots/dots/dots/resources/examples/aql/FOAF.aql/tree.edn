@@ -147,16 +147,18 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "k1"]]
-       ":"
-       [:schemaEntityId [:symbol "knows"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "k1"]]
+        ":"
+        [:schemaEntityId [:symbol "knows"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "k2"]]
-       ":"
-       [:schemaEntityId [:symbol "knows"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "k2"]]
+        ":"
+        [:schemaEntityId [:symbol "knows"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "k1"]]]]
@@ -168,7 +170,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "k2"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "knows2"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "k1"]]]]
@@ -195,16 +197,18 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "s"]]
-       ":"
-       [:schemaEntityId [:symbol "salary"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "s"]]
+        ":"
+        [:schemaEntityId [:symbol "salary"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "w"]]
-       ":"
-       [:schemaEntityId [:symbol "works_at"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "w"]]
+        ":"
+        [:schemaEntityId [:symbol "works_at"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "s"]]]]
@@ -216,7 +220,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "w"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "works_at1"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "s"]]]]
@@ -243,16 +247,18 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "w"]]
-       ":"
-       [:schemaEntityId [:symbol "works_at"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "w"]]
+        ":"
+        [:schemaEntityId [:symbol "works_at"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "s"]]
-       ":"
-       [:schemaEntityId [:symbol "salary"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "s"]]
+        ":"
+        [:schemaEntityId [:symbol "salary"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "s"]]]]
@@ -264,7 +270,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "w"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "works_at1"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "s"]]]]
@@ -291,19 +297,22 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "fr"]]
-       ":"
-       [:schemaEntityId [:symbol "frenemy_of"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "fr"]]
+        ":"
+        [:schemaEntityId [:symbol "frenemy_of"]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "f"]]
-       ":"
-       [:schemaEntityId [:symbol "friend_of"]]
-       [:constraintGen [:symbol "e"]]
-       ":"
-       [:schemaEntityId [:symbol "enemy_of"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "f"]]
+        ":"
+        [:schemaEntityId [:symbol "friend_of"]]]
+       [:constraintExistential
+        [:constraintGen [:symbol "e"]]
+        ":"
+        [:schemaEntityId [:symbol "enemy_of"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "fr"]]]]
@@ -315,7 +324,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "f"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "friend_of1"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "fr"]]]]
@@ -327,7 +336,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "f"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "friend_of2"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "fr"]]]]
@@ -339,7 +348,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "enemy_of1"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "fr"]]]]

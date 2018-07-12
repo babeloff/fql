@@ -154,13 +154,11 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
 			return new Pair<>(sch, sch);
 		}
-
-		
+	
 	}
 	
-//////////////////////////////////////////////////////////////////
 	
-	public static final class MapExpVar extends MapExp<Object, Object, Object, Object, Object, Object, Object, Object> {
+	public static final class MapExpVar<Ty,En,Sym,Fk,Att> extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
 		public final String var;
 		@Override
 		public Map<String, String> options() {
@@ -178,7 +176,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Mapping<Object, Object, Object, Object, Object, Object, Object, Object> eval(AqlEnv env) {
+		public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
 			return env.defs.maps.get(var);
 		}
 
@@ -198,7 +196,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			MapExpVar other = (MapExpVar) obj;
+			MapExpVar<?, ?, ?, ?, ?> other = (MapExpVar<?, ?, ?, ?, ?>) obj;
 			if (var == null) {
 				if (other.var != null)
 					return false;
@@ -213,14 +211,13 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 		@SuppressWarnings("unchecked")
 		@Override
-		public Pair<SchExp<Object, Object, Object, Object, Object>, SchExp<Object, Object, Object, Object, Object>> type(AqlTyping G) {		
+		public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {		
 			if (!G.defs.maps.containsKey(var)) {
 				throw new RuntimeException("Not a mapping: " + var);
 			}
-			return (Pair<SchExp<Object, Object, Object, Object, Object>, SchExp<Object, Object, Object, Object, Object>>) ((Object)G.defs.maps.get(var));
+			return (Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>>) ((Object)G.defs.maps.get(var));
 		}
 
-		
 	}
 
 /////////////////////////////////////////////////////////////////////

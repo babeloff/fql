@@ -252,12 +252,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return true;
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
 			for (String x : Is) {
-				@SuppressWarnings("rawtypes")
-				SchExp t = new InstExpVar(x).type(G);
+				SchExp<Ty, En, Sym, Fk, Att> t = new InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>(x).type(G);
 				if (!G.eq(t, sch)) { // TODO aql schema equality
 					throw new RuntimeException(
 							"Instance " + x + " has schema " + t + ",\n\nnot " + sch + "\n\nas expected");
@@ -276,8 +274,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 			for (String x : Is) {
 				@SuppressWarnings("unchecked")
-				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I = (Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) new InstExpVar(
-						x).eval(env);
+				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> 
+				I = (Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) 
+					new InstExpVar<Object, Object, Object, Object, Object, Gen, Sk, X, Y>(x).eval(env);
 				for (Gen g : I.gens().keySet()) {
 					col.gens.put(new Pair<>(x, g), I.gens().get(g));
 				}
@@ -1479,8 +1478,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	}
 
-	public static final class InstExpVar
-			extends InstExp<Object, Object, Object, Object, Object, Object, Object, Object, Object> {
+	public static final class InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
 		public final String var;
 
 		@Override
@@ -1502,7 +1501,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Instance<Object, Object, Object, Object, Object, Object, Object, Object, Object> eval(AqlEnv env) {
+		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
 			return env.defs.insts.get(var);
 		}
 
@@ -1522,7 +1521,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			InstExpVar other = (InstExpVar) obj;
+			InstExpVar<?, ?, ?, ?, ?, ?, ?, ?, ?> other = (InstExpVar<?, ?, ?, ?, ?, ?, ?, ?, ?>) obj;
 			return var.equals(other.var);
 		}
 
@@ -1533,11 +1532,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public SchExp<Object, Object, Object, Object, Object> type(AqlTyping G) {
+		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
 			if (!G.defs.insts.containsKey(var)) {
 				throw new RuntimeException("Not an instance: " + var);
 			}
-			return (SchExp<Object, Object, Object, Object, Object>) G.defs.insts.get(var);
+			return (SchExp<Ty, En, Sym, Fk, Att>) G.defs.insts.get(var);
 		}
 
 	}

@@ -615,24 +615,30 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "a0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "a"]]]]
-      [:transformGen [:symbol "d0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]
-      [:transformGen [:symbol "e0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
-      [:transformGen [:symbol "b0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "b"]]]]
-      [:transformGen [:symbol "c0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "c"]]]]
-      [:transformGen [:symbol "f0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "f"]]]]
+      [:transformGen
+       [:symbol "a0"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "a"]]]]]
+      [:transformGen
+       [:symbol "d0"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]]
+      [:transformGen
+       [:symbol "e0"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]]
+      [:transformGen
+       [:symbol "b0"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "b"]]]]]
+      [:transformGen
+       [:symbol "c0"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "c"]]]]]
+      [:transformGen
+       [:symbol "f0"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "f"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

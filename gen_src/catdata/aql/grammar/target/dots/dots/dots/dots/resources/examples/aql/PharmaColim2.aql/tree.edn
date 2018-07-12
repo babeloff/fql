@@ -813,18 +813,21 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "P"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "Peter"]]]]
-      [:transformGen [:symbol "B"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]
-      [:transformGen [:symbol "W"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]
+      [:transformGen
+       [:symbol "P"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "Peter"]]]]]
+      [:transformGen
+       [:symbol "B"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]]
+      [:transformGen
+       [:symbol "W"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -841,15 +844,19 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "P"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Pete"]]]]
-      [:transformGen [:symbol "B"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "BP"]]]]
-      [:transformGen [:symbol "W"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Wt"]]]]
+      [:transformGen
+       [:symbol "P"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "Pete"]]]]]
+      [:transformGen
+       [:symbol "B"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "BP"]]]]]
+      [:transformGen
+       [:symbol "W"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Wt"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -868,25 +875,28 @@
     "="
     [:instanceExp
      "quotient"
-     [:instanceRef [:symbol "CoProd"]]
+     [:instanceKind [:instanceRef [:symbol "CoProd"]]]
      "{"
      [:instanceQuotientSection
       "equations"
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]
-      "="
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "Pete"]]]]
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]
-      "="
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "BP"]]]]
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "Wt"]]]]
-      "="
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]
+      [:instanceQuotientEqn
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "Peter"]]]]
+       "="
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "Pete"]]]]]
+      [:instanceQuotientEqn
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]
+       "="
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "BP"]]]]]
+      [:instanceQuotientEqn
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "Wt"]]]]
+       "="
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]]
       "allOptions"]
      "}"]]]]
  "<EOF>"]

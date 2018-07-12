@@ -578,30 +578,38 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "xa1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "a1"]]]]
-      [:transformGen [:symbol "xl1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l1"]]]]
-      [:transformGen [:symbol "xl2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l2"]]]]
-      [:transformGen [:symbol "xl3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l3"]]]]
-      [:transformGen [:symbol "xl4"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l4"]]]]
-      [:transformGen [:symbol "xw1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "w1"]]]]
-      [:transformGen [:symbol "xw2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "w2"]]]]
-      [:transformGen [:symbol "xw3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "w3"]]]]
+      [:transformGen
+       [:symbol "xa1"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "a1"]]]]]
+      [:transformGen
+       [:symbol "xl1"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l1"]]]]]
+      [:transformGen
+       [:symbol "xl2"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l2"]]]]]
+      [:transformGen
+       [:symbol "xl3"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l3"]]]]]
+      [:transformGen
+       [:symbol "xl4"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "l4"]]]]]
+      [:transformGen
+       [:symbol "xw1"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "w1"]]]]]
+      [:transformGen
+       [:symbol "xw2"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "w2"]]]]]
+      [:transformGen
+       [:symbol "xw3"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "w3"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -821,12 +829,16 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "aa1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "la1"]]]]
-      [:transformGen [:symbol "aa2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "la2"]]]]
+      [:transformGen
+       [:symbol "aa1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "la1"]]]]]
+      [:transformGen
+       [:symbol "aa2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "la2"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -843,12 +855,16 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "aa1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "wa2"]]]]
-      [:transformGen [:symbol "aa2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "wa3"]]]]
+      [:transformGen
+       [:symbol "aa1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "wa2"]]]]]
+      [:transformGen
+       [:symbol "aa2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "wa3"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

@@ -901,18 +901,21 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "P"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "Peter"]]]]
-      [:transformGen [:symbol "B"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]
-      [:transformGen [:symbol "W"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]
+      [:transformGen
+       [:symbol "P"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "Peter"]]]]]
+      [:transformGen
+       [:symbol "B"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "BloodPressure"]]]]]
+      [:transformGen
+       [:symbol "W"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "BodyWeight"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -933,15 +936,19 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "P"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Pete"]]]]
-      [:transformGen [:symbol "B"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "BP"]]]]
-      [:transformGen [:symbol "W"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Wt"]]]]
+      [:transformGen
+       [:symbol "P"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "Pete"]]]]]
+      [:transformGen
+       [:symbol "B"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "BP"]]]]]
+      [:transformGen
+       [:symbol "W"]
+       "->"
+       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "Wt"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

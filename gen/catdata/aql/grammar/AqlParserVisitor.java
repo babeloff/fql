@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/np3/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/b61/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -2264,21 +2264,54 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConstraintExpr(AqlParser.ConstraintExprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#constraintUniversal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintUniversal(AqlParser.ConstraintUniversalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#constraintExistential}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintExistential(AqlParser.ConstraintExistentialContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#constraintUniversalEquation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintUniversalEquation(AqlParser.ConstraintUniversalEquationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#constraintExistentialEquation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintExistentialEquation(AqlParser.ConstraintExistentialEquationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConstraintPath_Param}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintPath_Param(AqlParser.ConstraintPath_ParamContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConstraintPath_ArrowId}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintPath_ArrowId(AqlParser.ConstraintPath_ArrowIdContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConstraintPath_Dotted}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstraintPath_Dotted(AqlParser.ConstraintPath_DottedContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#constraintGen}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitConstraintGen(AqlParser.ConstraintGenContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AqlParser#constraintEquation}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstraintEquation(AqlParser.ConstraintEquationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AqlParser#constraintPath}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstraintPath(AqlParser.ConstraintPathContext ctx);
 }

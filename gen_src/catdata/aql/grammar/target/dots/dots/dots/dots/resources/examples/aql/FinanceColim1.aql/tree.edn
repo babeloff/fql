@@ -4089,12 +4089,16 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "tom"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "cc1"]]]]
-      [:transformGen [:symbol "dick"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "cc2"]]]]
+      [:transformGen
+       [:symbol "tom"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "cc1"]]]]]
+      [:transformGen
+       [:symbol "dick"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "cc2"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -4128,12 +4132,16 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "tom"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "hpc1"]]]]
-      [:transformGen [:symbol "dick"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "hpc2"]]]]
+      [:transformGen
+       [:symbol "tom"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "hpc1"]]]]]
+      [:transformGen
+       [:symbol "dick"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "hpc2"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -4365,12 +4373,16 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "strat1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ps1"]]]]
-      [:transformGen [:symbol "strat3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ps3"]]]]
+      [:transformGen
+       [:symbol "strat1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ps1"]]]]]
+      [:transformGen
+       [:symbol "strat3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ps3"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -4402,12 +4414,16 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "strat1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "rs1"]]]]
-      [:transformGen [:symbol "strat3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "rs3"]]]]
+      [:transformGen
+       [:symbol "strat1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rs1"]]]]]
+      [:transformGen
+       [:symbol "strat3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rs3"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -4889,33 +4905,46 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "usd"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "rcur1"]]]]
-      [:transformGen [:symbol "eur"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "rcur2"]]]]
-      [:transformGen [:symbol "jpy"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "rcur3"]]]]
-      [:transformGen [:symbol "one"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra1"]]]]
-      [:transformGen [:symbol "three"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra3"]]]]
-      [:transformGen [:symbol "five"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra5"]]]]
-      [:transformGen [:symbol "seven"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra7"]]]]
-      [:transformGen [:symbol "nine"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra9"]]]]
+      [:transformGen
+       [:symbol "usd"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rcur1"]]]]]
+      [:transformGen
+       [:symbol "eur"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rcur2"]]]]]
+      [:transformGen
+       [:symbol "jpy"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rcur3"]]]]]
+      [:transformGen
+       [:symbol "one"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra1"]]]]]
+      [:transformGen
+       [:symbol "three"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra3"]]]]]
+      [:transformGen
+       [:symbol "five"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra5"]]]]]
+      [:transformGen
+       [:symbol "seven"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra7"]]]]]
+      [:transformGen
+       [:symbol "nine"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra9"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -4946,30 +4975,46 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "usd"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "tc1"]]]]
-      [:transformGen [:symbol "eur"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "tc2"]]]]
-      [:transformGen [:symbol "jpy"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "tc3"]]]]
-      [:transformGen [:symbol "one"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta1"]]]]
-      [:transformGen [:symbol "three"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta3"]]]]
-      [:transformGen [:symbol "five"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta5"]]]]
-      [:transformGen [:symbol "seven"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta7"]]]]
-      [:transformGen [:symbol "nine"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta9"]]]]
+      [:transformGen
+       [:symbol "usd"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "tc1"]]]]]
+      [:transformGen
+       [:symbol "eur"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "tc2"]]]]]
+      [:transformGen
+       [:symbol "jpy"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "tc3"]]]]]
+      [:transformGen
+       [:symbol "one"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta1"]]]]]
+      [:transformGen
+       [:symbol "three"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta3"]]]]]
+      [:transformGen
+       [:symbol "five"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta5"]]]]]
+      [:transformGen
+       [:symbol "seven"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta7"]]]]]
+      [:transformGen
+       [:symbol "nine"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta9"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

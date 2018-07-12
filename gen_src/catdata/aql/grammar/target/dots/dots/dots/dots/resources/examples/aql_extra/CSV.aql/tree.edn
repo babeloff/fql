@@ -483,12 +483,13 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "x1"]]
-       [:constraintGen [:symbol "x2"]]
-       ":"
-       [:schemaEntityId [:symbol "X"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "x1"]]
+        [:constraintGen [:symbol "x2"]]
+        ":"
+        [:schemaEntityId [:symbol "X"]]]
        "where"
-       [:constraintEquation
+       [:constraintUniversalEquation
         [:constraintPath
          [:schemaArrowId [:schemaEntityId [:symbol "att"]]]
          "("
@@ -508,7 +509,7 @@
          ")"]]
        "->"
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "x1"]]]]

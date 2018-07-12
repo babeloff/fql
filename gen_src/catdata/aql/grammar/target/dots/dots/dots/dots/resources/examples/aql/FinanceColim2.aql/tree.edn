@@ -4302,48 +4302,71 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "ec1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "cc1"]]]]
-      [:transformGen [:symbol "ec2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "cc2"]]]]
-      [:transformGen [:symbol "ea1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra1"]]]]
-      [:transformGen [:symbol "ea3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra3"]]]]
-      [:transformGen [:symbol "ea5"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra5"]]]]
-      [:transformGen [:symbol "ea7"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra7"]]]]
-      [:transformGen [:symbol "ea9"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ra9"]]]]
-      [:transformGen [:symbol "ecur1"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "rcur1"]]]]
-      [:transformGen [:symbol "ecur2"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "rcur2"]]]]
-      [:transformGen [:symbol "ecur3"]]
-      "->"
-      [:schemaPath
-       [:schemaArrowId [:schemaEntityId [:symbol "rcur3"]]]]
-      [:transformGen [:symbol "es1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "rs1"]]]]
-      [:transformGen [:symbol "es2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "rs2"]]]]
-      [:transformGen [:symbol "es3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "rs3"]]]]
+      [:transformGen
+       [:symbol "ec1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "cc1"]]]]]
+      [:transformGen
+       [:symbol "ec2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "cc2"]]]]]
+      [:transformGen
+       [:symbol "ea1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra1"]]]]]
+      [:transformGen
+       [:symbol "ea3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra3"]]]]]
+      [:transformGen
+       [:symbol "ea5"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra5"]]]]]
+      [:transformGen
+       [:symbol "ea7"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra7"]]]]]
+      [:transformGen
+       [:symbol "ea9"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ra9"]]]]]
+      [:transformGen
+       [:symbol "ecur1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rcur1"]]]]]
+      [:transformGen
+       [:symbol "ecur2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rcur2"]]]]]
+      [:transformGen
+       [:symbol "ecur3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rcur3"]]]]]
+      [:transformGen
+       [:symbol "es1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rs1"]]]]]
+      [:transformGen
+       [:symbol "es2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rs2"]]]]]
+      [:transformGen
+       [:symbol "es3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "rs3"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -4360,45 +4383,71 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "ec1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "hpc1"]]]]
-      [:transformGen [:symbol "ec2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "hpc2"]]]]
-      [:transformGen [:symbol "ea1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta1"]]]]
-      [:transformGen [:symbol "ea3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta3"]]]]
-      [:transformGen [:symbol "ea5"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta5"]]]]
-      [:transformGen [:symbol "ea7"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta7"]]]]
-      [:transformGen [:symbol "ea9"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ta9"]]]]
-      [:transformGen [:symbol "ecur1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "tc1"]]]]
-      [:transformGen [:symbol "ecur2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "tc2"]]]]
-      [:transformGen [:symbol "ecur3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "tc3"]]]]
-      [:transformGen [:symbol "es1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ps1"]]]]
-      [:transformGen [:symbol "es2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ps2"]]]]
-      [:transformGen [:symbol "es3"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "ps3"]]]]
+      [:transformGen
+       [:symbol "ec1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "hpc1"]]]]]
+      [:transformGen
+       [:symbol "ec2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "hpc2"]]]]]
+      [:transformGen
+       [:symbol "ea1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta1"]]]]]
+      [:transformGen
+       [:symbol "ea3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta3"]]]]]
+      [:transformGen
+       [:symbol "ea5"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta5"]]]]]
+      [:transformGen
+       [:symbol "ea7"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta7"]]]]]
+      [:transformGen
+       [:symbol "ea9"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ta9"]]]]]
+      [:transformGen
+       [:symbol "ecur1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "tc1"]]]]]
+      [:transformGen
+       [:symbol "ecur2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "tc2"]]]]]
+      [:transformGen
+       [:symbol "ecur3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "tc3"]]]]]
+      [:transformGen
+       [:symbol "es1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ps1"]]]]]
+      [:transformGen
+       [:symbol "es2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ps2"]]]]]
+      [:transformGen
+       [:symbol "es3"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "ps3"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

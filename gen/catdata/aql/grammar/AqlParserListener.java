@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/np3/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/b61/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -3812,6 +3812,82 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitConstraintExpr(AqlParser.ConstraintExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#constraintUniversal}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintUniversal(AqlParser.ConstraintUniversalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#constraintUniversal}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintUniversal(AqlParser.ConstraintUniversalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#constraintExistential}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintExistential(AqlParser.ConstraintExistentialContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#constraintExistential}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintExistential(AqlParser.ConstraintExistentialContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#constraintUniversalEquation}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintUniversalEquation(AqlParser.ConstraintUniversalEquationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#constraintUniversalEquation}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintUniversalEquation(AqlParser.ConstraintUniversalEquationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#constraintExistentialEquation}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintExistentialEquation(AqlParser.ConstraintExistentialEquationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#constraintExistentialEquation}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintExistentialEquation(AqlParser.ConstraintExistentialEquationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ConstraintPath_Param}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintPath_Param(AqlParser.ConstraintPath_ParamContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ConstraintPath_Param}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintPath_Param(AqlParser.ConstraintPath_ParamContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ConstraintPath_ArrowId}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintPath_ArrowId(AqlParser.ConstraintPath_ArrowIdContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ConstraintPath_ArrowId}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintPath_ArrowId(AqlParser.ConstraintPath_ArrowIdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ConstraintPath_Dotted}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstraintPath_Dotted(AqlParser.ConstraintPath_DottedContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ConstraintPath_Dotted}
+	 * labeled alternative in {@link AqlParser#constraintPath}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstraintPath_Dotted(AqlParser.ConstraintPath_DottedContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#constraintGen}.
 	 * @param ctx the parse tree
 	 */
@@ -3821,24 +3897,4 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConstraintGen(AqlParser.ConstraintGenContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AqlParser#constraintEquation}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstraintEquation(AqlParser.ConstraintEquationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#constraintEquation}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstraintEquation(AqlParser.ConstraintEquationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AqlParser#constraintPath}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstraintPath(AqlParser.ConstraintPathContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#constraintPath}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstraintPath(AqlParser.ConstraintPathContext ctx);
 }

@@ -441,14 +441,16 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "b"]]
-       ":"
-       [:schemaEntityId [:symbol "B"]]
-       [:constraintGen [:symbol "c"]]
-       ":"
-       [:schemaEntityId [:symbol "C"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "b"]]
+        ":"
+        [:schemaEntityId [:symbol "B"]]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "c"]]
+        ":"
+        [:schemaEntityId [:symbol "C"]]]
        "where"
-       [:constraintEquation
+       [:constraintUniversalEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "b"]]]]
@@ -462,11 +464,12 @@
          [:schemaArrowId [:schemaEntityId [:symbol "g"]]]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "a"]]
-       ":"
-       [:schemaEntityId [:symbol "A"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "a"]]
+        ":"
+        [:schemaEntityId [:symbol "A"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "a"]]]]
@@ -475,7 +478,7 @@
         "="
         [:constraintPath
          [:schemaArrowId [:schemaEntityId [:symbol "b"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "a"]]]]
@@ -484,7 +487,7 @@
         "="
         [:constraintPath
          [:schemaArrowId [:schemaEntityId [:symbol "c"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "b"]]]]
@@ -496,7 +499,7 @@
           [:schemaArrowId [:schemaEntityId [:symbol "a"]]]]
          "."
          [:schemaArrowId [:schemaEntityId [:symbol "A_attB"]]]]]
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "c"]]]]

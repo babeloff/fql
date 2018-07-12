@@ -75,45 +75,7 @@
         [:element [:atom [:terminal "DISTINCT"]]]
         [:element [:atom [:ruleref "transformRef"]]]]
        "#"
-       [:identifier "TransformExp_Destination"]]
-      "|"
-      [:labeledAlt
-       [:alternative
-        [:element [:atom [:terminal "DELTA"]]]
-        [:element [:atom [:ruleref "mappingKind"]]]
-        [:element [:atom [:ruleref "transformRef"]]]]
-       "#"
-       [:identifier "TransformExp_Delta"]]
-      "|"
-      [:labeledAlt
-       [:alternative
-        [:element [:atom [:terminal "SIGMA"]]]
-        [:element [:atom [:ruleref "mappingKind"]]]
-        [:element [:atom [:ruleref "transformRef"]]]
-        [:element
-         [:ebnf
-          [:block
-           "("
-           [:altList
-            [:alternative
-             [:element [:atom [:terminal "LBRACE"]]]
-             [:element [:atom [:ruleref "transformSigmaSection"]]]
-             [:element [:atom [:terminal "RBRACE"]]]]]
-           ")"]
-          [:blockSuffix [:ebnfSuffix "?"]]]]
-        [:element
-         [:ebnf
-          [:block
-           "("
-           [:altList
-            [:alternative
-             [:element [:atom [:terminal "LBRACE"]]]
-             [:element [:atom [:ruleref "transformSigmaSection"]]]
-             [:element [:atom [:terminal "RBRACE"]]]]]
-           ")"]
-          [:blockSuffix [:ebnfSuffix "?"]]]]]
-       "#"
-       [:identifier "TransformExp_Sigma"]]
+       [:identifier "TransformExp_Distinct"]]
       "|"
       [:labeledAlt
        [:alternative
@@ -152,6 +114,44 @@
           [:blockSuffix [:ebnfSuffix "?"]]]]]
        "#"
        [:identifier "TransformExp_Coeval"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "SIGMA"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformSigmaSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "transformSigmaSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "TransformExp_Sigma"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "DELTA"]]]
+        [:element [:atom [:ruleref "mappingKind"]]]
+        [:element [:atom [:ruleref "transformRef"]]]]
+       "#"
+       [:identifier "TransformExp_Delta"]]
       "|"
       [:labeledAlt
        [:alternative
@@ -482,18 +482,22 @@
            "("
            [:altList
             [:alternative
+             [:element [:atom [:terminal "IMPORTS"]]]
+             [:element
+              [:atom [:ruleref "schemaRef"]]
+              [:ebnfSuffix "*"]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
              [:element [:atom [:terminal "GENERATORS"]]]
              [:element
-              [:ebnf
-               [:block
-                "("
-                [:altList
-                 [:alternative
-                  [:element [:atom [:ruleref "transformGen"]]]
-                  [:element [:atom [:terminal "RARROW"]]]
-                  [:element [:atom [:ruleref "schemaPath"]]]]]
-                ")"]
-               [:blockSuffix [:ebnfSuffix "*"]]]]]]
+              [:atom [:ruleref "transformGen"]]
+              [:ebnfSuffix "*"]]]]
            ")"]
           [:blockSuffix [:ebnfSuffix "?"]]]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
@@ -506,7 +510,10 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+       [:alternative
+        [:element [:atom [:ruleref "symbol"]]]
+        [:element [:atom [:terminal "RARROW"]]]
+        [:element [:atom [:ruleref "schemaPath"]]]]]]]
     ";"
     "exceptionGroup"]]]
  "<EOF>"]

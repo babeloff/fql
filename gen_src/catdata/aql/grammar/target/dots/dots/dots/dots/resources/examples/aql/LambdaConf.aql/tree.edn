@@ -772,12 +772,13 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "d1"]]
-       [:constraintGen [:symbol "d2"]]
-       ":"
-       [:schemaEntityId [:symbol "Department"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "d1"]]
+        [:constraintGen [:symbol "d2"]]
+        ":"
+        [:schemaEntityId [:symbol "Department"]]]
        "where"
-       [:constraintEquation
+       [:constraintUniversalEquation
         [:constraintPath
          [:schemaArrowId [:schemaEntityId [:symbol "name"]]]
          "("
@@ -793,7 +794,7 @@
          ")"]]
        "->"
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:schemaArrowId [:schemaEntityId [:symbol "d1"]]]]
         "="

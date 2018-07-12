@@ -111,6 +111,7 @@ IMPORTS : 'imports' ;
 FORALL : 'forall' ;
 WHERE : 'where' ;
 EXISTS : 'exists' ;
+UNIQUE : 'unique' ;
 
 GRAPH : 'graph' ;
 NODES : 'nodes' ;

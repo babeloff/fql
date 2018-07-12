@@ -965,18 +965,19 @@
     "="
     [:instanceExp
      "quotient"
-     [:instanceRef [:symbol "i13"]]
+     [:instanceKind [:instanceRef [:symbol "i13"]]]
      "{"
      [:instanceQuotientSection
       "equations"
-      [:instancePath
+      [:instanceQuotientEqn
        [:instancePath
-        [:instanceArrowId [:schemaEntityId [:symbol "e"]]]]
-       "."
-       [:instanceArrowId [:schemaEntityId [:symbol "manager"]]]]
-      "="
-      [:instancePath
-       [:instanceArrowId [:schemaEntityId [:symbol "e"]]]]
+        [:instancePath
+         [:instanceArrowId [:schemaEntityId [:symbol "e"]]]]
+        "."
+        [:instanceArrowId [:schemaEntityId [:symbol "manager"]]]]
+       "="
+       [:instancePath
+        [:instanceArrowId [:schemaEntityId [:symbol "e"]]]]]
       [:allOptions
        "options"
        [:optionsDeclaration
@@ -1152,12 +1153,13 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "e"]]
-      "->"
-      [:schemaPath
-       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
-       "."
-       [:schemaArrowId [:schemaEntityId [:symbol "manager"]]]]
+      [:transformGen
+       [:symbol "e"]
+       "->"
+       [:schemaPath
+        [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
+        "."
+        [:schemaArrowId [:schemaEntityId [:symbol "manager"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -1173,14 +1175,16 @@
      [:constraintLiteralSection
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "e"]]
-       ":"
-       [:schemaEntityId [:symbol "Employee"]]
-       [:constraintGen [:symbol "d"]]
-       ":"
-       [:schemaEntityId [:symbol "Department"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "e"]]
+        ":"
+        [:schemaEntityId [:symbol "Employee"]]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "d"]]
+        ":"
+        [:schemaEntityId [:symbol "Department"]]]
        "where"
-       [:constraintEquation
+       [:constraintUniversalEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
@@ -1191,11 +1195,12 @@
          [:schemaArrowId [:schemaEntityId [:symbol "d"]]]]]
        "->"
        "exists"
-       [:constraintGen [:symbol "e0"]]
-       ":"
-       [:schemaEntityId [:symbol "Employee"]]
+       [:constraintExistential
+        [:constraintGen [:symbol "e0"]]
+        ":"
+        [:schemaEntityId [:symbol "Employee"]]]
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:constraintPath
           [:schemaArrowId [:schemaEntityId [:symbol "e0"]]]]
@@ -1209,12 +1214,13 @@
          [:schemaArrowId [:schemaEntityId [:symbol "ename"]]]]]]
       [:constraintExpr
        "forall"
-       [:constraintGen [:symbol "e"]]
-       ":"
-       [:schemaEntityId [:symbol "Employee"]]
+       [:constraintUniversal
+        [:constraintGen [:symbol "e"]]
+        ":"
+        [:schemaEntityId [:symbol "Employee"]]]
        "->"
        "where"
-       [:constraintEquation
+       [:constraintExistentialEquation
         [:constraintPath
          [:schemaArrowId [:schemaEntityId [:symbol "e"]]]]
         "="

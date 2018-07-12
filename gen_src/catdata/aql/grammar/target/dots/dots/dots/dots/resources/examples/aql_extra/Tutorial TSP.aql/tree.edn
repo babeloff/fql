@@ -1132,24 +1132,27 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "scLnk0"]]
-      "->"
-      [:schemaPath
-       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "s0"]]]]
-       "."
-       [:schemaArrowId [:schemaEntityId [:symbol "fk_HasClass"]]]]
-      [:transformGen [:symbol "scLnk1"]]
-      "->"
-      [:schemaPath
-       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "s3"]]]]
-       "."
-       [:schemaArrowId [:schemaEntityId [:symbol "fk_HasClass"]]]]
-      [:transformGen [:symbol "scLnk2"]]
-      "->"
-      [:schemaPath
-       [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "s6"]]]]
-       "."
-       [:schemaArrowId [:schemaEntityId [:symbol "fk_HasClass"]]]]
+      [:transformGen
+       [:symbol "scLnk0"]
+       "->"
+       [:schemaPath
+        [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "s0"]]]]
+        "."
+        [:schemaArrowId [:schemaEntityId [:symbol "fk_HasClass"]]]]]
+      [:transformGen
+       [:symbol "scLnk1"]
+       "->"
+       [:schemaPath
+        [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "s3"]]]]
+        "."
+        [:schemaArrowId [:schemaEntityId [:symbol "fk_HasClass"]]]]]
+      [:transformGen
+       [:symbol "scLnk2"]
+       "->"
+       [:schemaPath
+        [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "s6"]]]]
+        "."
+        [:schemaArrowId [:schemaEntityId [:symbol "fk_HasClass"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -1166,15 +1169,21 @@
      "{"
      [:transformLiteralSection
       "generators"
-      [:transformGen [:symbol "scLnk0"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "sc0"]]]]
-      [:transformGen [:symbol "scLnk1"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "sc1"]]]]
-      [:transformGen [:symbol "scLnk2"]]
-      "->"
-      [:schemaPath [:schemaArrowId [:schemaEntityId [:symbol "sc2"]]]]
+      [:transformGen
+       [:symbol "scLnk0"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "sc0"]]]]]
+      [:transformGen
+       [:symbol "scLnk1"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "sc1"]]]]]
+      [:transformGen
+       [:symbol "scLnk2"]
+       "->"
+       [:schemaPath
+        [:schemaArrowId [:schemaEntityId [:symbol "sc2"]]]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
