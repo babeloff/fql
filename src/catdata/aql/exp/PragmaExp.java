@@ -898,7 +898,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 				s = "\n\toptions" + Util.sep(options, "\n\t\t", " = ");
 			}
 		
-			return "exec_js {\n" + Util.sep(cmds.stream().map(Util::quote).collect(Collectors.toList()), "\n") + s + "\n}";
+			return "exec {\n" + Util.sep(cmds.stream().map(Util::quote).collect(Collectors.toList()), "\n") + s + "\n}";
 		}
 
 		@Override

@@ -1354,6 +1354,26 @@
     ";"]]
   [:ruleSpec
    [:lexerRuleSpec
+    "LOAD_JARS"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'load_jars'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
+    "MATCH"
+    ":"
+    [:lexerRuleBlock
+     [:lexerAltList
+      [:lexerAlt
+       [:lexerElements
+        [:lexerElement [:lexerAtom [:terminal "'match'"]]]]]]]
+    ";"]]
+  [:ruleSpec
+   [:lexerRuleSpec
     "CHECK"
     ":"
     [:lexerRuleBlock

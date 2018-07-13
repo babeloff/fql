@@ -22,6 +22,14 @@ commandExp
   | CHECK constraintRef instanceRef
     # CommandExp_Check
 
+  | LOAD_JARS 
+      (LBRACE commandLoadJarsSection RBRACE)?
+    # CommandExp_LoadJars
+
+  | MATCH commandMatchWhich graphRef graphRef
+      (LBRACE commandMatchSection RBRACE)?
+    # CommandExp_Match
+
   | ASSERT_CONSISTENT instanceRef
     # CommandExp_AssertConsistent
 
@@ -33,7 +41,7 @@ commandExp
       (LBRACE commandExportCsvSection RBRACE)?
     # CommandExp_ExportCsvTransform
 
-  | EXPORT_JDBC_INSTANCE instanceRef
+  | EXPORT_JDBC_INSTANCE transformRef
       (commandJdbcClass (commandJdbcUri commandPrefixDst?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
     # CommandExp_ExportJdbcInstance
@@ -41,21 +49,21 @@ commandExp
   | EXPORT_JDBC_QUERY queryRef
       (commandJdbcClass (commandJdbcUri (commandPrefixSrc commandPrefixDst?)?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
-    #CommandExp_ExportJdbcQuery
+    # CommandExp_ExportJdbcQuery
 
   | EXPORT_JDBC_TRANSFORM transformRef
       (commandJdbcClass (commandJdbcUri commandPrefix?)?)?
       (LBRACE commandExportJdbcSection RBRACE)?
       (LBRACE commandExportJdbcSection RBRACE)?
-    #CommandExp_ExportJdbcTransform
+    # CommandExp_ExportJdbcTransform
 
   | ADD_TO_CLASSPATH
       (LBRACE commandAddClasspathSection RBRACE)?
-    #CommandExp_AddToClasspath
+    # CommandExp_AddToClasspath
   ;
 
 commandKind 
-: commandRef # CommandKind_Ref 
+: commandRef               # CommandKind_Ref 
 | LPAREN commandExp RPAREN # CommandKind_Exp
 ;
 
@@ -67,6 +75,10 @@ commandExecJsSection : STRING* allOptions ;
 
 commandExecJdbcSection : (STRING | MULTI_STRING)+ allOptions ;
 
+commandLoadJarsSection : STRING* ;
+
+commandMatchSection : allOptions ;
+
 commandExportCsvSection : STRING* allOptions ;
 
 commandExportJdbcSection : STRING* allOptions ;
@@ -77,3 +89,4 @@ commandJdbcUri : STRING ;
 commandPrefix : STRING ;
 commandPrefixSrc : STRING ;
 commandPrefixDst : STRING ;
+commandMatchWhich : STRING ;

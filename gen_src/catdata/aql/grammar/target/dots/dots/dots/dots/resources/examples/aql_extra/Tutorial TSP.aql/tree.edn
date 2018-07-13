@@ -2024,7 +2024,7 @@
     "="
     [:commandExp
      "export_jdbc_instance"
-     [:instanceRef [:symbol "iSTSpn"]]
+     [:transformRef [:symbol "iSTSpn"]]
      [:commandJdbcClass "\"com.mysql.jdbc.Driver\""]
      [:commandJdbcUri
       "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]

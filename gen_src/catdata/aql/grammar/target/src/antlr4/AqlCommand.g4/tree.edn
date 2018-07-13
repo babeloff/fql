@@ -116,6 +116,43 @@
       "|"
       [:labeledAlt
        [:alternative
+        [:element [:atom [:terminal "LOAD_JARS"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandLoadJarsSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_LoadJars"]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "MATCH"]]]
+        [:element [:atom [:ruleref "commandMatchWhich"]]]
+        [:element [:atom [:ruleref "graphRef"]]]
+        [:element [:atom [:ruleref "graphRef"]]]
+        [:element
+         [:ebnf
+          [:block
+           "("
+           [:altList
+            [:alternative
+             [:element [:atom [:terminal "LBRACE"]]]
+             [:element [:atom [:ruleref "commandMatchSection"]]]
+             [:element [:atom [:terminal "RBRACE"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "?"]]]]]
+       "#"
+       [:identifier "CommandExp_Match"]]
+      "|"
+      [:labeledAlt
+       [:alternative
         [:element [:atom [:terminal "ASSERT_CONSISTENT"]]]
         [:element [:atom [:ruleref "instanceRef"]]]]
        "#"
@@ -162,7 +199,7 @@
       [:labeledAlt
        [:alternative
         [:element [:atom [:terminal "EXPORT_JDBC_INSTANCE"]]]
-        [:element [:atom [:ruleref "instanceRef"]]]
+        [:element [:atom [:ruleref "transformRef"]]]
         [:element
          [:ebnf
           [:block
@@ -393,6 +430,27 @@
     "exceptionGroup"]]
   [:ruleSpec
    [:parserRuleSpec
+    "commandLoadJarsSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandMatchSection"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
     "commandExportCsvSection"
     ":"
     [:ruleBlock
@@ -468,6 +526,16 @@
   [:ruleSpec
    [:parserRuleSpec
     "commandPrefixDst"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "commandMatchWhich"
     ":"
     [:ruleBlock
      [:ruleAltList

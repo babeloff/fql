@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/b61/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/eub/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -3336,6 +3336,30 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitCommandExp_Check(AqlParser.CommandExp_CheckContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code CommandExp_LoadJars}
+	 * labeled alternative in {@link AqlParser#commandExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterCommandExp_LoadJars(AqlParser.CommandExp_LoadJarsContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CommandExp_LoadJars}
+	 * labeled alternative in {@link AqlParser#commandExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitCommandExp_LoadJars(AqlParser.CommandExp_LoadJarsContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code CommandExp_Match}
+	 * labeled alternative in {@link AqlParser#commandExp}.
+	 * @param ctx the parse tree
+	 */
+	void enterCommandExp_Match(AqlParser.CommandExp_MatchContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CommandExp_Match}
+	 * labeled alternative in {@link AqlParser#commandExp}.
+	 * @param ctx the parse tree
+	 */
+	void exitCommandExp_Match(AqlParser.CommandExp_MatchContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code CommandExp_AssertConsistent}
 	 * labeled alternative in {@link AqlParser#commandExp}.
 	 * @param ctx the parse tree
@@ -3484,6 +3508,26 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#commandLoadJarsSection}.
+	 * @param ctx the parse tree
+	 */
+	void enterCommandLoadJarsSection(AqlParser.CommandLoadJarsSectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#commandLoadJarsSection}.
+	 * @param ctx the parse tree
+	 */
+	void exitCommandLoadJarsSection(AqlParser.CommandLoadJarsSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#commandMatchSection}.
+	 * @param ctx the parse tree
+	 */
+	void enterCommandMatchSection(AqlParser.CommandMatchSectionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#commandMatchSection}.
+	 * @param ctx the parse tree
+	 */
+	void exitCommandMatchSection(AqlParser.CommandMatchSectionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#commandExportCsvSection}.
 	 * @param ctx the parse tree
 	 */
@@ -3563,6 +3607,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#commandMatchWhich}.
+	 * @param ctx the parse tree
+	 */
+	void enterCommandMatchWhich(AqlParser.CommandMatchWhichContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#commandMatchWhich}.
+	 * @param ctx the parse tree
+	 */
+	void exitCommandMatchWhich(AqlParser.CommandMatchWhichContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaColimitId}.
 	 * @param ctx the parse tree

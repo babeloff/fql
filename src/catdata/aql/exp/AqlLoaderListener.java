@@ -26,11 +26,15 @@ import catdata.aql.exp.InstExp.InstExpFrozen;
 import catdata.aql.exp.InstExp.InstExpVar;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
+import catdata.aql.exp.PragmaExp.PragmaExpCheck;
+import catdata.aql.exp.PragmaExp.PragmaExpConsistent;
+import catdata.aql.exp.PragmaExp.PragmaExpProc;
+import catdata.aql.exp.PragmaExp.PragmaExpSql;
+import catdata.aql.exp.PragmaExp.PragmaExpToJdbcTrans;
 import catdata.aql.exp.QueryExpRaw.Block;
 import catdata.aql.exp.QueryExpRaw.PreBlock;
 import catdata.aql.exp.QueryExpRaw.Trans;
 import catdata.aql.exp.SchExp.SchExpEmpty;
-import catdata.aql.exp.SchExp.SchExpVar;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
 import catdata.aql.exp.SchExpRaw.Fk;
@@ -38,14 +42,26 @@ import catdata.aql.exp.TransExp.TransExpCoEvalEvalCoUnit;
 import catdata.aql.exp.TransExp.TransExpCoEvalEvalUnit;
 import catdata.aql.exp.TransExp.TransExpId;
 import catdata.aql.exp.TransExp.TransExpSigmaDeltaUnit;
-import catdata.aql.exp.TyExp.TyExpVar;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.grammar.AqlParser;
+import catdata.aql.grammar.AqlParser.CommandAddClasspathSectionContext;
+import catdata.aql.grammar.AqlParser.CommandCmdLineSectionContext;
+import catdata.aql.grammar.AqlParser.CommandExecJdbcSectionContext;
+import catdata.aql.grammar.AqlParser.CommandExecJsSectionContext;
+import catdata.aql.grammar.AqlParser.CommandExportCsvSectionContext;
+import catdata.aql.grammar.AqlParser.CommandExportJdbcSectionContext;
+import catdata.aql.grammar.AqlParser.CommandFileContext;
+import catdata.aql.grammar.AqlParser.CommandJdbcClassContext;
+import catdata.aql.grammar.AqlParser.CommandJdbcUriContext;
+import catdata.aql.grammar.AqlParser.CommandPrefixContext;
+import catdata.aql.grammar.AqlParser.CommandPrefixDstContext;
+import catdata.aql.grammar.AqlParser.CommandPrefixSrcContext;
 import catdata.aql.grammar.AqlParser.ConstraintExistentialContext;
 import catdata.aql.grammar.AqlParser.ConstraintExistentialEquationContext;
 import catdata.aql.grammar.AqlParser.ConstraintKindContext;
 import catdata.aql.grammar.AqlParser.ConstraintLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.ConstraintRefContext;
 import catdata.aql.grammar.AqlParser.ConstraintUniversalContext;
 import catdata.aql.grammar.AqlParser.ConstraintUniversalEquationContext;
 import catdata.aql.grammar.AqlParser.GraphKindContext;
@@ -75,6 +91,7 @@ import catdata.aql.grammar.AqlParser.QueryGenContext;
 import catdata.aql.grammar.AqlParser.QueryKindContext;
 import catdata.aql.grammar.AqlParser.QueryLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.QueryPathContext;
+import catdata.aql.grammar.AqlParser.QueryRefContext;
 import catdata.aql.grammar.AqlParser.QuerySimpleSectionContext;
 import catdata.aql.grammar.AqlParser.SchemaArrowIdContext;
 import catdata.aql.grammar.AqlParser.SchemaEntityIdContext;
@@ -107,6 +124,13 @@ import catdata.aql.grammar.AqlParserBaseListener;
  */
 public class AqlLoaderListener extends AqlParserBaseListener {
 	private static Logger log = Logger.getLogger(AqlLoaderListener.class.getName());
+	
+	public static class X extends Object {
+		
+	}
+	public static class Y extends Object {
+		
+	}
 	
 	/**
 	 * The location of tokens is used by the editor.
@@ -262,7 +286,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitGraphKind_Ref(AqlParser.GraphKind_RefContext ctx) {
-		this.exps.put(ctx, new GraphExp.GraphExpVar(ctx.graphRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.graphRef()));
+	}
+	
+	@Override 
+	public void exitGraphRef(AqlParser.GraphRefContext ctx) {
+		this.exps.put(ctx, new GraphExp.GraphExpVar(ctx.getText()));
 	}
 	
 
@@ -325,7 +354,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override 
 	public void exitTypesideKind_Ref(AqlParser.TypesideKind_RefContext ctx) {
-		this.exps.put(ctx, new TyExp.TyExpVar<>(ctx.typesideRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.typesideRef()));
+	}
+
+	@Override 
+	public void exitTypesideRef(AqlParser.TypesideRefContext ctx) {
+		this.exps.put(ctx, new TyExp.TyExpVar<>(ctx.getText()));
 	}
 	
 	@Override 
@@ -361,7 +395,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(elt -> 
 					new Pair<Integer,TyExp<?,?>>(
 						getLoc(elt),
-						new TyExpVar<>(elt.getText()))) 
+						(TyExp<?, ?>) this.exps.get(elt))) 
 				.collect(Collectors.toList());
 		
 		final List<LocStr> 
@@ -477,7 +511,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitSchemaExp_Empty(AqlParser.SchemaExp_EmptyContext ctx) {
-		final TyExp<Ty,Sym> ty = new TyExpVar<>(ctx.typesideRef().getText());
+		@SuppressWarnings("unchecked")
+		final TyExp<Ty,Sym> ty = (TyExp<Ty, Sym>) this.exps.get(ctx.typesideRef());
 		this.exps.put(ctx, new SchExpEmpty<>(ty));
 	};
 	
@@ -703,13 +738,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitMappingKind_Ref(AqlParser.MappingKind_RefContext ctx) {
-		this.exps.put(ctx, new MapExp.MapExpVar<Ty, En, Sym, Fk, Att>(ctx.mappingRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.mappingRef()));
+	}
+	
+	@Override 
+	public void exitMappingRef(AqlParser.MappingRefContext ctx) {
+		this.exps.put(ctx, new MapExp.MapExpVar<Ty, En, Sym, Fk, Att>(ctx.getText()));
 	}
 
 	@Override 
 	public void exitMappingExp_Identity(AqlParser.MappingExp_IdentityContext ctx) {
+		@SuppressWarnings("unchecked")
 		final SchExp<Ty, En, Sym, Fk, Att>
-		schema = new SchExp.SchExpVar<>(ctx.schemaRef().getText());
+		schema = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(ctx.schemaRef());
 		
 		final MapExp.MapExpId<Ty, En, Sym, Fk, Att> 
 		exp = new MapExp.MapExpId<>(schema);
@@ -738,9 +779,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitMappingExp_Compose(AqlParser.MappingExp_ComposeContext ctx) {
+		@SuppressWarnings("unchecked")
 		final MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> 
 		comp = ctx.mappingRef().stream()
-				.map(ref -> new MapExp.MapExpVar<Ty, En, Sym, Fk, Att>(ref.getText()))
+				.map(ref -> (MapExp.MapExpVar<Ty, En, Sym, Fk, Att>) this.exps.get(ref))
 				.collect(() -> new MapComposer<Ty, En, Sym, Fk, Att>(),
 						(acc, nxt) -> acc.compose(nxt),
 						(lhs, rhs) -> lhs.combine(rhs))
@@ -765,11 +807,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		mapping = new ParseTreeProperty<>();
 	
 	@Override public void exitMappingExp_Literal(AqlParser.MappingExp_LiteralContext ctx) {
+		@SuppressWarnings("unchecked")
 		final SchExp<Ty, En, Sym, Fk, Att>
-		schemaSrc = new SchExp.SchExpVar<>(ctx.schemaRef(0).getText());
-
-		final SchExp<Ty, En, Sym, Fk, Att>
-		schemaTgt = new SchExp.SchExpVar<>(ctx.schemaRef(1).getText());
+		schemaSrc = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(ctx.schemaRef(0)),
+		schemaTgt = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(ctx.schemaRef(1));
 		
 		final MappingLiteralSectionContext 
 		sect = ctx.mappingLiteralSection();	
@@ -907,14 +948,20 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitQueryKind_Ref(AqlParser.QueryKind_RefContext ctx) {
-		this.exps.put(ctx, new QueryExp.QueryExpVar(ctx.queryRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.queryRef()));
+	}
+	
+	@Override 
+	public void exitQueryRef(AqlParser.QueryRefContext ctx) {
+		this.exps.put(ctx, new QueryExp.QueryExpVar(ctx.getText()));
 	}
 	
 	@Override 
 	public void exitQueryExp_Identity(AqlParser.QueryExp_IdentityContext ctx) { 
+		@SuppressWarnings("unchecked")
 		final SchExp<Ty, En, Sym, Fk, Att>
-		schema = new SchExp.SchExpVar<>(ctx.schemaRef().getText());
-		// this.ns.get(ctx.schemaRef().getText());
+		schema = (SchExp<Ty, En, Sym, Fk, Att>) 
+			this.exps.get(ctx.schemaRef());
 		
 		final QueryExp.QueryExpId<Ty, En, Sym, Fk, Att> 
 		exp = new QueryExp.QueryExpId<>(schema);
@@ -1021,8 +1068,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final SchExp<Ty, En, Sym, Fk, Att>
 		src = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(schemaKind);
 		
+		@SuppressWarnings("unchecked")
 		final SchExp<Ty, En, Sym, Fk, Att>
-		tgt = new SchExp.SchExpVar<>(sref.getText());
+		tgt = (SchExp<Ty, En, Sym, Fk, Att>) this.exps.get(sref);
 		
 		final List<Pair<LocStr, PreBlock>>
 		preblocks = sect.queryEntityExpr().stream() 
@@ -1686,13 +1734,20 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitTransformKind_Ref(AqlParser.TransformKind_RefContext ctx) {
-		this.exps.put(ctx, new TransExp.TransExpVar(ctx.transformRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.transformRef()));
+	}
+	
+	@Override 
+	public void exitTransformRef(AqlParser.TransformRefContext ctx) {
+		this.exps.put(ctx, new TransExp.TransExpVar(ctx.getText()));
 	}
 
 	@Override 
 	public void exitTransformExp_Identity(AqlParser.TransformExp_IdentityContext ctx) { 
+		@SuppressWarnings("unchecked")
 		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>
-		schema = new InstExp.InstExpVar<>(ctx.instanceRef().getText());
+		schema = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>) 
+			this.exps.get(ctx.instanceRef());
 		
 		final TransExp<?,?,?,?,?,?,?,?,?,?,?,?,?>
 		exp = new TransExpId<>(schema);
@@ -1705,14 +1760,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public void exitTransformExp_Compose(AqlParser.TransformExp_ComposeContext ctx) {
 		final List<TransformRefContext> refs = ctx.transformRef(); 
 		
-		@SuppressWarnings("rawtypes")
-		final List<TransExp>
-		refexp = refs.stream()
-				.map(ref -> new TransExp.TransExpVar(ref.getText()))
-				.collect(Collectors.toList());
+		@SuppressWarnings("unchecked")
+		final TransExp<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,Object,Object,Object,Object>
+		refexpLhs = (TransExp<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,Object,Object,Object,Object>) this.exps.get(refs.get(0)),
+		refexpRhs = (TransExp<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,Object,Object,Object,Object>) this.exps.get(refs.get(1));
 		
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		final TransExp comp = new TransExpCompose<>(refexp.get(0), refexp.get(1));
+		final TransExpCompose<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,Object,Object,Object,Object,Gen,Sk,Object,Object>
+		comp = new TransExpCompose<>(refexpLhs, refexpRhs);
 			
 		this.exps.put(ctx,comp);
 	}
@@ -1722,7 +1776,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		@SuppressWarnings("rawtypes")
 		final TransExp
-		transRaw = new TransExp.TransExpVar(ref.getText());
+		transRaw = (TransExp) this.exps.get(ref);
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		final TransExp trans = new TransExp.TransExpDistinct(transRaw);
@@ -1732,15 +1786,17 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override public void exitTransformExp_Eval(AqlParser.TransformExp_EvalContext ctx) {
 		final QueryKindContext queryKind = ctx.queryKind();
-		final TransformRefContext transKind = ctx.transformRef();
-		
-		@SuppressWarnings("rawtypes")
-		final QueryExp queryExp = (QueryExp) this.exps.get(queryKind);
-		
-		final TransExp<?,?,?,?,?,?,?,?,?,?,?,?,?> 
-		transExp = new TransExp.TransExpVar(transKind.getText());
+		final TransformRefContext transRef = ctx.transformRef();
 		
 		@SuppressWarnings("unchecked")
+		final QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> 
+		queryExp = (QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att>) this.exps.get(queryKind);
+		
+		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>) 
+			this.exps.get(transRef); 
+		
 		final TransExp.TransExpEval<Ty,En,Sym,Fk, Att,Gen,Sk,En, Fk,Att,Gen,Sk, ?,?,?,?> 
 		trans = new TransExp.TransExpEval<>(queryExp, transExp);
 			
@@ -1749,17 +1805,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override public void exitTransformExp_Coeval(AqlParser.TransformExp_CoevalContext ctx) {
 		final QueryKindContext queryKind = ctx.queryKind();
-		final TransformRefContext transKind = ctx.transformRef();
+		final TransformRefContext transRef = ctx.transformRef();
 		final TransformCoevalSectionContext sect0 = ctx.transformCoevalSection(0);
 		final TransformCoevalSectionContext sect1 = ctx.transformCoevalSection(1);
 		
-		@SuppressWarnings("rawtypes")
-		final QueryExp queryExp = (QueryExp) this.exps.get(queryKind);
-		
-		final TransExp<?,?,?,?, ?,?,?,?, ?,?,?,?, ?> 
-		transExp = new TransExp.TransExpVar(transKind.getText());
+		@SuppressWarnings("unchecked")
+		final QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> 
+		queryExp = (QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att>) this.exps.get(queryKind);
 		
 		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>) 
+			this.exps.get(transRef); 
+		
 		final TransExp.TransExpCoEval<Ty,En,Sym,Fk, Att,Gen,Sk,En, Fk,Att,Gen,Sk, ?,?,?,?> 
 		trans = new TransExp.TransExpCoEval<>(queryExp, transExp, 		  
 				Optional.ofNullable(sect0)
@@ -1774,17 +1832,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override public void exitTransformExp_Sigma(AqlParser.TransformExp_SigmaContext ctx) {
 		final MappingKindContext mappingKind = ctx.mappingKind();
-		final TransformRefContext transKind = ctx.transformRef();
+		final TransformRefContext transRef = ctx.transformRef();
 		final TransformSigmaSectionContext sect0 = ctx.transformSigmaSection(0);
 		final TransformSigmaSectionContext sect1 = ctx.transformSigmaSection(1);
 		
-		@SuppressWarnings("rawtypes")
-		final MapExp mapExp = (MapExp) this.exps.get(mappingKind);
-		
-		final TransExp<?,?,?,?,?,?,?,?,?,?,?,?,?> 
-		transExp = new TransExp.TransExpVar(transKind.getText());
+		@SuppressWarnings("unchecked")
+		final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> 
+		mapExp = (MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att>) this.exps.get(mappingKind);
 		
 		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>) 
+			this.exps.get(transRef); 
+		
 		final TransExp.TransExpSigma<?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExp.TransExpSigma<>(mapExp, transExp,  
 				Optional.ofNullable(sect0)
@@ -1801,16 +1861,18 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override public void exitTransformExp_Delta(AqlParser.TransformExp_DeltaContext ctx) {
 		final MappingKindContext mappingKind = ctx.mappingKind();
-		final TransformRefContext transKind = ctx.transformRef();
-		
-		@SuppressWarnings("rawtypes")
-		final MapExp mapExp = (MapExp) this.exps.get(mappingKind);
-		
-		final TransExp<?,?,?,?,?,?,?,?,?,?,?,?,?> 
-		transExp = new TransExp.TransExpVar(transKind.getText());
+		final TransformRefContext transRef = ctx.transformRef();
 		
 		@SuppressWarnings("unchecked")
-		final TransExp.TransExpDelta<Ty,En,Sym,Fk, Att,Gen,Sk,En, Fk,Att,Gen,Sk, ?,?,?,?> 
+		final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> 
+		mapExp = (MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att>) this.exps.get(mappingKind);
+		
+		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>) 
+			this.exps.get(transRef); 
+		
+		final TransExp.TransExpDelta<Ty, En, Sym, Fk, Att, Gen, Sk, En, Fk, Att, Gen, Sk, X, Y, X, Y> 
 		trans = new TransExp.TransExpDelta<>(mapExp, transExp);
 			
 		this.exps.put(ctx,trans);
@@ -1821,13 +1883,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstanceRefContext instRef = ctx.instanceRef();
 		final TransformUnitSectionContext sect = ctx.transformUnitSection();
 		
-		@SuppressWarnings("rawtypes")
-		final MapExp mapExp = (MapExp) this.exps.get(mappingKind);
-		
-		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object> 
-		instExp = new InstExp.InstExpVar<>(instRef.getText());
+		@SuppressWarnings("unchecked")
+		final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> 
+		mapExp = (MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att>) this.exps.get(mappingKind);
 		
 		@SuppressWarnings("unchecked")
+		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
+		instExp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) this.exps.get(instRef);
+		
 		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp,  
 				Optional.ofNullable(sect)
@@ -1843,13 +1906,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstanceRefContext instRef = ctx.instanceRef();
 		final TransformUnitSectionContext sect = ctx.transformUnitSection();
 		
-		@SuppressWarnings("rawtypes")
-		final MapExp mapExp = (MapExp) this.exps.get(mappingKind);
-		
-		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>
-		instExp = new InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>(instRef.getText());
+		@SuppressWarnings("unchecked")
+		final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> 
+		mapExp = (MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att>) this.exps.get(mappingKind);
 		
 		@SuppressWarnings("unchecked")
+		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
+		instExp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) this.exps.get(instRef);
+		
 		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp,  
 				Optional.ofNullable(sect)
@@ -1868,8 +1932,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final TransExpCoEvalEvalUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExpCoEvalEvalUnit<>(
-				(QueryExp) this.exps.get(queryKind), 
-				new InstExp.InstExpVar(instRef.getText()),   
+				(QueryExp) this.exps.get(queryKind),
+				(InstExp) this.exps.get(instRef),  
 				Optional.ofNullable(sect)
 				.map(s -> this.aopts.get(s.allOptions()))
 				.map(s -> toMap(s))
@@ -1887,8 +1951,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> 
 		queryExp = (QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att>) this.exps.get(queryKind);
 		
+		@SuppressWarnings("unchecked")
 		final InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object> 
-		instExp = new InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>(instRef.getText());
+		instExp = (InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>) this.exps.get(instRef);
 		
 		final TransExpCoEvalEvalCoUnit<Ty, En, Sym, Fk, Att, Gen, Sk, En, Fk, Att, Object, Object>
 		trans = new TransExpCoEvalEvalCoUnit<Ty, En, Sym, Fk, Att, Gen, Sk, En, Fk, Att, Object, Object>(
@@ -1913,8 +1978,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		trans = new TransExpJdbc(
 				jdbcClass.getText(), 
 				jdbcUri.getText(), 
-				new InstExp.InstExpVar(instSrcRef.getText()),  
-				new InstExp.InstExpVar(instTgtRef.getText()),
+				(InstExp) this.exps.get(instSrcRef),
+				(InstExp) this.exps.get(instTgtRef),
 				sect.transformSqlEntityExpr().stream()
 					.map(x -> new Pair<>(
 						makeLocStr(x.schemaEntityId()),
@@ -1934,18 +1999,22 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstanceRefContext instTgtRef = ctx.instanceRef(1);
 		final TransformImportCsvSectionContext sect = ctx.transformImportCsvSection();
 		
+		@SuppressWarnings("unchecked")
+		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
+		instSrcExp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) this.exps.get(instSrcRef),
+		instTgtExp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) this.exps.get(instTgtRef);
+		
 		final TransExpCsv<?, ?, ?, ?> 
-		trans = new TransExpCsv<Object, Object, Object, Object>(
-				new InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>(instSrcRef.getText()),  
-				new InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>(instTgtRef.getText()),
-				sect.transformFileExpr().stream()
-					.map(x -> new Pair<>(
-						makeLocStr(x.schemaEntityId()),
-						x.transformFile().getText()))
-		            .collect(Collectors.toList()),  
-					Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
-					.orElseGet(LinkedList::new));
+		trans = new TransExpCsv<X,Y,X,Y>( 
+					instSrcExp, instTgtExp,
+					sect.transformFileExpr().stream()
+						.map(x -> new Pair<>(
+							makeLocStr(x.schemaEntityId()),
+							x.transformFile().getText()))
+			            .collect(Collectors.toList()),  
+						Optional.ofNullable(sect)
+						.map(s -> this.aopts.get(s.allOptions()))
+						.orElseGet(LinkedList::new));
 			
 		this.exps.put(ctx,trans);
 	}
@@ -1955,10 +2024,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstanceRefContext instTgtRef = ctx.instanceRef();
 		final TransformLiteralSectionContext sect = ctx.transformLiteralSection();
 		
-		final InstExp<?,?,?,?,?,?,?,?,?> instSrcExp = (InstExp<?,?,?,?,?,?,?,?,?>) this.exps.get(instSrcKind);
-		
-		final InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object> 
-		instTgtExp = new InstExp.InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>(instTgtRef.getText());
+		final InstExp<?,?,?,?,?,?,?,?,?> 
+		instSrcExp = (InstExp<?,?,?,?,?,?,?,?,?>) this.exps.get(instSrcKind), 
+		instTgtExp = (InstExp<?,?,?,?,?,?,?,?,?>) this.exps.get(instTgtRef);
 		
 		final List<LocStr>
 		imports = sect.schemaRef().stream() 
@@ -2005,7 +2073,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitConstraintKind_Ref(AqlParser.ConstraintKind_RefContext ctx) {
-		this.exps.put(ctx, new EdsExp.EdsExpVar(ctx.constraintRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.constraintRef()));
+	}
+	
+	@Override 
+	public void exitConstraintRef(AqlParser.ConstraintRefContext ctx) {
+		this.exps.put(ctx, new EdsExp.EdsExpVar(ctx.getText()));
 	}
 	
 	@Override public void exitConstraintExp_Literal(AqlParser.ConstraintExp_LiteralContext ctx) { 
@@ -2153,33 +2226,276 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	public void exitCommandKind_Exp(AqlParser.CommandKind_ExpContext ctx) {
 		this.exps.put(ctx,this.exps.get(ctx.commandExp()));
 	}
-	
+
 	@Override 
 	public void exitCommandKind_Ref(AqlParser.CommandKind_RefContext ctx) {
-		this.exps.put(ctx, new PragmaExp.PragmaExpVar(ctx.commandRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.commandRef()));
 	}
 	
-	@Override public void exitCommandExp_CmdLine(AqlParser.CommandExp_CmdLineContext ctx) { }
+	@Override 
+	public void exitCommandRef(AqlParser.CommandRefContext ctx) {
+		this.exps.put(ctx, new PragmaExp.PragmaExpVar(ctx.getText()));
+	}
 	
-	@Override public void exitCommandExp_ExecJs(AqlParser.CommandExp_ExecJsContext ctx) { }
+	@Override public void exitCommandExp_CmdLine(AqlParser.CommandExp_CmdLineContext ctx) {
+		final CommandCmdLineSectionContext sect = ctx.commandCmdLineSection();
+		
+		if (sect == null) {
+			this.exps.put(ctx, new PragmaExp.PragmaExpProc(new LinkedList<>(), new LinkedList<>()));
+			return;
+		}
+		final List<String> 
+		cmds = sect.STRING().stream() 
+			.map(x -> x.getText())
+			.collect(Collectors.toList());
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExpProc
+		cmdExp = new PragmaExp.PragmaExpProc(cmds, options);
+		
+		this.exps.put(ctx,cmdExp);
+	}
 	
-	@Override public void exitCommandExp_ExecJdbc(AqlParser.CommandExp_ExecJdbcContext ctx) { }
+	@Override public void exitCommandExp_ExecJs(AqlParser.CommandExp_ExecJsContext ctx) {
+		final CommandExecJsSectionContext sect = ctx.commandExecJsSection();
+		
+		if (sect == null) {
+			this.exps.put(ctx, new PragmaExp.PragmaExpJs(new LinkedList<>(), new LinkedList<>()));
+			return;
+		}
+		final List<String> 
+		cmds = sect.STRING().stream() 
+			.map(x -> x.getText())
+			.collect(Collectors.toList());
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExp.PragmaExpJs
+		cmdExp = new PragmaExp.PragmaExpJs(cmds, options);
+		
+		this.exps.put(ctx,cmdExp);
+	}
 	
-	@Override public void exitCommandExp_Check(AqlParser.CommandExp_CheckContext ctx) { }
+	@Override public void exitCommandExp_ExecJdbc(AqlParser.CommandExp_ExecJdbcContext ctx) {
+		final CommandJdbcClassContext cmdJdbcClass = ctx.commandJdbcClass();
+		final CommandJdbcUriContext cmdJdbcUri = ctx.commandJdbcUri();
+		final CommandExecJdbcSectionContext sect = ctx.commandExecJdbcSection();
+		
+		final String clazz = cmdJdbcClass.getText(); 
+		final String jdbcString = cmdJdbcUri.getText();
+		
+		if (sect == null) {
+			this.exps.put(ctx, new PragmaExp.PragmaExpSql(
+								clazz, jdbcString, new LinkedList<String>(), 
+								new LinkedList<Pair<String,String>>()));
+			return;
+		}
+		
+		final List<String> 
+		sqls = sect.STRING().stream() 
+			.map(x -> x.getText())
+			.collect(Collectors.toList());
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExpSql
+		cmdExp = new PragmaExp.PragmaExpSql(clazz, jdbcString, sqls, options);
+
+		this.exps.put(ctx,cmdExp);
+	}
 	
-	@Override public void exitCommandExp_AssertConsistent(AqlParser.CommandExp_AssertConsistentContext ctx) { }
+	@Override public void exitCommandExp_Check(AqlParser.CommandExp_CheckContext ctx) {
+		final ConstraintRefContext ruleRef = ctx.constraintRef();
+		final InstanceRefContext instRef = ctx.instanceRef();
+		
+		@SuppressWarnings("unchecked")
+		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object> 
+		instExp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>) 
+			this.exps.get(instRef); 
+		
+		@SuppressWarnings("unchecked")
+		final EdsExp<Ty, En, Sym, Fk, Att> 
+		ruleExp = (EdsExp<Ty, En, Sym, Fk, Att>) 
+			this.exps.get(ruleRef);
+		
+		final PragmaExpCheck<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>
+		cmd = new PragmaExp.PragmaExpCheck<>(instExp, ruleExp);
+		
+		this.exps.put(ctx,cmd);
+	}
 	
-	@Override public void exitCommandExp_ExportCsvInstance(AqlParser.CommandExp_ExportCsvInstanceContext ctx) { }
+	@Override public void exitCommandExp_AssertConsistent(AqlParser.CommandExp_AssertConsistentContext ctx) {
+		final InstanceRefContext instRef = ctx.instanceRef();
+		
+		@SuppressWarnings("unchecked")
+		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object> 
+		instExp = (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>) 
+			this.exps.get(instRef); 
+		
+		final PragmaExpConsistent<Ty, En, Sym, Fk, Att, Gen, Sk, Object, Object>
+		cmd = new PragmaExpConsistent<>(instExp);
+		
+		this.exps.put(ctx,cmd);
+	}
 	
-	@Override public void exitCommandExp_ExportCsvTransform(AqlParser.CommandExp_ExportCsvTransformContext ctx) { }
+	@Override public void exitCommandExp_ExportCsvInstance(AqlParser.CommandExp_ExportCsvInstanceContext ctx) {
+		final CommandFileContext cmdfileNode = ctx.commandFile();
+		final InstanceRefContext instRef = ctx.instanceRef();
+		final CommandExportCsvSectionContext sect = ctx.commandExportCsvSection();
+		
+		@SuppressWarnings("unchecked")
+		final InstExp<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> 
+		instExp = (InstExp<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y>) 
+			this.exps.get(instRef); 
+		
+		final String cmdFile = cmdfileNode.getText();
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExp.PragmaExpToCsvInst<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y>
+		cmd = new PragmaExp.PragmaExpToCsvInst<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y>(instExp, cmdFile, options);
+			
+		this.exps.put(ctx,cmd); }
 	
-	@Override public void exitCommandExp_ExportJdbcInstance(AqlParser.CommandExp_ExportJdbcInstanceContext ctx) { }
+	@Override public void exitCommandExp_ExportCsvTransform(AqlParser.CommandExp_ExportCsvTransformContext ctx) {
+		final CommandFileContext cmdFileNode = ctx.commandFile();
+		final TransformRefContext transRef = ctx.transformRef();
+		final CommandExportCsvSectionContext sect = ctx.commandExportCsvSection();
+		
+		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y, Gen, Sk, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y, Gen, Sk, X, Y>) 
+			this.exps.get(transRef); 
+		
+		final String cmdFile = cmdFileNode.getText();
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExp.PragmaExpToCsvTrans<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y, Gen, Sk, X, Y>
+		cmd = new PragmaExp.PragmaExpToCsvTrans<>(transExp, cmdFile, options, options);
+			
+		this.exps.put(ctx,cmd); 
+	}
 	
-	@Override public void exitCommandExp_ExportJdbcQuery(AqlParser.CommandExp_ExportJdbcQueryContext ctx) { }
+	@Override public void exitCommandExp_ExportJdbcInstance(AqlParser.CommandExp_ExportJdbcInstanceContext ctx) {
+		final TransformRefContext transRef = ctx.transformRef();
+		final CommandJdbcClassContext cmdClassNode = ctx.commandJdbcClass();
+		final CommandJdbcUriContext cmdUriNode = ctx.commandJdbcUri();
+		final CommandPrefixDstContext cmdPreNode = ctx.commandPrefixDst();
+		final CommandExportJdbcSectionContext sect = ctx.commandExportJdbcSection();
+		
+		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>) 
+			this.exps.get(transRef); 
+
+		final String cmdClass = (cmdClassNode == null) ? null : cmdClassNode.getText();
+		final String cmdUri = (cmdUriNode == null) ? null : cmdUriNode.getText();
+		final String cmdPre = (cmdPreNode == null) ? null : cmdPreNode.getText();
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExp.PragmaExpToJdbcTrans<Gen, Sk, Gen, Sk, X, Y, X, Y>
+		cmd = new PragmaExp.PragmaExpToJdbcTrans<>(transExp, cmdClass, cmdUri, cmdPre, 
+				options, options);
+			
+		this.exps.put(ctx,cmd); 
+	}
 	
-	@Override public void exitCommandExp_ExportJdbcTransform(AqlParser.CommandExp_ExportJdbcTransformContext ctx) { }
+	@Override public void exitCommandExp_ExportJdbcQuery(AqlParser.CommandExp_ExportJdbcQueryContext ctx) {
+		final QueryRefContext queryRef = ctx.queryRef();
+		final CommandJdbcClassContext cmdClassNode = ctx.commandJdbcClass();
+		final CommandJdbcUriContext cmdUriNode = ctx.commandJdbcUri();
+		final CommandPrefixSrcContext cmdPreSrcNode = ctx.commandPrefixSrc();
+		final CommandPrefixDstContext cmdPreDstNode = ctx.commandPrefixDst();
+		final CommandExportJdbcSectionContext sect = ctx.commandExportJdbcSection();
+		
+		@SuppressWarnings("unchecked")
+		final QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> 
+		queryExp = (QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att>) 
+			this.exps.get(queryRef); 
+
+		final String cmdClass = (cmdClassNode == null) ? null : cmdClassNode.getText();
+		final String cmdUri = (cmdUriNode == null) ? null : cmdUriNode.getText();
+		final String cmdPreSrc = (cmdPreSrcNode == null) ? null : cmdPreSrcNode.getText();
+		final String cmdPreDst = (cmdPreDstNode == null) ? null : cmdPreDstNode.getText();
+		
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(sect)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExp.PragmaExpToJdbcQuery<Ty, En, Sym, Fk, Att, En, Fk, Att>
+		cmd = new PragmaExp.PragmaExpToJdbcQuery<>(
+				queryExp, cmdClass, cmdUri, 
+				cmdPreSrc, cmdPreDst, options);
+		
+		this.exps.put(ctx,cmd); 
+	}
 	
-	@Override public void exitCommandExp_AddToClasspath(AqlParser.CommandExp_AddToClasspathContext ctx) { }
+	@Override public void exitCommandExp_ExportJdbcTransform(AqlParser.CommandExp_ExportJdbcTransformContext ctx) {
+		final TransformRefContext transRef = ctx.transformRef();
+		final CommandJdbcClassContext cmdClassNode = ctx.commandJdbcClass();
+		final CommandJdbcUriContext cmdUriNode = ctx.commandJdbcUri();
+		final CommandPrefixContext cmdPreNode = ctx.commandPrefix();
+		final List<CommandExportJdbcSectionContext> sect = ctx.commandExportJdbcSection();
+		
+		@SuppressWarnings("unchecked")
+		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		transExp = (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>) 
+			this.exps.get(transRef); 
+
+		final String cmdClass = (cmdClassNode == null) ? null : cmdClassNode.getText();
+		final String cmdUri = (cmdUriNode == null) ? null : cmdUriNode.getText();
+		final String cmdPre = (cmdPreNode == null) ? null : cmdPreNode.getText();
+
+		final List<Pair<String,String>>
+		options0 = Optional.ofNullable(sect.get(0))
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+
+		final List<Pair<String,String>>
+		options1 = Optional.ofNullable(sect.get(1))
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final PragmaExp.PragmaExpToJdbcTrans<Gen, Sk, Gen, Sk, X, Y, X, Y>
+		cmd = new PragmaExpToJdbcTrans<Gen, Sk, Gen, Sk, X, Y, X, Y>(transExp, cmdClass, cmdUri, cmdPre, 
+				options0, options1);
+		
+		this.exps.put(ctx,cmd); }
+	
+	@Override public void exitCommandExp_AddToClasspath(AqlParser.CommandExp_AddToClasspathContext ctx) {
+		final CommandAddClasspathSectionContext sect = ctx.commandAddClasspathSection();
+		
+		final List<String> 
+		jarfiles = (sect == null) ? null
+				: sect.STRING().stream().map(x -> x.getText())
+				.collect(Collectors.toList());
+		
+		final PragmaExp.PragmaExpLoadJars
+		cmd = new PragmaExp.PragmaExpLoadJars(jarfiles);
+		
+		this.exps.put(ctx,cmd); }
 
 
 	/***************************************************
@@ -2203,10 +2519,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,this.exps.get(ctx.schemaColimitExp()));
 	}
 	
-	@SuppressWarnings("rawtypes")
 	@Override 
 	public void exitSchemaColimitKind_Ref(AqlParser.SchemaColimitKind_RefContext ctx) {
-		this.exps.put(ctx, new ColimSchExp.ColimSchExpVar(ctx.schemaColimitRef().getText()));
+		this.exps.put(ctx,this.exps.get(ctx.schemaColimitRef()));
+	}
+	
+	@Override 
+	public void exitSchemaColimitRef(AqlParser.SchemaColimitRefContext ctx) {
+		this.exps.put(ctx, new ColimSchExp.ColimSchExpVar<>(ctx.getText()));
 	}
 	
 	@Override public void exitSchemaColimitExp_Quotient(AqlParser.SchemaColimitExp_QuotientContext ctx) { }

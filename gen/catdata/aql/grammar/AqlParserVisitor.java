@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/b61/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/eub/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1982,6 +1982,20 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommandExp_Check(AqlParser.CommandExp_CheckContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code CommandExp_LoadJars}
+	 * labeled alternative in {@link AqlParser#commandExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandExp_LoadJars(AqlParser.CommandExp_LoadJarsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CommandExp_Match}
+	 * labeled alternative in {@link AqlParser#commandExp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandExp_Match(AqlParser.CommandExp_MatchContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code CommandExp_AssertConsistent}
 	 * labeled alternative in {@link AqlParser#commandExp}.
 	 * @param ctx the parse tree
@@ -2069,6 +2083,18 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCommandExecJdbcSection(AqlParser.CommandExecJdbcSectionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#commandLoadJarsSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandLoadJarsSection(AqlParser.CommandLoadJarsSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#commandMatchSection}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandMatchSection(AqlParser.CommandMatchSectionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#commandExportCsvSection}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -2116,6 +2142,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCommandPrefixDst(AqlParser.CommandPrefixDstContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#commandMatchWhich}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCommandMatchWhich(AqlParser.CommandMatchWhichContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaColimitId}.
 	 * @param ctx the parse tree

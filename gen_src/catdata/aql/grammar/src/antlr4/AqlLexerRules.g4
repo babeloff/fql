@@ -223,6 +223,8 @@ COMMAND : 'command' ;
 EXEC_CMDLINE : 'exec_cmdline' ;
 EXEC_JS : 'exec_js' ;
 EXEC_JDBC : 'exec_jdbc' ;
+LOAD_JARS : 'load_jars' ;
+MATCH : 'match' ;
 CHECK : 'check' ;
 ASSERT_CONSISTENT : 'assert_consistent' ;
 EXPORT_CSV_INSTANCE : 'export_csv_instance' ;
