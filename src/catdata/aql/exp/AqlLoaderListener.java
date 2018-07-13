@@ -2066,7 +2066,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				final String schemaEntityId = x.schemaEntityId().getText();
 				return x.constraintGen().stream()
 					.map(y ->
-						new Pair<LocStr, String>(makeLocStr(x), schemaEntityId))
+						new Pair<LocStr, String>(makeLocStr(y), schemaEntityId))
 					.collect(Collectors.toList());
 			})
 			.flatMap(s -> s.stream())
@@ -2078,7 +2078,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				final String schemaEntityId = x.schemaEntityId().getText();
 				return x.constraintGen().stream()
 					.map(y ->
-						new Pair<LocStr, String>(makeLocStr(x), schemaEntityId))
+						new Pair<LocStr, String>(makeLocStr(y), schemaEntityId))
 					.collect(Collectors.toList());
 			})
 			.flatMap(s -> s.stream())
