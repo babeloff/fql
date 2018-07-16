@@ -93,7 +93,7 @@ schema S = literal : Ty {
 		manager   : Employee -> Employee
 		worksIn   : Employee -> Department
 		secretary : Department -> Employee
-	path_equations 
+	path_equations
 		manager.worksIn = worksIn
   		secretary.worksIn = Department
   	attributes

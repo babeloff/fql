@@ -511,7 +511,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 	public SchExpRaw(TyExp<Ty, Sym> typeSide, List<String> imports, List<String> ens,
 			List<Pair<String, Pair<String, String>>> fks, List<Pair<List<String>, List<String>>> list,
 			List<Pair<String, Pair<String, Ty>>> atts, List<Quad<String, String, RawTerm, RawTerm>> list2,
-			List<Pair<String, String>> options, @SuppressWarnings("unused") Object o) {
+			List<Pair<String, String>> options, Object o) {
 		this.typeSide = typeSide;
 		this.imports = new HashSet<>(imports);
 		this.ens = new HashSet<>(ens);

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.sun.tools.sjavac.Log;
+
 import catdata.Chc;
 import catdata.Ctx;
 import catdata.Pair;
@@ -33,7 +35,7 @@ public final class RawTerm {
 
 	@Override
 	public String toString() {
-		String str = (annotation == null ? "" : "@" + annotation);
+		final String str = (annotation == null ? "" : "@" + annotation);
 		if (args.isEmpty()) {
 			return head + str;
 		}
@@ -43,17 +45,33 @@ public final class RawTerm {
 		return head + "(" + Util.sep(args, ", ") + ")";
 	}
 	
-	public List<String> unpack() {
-		final LinkedList<String> 
-		ls = new LinkedList<>(
-				this.args.stream()
-				.map(x -> x.unpack())
-				.flatMap(x -> x.stream())
-				.collect(Collectors.toList()));
-		ls.addFirst(this.head);
+	/**
+	 * Decend the RawTerms tree so long as args are singular.
+	 * @return
+	 */
+	public List<String> forwardPack() {
+		final LinkedList<String> ls = new LinkedList<>();
+		for(RawTerm ix=this; ; ix = ix.args.get(0)) {
+			ls.addFirst(ix.head);
+			if (ix.args.size() < 1) break;
+			if (ix.args.size() > 1) {
+				//log.warn("forward packing should only be on singular args");
+			}
+		}
 		return ls;
 	}
-
+	
+	public List<String> backwardPack() {
+		final LinkedList<String> ls = new LinkedList<>();
+		for(RawTerm ix=this; ix.args.size() > 0; ix = ix.args.get(0)) {
+			ls.addLast(ix.head);
+			if (ix.args.size() > 1) {
+				//log.warn("backward packing should only be on singular args");
+			}
+		}
+		return ls;
+	}
+	
 	private static Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> infer_good(
 			RawTerm e, Chc<Ty, En> expected, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js,
 			Map<Var, Chc<Ty, En>> vars) {

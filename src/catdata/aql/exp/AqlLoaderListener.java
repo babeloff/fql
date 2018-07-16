@@ -607,8 +607,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 					new Pair<>(
 						getLoc(eq), 
 						new Pair<>( 
-								this.terms.get(eq.schemaPath(0)).unpack(),  
-								this.terms.get(eq.schemaPath(1)).unpack()))) 
+								this.terms.get(eq.schemaPath(0)).forwardPack(),  
+								this.terms.get(eq.schemaPath(1)).forwardPack()))) 
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Pair<String, String>>>
@@ -868,7 +868,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(fk -> 
 					new Pair<>(
 							makeLocStr(fk.schemaForeignId()),
-							this.terms.get(fk.schemaPath()).unpack()))
+							this.terms.get(fk.schemaPath()).forwardPack()))
 				.collect(Collectors.toList());
 
 		final List<Pair<LocStr, // old attr name/loc
