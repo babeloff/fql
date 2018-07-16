@@ -305,17 +305,7 @@
          [:atom [:ruleref "typesideConstantId"]]
          [:ebnfSuffix "+"]]
         [:element [:atom [:terminal "COLON"]]]
-        [:element [:atom [:ruleref "typesideConstantValue"]]]]]]]
-    ";"
-    "exceptionGroup"]]
-  [:ruleSpec
-   [:parserRuleSpec
-    "typesideConstantValue"
-    ":"
-    [:ruleBlock
-     [:ruleAltList
-      [:labeledAlt
-       [:alternative [:element [:atom [:ruleref "symbol"]]]]]]]
+        [:element [:atom [:ruleref "typesideTypeId"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -338,22 +328,19 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative
-        [:element
-         [:ebnf
-          [:block
-           "("
-           [:altList
-            [:alternative [:element [:atom [:ruleref "truthy"]]]]
-            "|"
-            [:alternative [:element [:atom [:terminal "STRING"]]]]
-            "|"
-            [:alternative [:element [:atom [:terminal "INTEGER"]]]]
-            "|"
-            [:alternative [:element [:atom [:terminal "LOWER_ID"]]]]
-            "|"
-            [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]
-           ")"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "truthy"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "INTEGER"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "LOWER_ID"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec

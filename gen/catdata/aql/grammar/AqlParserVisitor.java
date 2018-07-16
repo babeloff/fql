@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/3uu/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fe3/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -460,12 +460,6 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTypesideConstantSig(AqlParser.TypesideConstantSigContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AqlParser#typesideConstantValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTypesideConstantValue(AqlParser.TypesideConstantValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#typesideJavaConstantSig}.
 	 * @param ctx the parse tree

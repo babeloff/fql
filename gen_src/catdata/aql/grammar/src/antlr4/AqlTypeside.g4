@@ -47,13 +47,19 @@ typesideTypeId : (TRUE | FALSE | symbol) ;
 typesideJavaType : STRING ;
 
 typesideConstantSig
-  : typesideConstantId+ COLON typesideConstantValue
+  : typesideConstantId+ COLON typesideTypeId
 ;
 
-typesideConstantValue : symbol ;
-
 typesideJavaConstantSig : typesideConstantId EQUAL typesideJavaConstantValue ;
-typesideConstantId : (truthy | STRING | INTEGER | LOWER_ID | UPPER_ID) ;
+
+typesideConstantId 
+: truthy 
+| STRING 
+| INTEGER 
+| LOWER_ID 
+| UPPER_ID
+;
+
 typesideJavaConstantValue : STRING ;
 
 typesideFunctionSig

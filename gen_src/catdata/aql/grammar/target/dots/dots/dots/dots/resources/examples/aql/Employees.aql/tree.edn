@@ -25,11 +25,11 @@
        [:typesideConstantId "Math"]
        [:typesideConstantId "CS"]
        ":"
-       [:typesideConstantValue [:symbol "string"]]]
+       [:typesideTypeId [:symbol "string"]]]
       [:typesideConstantSig
        [:typesideConstantId "zero"]
        ":"
-       [:typesideConstantValue [:symbol "nat"]]]
+       [:typesideTypeId [:symbol "nat"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "succ"]]

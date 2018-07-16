@@ -402,11 +402,11 @@
        [:typesideConstantId "d"]
        [:typesideConstantId "e"]
        ":"
-       [:typesideConstantValue [:symbol "String"]]]
+       [:typesideTypeId [:symbol "String"]]]
       [:typesideConstantSig
        [:typesideConstantId "none"]
        ":"
-       [:typesideConstantValue [:symbol "Option"]]]
+       [:typesideTypeId [:symbol "Option"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "some"]]

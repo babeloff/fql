@@ -67,7 +67,7 @@
       [:typesideConstantSig
        [:typesideConstantId "zero"]
        ":"
-       [:typesideConstantValue [:symbol "Nat"]]]
+       [:typesideTypeId [:symbol "Nat"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "succ"]]

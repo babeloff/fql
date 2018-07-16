@@ -19,7 +19,7 @@
        [:typesideConstantId "\"250\""]
        [:typesideConstantId "\"300\""]
        ":"
-       [:typesideConstantValue [:symbol "int"]]]
+       [:typesideTypeId [:symbol "int"]]]
       "java_types"
       [:typesideJavaTypeSig
        [:typesideTypeId [:symbol "string"]]

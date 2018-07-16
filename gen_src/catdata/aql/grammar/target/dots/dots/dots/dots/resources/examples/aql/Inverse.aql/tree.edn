@@ -16,7 +16,7 @@
       [:typesideConstantSig
        [:typesideConstantId "50"]
        ":"
-       [:typesideConstantValue [:symbol "Integer"]]]
+       [:typesideTypeId [:symbol "Integer"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "int_to_str"]]

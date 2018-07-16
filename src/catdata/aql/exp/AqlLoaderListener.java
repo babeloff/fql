@@ -327,10 +327,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							sig.graphSourceNodeId().getText(),
 							sig.graphTargetNodeId().getText());
 							
-					return new LinkedList<>(
-							sig.graphEdgeId().stream() 
+					return sig.graphEdgeId().stream() 
 							.map(elt -> new Pair<>(makeLocStr(elt), arrow))
-							.collect(Collectors.toList()));
+							.collect(Collectors.toList());
 				})
 				.flatMap(x -> x.stream())
 				.collect(Collectors.toList());
@@ -408,8 +407,24 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.collect(Collectors.toList());
 		
 		final List<LocStr> 
-		types = sect.typesideConstantSig().stream() 
-				.map(elt -> makeLocStr(elt)) 
+		types = sect.typesideTypeSig().stream() 
+				.map(typ -> makeLocStr(typ.typesideTypeId()))
+				.collect(Collectors.toList());
+		
+		final List<Pair<LocStr, Pair<List<String>, String>>>
+		consts = sect.typesideConstantSig().stream() 
+				.map(elt -> {
+					final Pair<List<String>,String> 
+					type = new Pair<>(
+							new LinkedList<>(),
+							elt.typesideTypeId().getText());
+
+					return elt.typesideConstantId().stream()
+							.map(id -> new Pair<LocStr, Pair<List<String>, String>>( 
+									makeLocStr(id),	type))
+							.collect(Collectors.toList());
+				})
+				.flatMap(s -> s.stream())
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, Pair<List<String>, String>>>
@@ -469,6 +484,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							elt.typesideFnTarget().getText(), 
 							unquote(elt.typesideJavaStatement().getText()))))
 				.collect(Collectors.toList());
+		
+		functions.addAll(consts);
 		
 		final TyExpRaw typeside = 
 			new TyExpRaw(imports, types, functions, eqns,
@@ -593,10 +610,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							fk.schemaEntityId(0).getText(),
 							fk.schemaEntityId(1).getText());
 					
-					return new LinkedList<>(
-							fk.schemaForeignId().stream()
+					return fk.schemaForeignId().stream()
 								.map(fkid -> new Pair<>(makeLocStr(fkid), arrow))
-								.collect(Collectors.toList()));
+								.collect(Collectors.toList());
 				})
 				.flatMap(x -> x.stream())
 				.collect(Collectors.toList());
@@ -619,10 +635,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							att.schemaEntityId().getText(),
 							att.typesideTypeId().getText());
 					
-					return new LinkedList<>(
-							att.schemaAttributeId().stream()
+					return att.schemaAttributeId().stream()
 								.map(attid -> new Pair<>(makeLocStr(attid), arrow))
-								.collect(Collectors.toList()));
+								.collect(Collectors.toList());
 				})
 				.flatMap(x -> x.stream())
 				.collect(Collectors.toList());

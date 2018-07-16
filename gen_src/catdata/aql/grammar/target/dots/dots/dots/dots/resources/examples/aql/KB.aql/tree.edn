@@ -17,7 +17,7 @@
        [:typesideConstantId "one"]
        [:typesideConstantId "two"]
        ":"
-       [:typesideConstantValue [:symbol "nat"]]]
+       [:typesideTypeId [:symbol "nat"]]]
       "equations"
       [:typesideEquationSig
        "forall"
@@ -49,7 +49,7 @@
       [:typesideConstantSig
        [:typesideConstantId "e"]
        ":"
-       [:typesideConstantValue [:symbol "S"]]]
+       [:typesideTypeId [:symbol "S"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "I"]]
@@ -145,7 +145,7 @@
       [:typesideConstantSig
        [:typesideConstantId "e"]
        ":"
-       [:typesideConstantValue [:symbol "S"]]]
+       [:typesideTypeId [:symbol "S"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "I"]]
@@ -245,7 +245,7 @@
       [:typesideConstantSig
        [:typesideConstantId "e"]
        ":"
-       [:typesideConstantValue [:symbol "S"]]]
+       [:typesideTypeId [:symbol "S"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "I"]]
@@ -347,7 +347,7 @@
       [:typesideConstantSig
        [:typesideConstantId "zero"]
        ":"
-       [:typesideConstantValue [:symbol "N"]]]
+       [:typesideTypeId [:symbol "N"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "succ"]]
@@ -481,7 +481,7 @@
        [:typesideConstantId "c"]
        [:typesideConstantId "d"]
        ":"
-       [:typesideConstantValue [:symbol "S"]]]
+       [:typesideTypeId [:symbol "S"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "o"]]
@@ -587,7 +587,7 @@
       [:typesideConstantSig
        [:typesideConstantId "e"]
        ":"
-       [:typesideConstantValue [:symbol "S"]]]
+       [:typesideTypeId [:symbol "S"]]]
       "functions"
       [:typesideFunctionSig
        [:typesideFnName [:symbol "n"]]

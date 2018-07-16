@@ -21,7 +21,7 @@
        [:typesideConstantId "dolphin"]
        [:typesideConstantId "fish"]
        ":"
-       [:typesideConstantValue [:symbol "String"]]]
+       [:typesideTypeId [:symbol "String"]]]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/3uu/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fe3/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -763,16 +763,6 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypesideConstantSig(AqlParser.TypesideConstantSigContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AqlParser#typesideConstantValue}.
-	 * @param ctx the parse tree
-	 */
-	void enterTypesideConstantValue(AqlParser.TypesideConstantValueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AqlParser#typesideConstantValue}.
-	 * @param ctx the parse tree
-	 */
-	void exitTypesideConstantValue(AqlParser.TypesideConstantValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideJavaConstantSig}.
 	 * @param ctx the parse tree
