@@ -904,7 +904,7 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "e"]]
+       [:instanceGenId [:symbol "e"]]
        ":"
        [:schemaEntityId [:symbol "Employee"]]]
       "equations"

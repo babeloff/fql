@@ -1635,7 +1635,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		gens = sect.instanceLiteralGen().stream() 
 				.map(x -> {
 					final String schemaId = x.schemaEntityId().getText();
-					return x.instanceGen().stream()
+					return x.instanceGenId().stream()
 							.map(y -> new Pair<>(
 									makeLocStr(y), 
 									schemaId))

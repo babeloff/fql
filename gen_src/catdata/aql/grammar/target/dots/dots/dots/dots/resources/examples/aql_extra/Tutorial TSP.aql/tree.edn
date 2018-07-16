@@ -214,16 +214,16 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "s0"]]
-       [:instanceGen [:symbol "s1"]]
-       [:instanceGen [:symbol "s2"]]
-       [:instanceGen [:symbol "s3"]]
-       [:instanceGen [:symbol "s4"]]
-       [:instanceGen [:symbol "s5"]]
-       [:instanceGen [:symbol "s6"]]
-       [:instanceGen [:symbol "s7"]]
-       [:instanceGen [:symbol "s8"]]
-       [:instanceGen [:symbol "s9"]]
+       [:instanceGenId [:symbol "s0"]]
+       [:instanceGenId [:symbol "s1"]]
+       [:instanceGenId [:symbol "s2"]]
+       [:instanceGenId [:symbol "s3"]]
+       [:instanceGenId [:symbol "s4"]]
+       [:instanceGenId [:symbol "s5"]]
+       [:instanceGenId [:symbol "s6"]]
+       [:instanceGenId [:symbol "s7"]]
+       [:instanceGenId [:symbol "s8"]]
+       [:instanceGenId [:symbol "s9"]]
        ":"
        [:schemaEntityId [:symbol "Skill"]]]
       "multi_equations"
@@ -326,16 +326,16 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "t1"]]
-       [:instanceGen [:symbol "t2"]]
-       [:instanceGen [:symbol "t3"]]
-       [:instanceGen [:symbol "t4"]]
-       [:instanceGen [:symbol "t5"]]
-       [:instanceGen [:symbol "t6"]]
-       [:instanceGen [:symbol "t7"]]
-       [:instanceGen [:symbol "t8"]]
-       [:instanceGen [:symbol "t9"]]
-       [:instanceGen [:symbol "t10"]]
+       [:instanceGenId [:symbol "t1"]]
+       [:instanceGenId [:symbol "t2"]]
+       [:instanceGenId [:symbol "t3"]]
+       [:instanceGenId [:symbol "t4"]]
+       [:instanceGenId [:symbol "t5"]]
+       [:instanceGenId [:symbol "t6"]]
+       [:instanceGenId [:symbol "t7"]]
+       [:instanceGenId [:symbol "t8"]]
+       [:instanceGenId [:symbol "t9"]]
+       [:instanceGenId [:symbol "t10"]]
        ":"
        [:schemaEntityId [:symbol "Task"]]]
       "multi_equations"
@@ -440,30 +440,30 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "st1"]]
-       [:instanceGen [:symbol "st2"]]
-       [:instanceGen [:symbol "st3"]]
-       [:instanceGen [:symbol "st4"]]
-       [:instanceGen [:symbol "st5"]]
-       [:instanceGen [:symbol "st6"]]
-       [:instanceGen [:symbol "st7"]]
-       [:instanceGen [:symbol "st8"]]
-       [:instanceGen [:symbol "st9"]]
-       [:instanceGen [:symbol "st10"]]
-       [:instanceGen [:symbol "st11"]]
-       [:instanceGen [:symbol "st12"]]
-       [:instanceGen [:symbol "st13"]]
-       [:instanceGen [:symbol "st14"]]
-       [:instanceGen [:symbol "st15"]]
-       [:instanceGen [:symbol "st16"]]
-       [:instanceGen [:symbol "st17"]]
-       [:instanceGen [:symbol "st18"]]
-       [:instanceGen [:symbol "st19"]]
-       [:instanceGen [:symbol "st20"]]
-       [:instanceGen [:symbol "st21"]]
-       [:instanceGen [:symbol "st22"]]
-       [:instanceGen [:symbol "st23"]]
-       [:instanceGen [:symbol "st24"]]
+       [:instanceGenId [:symbol "st1"]]
+       [:instanceGenId [:symbol "st2"]]
+       [:instanceGenId [:symbol "st3"]]
+       [:instanceGenId [:symbol "st4"]]
+       [:instanceGenId [:symbol "st5"]]
+       [:instanceGenId [:symbol "st6"]]
+       [:instanceGenId [:symbol "st7"]]
+       [:instanceGenId [:symbol "st8"]]
+       [:instanceGenId [:symbol "st9"]]
+       [:instanceGenId [:symbol "st10"]]
+       [:instanceGenId [:symbol "st11"]]
+       [:instanceGenId [:symbol "st12"]]
+       [:instanceGenId [:symbol "st13"]]
+       [:instanceGenId [:symbol "st14"]]
+       [:instanceGenId [:symbol "st15"]]
+       [:instanceGenId [:symbol "st16"]]
+       [:instanceGenId [:symbol "st17"]]
+       [:instanceGenId [:symbol "st18"]]
+       [:instanceGenId [:symbol "st19"]]
+       [:instanceGenId [:symbol "st20"]]
+       [:instanceGenId [:symbol "st21"]]
+       [:instanceGenId [:symbol "st22"]]
+       [:instanceGenId [:symbol "st23"]]
+       [:instanceGenId [:symbol "st24"]]
        ":"
        [:schemaEntityId [:symbol "SkillNeededForTask"]]]
       "multi_equations"
@@ -986,9 +986,9 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "sc0"]]
-       [:instanceGen [:symbol "sc1"]]
-       [:instanceGen [:symbol "sc2"]]
+       [:instanceGenId [:symbol "sc0"]]
+       [:instanceGenId [:symbol "sc1"]]
+       [:instanceGenId [:symbol "sc2"]]
        ":"
        [:schemaEntityId [:symbol "SkillClass"]]]
       "equations"
@@ -1111,9 +1111,9 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "scLnk0"]]
-       [:instanceGen [:symbol "scLnk1"]]
-       [:instanceGen [:symbol "scLnk2"]]
+       [:instanceGenId [:symbol "scLnk0"]]
+       [:instanceGenId [:symbol "scLnk1"]]
+       [:instanceGenId [:symbol "scLnk2"]]
        ":"
        [:schemaEntityId [:symbol "SkillClass"]]]
       "allOptions"]
@@ -2672,11 +2672,13 @@
      [:instanceKind [:instanceRef [:symbol "iST_SP_Sum"]]]
      "{"
      [:instanceQuotientJdbcSection
-      [:schemaEntityId [:symbol "SpecificSkill"]]
+      [:instanceQuotientJdbcName
+       [:schemaEntityId [:symbol "SpecificSkill"]]]
       "->"
       [:instanceSql
        "\"select\n   ps_id as sp_id,\n   ts_id as st_id\nfrom\n   SkillMatch\""]
-      [:schemaEntityId [:symbol "SkillClass"]]
+      [:instanceQuotientJdbcName
+       [:schemaEntityId [:symbol "SkillClass"]]]
       "->"
       [:instanceSql
        "\"select\n   psc_id as sp_id,\n   tsc_id as st_id\nfrom\n   SkillClassMatch\""]

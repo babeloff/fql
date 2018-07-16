@@ -131,19 +131,19 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "b1"]]
-       [:instanceGen [:symbol "b2"]]
+       [:instanceGenId [:symbol "b1"]]
+       [:instanceGenId [:symbol "b2"]]
        ":"
        [:schemaEntityId [:symbol "B"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "c1"]]
-       [:instanceGen [:symbol "c2"]]
+       [:instanceGenId [:symbol "c1"]]
+       [:instanceGenId [:symbol "c2"]]
        ":"
        [:schemaEntityId [:symbol "C"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "d1"]]
-       [:instanceGen [:symbol "d2"]]
-       [:instanceGen [:symbol "d3"]]
+       [:instanceGenId [:symbol "d1"]]
+       [:instanceGenId [:symbol "d2"]]
+       [:instanceGenId [:symbol "d3"]]
        ":"
        [:schemaEntityId [:symbol "D"]]]
       "equations"

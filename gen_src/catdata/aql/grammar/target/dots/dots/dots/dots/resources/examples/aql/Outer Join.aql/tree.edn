@@ -256,13 +256,13 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "a1"]]
-       [:instanceGen [:symbol "a2"]]
+       [:instanceGenId [:symbol "a1"]]
+       [:instanceGenId [:symbol "a2"]]
        ":"
        [:schemaEntityId [:symbol "A"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "b2"]]
-       [:instanceGen [:symbol "b3"]]
+       [:instanceGenId [:symbol "b2"]]
+       [:instanceGenId [:symbol "b3"]]
        ":"
        [:schemaEntityId [:symbol "B"]]]
       "equations"
@@ -415,19 +415,19 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "l1"]]
-       [:instanceGen [:symbol "l2"]]
-       [:instanceGen [:symbol "l3"]]
-       [:instanceGen [:symbol "l4"]]
+       [:instanceGenId [:symbol "l1"]]
+       [:instanceGenId [:symbol "l2"]]
+       [:instanceGenId [:symbol "l3"]]
+       [:instanceGenId [:symbol "l4"]]
        ":"
        [:schemaEntityId [:symbol "Left"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "r1"]]
-       [:instanceGen [:symbol "r2"]]
+       [:instanceGenId [:symbol "r1"]]
+       [:instanceGenId [:symbol "r2"]]
        ":"
        [:schemaEntityId [:symbol "Right"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "m1"]]
+       [:instanceGenId [:symbol "m1"]]
        ":"
        [:schemaEntityId [:symbol "Middle"]]]
       "equations"

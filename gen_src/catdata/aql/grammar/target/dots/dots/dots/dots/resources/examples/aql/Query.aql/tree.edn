@@ -271,17 +271,17 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "a"]]
-       [:instanceGen [:symbol "d"]]
-       [:instanceGen [:symbol "e"]]
-       [:instanceGen [:symbol "g"]]
+       [:instanceGenId [:symbol "a"]]
+       [:instanceGenId [:symbol "d"]]
+       [:instanceGenId [:symbol "e"]]
+       [:instanceGenId [:symbol "g"]]
        ":"
        [:schemaEntityId [:symbol "Woman"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "b"]]
-       [:instanceGen [:symbol "c"]]
-       [:instanceGen [:symbol "f"]]
-       [:instanceGen [:symbol "h"]]
+       [:instanceGenId [:symbol "b"]]
+       [:instanceGenId [:symbol "c"]]
+       [:instanceGenId [:symbol "f"]]
+       [:instanceGenId [:symbol "h"]]
        ":"
        [:schemaEntityId [:symbol "Man"]]]
       "multi_equations"
@@ -465,15 +465,15 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "a0"]]
-       [:instanceGen [:symbol "d0"]]
-       [:instanceGen [:symbol "e0"]]
+       [:instanceGenId [:symbol "a0"]]
+       [:instanceGenId [:symbol "d0"]]
+       [:instanceGenId [:symbol "e0"]]
        ":"
        [:schemaEntityId [:symbol "Woman"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "b0"]]
-       [:instanceGen [:symbol "c0"]]
-       [:instanceGen [:symbol "f0"]]
+       [:instanceGenId [:symbol "b0"]]
+       [:instanceGenId [:symbol "c0"]]
+       [:instanceGenId [:symbol "f0"]]
        ":"
        [:schemaEntityId [:symbol "Man"]]]
       "multi_equations"

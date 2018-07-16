@@ -70,14 +70,14 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Al"]]
-       [:instanceGen [:symbol "Bob"]]
-       [:instanceGen [:symbol "Charlie"]]
+       [:instanceGenId [:symbol "Al"]]
+       [:instanceGenId [:symbol "Bob"]]
+       [:instanceGenId [:symbol "Charlie"]]
        ":"
        [:schemaEntityId [:symbol "Male"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Ellie"]]
-       [:instanceGen [:symbol "Fran"]]
+       [:instanceGenId [:symbol "Ellie"]]
+       [:instanceGenId [:symbol "Fran"]]
        ":"
        [:schemaEntityId [:symbol "Female"]]]
       "equations"

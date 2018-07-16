@@ -219,20 +219,20 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Gauss"]]
-       [:instanceGen [:symbol "Church"]]
-       [:instanceGen [:symbol "Euler"]]
+       [:instanceGenId [:symbol "Gauss"]]
+       [:instanceGenId [:symbol "Church"]]
+       [:instanceGenId [:symbol "Euler"]]
        ":"
        [:schemaEntityId [:symbol "Professor"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Riemann"]]
-       [:instanceGen [:symbol "Turing"]]
-       [:instanceGen [:symbol "Kleene"]]
+       [:instanceGenId [:symbol "Riemann"]]
+       [:instanceGenId [:symbol "Turing"]]
+       [:instanceGenId [:symbol "Kleene"]]
        ":"
        [:schemaEntityId [:symbol "Student"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "math"]]
-       [:instanceGen [:symbol "cs"]]
+       [:instanceGenId [:symbol "math"]]
+       [:instanceGenId [:symbol "cs"]]
        ":"
        [:schemaEntityId [:symbol "Department"]]]
       "multi_equations"

@@ -123,14 +123,14 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:instanceLiteralValue "101"]]
-       [:instanceGen [:instanceLiteralValue "102"]]
-       [:instanceGen [:instanceLiteralValue "103"]]
+       [:instanceGenId [:instanceLiteralValue "101"]]
+       [:instanceGenId [:instanceLiteralValue "102"]]
+       [:instanceGenId [:instanceLiteralValue "103"]]
        ":"
        [:schemaEntityId [:symbol "Employee"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "q10"]]
-       [:instanceGen [:symbol "x02"]]
+       [:instanceGenId [:symbol "q10"]]
+       [:instanceGenId [:symbol "x02"]]
        ":"
        [:schemaEntityId [:symbol "Department"]]]
       "equations"
@@ -138,7 +138,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "manager"]]]
         "("
-        [:instancePath [:instanceLiteralValue "101"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "101"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -147,7 +149,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "worksIn"]]]
         "("
-        [:instancePath [:instanceLiteralValue "101"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "101"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -157,7 +161,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "first"]]]
         "("
-        [:instancePath [:instanceLiteralValue "101"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "101"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -167,7 +173,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "last"]]]
         "("
-        [:instancePath [:instanceLiteralValue "101"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "101"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -177,7 +185,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "manager"]]]
         "("
-        [:instancePath [:instanceLiteralValue "102"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "102"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -186,7 +196,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "worksIn"]]]
         "("
-        [:instancePath [:instanceLiteralValue "102"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "102"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -196,7 +208,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "first"]]]
         "("
-        [:instancePath [:instanceLiteralValue "102"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "102"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -206,7 +220,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "last"]]]
         "("
-        [:instancePath [:instanceLiteralValue "102"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "102"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -216,7 +232,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "manager"]]]
         "("
-        [:instancePath [:instanceLiteralValue "103"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "103"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -225,7 +243,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "worksIn"]]]
         "("
-        [:instancePath [:instanceLiteralValue "103"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "103"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -235,7 +255,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "first"]]]
         "("
-        [:instancePath [:instanceLiteralValue "103"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "103"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -245,7 +267,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "last"]]]
         "("
-        [:instancePath [:instanceLiteralValue "103"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "103"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -436,15 +460,15 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:instanceLiteralValue "1"]]
-       [:instanceGen [:instanceLiteralValue "2"]]
-       [:instanceGen [:instanceLiteralValue "3"]]
+       [:instanceGenId [:instanceLiteralValue "1"]]
+       [:instanceGenId [:instanceLiteralValue "2"]]
+       [:instanceGenId [:instanceLiteralValue "3"]]
        ":"
        [:schemaEntityId [:symbol "N1"]]]
       [:instanceLiteralGen
-       [:instanceGen [:instanceLiteralValue "4"]]
-       [:instanceGen [:instanceLiteralValue "5"]]
-       [:instanceGen [:instanceLiteralValue "6"]]
+       [:instanceGenId [:instanceLiteralValue "4"]]
+       [:instanceGenId [:instanceLiteralValue "5"]]
+       [:instanceGenId [:instanceLiteralValue "6"]]
        ":"
        [:schemaEntityId [:symbol "N2"]]]
       "equations"
@@ -452,7 +476,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "name"]]]
         "("
-        [:instancePath [:instanceLiteralValue "1"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "1"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -462,7 +488,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "salary"]]]
         "("
-        [:instancePath [:instanceLiteralValue "1"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "1"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -471,7 +499,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "name"]]]
         "("
-        [:instancePath [:instanceLiteralValue "2"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "2"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -481,7 +511,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "salary"]]]
         "("
-        [:instancePath [:instanceLiteralValue "2"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "2"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -490,7 +522,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "name"]]]
         "("
-        [:instancePath [:instanceLiteralValue "3"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "3"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -500,7 +534,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "salary"]]]
         "("
-        [:instancePath [:instanceLiteralValue "3"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "3"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -509,7 +545,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "age"]]]
         "("
-        [:instancePath [:instanceLiteralValue "4"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "4"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -518,7 +556,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "age"]]]
         "("
-        [:instancePath [:instanceLiteralValue "5"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "5"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -527,7 +567,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "age"]]]
         "("
-        [:instancePath [:instanceLiteralValue "6"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "6"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -536,7 +578,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "f"]]]
         "("
-        [:instancePath [:instanceLiteralValue "1"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "1"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -545,7 +589,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "f"]]]
         "("
-        [:instancePath [:instanceLiteralValue "2"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "2"]]]]
         ")"]
        "="
        [:instanceEquationValue
@@ -554,7 +600,9 @@
        [:instancePath
         [:instanceArrowId [:schemaEntityId [:symbol "f"]]]
         "("
-        [:instancePath [:instanceLiteralValue "3"]]
+        [:instancePath
+         [:instanceArrowId
+          [:instanceGenId [:instanceLiteralValue "3"]]]]
         ")"]
        "="
        [:instanceEquationValue

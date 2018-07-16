@@ -132,7 +132,7 @@ instanceLiteralSection
     allOptions
   ;
   
-instanceLiteralGen : instanceGen+ COLON schemaEntityId ;
+instanceLiteralGen : instanceGenId+ COLON schemaEntityId ;
 
 instanceImportJdbcSection
   : ((schemaEntityId | schemaAttributeId | schemaForeignId | typesideTypeId)
@@ -148,10 +148,10 @@ instanceSql : STRING | MULTI_STRING ;
 instanceQuotientCsvSection : instanceFile+ ;
 instanceFile : STRING ;
 
-instanceGen
-  : symbol
-  | instanceLiteralValue
-  ;
+instanceGenId
+: symbol
+| instanceLiteralValue
+;
 
 instanceEquation : instancePath EQUAL instanceEquationValue ;
 
@@ -189,14 +189,23 @@ instancePath
   ;
 
 // identity arrows are indicated with entity-names.
-instanceArrowId : schemaEntityId | schemaForeignId;
+instanceArrowId 
+: schemaEntityId 
+| schemaForeignId
+| instanceGenId
+;
 
 instanceQuotientJdbcSection
-  : ((schemaEntityId | schemaAttributeId | schemaForeignId | typesideTypeId)
-      RARROW
-      instanceSql)+
+  : (instanceQuotientJdbcName RARROW instanceSql)+
     allOptions
   ;
+  
+instanceQuotientJdbcName 
+: schemaEntityId 
+| schemaAttributeId 
+| schemaForeignId 
+| typesideTypeId
+;
 
 instanceQuotientSection
   : EQUATIONS instanceQuotientEqn*

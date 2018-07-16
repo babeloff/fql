@@ -136,7 +136,7 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "g"]]
+       [:instanceGenId [:symbol "g"]]
        ":"
        [:schemaEntityId [:symbol "T_E"]]]
       "equations"

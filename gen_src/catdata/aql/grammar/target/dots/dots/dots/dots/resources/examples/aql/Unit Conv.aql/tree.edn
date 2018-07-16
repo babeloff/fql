@@ -137,8 +137,8 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "left"]]
-       [:instanceGen [:symbol "right"]]
+       [:instanceGenId [:symbol "left"]]
+       [:instanceGenId [:symbol "right"]]
        ":"
        [:schemaEntityId [:symbol "Wing"]]]
       "equations"

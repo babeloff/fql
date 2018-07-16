@@ -63,19 +63,19 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Ned"]]
-       [:instanceGen [:symbol "Maud"]]
-       [:instanceGen [:symbol "Rodd"]]
-       [:instanceGen [:symbol "Todd"]]
-       [:instanceGen [:symbol "MrBurns"]]
-       [:instanceGen [:symbol "Smithers"]]
+       [:instanceGenId [:symbol "Ned"]]
+       [:instanceGenId [:symbol "Maud"]]
+       [:instanceGenId [:symbol "Rodd"]]
+       [:instanceGenId [:symbol "Todd"]]
+       [:instanceGenId [:symbol "MrBurns"]]
+       [:instanceGenId [:symbol "Smithers"]]
        ":"
        [:schemaEntityId [:symbol "Person"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "l1"]]
-       [:instanceGen [:symbol "l2"]]
-       [:instanceGen [:symbol "l3"]]
-       [:instanceGen [:symbol "l4"]]
+       [:instanceGenId [:symbol "l1"]]
+       [:instanceGenId [:symbol "l2"]]
+       [:instanceGenId [:symbol "l3"]]
+       [:instanceGenId [:symbol "l4"]]
        ":"
        [:schemaEntityId [:symbol "Like"]]]
       "equations"

@@ -63,8 +63,9 @@ public final class RawTerm {
 	
 	public List<String> backwardPack() {
 		final LinkedList<String> ls = new LinkedList<>();
-		for(RawTerm ix=this; ix.args.size() > 0; ix = ix.args.get(0)) {
+		for(RawTerm ix=this; ; ix = ix.args.get(0)) {
 			ls.addLast(ix.head);
+			if (ix.args.size() < 1) break;
 			if (ix.args.size() > 1) {
 				//log.warn("backward packing should only be on singular args");
 			}

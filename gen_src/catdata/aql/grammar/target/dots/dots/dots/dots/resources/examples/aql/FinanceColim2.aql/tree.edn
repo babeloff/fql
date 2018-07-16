@@ -116,9 +116,9 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "cc1"]]
-       [:instanceGen [:symbol "cc2"]]
-       [:instanceGen [:symbol "cc3"]]
+       [:instanceGenId [:symbol "cc1"]]
+       [:instanceGenId [:symbol "cc2"]]
+       [:instanceGenId [:symbol "cc3"]]
        ":"
        [:schemaEntityId [:symbol "client"]]]
       "multi_equations"
@@ -344,15 +344,15 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ps1"]]
-       [:instanceGen [:symbol "ps2"]]
-       [:instanceGen [:symbol "ps3"]]
+       [:instanceGenId [:symbol "ps1"]]
+       [:instanceGenId [:symbol "ps2"]]
+       [:instanceGenId [:symbol "ps3"]]
        ":"
        [:schemaEntityId [:symbol "strategy"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "pp1"]]
-       [:instanceGen [:symbol "pp2"]]
-       [:instanceGen [:symbol "pp3"]]
+       [:instanceGenId [:symbol "pp1"]]
+       [:instanceGenId [:symbol "pp2"]]
+       [:instanceGenId [:symbol "pp3"]]
        ":"
        [:schemaEntityId [:symbol "portfolio"]]]
       "equations"
@@ -866,39 +866,39 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "rcty1"]]
-       [:instanceGen [:symbol "rcty2"]]
-       [:instanceGen [:symbol "rcty3"]]
-       [:instanceGen [:symbol "rcty4"]]
-       [:instanceGen [:symbol "rcty5"]]
-       [:instanceGen [:symbol "rcty6"]]
+       [:instanceGenId [:symbol "rcty1"]]
+       [:instanceGenId [:symbol "rcty2"]]
+       [:instanceGenId [:symbol "rcty3"]]
+       [:instanceGenId [:symbol "rcty4"]]
+       [:instanceGenId [:symbol "rcty5"]]
+       [:instanceGenId [:symbol "rcty6"]]
        ":"
        [:schemaEntityId [:symbol "country"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "rcur1"]]
-       [:instanceGen [:symbol "rcur2"]]
-       [:instanceGen [:symbol "rcur3"]]
+       [:instanceGenId [:symbol "rcur1"]]
+       [:instanceGenId [:symbol "rcur2"]]
+       [:instanceGenId [:symbol "rcur3"]]
        ":"
        [:schemaEntityId [:symbol "currency"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ra1"]]
-       [:instanceGen [:symbol "ra2"]]
-       [:instanceGen [:symbol "ra3"]]
-       [:instanceGen [:symbol "ra4"]]
-       [:instanceGen [:symbol "ra5"]]
-       [:instanceGen [:symbol "ra6"]]
-       [:instanceGen [:symbol "ra7"]]
-       [:instanceGen [:symbol "ra8"]]
-       [:instanceGen [:symbol "ra9"]]
-       [:instanceGen [:symbol "ra10"]]
+       [:instanceGenId [:symbol "ra1"]]
+       [:instanceGenId [:symbol "ra2"]]
+       [:instanceGenId [:symbol "ra3"]]
+       [:instanceGenId [:symbol "ra4"]]
+       [:instanceGenId [:symbol "ra5"]]
+       [:instanceGenId [:symbol "ra6"]]
+       [:instanceGenId [:symbol "ra7"]]
+       [:instanceGenId [:symbol "ra8"]]
+       [:instanceGenId [:symbol "ra9"]]
+       [:instanceGenId [:symbol "ra10"]]
        ":"
        [:schemaEntityId [:symbol "asset"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "rs1"]]
-       [:instanceGen [:symbol "rs2"]]
-       [:instanceGen [:symbol "rs3"]]
-       [:instanceGen [:symbol "rs4"]]
-       [:instanceGen [:symbol "rs5"]]
+       [:instanceGenId [:symbol "rs1"]]
+       [:instanceGenId [:symbol "rs2"]]
+       [:instanceGenId [:symbol "rs3"]]
+       [:instanceGenId [:symbol "rs4"]]
+       [:instanceGenId [:symbol "rs5"]]
        ":"
        [:schemaEntityId [:symbol "strategy"]]]
       "equations"
@@ -2054,26 +2054,26 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ta1"]]
-       [:instanceGen [:symbol "ta3"]]
-       [:instanceGen [:symbol "ta5"]]
-       [:instanceGen [:symbol "ta7"]]
-       [:instanceGen [:symbol "ta9"]]
+       [:instanceGenId [:symbol "ta1"]]
+       [:instanceGenId [:symbol "ta3"]]
+       [:instanceGenId [:symbol "ta5"]]
+       [:instanceGenId [:symbol "ta7"]]
+       [:instanceGenId [:symbol "ta9"]]
        ":"
        [:schemaEntityId [:symbol "asset"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "tc1"]]
-       [:instanceGen [:symbol "tc2"]]
-       [:instanceGen [:symbol "tc3"]]
+       [:instanceGenId [:symbol "tc1"]]
+       [:instanceGenId [:symbol "tc2"]]
+       [:instanceGenId [:symbol "tc3"]]
        ":"
        [:schemaEntityId [:symbol "currency"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "tt1"]]
-       [:instanceGen [:symbol "tt2"]]
-       [:instanceGen [:symbol "tt3"]]
-       [:instanceGen [:symbol "tt4"]]
-       [:instanceGen [:symbol "tt5"]]
-       [:instanceGen [:symbol "tt6"]]
+       [:instanceGenId [:symbol "tt1"]]
+       [:instanceGenId [:symbol "tt2"]]
+       [:instanceGenId [:symbol "tt3"]]
+       [:instanceGenId [:symbol "tt4"]]
+       [:instanceGenId [:symbol "tt5"]]
+       [:instanceGenId [:symbol "tt6"]]
        ":"
        [:schemaEntityId [:symbol "transaction"]]]
       "equations"
@@ -3153,21 +3153,21 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "hpc1"]]
-       [:instanceGen [:symbol "hpc2"]]
+       [:instanceGenId [:symbol "hpc1"]]
+       [:instanceGenId [:symbol "hpc2"]]
        ":"
        [:schemaEntityId [:symbol "client"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "hph1"]]
-       [:instanceGen [:symbol "hph2"]]
-       [:instanceGen [:symbol "hph3"]]
-       [:instanceGen [:symbol "hph4"]]
-       [:instanceGen [:symbol "hph5"]]
+       [:instanceGenId [:symbol "hph1"]]
+       [:instanceGenId [:symbol "hph2"]]
+       [:instanceGenId [:symbol "hph3"]]
+       [:instanceGenId [:symbol "hph4"]]
+       [:instanceGenId [:symbol "hph5"]]
        ":"
        [:schemaEntityId [:symbol "holding"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "hpp1"]]
-       [:instanceGen [:symbol "hpp2"]]
+       [:instanceGenId [:symbol "hpp1"]]
+       [:instanceGenId [:symbol "hpp2"]]
        ":"
        [:schemaEntityId [:symbol "position"]]]
       "equations"
@@ -4262,28 +4262,28 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ec1"]]
-       [:instanceGen [:symbol "ec2"]]
+       [:instanceGenId [:symbol "ec1"]]
+       [:instanceGenId [:symbol "ec2"]]
        ":"
        [:schemaEntityId [:symbol "Client_client__HoldPos_client"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ea1"]]
-       [:instanceGen [:symbol "ea3"]]
-       [:instanceGen [:symbol "ea5"]]
-       [:instanceGen [:symbol "ea7"]]
-       [:instanceGen [:symbol "ea9"]]
+       [:instanceGenId [:symbol "ea1"]]
+       [:instanceGenId [:symbol "ea3"]]
+       [:instanceGenId [:symbol "ea5"]]
+       [:instanceGenId [:symbol "ea7"]]
+       [:instanceGenId [:symbol "ea9"]]
        ":"
        [:schemaEntityId [:symbol "Ref_asset__Trans_asset"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ecur1"]]
-       [:instanceGen [:symbol "ecur2"]]
-       [:instanceGen [:symbol "ecur3"]]
+       [:instanceGenId [:symbol "ecur1"]]
+       [:instanceGenId [:symbol "ecur2"]]
+       [:instanceGenId [:symbol "ecur3"]]
        ":"
        [:schemaEntityId [:symbol "Ref_currency__Trans_currency"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "es1"]]
-       [:instanceGen [:symbol "es2"]]
-       [:instanceGen [:symbol "es3"]]
+       [:instanceGenId [:symbol "es1"]]
+       [:instanceGenId [:symbol "es2"]]
+       [:instanceGenId [:symbol "es3"]]
        ":"
        [:schemaEntityId [:symbol "Portfolio_strategy__Ref_strategy"]]]
       "allOptions"]

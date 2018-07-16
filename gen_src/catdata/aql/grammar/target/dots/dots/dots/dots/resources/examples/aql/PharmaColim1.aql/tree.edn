@@ -481,25 +481,25 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "one"]]
-       [:instanceGen [:symbol "two"]]
-       [:instanceGen [:symbol "three"]]
+       [:instanceGenId [:symbol "one"]]
+       [:instanceGenId [:symbol "two"]]
+       [:instanceGenId [:symbol "three"]]
        ":"
        [:schemaEntityId [:symbol "Observation"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Peter"]]
-       [:instanceGen [:symbol "Paul"]]
+       [:instanceGenId [:symbol "Peter"]]
+       [:instanceGenId [:symbol "Paul"]]
        ":"
        [:schemaEntityId [:symbol "Person"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "M"]]
-       [:instanceGen [:symbol "F"]]
+       [:instanceGenId [:symbol "M"]]
+       [:instanceGenId [:symbol "F"]]
        ":"
        [:schemaEntityId [:symbol "Gender"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "BloodPressure"]]
-       [:instanceGen [:symbol "BodyWeight"]]
-       [:instanceGen [:symbol "HeartRate"]]
+       [:instanceGenId [:symbol "BloodPressure"]]
+       [:instanceGenId [:symbol "BodyWeight"]]
+       [:instanceGenId [:symbol "HeartRate"]]
        ":"
        [:schemaEntityId [:symbol "ObsType"]]]
       "equations"
@@ -672,27 +672,27 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "o1"]]
-       [:instanceGen [:symbol "o2"]]
-       [:instanceGen [:symbol "o3"]]
-       [:instanceGen [:symbol "o4"]]
+       [:instanceGenId [:symbol "o1"]]
+       [:instanceGenId [:symbol "o2"]]
+       [:instanceGenId [:symbol "o3"]]
+       [:instanceGenId [:symbol "o4"]]
        ":"
        [:schemaEntityId [:symbol "Observation"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "Pete"]]
-       [:instanceGen [:symbol "Jane"]]
+       [:instanceGenId [:symbol "Pete"]]
+       [:instanceGenId [:symbol "Jane"]]
        ":"
        [:schemaEntityId [:symbol "Patient"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "m1"]]
-       [:instanceGen [:symbol "m2"]]
-       [:instanceGen [:symbol "m3"]]
-       [:instanceGen [:symbol "m4"]]
+       [:instanceGenId [:symbol "m1"]]
+       [:instanceGenId [:symbol "m2"]]
+       [:instanceGenId [:symbol "m3"]]
+       [:instanceGenId [:symbol "m4"]]
        ":"
        [:schemaEntityId [:symbol "Method"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "BP"]]
-       [:instanceGen [:symbol "Wt"]]
+       [:instanceGenId [:symbol "BP"]]
+       [:instanceGenId [:symbol "Wt"]]
        ":"
        [:schemaEntityId [:symbol "Type"]]]
       "equations"
@@ -873,12 +873,12 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "P"]]
+       [:instanceGenId [:symbol "P"]]
        ":"
        [:schemaEntityId [:symbol "P"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "B"]]
-       [:instanceGen [:symbol "W"]]
+       [:instanceGenId [:symbol "B"]]
+       [:instanceGenId [:symbol "W"]]
        ":"
        [:schemaEntityId [:symbol "T"]]]
       "allOptions"]

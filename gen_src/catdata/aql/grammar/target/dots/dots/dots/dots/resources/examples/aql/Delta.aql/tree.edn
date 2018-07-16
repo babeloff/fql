@@ -193,9 +193,9 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "XF667"]]
-       [:instanceGen [:symbol "XF891"]]
-       [:instanceGen [:symbol "XF221"]]
+       [:instanceGenId [:symbol "XF667"]]
+       [:instanceGenId [:symbol "XF891"]]
+       [:instanceGenId [:symbol "XF221"]]
        ":"
        [:schemaEntityId [:symbol "T"]]]
       "equations"
@@ -347,10 +347,10 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "XF22"]]
-       [:instanceGen [:symbol "aXF66"]]
-       [:instanceGen [:symbol "XF89"]]
-       [:instanceGen [:symbol "xxx"]]
+       [:instanceGenId [:symbol "XF22"]]
+       [:instanceGenId [:symbol "aXF66"]]
+       [:instanceGenId [:symbol "XF89"]]
+       [:instanceGenId [:symbol "xxx"]]
        ":"
        [:schemaEntityId [:symbol "T"]]]
       "equations"

@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/g5s/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/3uu/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -1142,11 +1142,11 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceFile(AqlParser.InstanceFileContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceGen}.
+	 * Visit a parse tree produced by {@link AqlParser#instanceGenId}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceGen(AqlParser.InstanceGenContext ctx);
+	T visitInstanceGenId(AqlParser.InstanceGenIdContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceEquation}.
 	 * @param ctx the parse tree
@@ -1251,6 +1251,12 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInstanceQuotientJdbcSection(AqlParser.InstanceQuotientJdbcSectionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#instanceQuotientJdbcName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceQuotientJdbcName(AqlParser.InstanceQuotientJdbcNameContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#instanceQuotientSection}.
 	 * @param ctx the parse tree

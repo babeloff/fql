@@ -271,7 +271,7 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "de"]]
+       [:instanceGenId [:symbol "de"]]
        ":"
        [:schemaEntityId [:symbol "SDeptEmp"]]]
       "equations"

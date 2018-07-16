@@ -537,10 +537,10 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "x1"]]
-       [:instanceGen [:symbol "x2"]]
-       [:instanceGen [:symbol "x3"]]
-       [:instanceGen [:symbol "x4"]]
+       [:instanceGenId [:symbol "x1"]]
+       [:instanceGenId [:symbol "x2"]]
+       [:instanceGenId [:symbol "x3"]]
+       [:instanceGenId [:symbol "x4"]]
        ":"
        [:schemaEntityId [:symbol "X"]]]
       "equations"

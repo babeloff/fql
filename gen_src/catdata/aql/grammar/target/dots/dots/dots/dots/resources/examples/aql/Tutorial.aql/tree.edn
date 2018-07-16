@@ -181,14 +181,14 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "a"]]
-       [:instanceGen [:symbol "b"]]
-       [:instanceGen [:symbol "c"]]
+       [:instanceGenId [:symbol "a"]]
+       [:instanceGenId [:symbol "b"]]
+       [:instanceGenId [:symbol "c"]]
        ":"
        [:schemaEntityId [:symbol "Employee"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "m"]]
-       [:instanceGen [:symbol "s"]]
+       [:instanceGenId [:symbol "m"]]
+       [:instanceGenId [:symbol "s"]]
        ":"
        [:schemaEntityId [:symbol "Department"]]]
       "equations"
@@ -584,9 +584,9 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "one"]]
-       [:instanceGen [:symbol "two"]]
-       [:instanceGen [:symbol "three"]]
+       [:instanceGenId [:symbol "one"]]
+       [:instanceGenId [:symbol "two"]]
+       [:instanceGenId [:symbol "three"]]
        ":"
        [:schemaEntityId [:symbol "N"]]]
       "multi_equations"

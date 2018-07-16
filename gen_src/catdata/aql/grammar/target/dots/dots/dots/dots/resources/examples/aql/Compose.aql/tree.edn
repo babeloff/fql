@@ -603,27 +603,27 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "u11"]]
+       [:instanceGenId [:symbol "u11"]]
        ":"
        [:schemaEntityId [:symbol "u11"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "u12"]]
+       [:instanceGenId [:symbol "u12"]]
        ":"
        [:schemaEntityId [:symbol "u12"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "u21"]]
+       [:instanceGenId [:symbol "u21"]]
        ":"
        [:schemaEntityId [:symbol "u21"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "u22"]]
+       [:instanceGenId [:symbol "u22"]]
        ":"
        [:schemaEntityId [:symbol "u22"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "u3"]]
+       [:instanceGenId [:symbol "u3"]]
        ":"
        [:schemaEntityId [:symbol "u3"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "u3x"]]
+       [:instanceGenId [:symbol "u3x"]]
        ":"
        [:schemaEntityId [:symbol "u3x"]]]
       "equations"

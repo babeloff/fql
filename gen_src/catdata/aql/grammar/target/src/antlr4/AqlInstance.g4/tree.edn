@@ -717,7 +717,7 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:ruleref "instanceGen"]] [:ebnfSuffix "+"]]
+        [:element [:atom [:ruleref "instanceGenId"]] [:ebnfSuffix "+"]]
         [:element [:atom [:terminal "COLON"]]]
         [:element [:atom [:ruleref "schemaEntityId"]]]]]]]
     ";"
@@ -818,7 +818,7 @@
     "exceptionGroup"]]
   [:ruleSpec
    [:parserRuleSpec
-    "instanceGen"
+    "instanceGenId"
     ":"
     [:ruleBlock
      [:ruleAltList
@@ -1010,8 +1010,10 @@
        [:alternative [:element [:atom [:ruleref "schemaEntityId"]]]]]
       "|"
       [:labeledAlt
-       [:alternative
-        [:element [:atom [:ruleref "schemaForeignId"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "schemaForeignId"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "instanceGenId"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -1028,28 +1030,32 @@
            "("
            [:altList
             [:alternative
-             [:element
-              [:ebnf
-               [:block
-                "("
-                [:altList
-                 [:alternative
-                  [:element [:atom [:ruleref "schemaEntityId"]]]]
-                 "|"
-                 [:alternative
-                  [:element [:atom [:ruleref "schemaAttributeId"]]]]
-                 "|"
-                 [:alternative
-                  [:element [:atom [:ruleref "schemaForeignId"]]]]
-                 "|"
-                 [:alternative
-                  [:element [:atom [:ruleref "typesideTypeId"]]]]]
-                ")"]]]
+             [:element [:atom [:ruleref "instanceQuotientJdbcName"]]]
              [:element [:atom [:terminal "RARROW"]]]
              [:element [:atom [:ruleref "instanceSql"]]]]]
            ")"]
           [:blockSuffix [:ebnfSuffix "+"]]]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "instanceQuotientJdbcName"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "schemaEntityId"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:ruleref "schemaAttributeId"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "schemaForeignId"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:ruleref "typesideTypeId"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec

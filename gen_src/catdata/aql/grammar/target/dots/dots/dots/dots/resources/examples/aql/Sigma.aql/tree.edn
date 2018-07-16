@@ -86,23 +86,23 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "a1"]]
-       [:instanceGen [:symbol "a2"]]
+       [:instanceGenId [:symbol "a1"]]
+       [:instanceGenId [:symbol "a2"]]
        ":"
        [:schemaEntityId [:symbol "Amphibian"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "l1"]]
-       [:instanceGen [:symbol "l2"]]
-       [:instanceGen [:symbol "l3"]]
-       [:instanceGen [:symbol "l4"]]
-       [:instanceGen [:symbol "l5"]]
+       [:instanceGenId [:symbol "l1"]]
+       [:instanceGenId [:symbol "l2"]]
+       [:instanceGenId [:symbol "l3"]]
+       [:instanceGenId [:symbol "l4"]]
+       [:instanceGenId [:symbol "l5"]]
        ":"
        [:schemaEntityId [:symbol "LandAnimal"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "w1"]]
-       [:instanceGen [:symbol "w2"]]
-       [:instanceGen [:symbol "w3"]]
-       [:instanceGen [:symbol "w4"]]
+       [:instanceGenId [:symbol "w1"]]
+       [:instanceGenId [:symbol "w2"]]
+       [:instanceGenId [:symbol "w3"]]
+       [:instanceGenId [:symbol "w4"]]
        ":"
        [:schemaEntityId [:symbol "WaterAnimal"]]]
       "equations"
@@ -435,20 +435,20 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "xa1"]]
+       [:instanceGenId [:symbol "xa1"]]
        ":"
        [:schemaEntityId [:symbol "Amphibian"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "xl1"]]
-       [:instanceGen [:symbol "xl2"]]
-       [:instanceGen [:symbol "xl3"]]
-       [:instanceGen [:symbol "xl4"]]
+       [:instanceGenId [:symbol "xl1"]]
+       [:instanceGenId [:symbol "xl2"]]
+       [:instanceGenId [:symbol "xl3"]]
+       [:instanceGenId [:symbol "xl4"]]
        ":"
        [:schemaEntityId [:symbol "LandAnimal"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "xw1"]]
-       [:instanceGen [:symbol "xw2"]]
-       [:instanceGen [:symbol "xw3"]]
+       [:instanceGenId [:symbol "xw1"]]
+       [:instanceGenId [:symbol "xw2"]]
+       [:instanceGenId [:symbol "xw3"]]
        ":"
        [:schemaEntityId [:symbol "WaterAnimal"]]]
       "equations"
@@ -674,11 +674,11 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "la1"]]
-       [:instanceGen [:symbol "la2"]]
-       [:instanceGen [:symbol "la3"]]
-       [:instanceGen [:symbol "la4"]]
-       [:instanceGen [:symbol "la5"]]
+       [:instanceGenId [:symbol "la1"]]
+       [:instanceGenId [:symbol "la2"]]
+       [:instanceGenId [:symbol "la3"]]
+       [:instanceGenId [:symbol "la4"]]
+       [:instanceGenId [:symbol "la5"]]
        ":"
        [:schemaEntityId [:symbol "A"]]]
       "multi_equations"
@@ -736,10 +736,10 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "wa1"]]
-       [:instanceGen [:symbol "wa2"]]
-       [:instanceGen [:symbol "wa3"]]
-       [:instanceGen [:symbol "wa4"]]
+       [:instanceGenId [:symbol "wa1"]]
+       [:instanceGenId [:symbol "wa2"]]
+       [:instanceGenId [:symbol "wa3"]]
+       [:instanceGenId [:symbol "wa4"]]
        ":"
        [:schemaEntityId [:symbol "A"]]]
       "multi_equations"
@@ -790,8 +790,8 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "aa1"]]
-       [:instanceGen [:symbol "aa2"]]
+       [:instanceGenId [:symbol "aa1"]]
+       [:instanceGenId [:symbol "aa2"]]
        ":"
        [:schemaEntityId [:symbol "A"]]]
       "multi_equations"

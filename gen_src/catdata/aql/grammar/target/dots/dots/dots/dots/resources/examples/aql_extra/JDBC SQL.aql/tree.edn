@@ -168,7 +168,8 @@
      [:instanceKind [:instanceRef [:symbol "J"]]]
      "{"
      [:instanceQuotientJdbcSection
-      [:schemaEntityId [:symbol "Employee"]]
+      [:instanceQuotientJdbcName
+       [:schemaEntityId [:symbol "Employee"]]]
       "->"
       [:instanceSql "\"SELECT id, id FROM Employee\""]
       "allOptions"]

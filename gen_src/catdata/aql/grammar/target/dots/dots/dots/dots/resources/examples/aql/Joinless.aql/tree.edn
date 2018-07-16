@@ -89,22 +89,22 @@
      [:instanceLiteralSection
       "generators"
       [:instanceLiteralGen
-       [:instanceGen [:symbol "ryan"]]
-       [:instanceGen [:symbol "david"]]
-       [:instanceGen [:symbol "adam"]]
-       [:instanceGen [:symbol "greg"]]
-       [:instanceGen [:symbol "gregory"]]
-       [:instanceGen [:symbol "jason"]]
+       [:instanceGenId [:symbol "ryan"]]
+       [:instanceGenId [:symbol "david"]]
+       [:instanceGenId [:symbol "adam"]]
+       [:instanceGenId [:symbol "greg"]]
+       [:instanceGenId [:symbol "gregory"]]
+       [:instanceGenId [:symbol "jason"]]
        ":"
        [:schemaEntityId [:symbol "Person"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "harvard"]]
-       [:instanceGen [:symbol "mit"]]
+       [:instanceGenId [:symbol "harvard"]]
+       [:instanceGenId [:symbol "mit"]]
        ":"
        [:schemaEntityId [:symbol "School"]]]
       [:instanceLiteralGen
-       [:instanceGen [:symbol "math"]]
-       [:instanceGen [:symbol "cs"]]
+       [:instanceGenId [:symbol "math"]]
+       [:instanceGenId [:symbol "cs"]]
        ":"
        [:schemaEntityId [:symbol "Dept"]]]
       "multi_equations"
