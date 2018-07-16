@@ -238,5 +238,50 @@
       [:labeledAlt
        [:alternative [:element [:atom [:terminal "UPPER_ID"]]]]]]]
     ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "quotedString"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "quotedMultiString"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "MULTI_STRING"]]]]]
+      "|"
+      [:labeledAlt
+       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "quotedHtmlString"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "HTML_MULTI_STRING"]]]]]]]
+    ";"
+    "exceptionGroup"]]
+  [:ruleSpec
+   [:parserRuleSpec
+    "quotedMarkdownString"
+    ":"
+    [:ruleBlock
+     [:ruleAltList
+      [:labeledAlt
+       [:alternative
+        [:element [:atom [:terminal "MD_MULTI_STRING"]]]]]]]
+    ";"
     "exceptionGroup"]]]
  "<EOF>"]

@@ -2001,15 +2001,16 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"com.mysql.jdbc.Driver\""]
+     [:commandJdbcClass [:quotedString "\"com.mysql.jdbc.Driver\""]]
      [:commandJdbcUri
-      "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]
+      [:quotedString
+       "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]]
      "{"
      [:commandExecJdbcSection
-      "\"DROP TABLE IF EXISTS sts_SkillNdFrTask\""
-      "\"DROP TABLE IF EXISTS sts_Skill\""
-      "\"DROP TABLE IF EXISTS sts_SkillClass\""
-      "\"DROP TABLE IF EXISTS sts_Task\""
+      [:quotedMultiString "\"DROP TABLE IF EXISTS sts_SkillNdFrTask\""]
+      [:quotedMultiString "\"DROP TABLE IF EXISTS sts_Skill\""]
+      [:quotedMultiString "\"DROP TABLE IF EXISTS sts_SkillClass\""]
+      [:quotedMultiString "\"DROP TABLE IF EXISTS sts_Task\""]
       "allOptions"]
      "}"]]]
   [:commentDeclarationSection
@@ -2025,10 +2026,11 @@
     [:commandExp
      "export_jdbc_instance"
      [:transformRef [:symbol "iSTSpn"]]
-     [:commandJdbcClass "\"com.mysql.jdbc.Driver\""]
+     [:commandJdbcClass [:quotedString "\"com.mysql.jdbc.Driver\""]]
      [:commandJdbcUri
-      "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]
-     [:commandPrefixDst "\"sts_\""]
+      [:quotedString
+       "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]]
+     [:commandPrefixDst [:quotedString "\"sts_\""]]
      "{"
      [:commandExportJdbcSection
       [:allOptions
@@ -2048,11 +2050,14 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"com.mysql.jdbc.Driver\""]
+     [:commandJdbcClass [:quotedString "\"com.mysql.jdbc.Driver\""]]
      [:commandJdbcUri
-      "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]
+      [:quotedString
+       "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]]
      "{"
-     [:commandExecJdbcSection "\"SHOW  TABLES\"" "allOptions"]
+     [:commandExecJdbcSection
+      [:quotedMultiString "\"SHOW  TABLES\""]
+      "allOptions"]
      "}"]]]
   [:commentDeclarationSection
    [:mdCommentDeclaration
@@ -2635,15 +2640,18 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"com.mysql.jdbc.Driver\""]
+     [:commandJdbcClass [:quotedString "\"com.mysql.jdbc.Driver\""]]
      [:commandJdbcUri
-      "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]
+      [:quotedString
+       "\"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr\""]]
      "{"
      [:commandExecJdbcSection
-      "\"DROP TABLE IF EXISTS SkillMatch\""
-      "\"DROP TABLE IF EXISTS SkillClassMatch\""
-      "\"create table SkillMatch as\nselect\n  concat('s', t.id) as sm_id,\n  p.id as ps_id,\n  t.id as ts_id,\n  t.fk_HasClass\nfrom\n  sps_SpecificSkill p\n  join sts_Skill t\n    on p.SSName = t.SName\n  join sps_GeneralSkill gs\n    on p.fk_IsType = gs.id\""
-      "\"create table SkillClassMatch as\nselect\n  concat('sc', t.id) as scm_id,\n  p.id as psc_id,\n  t.id as tsc_id\nfrom\n  sps_SkillClass as p\n  join sts_SkillClass as t\n    on p.SCName = t.SCName\""
+      [:quotedMultiString "\"DROP TABLE IF EXISTS SkillMatch\""]
+      [:quotedMultiString "\"DROP TABLE IF EXISTS SkillClassMatch\""]
+      [:quotedMultiString
+       "\"create table SkillMatch as\nselect\n  concat('s', t.id) as sm_id,\n  p.id as ps_id,\n  t.id as ts_id,\n  t.fk_HasClass\nfrom\n  sps_SpecificSkill p\n  join sts_Skill t\n    on p.SSName = t.SName\n  join sps_GeneralSkill gs\n    on p.fk_IsType = gs.id\""]
+      [:quotedMultiString
+       "\"create table SkillClassMatch as\nselect\n  concat('sc', t.id) as scm_id,\n  p.id as psc_id,\n  t.id as tsc_id\nfrom\n  sps_SkillClass as p\n  join sts_SkillClass as t\n    on p.SCName = t.SCName\""]
       "allOptions"]
      "}"]]]
   [:commentDeclarationSection

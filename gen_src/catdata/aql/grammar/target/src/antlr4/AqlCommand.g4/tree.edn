@@ -379,7 +379,9 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "+"]]]]]]
+        [:element
+         [:atom [:ruleref "quotedString"]]
+         [:ebnfSuffix "+"]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -390,7 +392,7 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "quotedString"]] [:ebnfSuffix "*"]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
     ";"
     "exceptionGroup"]]
@@ -402,7 +404,7 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "quotedString"]] [:ebnfSuffix "*"]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
     ";"
     "exceptionGroup"]]
@@ -415,16 +417,8 @@
       [:labeledAlt
        [:alternative
         [:element
-         [:ebnf
-          [:block
-           "("
-           [:altList
-            [:alternative [:element [:atom [:terminal "STRING"]]]]
-            "|"
-            [:alternative
-             [:element [:atom [:terminal "MULTI_STRING"]]]]]
-           ")"]
-          [:blockSuffix [:ebnfSuffix "+"]]]]
+         [:atom [:ruleref "quotedMultiString"]]
+         [:ebnfSuffix "+"]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
     ";"
     "exceptionGroup"]]
@@ -436,7 +430,9 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]]]]]
+        [:element
+         [:atom [:ruleref "quotedString"]]
+         [:ebnfSuffix "*"]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -457,7 +453,7 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "quotedString"]] [:ebnfSuffix "*"]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
     ";"
     "exceptionGroup"]]
@@ -469,7 +465,7 @@
      [:ruleAltList
       [:labeledAlt
        [:alternative
-        [:element [:atom [:terminal "STRING"]] [:ebnfSuffix "*"]]
+        [:element [:atom [:ruleref "quotedString"]] [:ebnfSuffix "*"]]
         [:element [:atom [:ruleref "allOptions"]]]]]]]
     ";"
     "exceptionGroup"]]
@@ -480,7 +476,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -490,7 +486,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -500,7 +496,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -510,7 +506,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -520,7 +516,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -530,7 +526,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
@@ -540,7 +536,7 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:ruleref "quotedString"]]]]]]]
     ";"
     "exceptionGroup"]]]
  "<EOF>"]

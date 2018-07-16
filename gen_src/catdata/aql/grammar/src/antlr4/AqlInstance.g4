@@ -174,10 +174,10 @@ instanceLiteral :  instanceLiteralValue (AT instanceSymbol)? ;
 instanceSymbol : symbol ;
 
 instanceLiteralValue
-  : truthy
-  | INTEGER
-  | NUMBER
-  | STRING
+  : truthy    # InstanceLiteralValue_Straight
+  | INTEGER   # InstanceLiteralValue_Straight
+  | NUMBER    # InstanceLiteralValue_Straight
+  | STRING    # InstanceLiteralValue_Quoted
   ;
 
 instancePath

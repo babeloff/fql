@@ -945,16 +945,24 @@
     [:ruleBlock
      [:ruleAltList
       [:labeledAlt
-       [:alternative [:element [:atom [:ruleref "truthy"]]]]]
+       [:alternative [:element [:atom [:ruleref "truthy"]]]]
+       "#"
+       [:identifier "InstanceLiteralValue_Straight"]]
       "|"
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "INTEGER"]]]]]
+       [:alternative [:element [:atom [:terminal "INTEGER"]]]]
+       "#"
+       [:identifier "InstanceLiteralValue_Straight"]]
       "|"
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "NUMBER"]]]]]
+       [:alternative [:element [:atom [:terminal "NUMBER"]]]]
+       "#"
+       [:identifier "InstanceLiteralValue_Straight"]]
       "|"
       [:labeledAlt
-       [:alternative [:element [:atom [:terminal "STRING"]]]]]]]
+       [:alternative [:element [:atom [:terminal "STRING"]]]]
+       "#"
+       [:identifier "InstanceLiteralValue_Quoted"]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec

@@ -99,6 +99,7 @@ import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
 import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
 import catdata.aql.grammar.AqlParser.SchemaKindContext;
 import catdata.aql.grammar.AqlParser.SchemaLiteralSectionContext;
+import catdata.aql.grammar.AqlParser.SchemaPathContext;
 import catdata.aql.grammar.AqlParser.SchemaRefContext;
 import catdata.aql.grammar.AqlParser.TransformCoevalSectionContext;
 import catdata.aql.grammar.AqlParser.TransformCounitQuerySectionContext;
@@ -150,19 +151,21 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.global_options = new LinkedList<>();
 		this.kind = q -> q.kind().toString();
 
+		this.str = new ParseTreeProperty<>();
 		this.exps = new ParseTreeProperty<>();
-		this.mapped_terms = new ParseTreeProperty<>();
+		this.mapped_terms_1 = new ParseTreeProperty<>();
 		this.value_option = new ParseTreeProperty<>();
 		this.terms = new ParseTreeProperty<>();
 		
 		this.prexps = new ParseTreeProperty<>();
-		this.quads = new ParseTreeProperty<>();
+		this.mapped_terms_2 = new ParseTreeProperty<>();
 		this.aopts = new ParseTreeProperty<>();
 	}
 	public final List<Triple<String, Integer, Exp<?>>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
 	
+	private final ParseTreeProperty<String> str;
 	private final ParseTreeProperty<Exp<?>> exps;
 	private final ParseTreeProperty<RawTerm> terms;
 	
@@ -173,15 +176,21 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 * 
 	 */
 	/**
-	 * The parser should be improved to remove the quotes.
+	 * The parser could be improved to remove the quotes.
 	 * The tricky bit is that these are island grammars.
 	 * 
 	 * @param quoted
 	 * @return
 	 */
 	private String unquote(final String quoted) {
-		// return quoted.substring(1, quoted.length()-1);
 		return StringUtils.removeEnd(StringUtils.removeStart(quoted, "\""), "\"");
+	}
+	
+	@Override public void exitQuotedString(AqlParser.QuotedStringContext ctx) {
+		this.str.put(ctx, unquote(ctx.getText()));
+	}	
+	@Override public void exitQuotedMultiString(AqlParser.QuotedMultiStringContext ctx) {
+		this.str.put(ctx, unquote(ctx.getText()));
 	}
 	
 /**
@@ -556,7 +565,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 
-	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> quads;
+	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> mapped_terms_2;
 	
 	@Override public void exitSchemaExp_Literal(AqlParser.SchemaExp_LiteralContext ctx) {
 		final SchemaLiteralSectionContext 
@@ -622,7 +631,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		observes = sect.schemaObservationEquationSig().stream() 
 				.map(obs -> 
 					new Pair<>(getLoc(obs), 
-								this.quads.get(obs)))
+								this.mapped_terms_2.get(obs)))
 				.collect(Collectors.toList());
 		
 		final SchExpRaw 
@@ -654,11 +663,22 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				gen.first, gen.second,
 				this.terms.get(ctx_sig.evalSchemaFn(0)),
 				this.terms.get(ctx_sig.evalSchemaFn(1)));
-		this.quads.put(ctx,obs);
+		this.mapped_terms_2.put(ctx,obs);
 	}
 	
 	@Override public void exitSchemaObserve_Equation(AqlParser.SchemaObserve_EquationContext ctx) { 
-		log.warning("observation equation failed");
+		final String lvar = "_x";
+		
+		final SchemaPathContext 
+		pathLeft = ctx.schemaPath(0),
+		pathRight = ctx.schemaPath(1);
+		
+		final Quad<String, String, RawTerm, RawTerm>
+		obs = new Quad<>(
+				lvar, null,
+				this.terms.get(pathLeft).clone().append(lvar),
+				this.terms.get(pathRight).clone().append(lvar));
+		this.mapped_terms_2.put(ctx,obs);
 	}
 
 	@Override public void exitEvalSchemaFn_Literal(AqlParser.EvalSchemaFn_LiteralContext ctx) {
@@ -836,7 +856,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,mapping);
 	}
 	
-	private final ParseTreeProperty<Triple<String,String,RawTerm>> mapped_terms;
+	private final ParseTreeProperty<Triple<String,String,RawTerm>> mapped_terms_1;
 
 	@Override public void exitMappingLiteralSubsection(AqlParser.MappingLiteralSubsectionContext ctx) { 
 		final List<SchemaEntityIdContext>
@@ -859,7 +879,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(att -> 
 					new Pair<>(
 							makeLocStr(att.schemaAttributeId()),
-							this.mapped_terms.get(att.mappingAttributeTerm())))
+							this.mapped_terms_1.get(att.mappingAttributeTerm())))
 				.collect(Collectors.toList());
 		
 		this.mapping.put(ctx,
@@ -881,16 +901,18 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		// new path to attribute
 		final RawTerm rt = this.terms.get(ctx.evalMappingFn());
 		
-		this.mapped_terms.put(ctx, new Triple<>(lvar, lvar_type, rt));
+		this.mapped_terms_1.put(ctx, new Triple<>(lvar, lvar_type, rt));
 	}
 	
 	@Override public void exitMappingAttrTerm_Path(AqlParser.MappingAttrTerm_PathContext ctx) {
+		final String lvar = "_x";
+		
 		final RawTerm rt = this.terms.get(ctx.schemaPath());
 		final Triple<String, // universal variable
 		             String, // entity for universal variable
 		             RawTerm> // new path to attribute
-		term = new Triple<>("_x", null, rt.clone().append("_x"));
-		this.mapped_terms.put(ctx, term);
+		term = new Triple<>("_x", null, rt.clone().append(lvar));
+		this.mapped_terms_1.put(ctx, term);
 	}
 
 	@Override public void exitEvalMappingFn_Gen(AqlParser.EvalMappingFn_GenContext ctx) {
@@ -1075,7 +1097,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final List<Pair<LocStr, PreBlock>>
 		preblocks = sect.queryEntityExpr().stream() 
 			.map(x -> (Pair<LocStr,PreBlock>) 
-					new Pair<>(makeLocStr(x.queryClauseExpr()), 
+					new Pair<>(makeLocStr(x.schemaEntityId()), 
 							this.prexps.get(x.queryClauseExpr())))
 			.collect(Collectors.toList());
 		
@@ -1689,7 +1711,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 	@Override public void exitInstanceLiteral(AqlParser.InstanceLiteralContext ctx) {
-		final String value = ctx.instanceLiteralValue().getText();
+		final String value = this.str.get(ctx.instanceLiteralValue());
 		@SuppressWarnings("unused")
 		final InstanceSymbolContext symbol = ctx.instanceSymbol();
 		
@@ -1708,8 +1730,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitInstanceMultiBind(AqlParser.InstanceMultiBindContext ctx) { 
 		this.terms.put(ctx, new RawTerm(ctx.getText()));
 	}
-
 	
+	@Override public void enterInstanceLiteralValue_Straight(AqlParser.InstanceLiteralValue_StraightContext ctx) {
+		this.str.put(ctx, ctx.getText());
+	}
+	
+	@Override public void enterInstanceLiteralValue_Quoted(AqlParser.InstanceLiteralValue_QuotedContext ctx) {
+		this.str.put(ctx, unquote(ctx.getText()));
+	}
 
 	/***************************************************
 	 * Transform section
@@ -2245,8 +2273,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			return;
 		}
 		final List<String> 
-		cmds = sect.STRING().stream() 
-			.map(x -> x.getText())
+		cmds = sect.quotedString().stream() 
+			.map(x -> this.str.get(x))
 			.collect(Collectors.toList());
 		
 		final List<Pair<String,String>>
@@ -2268,8 +2296,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			return;
 		}
 		final List<String> 
-		cmds = sect.STRING().stream() 
-			.map(x -> x.getText())
+		cmds = sect.quotedString().stream() 
+			.map(x -> this.str.get(x))
 			.collect(Collectors.toList());
 		
 		final List<Pair<String,String>>
@@ -2299,8 +2327,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		}
 		
 		final List<String> 
-		sqls = sect.STRING().stream() 
-			.map(x -> x.getText())
+		sqls = sect.quotedMultiString().stream() 
+			.map(x -> this.str.get(x))
 			.collect(Collectors.toList());
 		
 		final List<Pair<String,String>>
@@ -2489,7 +2517,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<String> 
 		jarfiles = (sect == null) ? null
-				: sect.STRING().stream().map(x -> x.getText())
+				: sect.quotedString().stream().map(x -> this.str.get(x))
 				.collect(Collectors.toList());
 		
 		final PragmaExp.PragmaExpLoadJars

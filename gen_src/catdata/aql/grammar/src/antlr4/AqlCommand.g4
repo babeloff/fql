@@ -67,26 +67,26 @@ commandKind
 | LPAREN commandExp RPAREN # CommandKind_Exp
 ;
 
-commandAddClasspathSection : STRING+ ;
+commandAddClasspathSection : quotedString+ ;
 
-commandCmdLineSection : STRING* allOptions ;
+commandCmdLineSection : quotedString* allOptions ;
 
-commandExecJsSection : STRING* allOptions ;
+commandExecJsSection : quotedString* allOptions ;
 
-commandExecJdbcSection : (STRING | MULTI_STRING)+ allOptions ;
+commandExecJdbcSection : quotedMultiString+ allOptions ;
 
-commandLoadJarsSection : STRING* ;
+commandLoadJarsSection : quotedString* ;
 
 commandMatchSection : allOptions ;
 
-commandExportCsvSection : STRING* allOptions ;
+commandExportCsvSection : quotedString* allOptions ;
 
-commandExportJdbcSection : STRING* allOptions ;
+commandExportJdbcSection : quotedString* allOptions ;
 
-commandFile : STRING ;
-commandJdbcClass : STRING ;
-commandJdbcUri : STRING ;
-commandPrefix : STRING ;
-commandPrefixSrc : STRING ;
-commandPrefixDst : STRING ;
-commandMatchWhich : STRING ;
+commandFile : quotedString ;
+commandJdbcClass : quotedString ;
+commandJdbcUri : quotedString ;
+commandPrefix : quotedString ;
+commandPrefixSrc : quotedString ;
+commandPrefixDst : quotedString ;
+commandMatchWhich : quotedString ;

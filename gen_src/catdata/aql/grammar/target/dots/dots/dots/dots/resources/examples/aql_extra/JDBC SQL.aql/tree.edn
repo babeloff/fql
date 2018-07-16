@@ -7,18 +7,27 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"org.h2.Driver\""]
-     [:commandJdbcUri "\"jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1\""]
+     [:commandJdbcClass [:quotedString "\"org.h2.Driver\""]]
+     [:commandJdbcUri
+      [:quotedString "\"jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1\""]]
      "{"
      [:commandExecJdbcSection
-      "\"\nDROP TABLE IF EXISTS Employee;\nDROP TABLE IF EXISTS Department;\""
-      "\"\nCREATE TABLE Employee(\n id INT PRIMARY KEY,\n name VARCHAR(255),\n manager INT,\n worksIn INT\n)\""
-      "\"\nCREATE TABLE Department(\n id INT PRIMARY KEY,\n name VARCHAR(255),\n secretary INT,\n)\""
-      "\"\nINSERT INTO Employee VALUES \n (101, 'Alan', 103, 10), \n (102, 'Camille', 102, 2), \n (103, 'Andrey', 103, 10)\""
-      "\"\nINSERT INTO Department VALUES\n (10, 'Applied Math', 101),\n (2, 'Pure Math', 102)\""
-      "\"\nALTER TABLE Employee ADD CONSTRAINT e1\n FOREIGN KEY (manager) REFERENCES Employee (id)\""
-      "\"\nALTER TABLE Employee ADD CONSTRAINT e2 \n FOREIGN KEY (worksIn) REFERENCES Department (id)\""
-      "\"\nALTER TABLE Department ADD CONSTRAINT d1\n FOREIGN KEY (secretary) REFERENCES Employee (id)\""
+      [:quotedMultiString
+       "\"\nDROP TABLE IF EXISTS Employee;\nDROP TABLE IF EXISTS Department;\""]
+      [:quotedMultiString
+       "\"\nCREATE TABLE Employee(\n id INT PRIMARY KEY,\n name VARCHAR(255),\n manager INT,\n worksIn INT\n)\""]
+      [:quotedMultiString
+       "\"\nCREATE TABLE Department(\n id INT PRIMARY KEY,\n name VARCHAR(255),\n secretary INT,\n)\""]
+      [:quotedMultiString
+       "\"\nINSERT INTO Employee VALUES \n (101, 'Alan', 103, 10), \n (102, 'Camille', 102, 2), \n (103, 'Andrey', 103, 10)\""]
+      [:quotedMultiString
+       "\"\nINSERT INTO Department VALUES\n (10, 'Applied Math', 101),\n (2, 'Pure Math', 102)\""]
+      [:quotedMultiString
+       "\"\nALTER TABLE Employee ADD CONSTRAINT e1\n FOREIGN KEY (manager) REFERENCES Employee (id)\""]
+      [:quotedMultiString
+       "\"\nALTER TABLE Employee ADD CONSTRAINT e2 \n FOREIGN KEY (worksIn) REFERENCES Department (id)\""]
+      [:quotedMultiString
+       "\"\nALTER TABLE Department ADD CONSTRAINT d1\n FOREIGN KEY (secretary) REFERENCES Employee (id)\""]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -28,12 +37,12 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
      "{"
      [:commandExecJdbcSection
-      "\"SELECT * FROM Department\""
-      "\"SELECT * FROM Employee\""
+      [:quotedMultiString "\"SELECT * FROM Department\""]
+      [:quotedMultiString "\"SELECT * FROM Employee\""]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -203,9 +212,9 @@
     [:commandExp
      "export_jdbc_instance"
      [:transformRef [:symbol "J"]]
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
-     [:commandPrefixDst "\"Exported\""]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
+     [:commandPrefixDst [:quotedString "\"Exported\""]]
      "{"
      [:commandExportJdbcSection
       [:allOptions
@@ -220,12 +229,12 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
      "{"
      [:commandExecJdbcSection
-      "\"SELECT * FROM ExportedEmployee\""
-      "\"SELECT * FROM ExportedDepartment\""
+      [:quotedMultiString "\"SELECT * FROM ExportedEmployee\""]
+      [:quotedMultiString "\"SELECT * FROM ExportedDepartment\""]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -236,9 +245,9 @@
     [:commandExp
      "export_jdbc_transform"
      [:transformRef [:symbol "Jid"]]
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
-     [:commandPrefix "\"ExportedTrans\""]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
+     [:commandPrefix [:quotedString "\"ExportedTrans\""]]
      "{"
      [:commandExportJdbcSection
       [:allOptions
@@ -260,12 +269,12 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
      "{"
      [:commandExecJdbcSection
-      "\"SELECT * FROM ExportedTransEmployee\""
-      "\"SELECT * FROM ExportedTransDepartment\""
+      [:quotedMultiString "\"SELECT * FROM ExportedTransEmployee\""]
+      [:quotedMultiString "\"SELECT * FROM ExportedTransDepartment\""]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -448,10 +457,10 @@
     [:commandExp
      "export_jdbc_query"
      [:queryRef [:symbol "Q"]]
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
-     [:commandPrefixSrc "\"Exported\""]
-     [:commandPrefixDst "\"View\""]]]]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
+     [:commandPrefixSrc [:quotedString "\"Exported\""]]
+     [:commandPrefixDst [:quotedString "\"View\""]]]]]
   [:kindDeclaration
    [:commandAssignment
     "command"
@@ -459,14 +468,14 @@
     "="
     [:commandExp
      "exec_jdbc"
-     [:commandJdbcClass "\"\""]
-     [:commandJdbcUri "\"\""]
+     [:commandJdbcClass [:quotedString "\"\""]]
+     [:commandJdbcUri [:quotedString "\"\""]]
      "{"
      [:commandExecJdbcSection
-      "\"SELECT * FROM ViewEmployee\""
-      "\"SELECT * FROM ViewDepartment\""
-      "\"DROP VIEW ViewEmployee\""
-      "\"DROP VIEW ViewDepartment\""
+      [:quotedMultiString "\"SELECT * FROM ViewEmployee\""]
+      [:quotedMultiString "\"SELECT * FROM ViewDepartment\""]
+      [:quotedMultiString "\"DROP VIEW ViewEmployee\""]
+      [:quotedMultiString "\"DROP VIEW ViewDepartment\""]
       "allOptions"]
      "}"]]]]
  "<EOF>"]

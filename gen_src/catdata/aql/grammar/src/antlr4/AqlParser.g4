@@ -66,3 +66,11 @@ value
   | LOWER_ID
   | UPPER_ID
   ;
+  
+// the intent is to remove the quotes.
+quotedString : STRING ;
+quotedMultiString : MULTI_STRING | STRING ;
+
+quotedHtmlString : HTML_MULTI_STRING ;
+
+quotedMarkdownString : MD_MULTI_STRING ;

@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/eub/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/as8/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -221,6 +221,46 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValue(AqlParser.ValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#quotedString}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuotedString(AqlParser.QuotedStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#quotedString}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuotedString(AqlParser.QuotedStringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#quotedMultiString}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuotedMultiString(AqlParser.QuotedMultiStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#quotedMultiString}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuotedMultiString(AqlParser.QuotedMultiStringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#quotedHtmlString}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuotedHtmlString(AqlParser.QuotedHtmlStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#quotedHtmlString}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuotedHtmlString(AqlParser.QuotedHtmlStringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#quotedMarkdownString}.
+	 * @param ctx the parse tree
+	 */
+	void enterQuotedMarkdownString(AqlParser.QuotedMarkdownStringContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#quotedMarkdownString}.
+	 * @param ctx the parse tree
+	 */
+	void exitQuotedMarkdownString(AqlParser.QuotedMarkdownStringContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#htmlCommentDeclaration}.
 	 * @param ctx the parse tree
@@ -1972,15 +2012,29 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#instanceLiteralValue}.
+	 * Enter a parse tree produced by the {@code InstanceLiteralValue_Straight}
+	 * labeled alternative in {@link AqlParser#instanceLiteralValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterInstanceLiteralValue(AqlParser.InstanceLiteralValueContext ctx);
+	void enterInstanceLiteralValue_Straight(AqlParser.InstanceLiteralValue_StraightContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#instanceLiteralValue}.
+	 * Exit a parse tree produced by the {@code InstanceLiteralValue_Straight}
+	 * labeled alternative in {@link AqlParser#instanceLiteralValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitInstanceLiteralValue(AqlParser.InstanceLiteralValueContext ctx);
+	void exitInstanceLiteralValue_Straight(AqlParser.InstanceLiteralValue_StraightContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InstanceLiteralValue_Quoted}
+	 * labeled alternative in {@link AqlParser#instanceLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstanceLiteralValue_Quoted(AqlParser.InstanceLiteralValue_QuotedContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InstanceLiteralValue_Quoted}
+	 * labeled alternative in {@link AqlParser#instanceLiteralValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstanceLiteralValue_Quoted(AqlParser.InstanceLiteralValue_QuotedContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code InstancePath_Literal}
 	 * labeled alternative in {@link AqlParser#instancePath}.

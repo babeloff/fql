@@ -1264,6 +1264,9 @@
     [:commandExp
      "exec_js"
      "{"
-     [:commandExecJsSection "\"1+2;\"" "\"2+3;\"" "allOptions"]
+     [:commandExecJsSection
+      [:quotedString "\"1+2;\""]
+      [:quotedString "\"2+3;\""]
+      "allOptions"]
      "}"]]]]
  "<EOF>"]

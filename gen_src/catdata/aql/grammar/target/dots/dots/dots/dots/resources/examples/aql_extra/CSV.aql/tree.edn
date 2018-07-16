@@ -61,8 +61,10 @@
      "exec_js"
      "{"
      [:commandExecJsSection
-      "\"Java.type(\\\"catdata.Util\\\").writeFile(\\\"pId\\\\n0\\\\n1\\\\n2\\\", \\\"/Users/ryan/Desktop/Person.csv\\\")\""
-      "\"Java.type(\\\"catdata.Util\\\").writeFile(\\\"eId,is\\\\n10,0\\\\n11,1\\\\n12,2\\\", \\\"/Users/ryan/Desktop/Employee.csv\\\")\""
+      [:quotedString
+       "\"Java.type(\\\"catdata.Util\\\").writeFile(\\\"pId\\\\n0\\\\n1\\\\n2\\\", \\\"/Users/ryan/Desktop/Person.csv\\\")\""]
+      [:quotedString
+       "\"Java.type(\\\"catdata.Util\\\").writeFile(\\\"eId,is\\\\n10,0\\\\n11,1\\\\n12,2\\\", \\\"/Users/ryan/Desktop/Employee.csv\\\")\""]
       "allOptions"]
      "}"]]]
   [:kindDeclaration
@@ -115,7 +117,8 @@
     [:commandExp
      "export_csv_instance"
      [:instanceRef [:symbol "I0"]]
-     [:commandFile "\"/Users/ryan/Desktop/exported\""]]]]
+     [:commandFile
+      [:quotedString "\"/Users/ryan/Desktop/exported\""]]]]]
   [:kindDeclaration
    [:typesideAssignment
     "typeside"
@@ -229,7 +232,8 @@
      "exec_js"
      "{"
      [:commandExecJsSection
-      "\"Java.type(\\\"catdata.Util\\\").writeFile(\\\"ssn,nameOf,Likes\\\\n0,a,a\\\\n1,b,\\\\\\\"a,b,d\\\\\\\"\\\\n2,c,\\\\\\\"\\\\\\\"\\\\n\\\", \\\"/Users/ryan/Desktop/Person.csv\\\")\""
+      [:quotedString
+       "\"Java.type(\\\"catdata.Util\\\").writeFile(\\\"ssn,nameOf,Likes\\\\n0,a,a\\\\n1,b,\\\\\\\"a,b,d\\\\\\\"\\\\n2,c,\\\\\\\"\\\\\\\"\\\\n\\\", \\\"/Users/ryan/Desktop/Person.csv\\\")\""]
       "allOptions"]
      "}"]]]
   [:kindDeclaration

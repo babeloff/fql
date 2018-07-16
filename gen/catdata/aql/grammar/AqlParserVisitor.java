@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/eub/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/as8/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -136,6 +136,30 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitValue(AqlParser.ValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#quotedString}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuotedString(AqlParser.QuotedStringContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#quotedMultiString}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuotedMultiString(AqlParser.QuotedMultiStringContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#quotedHtmlString}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuotedHtmlString(AqlParser.QuotedHtmlStringContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#quotedMarkdownString}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitQuotedMarkdownString(AqlParser.QuotedMarkdownStringContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#htmlCommentDeclaration}.
 	 * @param ctx the parse tree
@@ -1174,11 +1198,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstanceSymbol(AqlParser.InstanceSymbolContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#instanceLiteralValue}.
+	 * Visit a parse tree produced by the {@code InstanceLiteralValue_Straight}
+	 * labeled alternative in {@link AqlParser#instanceLiteralValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInstanceLiteralValue(AqlParser.InstanceLiteralValueContext ctx);
+	T visitInstanceLiteralValue_Straight(AqlParser.InstanceLiteralValue_StraightContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code InstanceLiteralValue_Quoted}
+	 * labeled alternative in {@link AqlParser#instanceLiteralValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInstanceLiteralValue_Quoted(AqlParser.InstanceLiteralValue_QuotedContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code InstancePath_Literal}
 	 * labeled alternative in {@link AqlParser#instancePath}.
