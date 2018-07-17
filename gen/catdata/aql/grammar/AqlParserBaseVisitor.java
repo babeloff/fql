@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fe3/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/6y7/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -605,28 +605,28 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeside_EvalNumber(AqlParser.Typeside_EvalNumberContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypesideEval_Number(AqlParser.TypesideEval_NumberContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeside_EvalGen(AqlParser.Typeside_EvalGenContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypesideEval_Gen(AqlParser.TypesideEval_GenContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeside_InfixFunction(AqlParser.Typeside_InfixFunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypesideEval_Infix(AqlParser.TypesideEval_InfixContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeside_EvalFunction(AqlParser.Typeside_EvalFunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypesideEval_Paren(AqlParser.TypesideEval_ParenContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

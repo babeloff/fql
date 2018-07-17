@@ -82,7 +82,7 @@ typesideJavaStatement : STRING ;
 
 typesideEquationSig
   : FORALL
-      (typesideLocal (COMMA typesideLocal)* | typesideLocal+)
+      typesideLocal (COMMA typesideLocal | typesideLocal)*
       DOT typesideEval EQUAL typesideEval
   | typesideEval EQUAL typesideEval
   ;
@@ -92,16 +92,16 @@ typesideLocalType : symbol ;
 
 typesideEval
   : NUMBER
-  #Typeside_EvalNumber
+  #TypesideEval_Number
 
   | typesideLiteral
-  #Typeside_EvalGen
+  #TypesideEval_Gen
 
   | LPAREN typesideEval typesideFnName typesideEval RPAREN
-  #Typeside_InfixFunction
+  #TypesideEval_Infix
 
   | typesideFnName LPAREN typesideEval (COMMA typesideEval)* RPAREN
-  #Typeside_EvalFunction
+  #TypesideEval_Paren
   ;
 
 typesideLiteral

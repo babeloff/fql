@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fe3/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/6y7/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -884,53 +884,53 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideLocalType(AqlParser.TypesideLocalTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Typeside_EvalNumber}
+	 * Enter a parse tree produced by the {@code TypesideEval_Number}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeside_EvalNumber(AqlParser.Typeside_EvalNumberContext ctx);
+	void enterTypesideEval_Number(AqlParser.TypesideEval_NumberContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Typeside_EvalNumber}
+	 * Exit a parse tree produced by the {@code TypesideEval_Number}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeside_EvalNumber(AqlParser.Typeside_EvalNumberContext ctx);
+	void exitTypesideEval_Number(AqlParser.TypesideEval_NumberContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Typeside_EvalGen}
+	 * Enter a parse tree produced by the {@code TypesideEval_Gen}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeside_EvalGen(AqlParser.Typeside_EvalGenContext ctx);
+	void enterTypesideEval_Gen(AqlParser.TypesideEval_GenContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Typeside_EvalGen}
+	 * Exit a parse tree produced by the {@code TypesideEval_Gen}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeside_EvalGen(AqlParser.Typeside_EvalGenContext ctx);
+	void exitTypesideEval_Gen(AqlParser.TypesideEval_GenContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Typeside_InfixFunction}
+	 * Enter a parse tree produced by the {@code TypesideEval_Infix}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeside_InfixFunction(AqlParser.Typeside_InfixFunctionContext ctx);
+	void enterTypesideEval_Infix(AqlParser.TypesideEval_InfixContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Typeside_InfixFunction}
+	 * Exit a parse tree produced by the {@code TypesideEval_Infix}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeside_InfixFunction(AqlParser.Typeside_InfixFunctionContext ctx);
+	void exitTypesideEval_Infix(AqlParser.TypesideEval_InfixContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Typeside_EvalFunction}
+	 * Enter a parse tree produced by the {@code TypesideEval_Paren}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypeside_EvalFunction(AqlParser.Typeside_EvalFunctionContext ctx);
+	void enterTypesideEval_Paren(AqlParser.TypesideEval_ParenContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code Typeside_EvalFunction}
+	 * Exit a parse tree produced by the {@code TypesideEval_Paren}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypeside_EvalFunction(AqlParser.Typeside_EvalFunctionContext ctx);
+	void exitTypesideEval_Paren(AqlParser.TypesideEval_ParenContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideLiteral}.
 	 * @param ctx the parse tree

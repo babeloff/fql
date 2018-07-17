@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/fe3/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/6y7/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -533,33 +533,33 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypesideLocalType(AqlParser.TypesideLocalTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Typeside_EvalNumber}
+	 * Visit a parse tree produced by the {@code TypesideEval_Number}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypeside_EvalNumber(AqlParser.Typeside_EvalNumberContext ctx);
+	T visitTypesideEval_Number(AqlParser.TypesideEval_NumberContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Typeside_EvalGen}
+	 * Visit a parse tree produced by the {@code TypesideEval_Gen}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypeside_EvalGen(AqlParser.Typeside_EvalGenContext ctx);
+	T visitTypesideEval_Gen(AqlParser.TypesideEval_GenContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Typeside_InfixFunction}
+	 * Visit a parse tree produced by the {@code TypesideEval_Infix}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypeside_InfixFunction(AqlParser.Typeside_InfixFunctionContext ctx);
+	T visitTypesideEval_Infix(AqlParser.TypesideEval_InfixContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Typeside_EvalFunction}
+	 * Visit a parse tree produced by the {@code TypesideEval_Paren}
 	 * labeled alternative in {@link AqlParser#typesideEval}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypeside_EvalFunction(AqlParser.Typeside_EvalFunctionContext ctx);
+	T visitTypesideEval_Paren(AqlParser.TypesideEval_ParenContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#typesideLiteral}.
 	 * @param ctx the parse tree

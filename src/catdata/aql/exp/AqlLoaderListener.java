@@ -114,6 +114,7 @@ import catdata.aql.grammar.AqlParser.TransformRefContext;
 import catdata.aql.grammar.AqlParser.TransformSigmaSectionContext;
 import catdata.aql.grammar.AqlParser.TransformUnitQuerySectionContext;
 import catdata.aql.grammar.AqlParser.TransformUnitSectionContext;
+import catdata.aql.grammar.AqlParser.TypesideLiteralContext;
 import catdata.aql.grammar.AqlParser.TypesideLiteralSectionContext;
 import catdata.aql.grammar.AqlParserBaseListener;
 
@@ -212,7 +213,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 					.map(elt -> 
 						new Pair<>(
 							elt.getStart().getText(),
-							elt.getStop().getText())) 
+							unquote(elt.getStop().getText()))) 
 					.collect(Collectors.toList());
 		
 		this.aopts.put(ctx, options);
@@ -443,17 +444,16 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final List<Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>>
 		eqns = sect.typesideEquationSig().stream() 
 				.map(elt -> 
-					new Pair<>(
+					new Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>(
 						getLoc(elt),
-						new Triple<>(
+						new Triple<List<Pair<String, String>>, RawTerm, RawTerm>(
 								elt.typesideLocal()
 									.stream() 
 									.map(lvar -> 
-										new Pair<>( 
-											lvar.getText(), lvar.getText()))
+										new Pair<String, String>(lvar.getText(), null))
 									.collect(Collectors.toList()),
-								new RawTerm(elt.typesideEval(0).getText()), 
-								new RawTerm(elt.typesideEval(1).getText()))))
+								this.terms.get(elt.typesideEval(0)), 
+								this.terms.get(elt.typesideEval(1)))))
 				.collect(Collectors.toList());
 		
 		final List<Pair<LocStr, String>>
@@ -496,6 +496,35 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				
 		this.exps.put(ctx,typeside);
 	};
+	
+	@Override public void exitTypesideEval_Number(AqlParser.TypesideEval_NumberContext ctx) { 
+		final RawTerm term = new RawTerm(ctx.NUMBER().getText());
+		this.terms.put(ctx,term);
+	}
+	@Override public void exitTypesideEval_Gen(AqlParser.TypesideEval_GenContext ctx) { 
+		final TypesideLiteralContext genNode = ctx.typesideLiteral();
+		final String name = genNode.getText();
+		final RawTerm term = new RawTerm(name);
+		this.terms.put(ctx,term);
+	}
+	@Override public void exitTypesideEval_Infix(AqlParser.TypesideEval_InfixContext ctx) {
+		final List<RawTerm> evals = ctx.typesideEval().stream() 
+				.map(x -> this.terms.get(x)) 
+				.collect(Collectors.toList());
+		
+		final RawTerm term = new RawTerm(ctx.typesideFnName().getText(), evals);
+		this.terms.put(ctx,term);	
+	}
+	@Override public void exitTypesideEval_Paren(AqlParser.TypesideEval_ParenContext ctx) { 
+
+		final List<RawTerm> evals = ctx.typesideEval().stream() 
+				.map(x -> this.terms.get(x)) 
+				.collect(Collectors.toList());
+		
+		final RawTerm term = new RawTerm(ctx.typesideFnName().getText(), evals);
+		this.terms.put(ctx,term);	
+	}
+
 	
 	/***************************************************
 	 * Schema section

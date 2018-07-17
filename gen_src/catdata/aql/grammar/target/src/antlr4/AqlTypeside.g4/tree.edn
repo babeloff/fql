@@ -473,29 +473,20 @@
       [:labeledAlt
        [:alternative
         [:element [:atom [:terminal "FORALL"]]]
+        [:element [:atom [:ruleref "typesideLocal"]]]
         [:element
          [:ebnf
           [:block
            "("
            [:altList
             [:alternative
-             [:element [:atom [:ruleref "typesideLocal"]]]
-             [:element
-              [:ebnf
-               [:block
-                "("
-                [:altList
-                 [:alternative
-                  [:element [:atom [:terminal "COMMA"]]]
-                  [:element [:atom [:ruleref "typesideLocal"]]]]]
-                ")"]
-               [:blockSuffix [:ebnfSuffix "*"]]]]]
+             [:element [:atom [:terminal "COMMA"]]]
+             [:element [:atom [:ruleref "typesideLocal"]]]]
             "|"
             [:alternative
-             [:element
-              [:atom [:ruleref "typesideLocal"]]
-              [:ebnfSuffix "+"]]]]
-           ")"]]]
+             [:element [:atom [:ruleref "typesideLocal"]]]]]
+           ")"]
+          [:blockSuffix [:ebnfSuffix "*"]]]]
         [:element [:atom [:terminal "DOT"]]]
         [:element [:atom [:ruleref "typesideEval"]]]
         [:element [:atom [:terminal "EQUAL"]]]
@@ -548,12 +539,12 @@
       [:labeledAlt
        [:alternative [:element [:atom [:terminal "NUMBER"]]]]
        "#"
-       [:identifier "Typeside_EvalNumber"]]
+       [:identifier "TypesideEval_Number"]]
       "|"
       [:labeledAlt
        [:alternative [:element [:atom [:ruleref "typesideLiteral"]]]]
        "#"
-       [:identifier "Typeside_EvalGen"]]
+       [:identifier "TypesideEval_Gen"]]
       "|"
       [:labeledAlt
        [:alternative
@@ -563,7 +554,7 @@
         [:element [:atom [:ruleref "typesideEval"]]]
         [:element [:atom [:terminal "RPAREN"]]]]
        "#"
-       [:identifier "Typeside_InfixFunction"]]
+       [:identifier "TypesideEval_InfixFun"]]
       "|"
       [:labeledAlt
        [:alternative
@@ -582,7 +573,7 @@
           [:blockSuffix [:ebnfSuffix "*"]]]]
         [:element [:atom [:terminal "RPAREN"]]]]
        "#"
-       [:identifier "Typeside_EvalFunction"]]]]
+       [:identifier "TypesideEval_CallFun"]]]]
     ";"
     "exceptionGroup"]]
   [:ruleSpec
