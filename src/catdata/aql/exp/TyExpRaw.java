@@ -313,23 +313,18 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 		return true;
 	}
 
-	private String toString;
-
 	@Override
 	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+		final StringBuilder sb = new StringBuilder();
 
 		if (!imports.isEmpty()) {
-			toString += "\timports";
-			toString += "\n\t\t" + Util.sep(imports, " ") + "\n";
+			sb.append("\timports");
+			sb.append("\n\t\t" + Util.sep(imports, " ") + "\n");
 		}
 
 		if (!types.isEmpty()) {
-			toString += "\ttypes";
-			toString += "\n\t\t" + Util.sep(Util.alphabetical(types), " ") + "\n";
+			sb.append("\ttypes");
+			sb.append("\n\t\t" + Util.sep(Util.alphabetical(types), " ") + "\n");
 		}
 
 		List<String> temp = new LinkedList<>();
@@ -344,76 +339,79 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 		Map<Object, Set<Object>> n = Util.revS(m);
 
 		if (!n.isEmpty()) {
-			toString += "\tconstants";
+			sb.append("\tconstants");
 
 			for (Object x : Util.alphabetical(n.keySet())) {
 				temp.add(Util.sep(n.get(x), " ") + " : " + x);
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		if (functions.size() != n.size()) {
-			toString += "\tfunctions";
+			sb.append("\tfunctions");
 			temp = new LinkedList<>();
 			for (Pair<String, Pair<List<String>, String>> sym : Util.alphabetical(functions)) {
 				if (!sym.second.first.isEmpty()) {
 					temp.add(sym.first + " : " + Util.sep(sym.second.first, ", ") + " -> " + sym.second.second);
 				}
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		if (!eqs.isEmpty()) {
-			toString += "\tequations";
+			sb.append("\tequations");
 			temp = new LinkedList<>();
 			for (Triple<List<Pair<String, String>>, RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
-				List<String> vars = Util.proj1(sym.first);
+				List<String> vars = sym.first.stream()
+						.map(x -> (x.second == null) 
+								? x.first : x.first + ":" + x.second)
+						.collect(Collectors.toList());
 				temp.add("forall " + Util.sep(vars, ", ") + ". " + sym.second + " = " + sym.third);
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		if (!java_tys.isEmpty()) {
-			toString += "\tjava_types";
+			sb.append("\tjava_types");
 			temp = new LinkedList<>();
 			for (Pair<String, String> sym : Util.alphabetical(java_tys)) {
 				temp.add(sym.first + " = " + Util.quote(sym.second));
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		if (!java_parser.isEmpty()) {
-			toString += "\tjava_constants";
+			sb.append("\tjava_constants");
 			temp = new LinkedList<>();
 			for (Pair<String, String> sym : Util.alphabetical(java_parser)) {
 				temp.add(sym.first + " = " + Util.quote(sym.second));
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		Function<List<String>, String> fff = x -> x.isEmpty() ? "" : (Util.sep(x, ", ") + " -> ");
 		if (!java_fns.isEmpty()) {
-			toString += "\tjava_functions";
+			sb.append("\tjava_functions");
 			temp = new LinkedList<>();
 			for (Pair<String, Triple<List<String>, String, String>> sym : Util.alphabetical(java_fns)) {
 				temp.add(sym.first + " : " + fff.apply(sym.second.first) + sym.second.second + " = "
 						+ Util.quote(sym.second.third));
 			}
 
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		if (!options.isEmpty()) {
-			toString += "\toptions";
+			sb.append("\toptions");
 			temp = new LinkedList<>();
 			for (Entry<String, String> sym : Util.alphabetical(options.entrySet())) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
 
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
-		return "literal {\n" + toString + "}";
+		return "literal {\n" + sb.toString() + "}";
 	}
 
 

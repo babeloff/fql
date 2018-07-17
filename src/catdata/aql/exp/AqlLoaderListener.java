@@ -450,7 +450,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 								elt.typesideLocal()
 									.stream() 
 									.map(lvar -> 
-										new Pair<String, String>(lvar.getText(), null))
+										new Pair<String, String>(
+												lvar.symbol().getText(), 
+												(lvar.typesideLocalType() == null) 
+													? null : lvar.typesideLocalType().getText()))
 									.collect(Collectors.toList()),
 								this.terms.get(elt.typesideEval(0)), 
 								this.terms.get(elt.typesideEval(1)))))
