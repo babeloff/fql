@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/6y7/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -704,15 +704,29 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitTypesideLiteralSection(AqlParser.TypesideLiteralSectionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#typesideImport}.
+	 * Enter a parse tree produced by the {@code TypesideImport_Sql}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
 	 * @param ctx the parse tree
 	 */
-	void enterTypesideImport(AqlParser.TypesideImportContext ctx);
+	void enterTypesideImport_Sql(AqlParser.TypesideImport_SqlContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#typesideImport}.
+	 * Exit a parse tree produced by the {@code TypesideImport_Sql}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
 	 * @param ctx the parse tree
 	 */
-	void exitTypesideImport(AqlParser.TypesideImportContext ctx);
+	void exitTypesideImport_Sql(AqlParser.TypesideImport_SqlContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code TypesideImport_Ref}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypesideImport_Ref(AqlParser.TypesideImport_RefContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code TypesideImport_Ref}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypesideImport_Ref(AqlParser.TypesideImport_RefContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#typesideTypeSig}.
 	 * @param ctx the parse tree

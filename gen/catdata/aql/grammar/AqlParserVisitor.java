@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/6y7/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -425,11 +425,19 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypesideLiteralSection(AqlParser.TypesideLiteralSectionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#typesideImport}.
+	 * Visit a parse tree produced by the {@code TypesideImport_Sql}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTypesideImport(AqlParser.TypesideImportContext ctx);
+	T visitTypesideImport_Sql(AqlParser.TypesideImport_SqlContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TypesideImport_Ref}
+	 * labeled alternative in {@link AqlParser#typesideImport}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypesideImport_Ref(AqlParser.TypesideImport_RefContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#typesideTypeSig}.
 	 * @param ctx the parse tree

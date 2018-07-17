@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/6y7/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -4265,25 +4265,49 @@ public class AqlParser extends Parser {
 	}
 
 	public static class TypesideImportContext extends ParserRuleContext {
-		public TerminalNode SQL() { return getToken(AqlParser.SQL, 0); }
-		public TypesideRefContext typesideRef() {
-			return getRuleContext(TypesideRefContext.class,0);
-		}
 		public TypesideImportContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typesideImport; }
+	 
+		public TypesideImportContext() { }
+		public void copyFrom(TypesideImportContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class TypesideImport_RefContext extends TypesideImportContext {
+		public TypesideRefContext typesideRef() {
+			return getRuleContext(TypesideRefContext.class,0);
+		}
+		public TypesideImport_RefContext(TypesideImportContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypesideImport(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypesideImport_Ref(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypesideImport(this);
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypesideImport_Ref(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypesideImport(this);
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypesideImport_Ref(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class TypesideImport_SqlContext extends TypesideImportContext {
+		public TerminalNode SQL() { return getToken(AqlParser.SQL, 0); }
+		public TypesideImport_SqlContext(TypesideImportContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).enterTypesideImport_Sql(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AqlParserListener ) ((AqlParserListener)listener).exitTypesideImport_Sql(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AqlParserVisitor ) return ((AqlParserVisitor<? extends T>)visitor).visitTypesideImport_Sql(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4296,6 +4320,7 @@ public class AqlParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SQL:
+				_localctx = new TypesideImport_SqlContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(892);
@@ -4305,6 +4330,7 @@ public class AqlParser extends Parser {
 			case UPPER_ID:
 			case LOWER_ID:
 			case SPECIAL_ID:
+				_localctx = new TypesideImport_RefContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(893);

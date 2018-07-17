@@ -39,7 +39,10 @@ typesideLiteralSection
     allOptions
   ;
 
-typesideImport  : SQL | typesideRef  ;
+typesideImport  
+: SQL          # TypesideImport_Sql
+| typesideRef  # TypesideImport_Ref
+;
 
 typesideTypeSig : typesideTypeId ;
 typesideJavaTypeSig : typesideTypeId EQUAL typesideJavaType ;

@@ -404,7 +404,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(elt -> 
 					new Pair<Integer,TyExp<?,?>>(
 						getLoc(elt),
-						(TyExp<?, ?>) this.exps.get(elt))) 
+						(TyExp<?,?>) this.exps.get(elt))) 
 				.collect(Collectors.toList());
 		
 		final List<LocStr> 
@@ -499,6 +499,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				
 		this.exps.put(ctx,typeside);
 	};
+
+	@Override public void exitTypesideImport_Ref(AqlParser.TypesideImport_RefContext ctx) {
+		this.exps.put(ctx, new TyExp.TyExpVar<>(ctx.typesideRef().getText()));
+	}
+
+	@Override public void exitTypesideImport_Sql(AqlParser.TypesideImport_SqlContext ctx) {
+		this.exps.put(ctx, new TyExpSql());
+	}
 	
 	@Override public void exitTypesideEval_Number(AqlParser.TypesideEval_NumberContext ctx) { 
 		final RawTerm term = new RawTerm(ctx.NUMBER().getText());
@@ -1635,15 +1643,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitInstanceExp_Frozen(AqlParser.InstanceExp_FrozenContext ctx) {
-		final QueryExp<?,?,?,?,?,?,?,?> 
-		queryExp = (QueryExp<?,?,?,?,?,?,?,?>) this.exps.get(ctx.queryKind());
+		@SuppressWarnings("unchecked")
+		final QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> 
+		queryExp = (QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att>) this.exps.get(ctx.queryKind());
 		
-		final SchExp<?, ?, ?, ?, ?> 
-		schemaExp = (SchExp<?, ?, ?, ?, ?>) this.exps.get(ctx.schemaKind());
+		final SchExpRaw.En schEn = new SchExpRaw.En(ctx.schemaKind().getText());
 		
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		final InstExpFrozen
-		inst = new InstExpFrozen(queryExp, schemaExp);
+		final InstExpFrozen<Ty, En, Sym, Fk, Att, En, Fk, Att>
+		inst = new InstExpFrozen<>(queryExp, schEn);
 		
 		this.exps.put(ctx, inst);
 	}
