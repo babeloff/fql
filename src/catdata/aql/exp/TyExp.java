@@ -12,7 +12,7 @@ import catdata.aql.TypeSide;
 
 public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 	
-	public TyExp<Ty, Sym> resolve(@SuppressWarnings("unused") Program<Exp<?>> prog) {
+	public TyExp<Ty, Sym> resolve(Program<Exp<?>> prog) {
 		return this;
 	}
 	
@@ -77,8 +77,10 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 	}
 	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static final class TyExpEmpty extends TyExp<Void,Void> {
+	public static final class TyExpEmpty extends TyExpEmptyEx<Void,Void> {
+		
+	}
+	public static class TyExpEmptyEx<Ty,Sym> extends TyExp<Ty,Sym> {
 		
 		@Override
 		public Collection<Pair<String, Kind>> deps() {
@@ -89,9 +91,10 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 			return Collections.emptyMap();
 		}
 			
+		@SuppressWarnings("unchecked")
 		@Override
-		public TypeSide<Void,Void> eval(AqlEnv env) {
-			return TypeSide.terminal();
+		public TypeSide<Ty,Sym> eval(AqlEnv env) {
+			return (TypeSide<Ty, Sym>) TypeSide.terminal();
 		}
 	
 		@Override

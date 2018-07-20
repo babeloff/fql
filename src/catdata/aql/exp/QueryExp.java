@@ -31,6 +31,11 @@ import catdata.aql.Term;
 import catdata.aql.Transform;
 import catdata.aql.Var;
 import catdata.aql.exp.SchExp.SchExpLit;
+import catdata.aql.exp.SchExpRaw.Att;
+import catdata.aql.exp.SchExpRaw.En;
+import catdata.aql.exp.SchExpRaw.Fk;
+import catdata.aql.exp.TyExpRaw.Sym;
+import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.fdm.CoEvalInstance;
 import catdata.aql.fdm.CoEvalTransform;
 import catdata.aql.fdm.DeltaInstance;
@@ -109,9 +114,14 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 	}
 
 	////////////////////////////////////////////////////////////
-
 	public static final class QueryExpVar
-			extends QueryExp<Object, Object, Object, Object, Object, Object, Object, Object> {
+	extends QueryExpVarEx<Object, Object, Object, Object, Object, Object, Object, Object> {
+		public QueryExpVar(String var) {
+			super(var);
+		}
+	}
+	public static class QueryExpVarEx<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2>
+			extends QueryExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> {
 		public final String var;
 
 		@Override
@@ -126,7 +136,7 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Query<Object, Object, Object, Object, Object, Object, Object, Object> eval(AqlEnv env) {
+		public Query<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> eval(AqlEnv env) {
 			return env.defs.qs.get(var);
 		}
 
@@ -162,16 +172,16 @@ public abstract class QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Pair<SchExp<Object, Object, Object, Object, Object>, SchExp<Object, Object, Object, Object, Object>> type(
+		public Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En2, Sym, Fk2, Att2>> type(
 				AqlTyping G) {
 			if (!G.defs.qs.containsKey(var)) {
 				throw new RuntimeException("Not a query: " + var);
 			}
-			return (Pair<SchExp<Object, Object, Object, Object, Object>, SchExp<Object, Object, Object, Object, Object>>) ((Object) G.defs.qs
+			return (Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En2, Sym, Fk2, Att2>>) ((Object) G.defs.qs
 					.get(var));
 		}
 
-		public QueryExpVar(String var) {
+		public QueryExpVarEx(String var) {
 			this.var = var;
 		}
 

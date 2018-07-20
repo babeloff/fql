@@ -200,7 +200,7 @@ public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> {
 
 	//////////////
 	
-	public static final class GraphExpVar extends GraphExp<Object, Object> {
+	public static final class GraphExpVar<E> extends GraphExp<E, E> {
 		public final String var;
 		
 		@Override
@@ -220,7 +220,7 @@ public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> {
 
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
-		public Graph<Object, Object> eval(AqlTyping env) {
+		public Graph<E, E> eval(AqlTyping env) {
 			return new Graph(env.defs.gs.get(var));
 		}
 
@@ -240,7 +240,7 @@ public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			GraphExpVar other = (GraphExpVar) obj;
+			GraphExpVar<?> other = (GraphExpVar<?>) obj;
 			if (var == null) {
 				if (other.var != null)
 					return false;

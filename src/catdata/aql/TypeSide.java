@@ -79,7 +79,15 @@ public class TypeSide<Ty, Sym> implements Semantics {
 
 	
 	
-	public TypeSide(Set<Ty> tys, Map<Sym, Pair<List<Ty>, Ty>> syms, Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs, /*Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string,*/ AqlJs<Ty,Sym> js, DP<Ty, Void, Sym, Void, Void, Void, Void> semantics, boolean checkJava) {
+	public TypeSide(
+			Set<Ty> tys, 
+			Map<Sym, Pair<List<Ty>, Ty>> syms, 
+			Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs,
+			/*Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string,*/ 
+			AqlJs<Ty,Sym> js, 
+			DP<Ty, Void, Sym, Void, Void, Void, Void> semantics, 
+			boolean checkJava) 
+	{
 		Util.assertNotNull(tys, syms, eqs, js, semantics);
 		this.tys = tys;
 		this.syms = new Ctx<>(syms);
@@ -225,7 +233,25 @@ public class TypeSide<Ty, Sym> implements Semantics {
 	}
 
 	public static TypeSide<Void,Void> terminal() {
-		return new TypeSide<>(new HashSet<>(), new HashMap<>(), new HashSet<>(), new AqlJs<>(new Ctx<>(), new Ctx<>(), new Ctx<>(), new Ctx<>()), DP.terminal, false);
+		return terminalEx(); 
+	}
+
+	public static <Ty,Sym> TypeSide<Ty,Sym> terminalEx() {
+		
+		final Set<Ty> tys = new HashSet<>(); 
+		final Map<Sym, Pair<List<Ty>, Ty>> syms = new HashMap<>();
+		final Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> 
+		eqs = new HashSet<>();
+		/* Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string,*/ 
+		final AqlJs<Ty,Sym> js = new AqlJs<>(new Ctx<>(), new Ctx<>(), new Ctx<>(), new Ctx<>());
+		
+		@SuppressWarnings("unchecked")
+		final DP<Ty, Void, Sym, Void, Void, Void, Void> 
+		semantics = (DP<Ty, Void, Sym, Void, Void, Void, Void>) DP.terminal; 
+		
+		final boolean checkJava = false;
+		
+		return new TypeSide<Ty,Sym>(tys, syms, eqs, js, semantics, checkJava);
 	}
 
 	public final DP<Ty, Void, Sym, Void, Void, Void, Void> semantics;

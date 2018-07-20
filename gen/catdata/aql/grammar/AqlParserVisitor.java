@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/f90/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -620,13 +620,6 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSchemaExp_OfInstance(AqlParser.SchemaExp_OfInstanceContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code SchemaExp_Destination}
-	 * labeled alternative in {@link AqlParser#schemaExp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code SchemaExp_GetSchemaColimit}
 	 * labeled alternative in {@link AqlParser#schemaExp}.
@@ -2249,6 +2242,18 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSchemaColimitQuotientSection(AqlParser.SchemaColimitQuotientSectionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AqlParser#scQuotientEqu}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScQuotientEqu(AqlParser.ScQuotientEquContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scQuotientFkEqu}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScQuotientFkEqu(AqlParser.ScQuotientFkEquContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AqlParser#scObsEquation}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -2261,23 +2266,25 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitScGen(AqlParser.ScGenContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#scEntityPath}.
+	 * Visit a parse tree produced by {@link AqlParser#scGenType}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitScEntityPath(AqlParser.ScEntityPathContext ctx);
+	T visitScGenType(AqlParser.ScGenTypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#scFkPath}.
+	 * Visit a parse tree produced by the {@code ScTermPath_Dotted}
+	 * labeled alternative in {@link AqlParser#scTermPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitScFkPath(AqlParser.ScFkPathContext ctx);
+	T visitScTermPath_Dotted(AqlParser.ScTermPath_DottedContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AqlParser#scAttrPath}.
+	 * Visit a parse tree produced by the {@code ScTermPath_Singular}
+	 * labeled alternative in {@link AqlParser#scTermPath}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitScAttrPath(AqlParser.ScAttrPathContext ctx);
+	T visitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaColimitModifySection}.
 	 * @param ctx the parse tree

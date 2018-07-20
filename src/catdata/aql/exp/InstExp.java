@@ -41,7 +41,7 @@ import catdata.aql.fdm.DistinctInstance;
 import catdata.aql.fdm.EvalAlgebra.Row;
 import catdata.aql.fdm.EvalInstance;
 import catdata.aql.fdm.InitialAlgebra;
-import catdata.aql.fdm.InitialInstance;
+import catdata.aql.fdm.InitialInstanceEx;
 import catdata.aql.fdm.LiteralInstance;
 import catdata.aql.fdm.SigmaChaseAlgebra;
 import catdata.aql.fdm.SigmaInstance;
@@ -1420,7 +1420,14 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 	}
 
 	public static final class InstExpEmpty<Ty, Sym, En, Fk, Att>
-			extends InstExp<Ty, En, Sym, Fk, Att, Void, Void, Void, Void> {
+			extends InstExpEmptyEx<Ty, En, Sym, Fk, Att, Void, Void, Void, Void> {
+
+		public InstExpEmpty(SchExp<Ty, En, Sym, Fk, Att> schema) {
+			super(schema);
+		}
+	}
+	public static class InstExpEmptyEx<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
+		extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
 
 		public final SchExp<Ty, En, Sym, Fk, Att> schema;
 
@@ -1434,7 +1441,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return schema.deps();
 		}
 
-		public InstExpEmpty(SchExp<Ty, En, Sym, Fk, Att> schema) {
+		public InstExpEmptyEx(SchExp<Ty, En, Sym, Fk, Att> schema) {
 			if (schema == null) {
 				throw new RuntimeException("Attempt to create InstExpEmpty with null schema");
 			}
@@ -1467,8 +1474,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public InitialInstance<Ty, En, Sym, Fk, Att> eval(AqlEnv env) {
-			return new InitialInstance<>(schema.eval(env));
+		public InitialInstanceEx<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> eval(AqlEnv env) {
+			return new InitialInstanceEx<>(schema.eval(env));
 		}
 
 		@Override

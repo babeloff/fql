@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/f90/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1175,18 +1175,6 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSchemaExp_OfInstance(AqlParser.SchemaExp_OfInstanceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -4192,6 +4180,30 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterScQuotientEqu(AqlParser.ScQuotientEquContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScQuotientEqu(AqlParser.ScQuotientEquContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterScQuotientFkEqu(AqlParser.ScQuotientFkEquContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScQuotientFkEqu(AqlParser.ScQuotientFkEquContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterScObsEquation(AqlParser.ScObsEquationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -4216,37 +4228,37 @@ public class AqlParserBaseListener implements AqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterScEntityPath(AqlParser.ScEntityPathContext ctx) { }
+	@Override public void enterScGenType(AqlParser.ScGenTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitScEntityPath(AqlParser.ScEntityPathContext ctx) { }
+	@Override public void exitScGenType(AqlParser.ScGenTypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterScFkPath(AqlParser.ScFkPathContext ctx) { }
+	@Override public void enterScTermPath_Dotted(AqlParser.ScTermPath_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitScFkPath(AqlParser.ScFkPathContext ctx) { }
+	@Override public void exitScTermPath_Dotted(AqlParser.ScTermPath_DottedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterScAttrPath(AqlParser.ScAttrPathContext ctx) { }
+	@Override public void enterScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitScAttrPath(AqlParser.ScAttrPathContext ctx) { }
+	@Override public void exitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -116,9 +116,31 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 				Collections.emptySet(), t.semantics, false);
 	}
 
-	public Schema(TypeSide<Ty, Sym> typeSide, Set<En> ens, Map<Att, Pair<En, Ty>> atts, Map<Fk, Pair<En, En>> fks,
+	public static <Ty,En,Sym,Fk,Att> Schema<Ty,En,Sym,Fk,Att> terminalEx(TypeSide<Ty, Sym> t) {
+		final TypeSide<Ty, Sym> typeSide = t; 
+		final Set<En> ens = Collections.emptySet(); 
+		final Map<Att, Pair<En, Ty>> atts = Collections.emptyMap(); 
+		final Map<Fk, Pair<En, En>> fks = Collections.emptyMap();
+		final Set<Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> 
+		eqs = Collections.emptySet();
+		
+		@SuppressWarnings("unchecked")
+		final DP<Ty, En, Sym, Fk, Att, Void, Void> semantics = (DP<Ty, En, Sym, Fk, Att, Void, Void>) t.semantics; 
+		
+		final boolean checkJava = false; 
+		
+		return new Schema<>(typeSide, ens, atts, fks, eqs, semantics, checkJava);
+	}
+
+	public Schema(
+			TypeSide<Ty, Sym> typeSide, 
+			Set<En> ens, 
+			Map<Att, Pair<En, Ty>> atts, 
+			Map<Fk, Pair<En, En>> fks,
 			Set<Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs,
-			DP<Ty, En, Sym, Fk, Att, Void, Void> semantics, boolean checkJava) {
+			DP<Ty, En, Sym, Fk, Att, Void, Void> semantics, 
+			boolean checkJava) 
+	{
 		Util.assertNotNull(typeSide, ens, fks, atts, eqs, semantics);
 		this.typeSide = typeSide;
 		this.atts = new Ctx<>(atts);

@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/f90/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -690,13 +690,6 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitSchemaExp_OfInstance(AqlParser.SchemaExp_OfInstanceContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2453,6 +2446,20 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitScQuotientEqu(AqlParser.ScQuotientEquContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitScQuotientFkEqu(AqlParser.ScQuotientFkEquContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitScObsEquation(AqlParser.ScObsEquationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -2467,21 +2474,21 @@ public class AqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitScEntityPath(AqlParser.ScEntityPathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScGenType(AqlParser.ScGenTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitScFkPath(AqlParser.ScFkPathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScTermPath_Dotted(AqlParser.ScTermPath_DottedContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitScAttrPath(AqlParser.ScAttrPathContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

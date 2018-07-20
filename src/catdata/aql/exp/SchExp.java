@@ -9,6 +9,11 @@ import catdata.Program;
 import catdata.Util;
 import catdata.aql.Kind;
 import catdata.aql.Schema;
+import catdata.aql.exp.SchExpRaw.Att;
+import catdata.aql.exp.SchExpRaw.En;
+import catdata.aql.exp.SchExpRaw.Fk;
+import catdata.aql.exp.TyExpRaw.Sym;
+import catdata.aql.exp.TyExpRaw.Ty;
 
 public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,Att>> {	
 	
@@ -149,12 +154,18 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class SchExpEmpty<Ty,Sym> extends SchExp<Ty,Void,Sym,Void,Void> {
+	public static final class SchExpEmpty<Ty,Sym> extends SchExpEmptyEx<Ty,Void,Sym,Void,Void> {
+		public SchExpEmpty(TyExp<Ty, Sym> typeSide) {
+			super(typeSide);
+		}
+	}
+	
+	public static class SchExpEmptyEx<Ty,En,Sym,Fk,Att> extends SchExp<Ty,En,Sym,Fk,Att> {
 		
 		public final TyExp<Ty,Sym> typeSide;
 		
-		public SchExp<Ty,Void,Sym,Void,Void> resolve(AqlTyping G, Program<Exp<?>> prog) {
-			return new SchExpEmpty<>(typeSide.resolve(prog));
+		public SchExp<Ty,En,Sym,Fk,Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
+			return new SchExpEmptyEx<>(typeSide.resolve(prog));
 		}
 		
 		
@@ -167,7 +178,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 			return typeSide.deps();
 		}
 
-		public SchExpEmpty(TyExp<Ty, Sym> typeSide) {
+		public SchExpEmptyEx(TyExp<Ty, Sym> typeSide) {
 			if (typeSide == null) {
 				throw new RuntimeException("Attempt to use null typeSide in SchExpEmpty");
 			}
@@ -200,13 +211,12 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		}
 
 		@Override
-		public Schema<Ty, Void, Sym, Void, Void> eval(AqlEnv env) {
-			return Schema.terminal(typeSide.eval(env));
+		public Schema<Ty,En,Sym,Fk,Att> eval(AqlEnv env) {
+			return Schema.terminalEx(typeSide.eval(env));
 		}
 
-		
-		
 	}
+
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
