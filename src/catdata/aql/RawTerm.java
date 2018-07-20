@@ -73,6 +73,21 @@ public final class RawTerm {
 		return ls;
 	}
 	
+	/**
+	 * Grab the element from the RawTerm.
+	 * @param primary the depth into the term
+	 * @param secondary the width to the node
+	 * @return a String representing the value of the node. null if not present.
+	 */
+	public String byIndex(final int ...ixs) {
+		RawTerm term = this;
+		for (int ix : ixs) {
+			if (ix >= term.args.size()) return null;
+			term = term.args.get(ix);
+		}
+		return term.head;
+	}
+	
 	private static Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> infer_good(
 			RawTerm e, Chc<Ty, En> expected, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js,
 			Map<Var, Chc<Ty, En>> vars) {

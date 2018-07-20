@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/5sg/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/gg1/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -1033,18 +1033,6 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSchemaExp_OfInstance(AqlParser.SchemaExp_OfInstanceContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code SchemaExp_Destination}
-	 * labeled alternative in {@link AqlParser#schemaExp}.
-	 * @param ctx the parse tree
-	 */
-	void enterSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code SchemaExp_Destination}
-	 * labeled alternative in {@link AqlParser#schemaExp}.
-	 * @param ctx the parse tree
-	 */
-	void exitSchemaExp_Destination(AqlParser.SchemaExp_DestinationContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code SchemaExp_GetSchemaColimit}
 	 * labeled alternative in {@link AqlParser#schemaExp}.
@@ -3788,6 +3776,26 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitSchemaColimitQuotientSection(AqlParser.SchemaColimitQuotientSectionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AqlParser#scQuotientEqu}.
+	 * @param ctx the parse tree
+	 */
+	void enterScQuotientEqu(AqlParser.ScQuotientEquContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scQuotientEqu}.
+	 * @param ctx the parse tree
+	 */
+	void exitScQuotientEqu(AqlParser.ScQuotientEquContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scQuotientFkEqu}.
+	 * @param ctx the parse tree
+	 */
+	void enterScQuotientFkEqu(AqlParser.ScQuotientFkEquContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scQuotientFkEqu}.
+	 * @param ctx the parse tree
+	 */
+	void exitScQuotientFkEqu(AqlParser.ScQuotientFkEquContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AqlParser#scObsEquation}.
 	 * @param ctx the parse tree
 	 */
@@ -3808,35 +3816,39 @@ public interface AqlParserListener extends ParseTreeListener {
 	 */
 	void exitScGen(AqlParser.ScGenContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#scEntityPath}.
+	 * Enter a parse tree produced by {@link AqlParser#scGenType}.
 	 * @param ctx the parse tree
 	 */
-	void enterScEntityPath(AqlParser.ScEntityPathContext ctx);
+	void enterScGenType(AqlParser.ScGenTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#scEntityPath}.
+	 * Exit a parse tree produced by {@link AqlParser#scGenType}.
 	 * @param ctx the parse tree
 	 */
-	void exitScEntityPath(AqlParser.ScEntityPathContext ctx);
+	void exitScGenType(AqlParser.ScGenTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#scFkPath}.
+	 * Enter a parse tree produced by the {@code ScTermPath_Dotted}
+	 * labeled alternative in {@link AqlParser#scTermPath}.
 	 * @param ctx the parse tree
 	 */
-	void enterScFkPath(AqlParser.ScFkPathContext ctx);
+	void enterScTermPath_Dotted(AqlParser.ScTermPath_DottedContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#scFkPath}.
+	 * Exit a parse tree produced by the {@code ScTermPath_Dotted}
+	 * labeled alternative in {@link AqlParser#scTermPath}.
 	 * @param ctx the parse tree
 	 */
-	void exitScFkPath(AqlParser.ScFkPathContext ctx);
+	void exitScTermPath_Dotted(AqlParser.ScTermPath_DottedContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AqlParser#scAttrPath}.
+	 * Enter a parse tree produced by the {@code ScTermPath_Singular}
+	 * labeled alternative in {@link AqlParser#scTermPath}.
 	 * @param ctx the parse tree
 	 */
-	void enterScAttrPath(AqlParser.ScAttrPathContext ctx);
+	void enterScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link AqlParser#scAttrPath}.
+	 * Exit a parse tree produced by the {@code ScTermPath_Singular}
+	 * labeled alternative in {@link AqlParser#scTermPath}.
 	 * @param ctx the parse tree
 	 */
-	void exitScAttrPath(AqlParser.ScAttrPathContext ctx);
+	void exitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaColimitModifySection}.
 	 * @param ctx the parse tree

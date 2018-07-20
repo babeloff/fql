@@ -130,62 +130,38 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 			return RawTerm.fold(l, "_v0");  
 		}
 
-		private String toString;
-		
 		@Override
 		public synchronized String toString() {
-			if (toString != null) {
-				return toString;
-			}
-			toString = "";
-			
-			List<String> temp = new LinkedList<>();
+			final StringBuilder sb = new StringBuilder();
 			
 			if (!eqEn.isEmpty()) {
-				toString += "\tentity_equations";
-						
-				for (Quad<N, En, N, En> x : eqEn) {
-					temp.add(x.first + "." + x.second + " = " + x.third + "." + x.fourth);
+				sb.append("\tentity_equations")
+				  .append(this.eqEn.stream()
+						  .map(x -> x.first + "." + x.second + " = " + x.third + "." + x.fourth)
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
-			}
-			
 			if (!eqTerms2.isEmpty()) {
-				toString += "\tpath_equations";
-						
-				for (Pair<List<String>, List<String>> x : eqTerms2) {
-					temp.add(Util.sep(x.first, ".") + " = " + Util.sep(x.second, "."));
+				sb.append("\tpath_equations")
+				  .append(this.eqTerms2.stream()
+						  .map(x -> Util.sep(x.first, ".") + " = " + Util.sep(x.second, "."))
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
-			}
-			
 			if (!eqTerms.isEmpty()) {
-				toString += "\tobservation_equations";
-						
-				for (Quad<String, String, RawTerm, RawTerm> x : eqTerms) {
-					temp.add("forall " + x.first + ". " + x.third + " = " + x.fourth);
+				sb.append("\tobservation_equations")
+				  .append(this.eqTerms.stream()
+						  .map(x -> "forall " + x.first + ". " + x.third + " = " + x.fourth)
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
-			}
-			
 			if (!options.isEmpty()) {
-				toString += "\toptions";
-				temp = new LinkedList<>();
-				for (Entry<String, String> sym : options.entrySet()) {
-					temp.add(sym.getKey() + " = " + sym.getValue());
-				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\toptions")
+				  .append(this.options.entrySet().stream()
+						  .map(sym -> sym.getKey() + " = " + sym.getValue())
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 			}
 			if (eqEn.isEmpty() && eqTerms.isEmpty() && eqTerms2.isEmpty()) {
-				toString = "coproduct " + Util.sep(nodes.keySet(), " + "); // + " {\n" + toString + "\n}";
-				return toString;
+				return "coproduct " + Util.sep(nodes.keySet(), " + "); 
 			} else {
-				toString = "quotient " + Util.sep(nodes.keySet(), " + ") + " {\n" + toString + "\n}";
-				return toString;
+				return "quotient " + Util.sep(nodes.keySet(), " + ") + " {\n" + sb.toString() + "\n}";
 			}
 		} 
 

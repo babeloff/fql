@@ -28,36 +28,31 @@ schemaColimitKind
 ;
 
 schemaColimitQuotientSection
-  : (ENTITY_EQUATIONS (scEntityPath EQUAL scEntityPath)*)?
-    (PATH_EQUATIONS (scFkPath EQUAL scFkPath)*)?
+: (ENTITY_EQUATIONS scQuotientEqu*)?
+  (PATH_EQUATIONS scQuotientFkEqu*)?
     (OBSERVATION_EQUATIONS scObsEquation* )?
+  allOptions
   ;
+
+scQuotientEqu : scTermPath EQUAL scTermPath ;
+scQuotientFkEqu : scTermPath EQUAL scTermPath ;
 
 scObsEquation
-  : FORALL scGen (COMMA scGen)* DOT scEntityPath EQUAL scEntityPath
+: FORALL scGen DOT scTermPath EQUAL scTermPath
   ;
 
-scGen : symbol ;
+scGen : symbol (COLON scGenType)? ;
+scGenType : symbol ;
 
-scEntityPath
-  : schemaRef DOT schemaTermId
-  | schemaTermId
-  ;
-
-scFkPath
-: schemaRef DOT schemaTermId
-| schemaTermId
-;
-
-scAttrPath
-: schemaRef DOT schemaTermId
-| schemaTermId
+scTermPath
+: schemaRef DOT schemaTermId  # ScTermPath_Dotted
+| schemaTermId                # ScTermPath_Singular
 ;
 
 schemaColimitModifySection
-  : (RENAME ENTITIES (scEntityPath RARROW scEntityPath)*)?
-    (RENAME FOREIGN_KEYS (scFkPath RARROW scFkPath)*)?
-    (RENAME ATTRIBUTES (scAttrPath RARROW scAttrPath)*)?
-    (REMOVE FOREIGN_KEYS (scFkPath RARROW scFkPath)*)?
-    (REMOVE ATTRIBUTES (scAttrPath RARROW scAttrPath)*)?
+: (RENAME ENTITIES (scTermPath RARROW scTermPath)*)?
+  (RENAME FOREIGN_KEYS (scTermPath RARROW scTermPath)*)?
+  (RENAME ATTRIBUTES (scTermPath RARROW scTermPath)*)?
+  (REMOVE FOREIGN_KEYS (scTermPath RARROW scTermPath)*)?
+  (REMOVE ATTRIBUTES (scTermPath RARROW scTermPath)*)?
   ;

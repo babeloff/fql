@@ -19,9 +19,6 @@ schemaExp
   | SCHEMA_OF instanceKind                    
   # SchemaExp_OfInstance
   
-  | DST queryRef                              
-  # SchemaExp_Destination  
-  
   | GET_SCHEMA schemaColimitRef               
   # SchemaExp_GetSchemaColimit
   
