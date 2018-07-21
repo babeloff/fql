@@ -232,11 +232,7 @@ public class TypeSide<Ty, Sym> implements Semantics {
 		return pre + eq.first + ". " + eq.second + " = " + eq.third;
 	}
 
-	public static TypeSide<Void,Void> terminal() {
-		return terminalEx(); 
-	}
-
-	public static <Ty,Sym> TypeSide<Ty,Sym> terminalEx() {
+	public static <Ty,Sym> TypeSide<Ty,Sym> terminal() {
 		
 		final Set<Ty> tys = new HashSet<>(); 
 		final Map<Sym, Pair<List<Ty>, Ty>> syms = new HashMap<>();

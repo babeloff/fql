@@ -139,7 +139,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 
 	@SuppressWarnings("unchecked")
 	public TyExpRaw(
-			List<Pair<Integer,TyExp<?,?>>> imports, 
+			List<Pair<Integer, TyExpI>> imports2, 
 			List<LocStr> types, 
 			List<Pair<LocStr, Pair<List<String>, String>>> functions,
 			List<Pair<Integer, Triple<List<Pair<String, String>>, RawTerm, RawTerm>>> eqsX,
@@ -147,7 +147,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 			List<Pair<LocStr, String>> java_parser_string,
 			List<Pair<LocStr, Triple<List<String>, String, String>>> java_fns_string,
 			List<Pair<String, String>> options) {
-		this.imports = Util.toSetSafely((List<Pair<Integer,TyExp<Ty,Sym>>>)((Object)imports));
+		this.imports = Util.toSetSafely((List<Pair<Integer,TyExp<Ty,Sym>>>)((Object)imports2));
 		this.types = LocStr.set1(types);
 		this.functions = LocStr.functions1(functions);
 		this.eqs = LocStr.eqs1(eqsX);
@@ -171,7 +171,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 		
 		
 		//do above because find() requires the index
-		doGuiIndex(imports, types, functions, eqsX, java_tys_string, java_parser_string, java_fns_string);
+		doGuiIndex(imports2, types, functions, eqsX, java_tys_string, java_parser_string, java_fns_string);
 
 		
 

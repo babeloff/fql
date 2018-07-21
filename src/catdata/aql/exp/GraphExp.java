@@ -16,7 +16,7 @@ import catdata.aql.Graph;
 import catdata.aql.Kind;
 import catdata.graph.DMG;
 
-public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> {
+public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> implements GraphExpI {
 
 	@Override
 	public Kind kind() {

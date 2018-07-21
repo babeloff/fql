@@ -7,17 +7,11 @@ import catdata.Pair;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Kind;
 
-public abstract class Exp<X> {
+public abstract class Exp<X> implements ExpI<X> {
 	
 	public Object getOrDefault(AqlEnv env, AqlOption option) {
-		return env.defaults.getOrDefault(options(), option);
+		return env.defaults.getOrDefault(this.options(), option);
 	}
-	
-	protected abstract Map<String, String> options();
-	
-	public abstract Kind kind();
-	
-	public abstract X eval(AqlEnv env);
 		
 	@Override
 	public abstract String toString();

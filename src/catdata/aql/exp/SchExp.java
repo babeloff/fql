@@ -15,10 +15,8 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
-public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,Att>> {	
-	
-	public abstract SchExp<Ty,En,Sym,Fk,Att> resolve(AqlTyping G, Program<Exp<?>> prog); 
-	
+public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,Att>> implements SchExpI<Ty,Sym> {	
+		
 	@Override
 	public Kind kind() {
 		return Kind.SCHEMA;
@@ -36,8 +34,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		}
 		
 		//TODO aql schema equality too weak
-		@Override
-		public SchExp<Ty,En2,Sym,Fk2,Att2> resolve(AqlTyping G, Program<Exp<?>> prog) {
+		public SchExpI<Ty,Sym> resolve(AqlTyping G, Program<Exp<?>> prog) {
 			return this;
 		}
 		
@@ -86,9 +83,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		public Collection<Pair<String, Kind>> deps() {
 			return exp.deps();
 		}
-		
-		
-		
+
 		
 	}
 	
@@ -98,8 +93,8 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		public final InstExp<Ty,En,Sym,Fk,Att,?,?,?,?> inst;
 		
 		@Override
-		public SchExp<Ty,En,Sym,Fk,Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
-			return (SchExp<Ty,En,Sym,Fk,Att>) inst.type(G);
+		public SchExpI<Ty,Sym> resolve(AqlTyping G, Program<Exp<?>> prog) {
+			return inst.type(G);
 		}
 		
 		@Override
@@ -147,25 +142,18 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		public Schema<Ty, En, Sym, Fk, Att> eval(AqlEnv env) {
 			return inst.eval(env).schema();
 		}
-
 		
 		
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class SchExpEmpty<Ty,Sym> extends SchExpEmptyEx<Ty,Void,Sym,Void,Void> {
-		public SchExpEmpty(TyExp<Ty, Sym> typeSide) {
-			super(typeSide);
-		}
-	}
-	
-	public static class SchExpEmptyEx<Ty,En,Sym,Fk,Att> extends SchExp<Ty,En,Sym,Fk,Att> {
+	public static final class SchExpEmpty<Ty,Sym> extends SchExp<Ty,Void,Sym,Void,Void> {
 		
-		public final TyExp<Ty,Sym> typeSide;
+		public final TyExpI<Ty,Sym> typeSide;
 		
-		public SchExp<Ty,En,Sym,Fk,Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
-			return new SchExpEmptyEx<>(typeSide.resolve(prog));
+		public SchExpI<Ty,Sym> resolve(AqlTyping G, Program<Exp<?>> prog) {
+			return new SchExpEmpty<Ty,Sym>(typeSide.resolve(prog));
 		}
 		
 		
@@ -178,7 +166,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 			return typeSide.deps();
 		}
 
-		public SchExpEmptyEx(TyExp<Ty, Sym> typeSide) {
+		public SchExpEmpty(TyExpI<Ty,Sym> typeSide) {
 			if (typeSide == null) {
 				throw new RuntimeException("Attempt to use null typeSide in SchExpEmpty");
 			}
@@ -211,7 +199,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		}
 
 		@Override
-		public Schema<Ty,En,Sym,Fk,Att> eval(AqlEnv env) {
+		public Schema<Ty,Void,Sym,Void,Void> eval(AqlEnv env) {
 			return Schema.terminalEx(typeSide.eval(env));
 		}
 
@@ -223,7 +211,7 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 	public static final class SchExpVar<Ty,En,Sym,Fk,Att> extends SchExp<Ty,En,Sym,Fk,Att> {
 		
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
+		public SchExpI<Ty, Sym> resolve(AqlTyping G, Program<Exp<?>> prog) {
 			if (!prog.exps.containsKey(var)) {
 				throw new RuntimeException("Unbound typeside variable: " + var);
 			}
@@ -284,8 +272,6 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		public String toString() {
 			return var;
 		}
-
-		
 		
 	}
 
@@ -344,6 +330,11 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 		@Override
 		public SchExp<Ty, Sym, En, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
 			return this;
+		}
+		@Override
+		public SchExpI resolve(AqlTyping G, Program prog) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		

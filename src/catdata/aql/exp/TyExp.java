@@ -10,9 +10,9 @@ import catdata.Util;
 import catdata.aql.Kind;
 import catdata.aql.TypeSide;
 
-public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
+public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> implements TyExpI<Ty,Sym> {
 	
-	public TyExp<Ty, Sym> resolve(Program<Exp<?>> prog) {
+	public TyExpI resolve(Program<Exp<?>> prog) {
 		return this;
 	}
 	
@@ -31,9 +31,9 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 			return Collections.emptyMap();
 		}
 		
-		public final SchExp<Ty, ?, Sym, ?, ?> schema;
+		public final SchExpI schema;
 
-		public TyExpSch(SchExp<Ty, ?, Sym, ?, ?> schema) {
+		public TyExpSch(SchExpI schema) {
 			this.schema = schema;
 		}
 
@@ -77,10 +77,8 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 	}
 	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	public static final class TyExpEmpty extends TyExpEmptyEx<Void,Void> {
-		
-	}
-	public static class TyExpEmptyEx<Ty,Sym> extends TyExp<Ty,Sym> {
+	
+	public static class TyExpEmpty<Ty,Sym> extends TyExp<Ty,Sym> {
 		
 		@Override
 		public Collection<Pair<String, Kind>> deps() {

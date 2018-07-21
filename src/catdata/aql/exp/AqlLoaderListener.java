@@ -171,26 +171,26 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.mapped_terms_2 = new ParseTreeProperty<>();
 		this.aopts = new ParseTreeProperty<>();
 	}
-	public final List<Triple<String, Integer, Exp<?>>> decls;
+	public final List<Triple<String, Integer, ExpI>> decls;
 	public final List<Pair<String, String>> global_options;
 	public Function<Exp<?>, String> kind;
 	
 	private final ParseTreeProperty<String> str;
 	
-	private final ParseTreeProperty<TyExp<Ty,Sym>> exp_ty = new ParseTreeProperty<>();
-	private final ParseTreeProperty<GraphExp<String,String>> exp_graph = new ParseTreeProperty<>();
-	private final ParseTreeProperty<SchExp<Ty,En,Sym,Fk,Att>> exp_sch = new ParseTreeProperty<>();
-	private final ParseTreeProperty<InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> exp_inst = new ParseTreeProperty<>();
-	private final ParseTreeProperty<MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att>> exp_map = new ParseTreeProperty<>();
-	private final ParseTreeProperty<QueryExp<Ty,En,Sym,Fk,Att,En,Fk,Att>> exp_query = new ParseTreeProperty<>();
-	private final ParseTreeProperty<ColimSchExp<String>> exp_scolim = new ParseTreeProperty<>();
-	private final ParseTreeProperty<EdsExp<Ty,En,Sym,Fk,Att>> exp_rule = new ParseTreeProperty<>();
-	private final ParseTreeProperty<PragmaExp> exp_cmd = new ParseTreeProperty<>();
-	private final ParseTreeProperty<TransExp<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,X,Y,X,Y>> exp_trans = new ParseTreeProperty<>();
+	private final ParseTreeProperty<TyExpI> exp_ty = new ParseTreeProperty<>();
+	private final ParseTreeProperty<GraphExpI> exp_graph = new ParseTreeProperty<>();
+	private final ParseTreeProperty<SchExpI> exp_sch = new ParseTreeProperty<>();
+	private final ParseTreeProperty<InstExpI> exp_inst = new ParseTreeProperty<>();
+	private final ParseTreeProperty<MapExpI> exp_map = new ParseTreeProperty<>();
+	private final ParseTreeProperty<QueryExpI> exp_query = new ParseTreeProperty<>();
+	private final ParseTreeProperty<ColimSchExpI> exp_scolim = new ParseTreeProperty<>();
+	private final ParseTreeProperty<EdsExpI> exp_rule = new ParseTreeProperty<>();
+	private final ParseTreeProperty<PragmaExpI> exp_cmd = new ParseTreeProperty<>();
+	private final ParseTreeProperty<TransExpI> exp_trans = new ParseTreeProperty<>();
 	
 	private final ParseTreeProperty<RawTerm> terms;
 	
-	public final Map<String, Exp<?>> ns = new HashMap<>();
+	public final Map<String, ExpI> ns = new HashMap<>();
 	
 	/******
 	 * Utility functions
@@ -208,7 +208,6 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 * @param quoted
 	 * @return
 	 */
-
 	private String unquote(final String quoted) {
 		return StringUtils.removeEnd(StringUtils.removeStart(quoted, "\""), "\"");
 	}
@@ -219,7 +218,6 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitQuotedMultiString(AqlParser.QuotedMultiStringContext ctx) {
 		this.str.put(ctx, unquote(ctx.getText()));
 	}
-	
 	
 /**
  * Process all options rule
@@ -307,7 +305,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitGraphAssignment(AqlParser.GraphAssignmentContext ctx) {
 		final String name = ctx.graphId().getText();
 		final Integer id = getLoc(ctx);
-		final Exp<?> exp = this.exp_graph.get(ctx.graphExp());
+		final ExpI exp = (ExpI) this.exp_graph.get(ctx.graphExp());
 		if (exp == null) {
 			log.warning("null graph exp " + name);
 			return;
@@ -378,7 +376,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	@Override public void exitTypesideAssignment(AqlParser.TypesideAssignmentContext ctx) {
 		final String name = ctx.typesideId().getText();
 		final Integer id = getLoc(ctx);
-		final Exp<?> exp = this.exp_ty.get(ctx.typesideExp());
+		final ExpI exp = (ExpI) this.exp_ty.get(ctx.typesideExp());
 		if (exp == null) {
 			log.warning("null typeside exp " + name);
 			return;
@@ -416,10 +414,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	@Override 
 	public void exitTypesideExp_Of(AqlParser.TypesideExp_OfContext ctx) {
-		final SchExp<Ty, En, Sym, Fk, Att> 
+		final SchExpI
 		schema = this.exp_sch.get(ctx.schemaKind());
 		
-		final TyExp<Ty,Sym> 
+		final TyExp.TyExpSch<Ty,Sym> 
 		exp = new TyExp.TyExpSch<>(schema);
 		
 		this.exp_ty.put(ctx, exp);
@@ -432,10 +430,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final TypesideLiteralSectionContext 
 		sect = ctx.typesideLiteralSection();
 		
-		final List<Pair<Integer,TyExp<?,?>>>
+		final List<Pair<Integer,TyExpI>>
 		imports = sect.typesideImport().stream() 
 				.map(elt -> 
-					new Pair<Integer,TyExp<?,?>>(
+					new Pair<Integer,TyExpI>(
 						getLoc(elt),
 						this.exp_ty.get(elt))) 
 				.collect(Collectors.toList());
@@ -2126,7 +2124,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		instSrcExp = this.exp_inst.get(instSrcRef),
 		instTgtExp = this.exp_inst.get(instTgtRef);
 		  
-		List<Pair<LocStr, String>>
+		final List<Pair<LocStr, String>>
 		transFiles = sect.transformFileExpr().stream()
 			.map(x -> new Pair<>(
 				makeLocStr(x.schemaEntityId()),
@@ -2493,7 +2491,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final TransformRefContext transRef = ctx.transformRef();
 		final CommandExportCsvSectionContext sect = ctx.commandExportCsvSection();
 		
-		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
+		final TransExp<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,X,Y,X,Y>
 		transExp = this.exp_trans.get(transRef); 
 		
 		final String cmdFile = cmdFileNode.getText();
