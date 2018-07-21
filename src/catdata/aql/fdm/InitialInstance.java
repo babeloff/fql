@@ -15,17 +15,17 @@ import catdata.aql.Instance;
 import catdata.aql.Schema;
 import catdata.aql.Term;
 
-public class InitialInstance<Ty, En, Sym, Fk, Att> extends Instance<Ty, En, Sym, Fk, Att,Void,Void,Void,Void> {
+public class InitialInstance<Ty, Sym, En, Fk, Att> extends Instance<Ty, Sym, En, Fk, Att,Void,Void,Void,Void> {
 
-	private final Schema<Ty, En, Sym, Fk, Att> schema;
+	private final Schema<Ty, Sym, En, Fk, Att> schema;
 	
-	public InitialInstance(Schema<Ty, En, Sym, Fk, Att> schema) {
+	public InitialInstance(Schema<Ty, Sym, En, Fk, Att> schema) {
 		this.schema = schema;
 		validate();
 	}
 
 	@Override
-	public Schema<Ty, En, Sym, Fk, Att> schema() {
+	public Schema<Ty, Sym, En, Fk, Att> schema() {
 		return schema;
 	}
 
@@ -40,22 +40,22 @@ public class InitialInstance<Ty, En, Sym, Fk, Att> extends Instance<Ty, En, Sym,
 	}
 
 	@Override
-	public Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs() {
+	public Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> eqs() {
 		return Collections.emptySet();
 	}
 
 	@Override
-	public DP<Ty, En, Sym, Fk, Att, Void, Void> dp() {
+	public DP<Ty, Sym, En, Fk, Att, Void, Void> dp() {
 		return schema.dp;
 	}
 
 	@Override
-	public Algebra<Ty, En, Sym, Fk, Att, Void, Void, Void, Void> algebra() {
+	public Algebra<Ty, Sym, En, Fk, Att, Void, Void, Void, Void> algebra() {
 		return new EmptyAlgebra();
 	}
 	
 	@SuppressWarnings("ConstantConditions")
-	private class EmptyAlgebra extends Algebra<Ty, En, Sym, Fk, Att, Void, Void, Void, Void>  {
+	private class EmptyAlgebra extends Algebra<Ty, Sym, En, Fk, Att, Void, Void, Void, Void>  {
 
 		@Override
 		public String printX(Void x) {
@@ -68,7 +68,7 @@ public class InitialInstance<Ty, En, Sym, Fk, Att> extends Instance<Ty, En, Sym,
 		}
 		
 		@Override
-		public Schema<Ty, En, Sym, Fk, Att> schema() {
+		public Schema<Ty, Sym, En, Fk, Att> schema() {
 			return schema;
 		}
 
@@ -83,27 +83,27 @@ public class InitialInstance<Ty, En, Sym, Fk, Att> extends Instance<Ty, En, Sym,
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Void> att(Att att, Void x) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Void> att(Att att, Void x) {
 			return Util.abort(x);
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Void> sk(Void sk) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Void> sk(Void sk) {
 			return Util.abort(sk);
 		}
 
 		@Override
-		public Term<Void, En, Void, Fk, Void, Void, Void> repr(Void x) {
+		public Term<Void, Void, En, Fk, Void, Void, Void> repr(Void x) {
 			return Util.abort(x);
 		}
 
 		@Override
-		public Collage<Ty, Void, Sym, Void, Void, Void, Void> talg() {
+		public Collage<Ty, Sym, Void, Void, Void, Void, Void> talg() {
 			return new Collage<>();
 		}
 
 		@Override
-		public Term<Ty, En, Sym, Fk, Att, Void, Void> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Void> y) {
+		public Term<Ty, Sym, En, Fk, Att, Void, Void> reprT_protected(Term<Ty, Sym, Void, Void, Void, Void, Void> y) {
 			return y.map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Util.voidFn());
 		}
 

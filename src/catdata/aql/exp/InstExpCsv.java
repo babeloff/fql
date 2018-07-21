@@ -75,7 +75,7 @@ public class InstExpCsv
 		return l.stream().map(x -> new Pair<>(x.first.str, x.second)).collect(Collectors.toList());
 	}
 
-	public InstExpCsv(SchExp<Ty, En, Sym, Fk, Att> schema,
+	public InstExpCsv(SchExp<Ty, Sym, En, Fk, Att> schema,
 			List<Pair<LocStr, Pair<List<Pair<LocStr, String>>, List<Pair<String, String>>>>> map,
 			List<Pair<String, String>> options, String f) {
 		super(schema, conv(map), options);
@@ -108,7 +108,7 @@ public class InstExpCsv
 	 * Expects filenames in the map
 	 */
 	public static Map<En, List<String[]>> start2(Map<String, String> map, AqlOptions op,
-			Schema<Ty, En, Sym, Fk, Att> sch, boolean omitCheck) throws Exception {
+			Schema<Ty, Sym, En, Fk, Att> sch, boolean omitCheck) throws Exception {
 		Character sepChar = (Character) op.getOrDefault(AqlOption.csv_field_delim_char);
 		Character quoteChar = (Character) op.getOrDefault(AqlOption.csv_quote_char);
 		Character escapeChar = (Character) op.getOrDefault(AqlOption.csv_escape_char);
@@ -151,7 +151,7 @@ public class InstExpCsv
 	}
 
 	@Override
-	protected Map<En, List<String[]>> start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected Map<En, List<String[]>> start(Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		Map<String, String> m = new HashMap<>();
 		for (En en : sch.ens) {
 			File file = new File(f, op.getOrDefault(AqlOption.csv_import_prefix) + en.toString() + "."
@@ -174,7 +174,7 @@ public class InstExpCsv
 
 	@Override
 	protected void joinedEn(Map<En, List<String[]>> rows, En en0,
-			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, En, Sym, Fk, Att> sch)
+			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, Sym, En, Fk, Att> sch)
 			throws Exception {
 		String en = en0.str;
 		Map<String, String> inner;
@@ -262,7 +262,7 @@ public class InstExpCsv
 					throw new RuntimeException("Cannot get index " + z + " from " + Arrays.toString(row));
 				}
 				String o = row[z];
-				Term<Ty, Void, Sym, Void, Void, Void, Null<?>> r = objectToSk(sch, o, l0, att, tys0, extraRepr, true,
+				Term<Ty, Sym, Void, Void, Void, Void, Null<?>> r = objectToSk(sch, o, l0, att, tys0, extraRepr, true,
 						nullOnErr);
 				atts0.get(l0).put(att, r);
 			}
@@ -272,7 +272,7 @@ public class InstExpCsv
 
 	/*
 	 * protected void joinedEn(Map<En, List<CSVRecord>> map, En en, String s,
-	 * Schema<Ty, En, Sym, Fk, Att> sch) throws Exception { String idCol = (String)
+	 * Schema<Ty, Sym, En, Fk, Att> sch) throws Exception { String idCol = (String)
 	 * op.getOrDefault(AqlOption.id_column_name); for (CSVRecord row : map.get(en))
 	 * { Gen l0 = (Gen) row.get(idCol);
 	 * 
@@ -283,7 +283,7 @@ public class InstExpCsv
 	 * 
 	 * for (Att att : sch.attsFrom(en)) { if (!atts0.containsKey(l0)) {
 	 * atts0.put(l0, new Ctx<>()); } Object o = row.get((String) att);
-	 * //System.out.println("is " + o); Term<Ty, Void, Sym, Void, Void, Void,
+	 * //System.out.println("is " + o); Term<Ty, Sym, Void, Void, Void, Void,
 	 * Null<?>> r = objectToSk(sch, o, l0.toString(), att, tys0, extraRepr, true);
 	 * atts0.get(l0).put(att, r); } }
 	 * 
@@ -293,7 +293,7 @@ public class InstExpCsv
 	// TODO aql shredded input format for CSV
 	@Override
 	protected void shreddedAtt(Map<En, List<String[]>> h, Att att,
-			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, En, Sym, Fk, Att> sch)
+			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, Sym, En, Fk, Att> sch)
 			throws Exception {
 		throw new RuntimeException(
 				"Shredded input format not avaiable for CSV (if desired, please email info@catinf.com)");
@@ -301,7 +301,7 @@ public class InstExpCsv
 
 	@Override
 	protected void shreddedFk(Map<En, List<String[]>> h, Fk fk,
-			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, En, Sym, Fk, Att> sch)
+			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, Sym, En, Fk, Att> sch)
 			throws Exception {
 		throw new RuntimeException(
 				"Shredded input format not avaiable for CSV (if desired, please email info@catinf.com)");
@@ -309,7 +309,7 @@ public class InstExpCsv
 
 	@Override
 	protected void shreddedEn(Map<En, List<String[]>> h, En en,
-			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, En, Sym, Fk, Att> sch)
+			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, Sym, En, Fk, Att> sch)
 			throws Exception {
 		throw new RuntimeException(
 				"Shredded input format not avaiable for CSV (if desired, please email info@catinf.com)");

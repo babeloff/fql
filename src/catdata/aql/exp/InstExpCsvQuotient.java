@@ -32,9 +32,9 @@ import catdata.aql.fdm.LiteralInstance;
 //TODO AQL CSV version of this
 //TODO merge this with coproduct sigma
 public final class InstExpCsvQuotient<Gen, Sk, X, Y>
-		extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> {
+		extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> {
 
-	public final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+	public final InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 
 	public final Map<String, String> options;
 
@@ -50,7 +50,7 @@ public final class InstExpCsvQuotient<Gen, Sk, X, Y>
 		return I.deps();
 	}
 
-	public InstExpCsvQuotient(InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i,
+	public InstExpCsvQuotient(InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i,
 			List<String> queries, List<Pair<String, String>> options) {
 		I = i;
 		this.options = Util.toMapSafely(options);
@@ -100,17 +100,17 @@ public final class InstExpCsvQuotient<Gen, Sk, X, Y>
 	}
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return I.type(G);
 	}
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
-		Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
-		Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col = new Collage<>(J.collage());
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
+		Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
+		Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col = new Collage<>(J.collage());
 		AqlOptions strat = new AqlOptions(options, col, env.defaults);
 
-		Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>(
+		Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>(
 				J.eqs());
 
 		Map<String, String> map = new HashMap<>();
@@ -141,14 +141,14 @@ public final class InstExpCsvQuotient<Gen, Sk, X, Y>
 					throw new RuntimeException(
 							"Cannot import record linkage: " + gen2 + " is not a generator in the input instance");
 				}
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> l = Term.Gen(gen1);
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> r = Term.Gen(gen2);
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> l = Term.Gen(gen1);
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> r = Term.Gen(gen2);
 				eqs0.add(new Pair<>(l, r));
 				col.eqs.add(new Eq<>(new Ctx<>(), l, r));
 			}
 		}
 
-		InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, J.schema(), col,
+		InitialAlgebra<Ty, Sym, En, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, J.schema(), col,
 				new It(), Object::toString, Object::toString);
 
 		return new LiteralInstance<>(J.schema(), col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0,

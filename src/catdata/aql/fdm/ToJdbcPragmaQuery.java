@@ -10,7 +10,7 @@ import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Pragma;
 import catdata.aql.Query;
 
-public class ToJdbcPragmaQuery<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>  extends Pragma {
+public class ToJdbcPragmaQuery<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2>  extends Pragma {
 
 	private final String jdbcString;
 	private final String prefixSrc;
@@ -21,11 +21,11 @@ public class ToJdbcPragmaQuery<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>  extends
 	@SuppressWarnings("unused")
 	private final int len;
 	
-	private final Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>  Q;
+	private final Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2>  Q;
 	
 	
 	public ToJdbcPragmaQuery(String prefixSrc, 
-			String prefixDst, Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q, String clazz, String jdbcString, AqlOptions options) {
+			String prefixDst, Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q, String clazz, String jdbcString, AqlOptions options) {
 		try {
 			Class.forName(clazz);
 		} catch (ClassNotFoundException e) {

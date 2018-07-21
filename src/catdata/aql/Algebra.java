@@ -23,14 +23,14 @@ import catdata.Triple;
 import catdata.Util;
 
 
-public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,En,Sym,Fk,Att,Gen,Sk> */ {
+public abstract class Algebra<Ty,Sym,En,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty, Sym, En,Fk,Att,Gen,Sk> */ {
 	
 	
 	//TODO aql generic map method like printX
 	
 	//TODO aql add final eq method here
 	
-	public abstract Schema<Ty,En,Sym,Fk,Att> schema();
+	public abstract Schema<Ty,Sym,En,Fk,Att> schema();
 	
 	//TODO aql cant validate algebras bc are not dps
 	
@@ -125,11 +125,11 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 	
 	public abstract X fk(Fk fk, X x);
 	
-	public abstract Term<Ty, Void, Sym, Void, Void, Void, Y> att(Att att, X x);
+	public abstract Term<Ty, Sym, Void, Void, Void, Void, Y> att(Att att, X x);
 	
-	public abstract Term<Ty, Void, Sym, Void, Void, Void, Y> sk(Sk sk);
+	public abstract Term<Ty, Sym, Void, Void, Void, Void, Y> sk(Sk sk);
 
-	public final X nf(Term<Void, En, Void, Fk, Void, Gen, Void> term) {
+	public final X nf(Term<Void, Void, En, Fk, Void, Gen, Void> term) {
 		if (term.gen != null) {
 			return gen(term.gen);
 		} else if (term.fk != null) {
@@ -138,7 +138,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		throw new RuntimeException("Anomaly: please report");
 	}
 
-	public abstract Term<Void, En, Void, Fk, Void, Gen, Void> repr(X x);
+	public abstract Term<Void, Void, En, Fk, Void, Gen, Void> repr(X x);
 	
 	//rows
 	public int size() {
@@ -167,14 +167,14 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 	/**
 	 * @return only equations for instance part (no typeside, no schema)
 	 */
-	public abstract Collage<Ty, Void, Sym, Void, Void, Void, Y> talg();
+	public abstract Collage<Ty, Sym, Void, Void, Void, Void, Y> talg();
 
 	/**
 	 * @param y the T of Y must be obtained from a call to att or sk only!
 	 * @return not a true normal form, but a 'simplified' term for e.g., display purposes
 	 */
-	public synchronized final Term<Ty,En,Sym,Fk,Att,Gen,Sk> reprT(Term<Ty, Void, Sym, Void, Void, Void, Y> y) {
-		Term<Ty,En,Sym,Fk,Att,Gen,Sk> ret = reprT_cache.get(y);
+	public synchronized final Term<Ty, Sym, En,Fk,Att,Gen,Sk> reprT(Term<Ty, Sym, Void, Void, Void, Void, Y> y) {
+		Term<Ty, Sym, En,Fk,Att,Gen,Sk> ret = reprT_cache.get(y);
 		if (ret != null) {
 			return ret;
 		}
@@ -183,17 +183,17 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		return ret;
 	}
 	
-	private final Map<Term<Ty, Void, Sym, Void, Void, Void, Y>, Term<Ty,En,Sym,Fk,Att,Gen,Sk>> reprT_cache = Collections.synchronizedMap(new HashMap<>());
-	public abstract Term<Ty,En,Sym,Fk,Att,Gen,Sk> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Y> y);
+	private final Map<Term<Ty, Sym, Void, Void, Void, Void, Y>, Term<Ty, Sym, En,Fk,Att,Gen,Sk>> reprT_cache = Collections.synchronizedMap(new HashMap<>());
+	public abstract Term<Ty, Sym, En,Fk,Att,Gen,Sk> reprT_protected(Term<Ty, Sym, Void, Void, Void, Void, Y> y);
 	
-	private final Map<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, Void, Sym, Void, Void, Void, Y>>
+	private final Map<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, Void, Void, Void, Void, Y>>
 	intoY_cache = Collections.synchronizedMap(new HashMap<>());
 
 	/**
 	 * @param term of type sort
 	 */
-	public synchronized Term<Ty, Void, Sym, Void, Void, Void, Y> intoY(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
-		Term<Ty, Void, Sym, Void, Void, Void, Y> ret = intoY_cache.get(term);
+	public synchronized Term<Ty, Sym, Void, Void, Void, Void, Y> intoY(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
+		Term<Ty, Sym, Void, Void, Void, Void, Y> ret = intoY_cache.get(term);
 		if (ret != null) {
 			return ret;
 		}
@@ -202,7 +202,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		return ret;
 	}
 		
-	private Term<Ty, Void, Sym, Void, Void, Void, Y> intoY0(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	private Term<Ty, Sym, Void, Void, Void, Void, Y> intoY0(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 			if (term.obj != null) {
 				return Term.Obj(term.obj, term.ty);
 			} else if (term.sym != null) {
@@ -218,7 +218,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 	/**
 	 * @param term term of type entity
 	 */
-		public synchronized X intoX(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+		public synchronized X intoX(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 			if (term.gen != null) {
 				return nf(term.asGen());
 			} else if (term.fk != null) {
@@ -227,7 +227,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 			throw new RuntimeException("Anomaly: please report");
 		}
 /*
-		public X eval(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term, Var var, X x) {
+		public X eval(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term, Var var, X x) {
 			if (term.var.equals(var)) {
 				return x;
 			} else if (term.gen != null) {
@@ -267,7 +267,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 
 // --Commented out by Inspection START (12/24/16, 10:43 PM):
 //	//TODO aql visitor cleanup
-//    private Term<Ty, En, Sym, Fk, Att, X, Y> trans(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+//    private Term<Ty, Sym, En, Fk, Att, X, Y> trans(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 //		if (term.var != null) {
 //			return Term.Var(term.var);
 //		} else if (term.obj != null) {
@@ -336,7 +336,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 	}
 	
 /*	
-	public Term<Ty, Void, Sym, Void, Void, Void, Y> trans(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Term<Ty, Sym, Void, Void, Void, Void, Y> trans(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		if (term.obj != null) {
 			return Term.Obj(term.obj, term.ty);
 		} else if (term.sym != null) {
@@ -349,7 +349,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		throw new RuntimeException("Anomaly: please report");
 	}
 
-	private X trans1(Term<Void, En, Void, Fk, Void, Gen, Void> term) {
+	private X trans1(Term<Void, Void, En, Fk, Void, Gen, Void> term) {
 		if (term.gen != null) {
 			return nf(term);
 		} else if (term.fk != null) {
@@ -376,12 +376,12 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		return set;
 	}
 	
-	private final Map<Att, Set<Pair<X, Term<Ty, Void, Sym, Void, Void, Void, Y>>>> attsAsSet0 = new HashMap<>();
-	public synchronized Set<Pair<X, Term<Ty, Void, Sym, Void, Void, Void, Y>>> attAsSet(Att att) {
+	private final Map<Att, Set<Pair<X, Term<Ty, Sym, Void, Void, Void, Void, Y>>>> attsAsSet0 = new HashMap<>();
+	public synchronized Set<Pair<X, Term<Ty, Sym, Void, Void, Void, Void, Y>>> attAsSet(Att att) {
 		if (attsAsSet0.containsKey(att)) {
 			return attsAsSet0.get(att);
 		}
-		Set<Pair<X,Term<Ty, Void, Sym, Void, Void, Void, Y>>> set = new HashSet<>();
+		Set<Pair<X,Term<Ty, Sym, Void, Void, Void, Void, Y>>> set = new HashSet<>();
 		for (X x : en(schema().atts.get(att).first)) {
 			set.add(new Pair<>(x,att(att, x)));
 		}
@@ -497,7 +497,7 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		} 
 
 
-		private Object fromTerm(Term<Ty, Void, Sym, Void, Void, Void, Y> term) {
+		private Object fromTerm(Term<Ty, Sym, Void, Void, Void, Void, Y> term) {
 			if (term.obj != null) {
 				return term.obj;
 			}

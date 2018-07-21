@@ -10,21 +10,21 @@ import catdata.aql.Mapping;
 import catdata.aql.Term;
 import catdata.aql.Transform;
 
-public class DeltaTransform<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1, En2, Fk2, Att2, Gen2, Sk2, X1, Y1, X2, Y2>
-extends Transform<Ty, En1, Sym, Fk1, Att1, Pair<En1, X1>, Y1, Pair<En1, X2>, Y2, Pair<En1, X1>, Y1, Pair<En1, X2>, Y2> {
+public class DeltaTransform<Ty, Sym, En1, Fk1, Att1, Gen1, Sk1, En2, Fk2, Att2, Gen2, Sk2, X1, Y1, X2, Y2>
+extends Transform<Ty, Sym, En1, Fk1, Att1, Pair<En1, X1>, Y1, Pair<En1, X2>, Y2, Pair<En1, X1>, Y1, Pair<En1, X2>, Y2> {
 
 	@SuppressWarnings("unused")
-	private final Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
+	private final Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F;
 	@SuppressWarnings("unused")
-	private final Transform<Ty, En2, Sym, Fk2, Att2, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h;
+	private final Transform<Ty, Sym, En2, Fk2, Att2, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h;
 	
-	private final DeltaInstance<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1, En2, Fk2, Att2, X1, Y1> src;
-	private final DeltaInstance<Ty, En1, Sym, Fk1, Att1, Gen2, Sk2, En2, Fk2, Att2, X2, Y2> dst;
+	private final DeltaInstance<Ty, Sym, En1, Fk1, Att1, Gen1, Sk1, En2, Fk2, Att2, X1, Y1> src;
+	private final DeltaInstance<Ty, Sym, En1, Fk1, Att1, Gen2, Sk2, En2, Fk2, Att2, X2, Y2> dst;
 
-	private final Ctx<Pair<En1, X1>, Term<Void, En1, Void, Fk1, Void, Pair<En1, X2>, Void>> gens = new Ctx<>();
-	private final Ctx<Y1, Term<Ty, En1, Sym, Fk1, Att1, Pair<En1, X2>, Y2>> sks = new Ctx<>();
+	private final Ctx<Pair<En1, X1>, Term<Void, Void, En1, Fk1, Void, Pair<En1, X2>, Void>> gens = new Ctx<>();
+	private final Ctx<Y1, Term<Ty, Sym, En1, Fk1, Att1, Pair<En1, X2>, Y2>> sks = new Ctx<>();
 	
-	public DeltaTransform(Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f, Transform<Ty, En2, Sym, Fk2, Att2, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h) {
+	public DeltaTransform(Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f, Transform<Ty, Sym, En2, Fk2, Att2, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h) {
 		if (!h.src().schema().equals(f.dst)) {
 			throw new RuntimeException("Target of mapping is " + f.dst + " but instances are on " + h.src().schema());
 		}
@@ -43,7 +43,7 @@ extends Transform<Ty, En1, Sym, Fk1, Att1, Pair<En1, X1>, Y1, Pair<En1, X2>, Y2,
 		validate(false); //TODO aql allow not to validte transform
 	}
 	
-	/* private Term<Ty, Void, Sym, Void, Void, Void, Y2> trans0(Term<Ty, Void, Sym, Void, Void, Void, Y1> term) {
+	/* private Term<Ty, Sym, Void, Void, Void, Void, Y2> trans0(Term<Ty, Sym, Void, Void, Void, Void, Y1> term) {
 		if (term.var != null) {
 			return Term.Var(term.var); 
 		} else if (term.obj != null) {
@@ -57,29 +57,29 @@ extends Transform<Ty, En1, Sym, Fk1, Att1, Pair<En1, X1>, Y1, Pair<En1, X2>, Y2,
 		} else if (term.gen != null) {
 			return Term.Gen(term.gen);
 		} else if (term.sk != null) {
-			Term<Ty, En2, Sym, Fk2, Att2, Gen1, Sk1> z = h.src().algebra().reprT(Term.Sk(term.sk));
+			Term<Ty, Sym, En2, Fk2, Att2, Gen1, Sk1> z = h.src().algebra().reprT(Term.Sk(term.sk));
 		}
 		throw new RuntimeException("Anomaly: please report");
 	
 	}*/
 	
 	@Override
-	public Ctx<Pair<En1, X1>, Term<Void, En1, Void, Fk1, Void, Pair<En1, X2>, Void>> gens() {
+	public Ctx<Pair<En1, X1>, Term<Void, Void, En1, Fk1, Void, Pair<En1, X2>, Void>> gens() {
 		return gens;
 	}
 	
 	@Override
-	public Ctx<Y1, Term<Ty, En1, Sym, Fk1, Att1, Pair<En1, X2>, Y2>> sks() {
+	public Ctx<Y1, Term<Ty, Sym, En1, Fk1, Att1, Pair<En1, X2>, Y2>> sks() {
 		return sks;
 	}
 	
 	@Override
-	public Instance<Ty, En1, Sym, Fk1, Att1, Pair<En1, X1>, Y1, Pair<En1, X1>, Y1> src() {
+	public Instance<Ty, Sym, En1, Fk1, Att1, Pair<En1, X1>, Y1, Pair<En1, X1>, Y1> src() {
 		return src;
 	}
 	
 	@Override
-	public Instance<Ty, En1, Sym, Fk1, Att1, Pair<En1, X2>, Y2, Pair<En1, X2>, Y2> dst() {
+	public Instance<Ty, Sym, En1, Fk1, Att1, Pair<En1, X2>, Y2, Pair<En1, X2>, Y2> dst() {
 		return dst;
 	}
 

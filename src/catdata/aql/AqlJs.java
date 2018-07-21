@@ -104,12 +104,12 @@ public class AqlJs<Ty, Sym> {
 	}
 	
 
-	public <En, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> reduce(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public <En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> reduce(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		if (java_tys.isEmpty()) {
 			return term;
 		}
 		while (true) {
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> next = reduce1(term);
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> next = reduce1(term);
 			if (next.equals(term)) {
 				return next;
 			}
@@ -117,12 +117,12 @@ public class AqlJs<Ty, Sym> {
 		}
 	}
 	
-	private <En, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> reduce1(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	private <En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> reduce1(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		if (term.var != null || term.gen != null || term.sk != null || term.obj != null) {
 			return term;
 		}
 		
-		Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg = null; 
+		Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg = null; 
 		if (term.arg != null) {
 			arg = reduce1(term.arg);
 		} 
@@ -132,15 +132,15 @@ public class AqlJs<Ty, Sym> {
 		} else if (term.att != null) {
 			return Term.Att(term.att, arg);
 		} else if (term.args != null) {
-			List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args = new LinkedList<>();
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> x : term.args) {
+			List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args = new LinkedList<>();
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> x : term.args) {
 				args.add(reduce1(x));
 			}
 			if (!java_fns.containsKey(term.sym)) {
 				return Term.Sym(term.sym, args);
 			}
 			List<Object> unwrapped_args = new LinkedList<>();
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> t : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> t : args) {
 				if (t.obj != null) {
 					unwrapped_args.add(t.obj);
 				}

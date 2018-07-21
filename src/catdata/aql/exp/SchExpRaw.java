@@ -40,7 +40,7 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
-public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw {
+public final class SchExpRaw extends SchExp<Ty, Sym, En, Fk, Att> implements Raw {
 
 	public static class En implements Comparable<En> {
 		public final String str;
@@ -173,7 +173,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 
 	}
 
-	public SchExp<Ty, En, Sym, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
+	public SchExp<Ty, Sym, En, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
 		return this;
 	}
 
@@ -194,15 +194,15 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 
 	@SuppressWarnings("unused")
 	@Override
-	public synchronized Schema<Ty, En, Sym, Fk, Att> eval(AqlEnv env) {
+	public synchronized Schema<Ty, Sym, En, Fk, Att> eval(AqlEnv env) {
 		TypeSide<Ty, Sym> ts = typeSide.eval(env);
-		Collage<Ty, En, Sym, Fk, Att, Void, Void> col = new Collage<>(ts.collage());
+		Collage<Ty, Sym, En, Fk, Att, Void, Void> col = new Collage<>(ts.collage());
 
-		Set<Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs0 = new HashSet<>();
+		Set<Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> eqs0 = new HashSet<>();
 
 		for (String k : imports) {
 			@SuppressWarnings("unchecked")
-			Schema<Ty, En, Sym, Fk, Att> v = env.defs.schs.get(k);
+			Schema<Ty, Sym, En, Fk, Att> v = env.defs.schs.get(k);
 			col.addAll(v.collage());
 			eqs0.addAll(v.eqs);
 		}
@@ -217,7 +217,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 				Map<String, Chc<Ty, En>> ctx = Util.singMap(eq.first,
 						eq.second == null ? null : Chc.inRight(new En(eq.second)));
 
-				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq0 = RawTerm
+				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq0 = RawTerm
 						.infer1x(ctx, eq.third, eq.fourth, null, col.convert(), "", ts.js).first3();
 
 				Chc<Ty, En> v = eq0.first.get(new Var(eq.first));
@@ -244,7 +244,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 				RawTerm lhs = RawTerm.fold(col.fks.keySet(), col.ens, eq.first, vv);
 				RawTerm rhs = RawTerm.fold(col.fks.keySet(), col.ens, eq.second, vv);
 
-				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq0 = RawTerm
+				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq0 = RawTerm
 						.infer1x(ctx, lhs, rhs, null, col.convert(), "", ts.js).first3();
 
 				Chc<Ty, En> v = eq0.first.get(var);
@@ -265,7 +265,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 						+ Util.sep(eq.second, ".") + ", " + ex.getMessage());
 			}
 		}
-		for (Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq : eqs0) {
+		for (Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> eq : eqs0) {
 			col.eqs.add(new Eq<>(new Ctx<>(eq.first).inRight(), eq.second, eq.third));
 		}
 
@@ -277,7 +277,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 		// forces type checking before prover construction
 		new Schema<>(ts, col.ens, col.atts.map, col.fks.map, eqs0, AqlProver.create(s, col, ts.js), false);
 
-		Schema<Ty, En, Sym, Fk, Att> ret = new Schema<>(ts, col.ens, col.atts.map, col.fks.map, eqs0,
+		Schema<Ty, Sym, En, Fk, Att> ret = new Schema<>(ts, col.ens, col.atts.map, col.fks.map, eqs0,
 				AqlProver.create(strat, col, ts.js), !((Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe)));
 		return ret;
 

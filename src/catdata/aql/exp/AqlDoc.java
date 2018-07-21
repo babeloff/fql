@@ -76,12 +76,12 @@ public final class AqlDoc implements SemanticsVisitor<String, Unit, RuntimeExcep
 	
 
 	@Override
-	public <Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> String visit(Unit arg, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I)  {
-		return "\n" + AqlInACan.toHtml(env, (Instance<catdata.aql.exp.TyExpRaw.Ty, catdata.aql.exp.SchExpRaw.En, catdata.aql.exp.TyExpRaw.Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, catdata.aql.exp.InstExpRaw.Gen, catdata.aql.exp.InstExpRaw.Sk, X, Y>) I);
+	public <Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> String visit(Unit arg, Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I)  {
+		return "\n" + AqlInACan.toHtml(env, (Instance<catdata.aql.exp.TyExpRaw.Ty, catdata.aql.exp.TyExpRaw.Sym, catdata.aql.exp.SchExpRaw.En, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, catdata.aql.exp.InstExpRaw.Gen, catdata.aql.exp.InstExpRaw.Sk, X, Y>) I);
 	}
 
 	@Override
-	public <Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> String visit(Unit arg, Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h)  {
+	public <Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> String visit(Unit arg, Transform<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h)  {
 		return "";
 	}
 
@@ -101,12 +101,12 @@ public final class AqlDoc implements SemanticsVisitor<String, Unit, RuntimeExcep
 	}
 
 	@Override
-	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> String visit(Unit arg, Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q)  {
+	public <Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> String visit(Unit arg, Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q)  {
 		return ""; //TODO aql print frozen instances?
 	}
 
 	@Override
-	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> String visit(Unit arg, Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> M)  {
+	public <Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> String visit(Unit arg, Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> M)  {
 		return "";
 	}
 
@@ -133,7 +133,7 @@ public final class AqlDoc implements SemanticsVisitor<String, Unit, RuntimeExcep
 	
 	private int fresh = 0;
 	@Override
-	public <Ty, En, Sym, Fk, Att> String visit(Unit arg, Schema<Ty, En, Sym, Fk, Att> S)  {
+	public <Ty, Sym, En, Fk, Att> String visit(Unit arg, Schema<Ty, Sym, En, Fk, Att> S)  {
 		/* String ret = "";
 		ret += "\n<script>";
 		ret += "\nvar graph" + fresh + " = new Springy.Graph();";
@@ -165,7 +165,7 @@ public final class AqlDoc implements SemanticsVisitor<String, Unit, RuntimeExcep
 	}
 
 	@Override
-	public <Ty, En, Sym, Fk, Att> String visit(Unit arg, Constraints<Ty, En, Sym, Fk, Att> S) throws RuntimeException {
+	public <Ty, Sym, En, Fk, Att> String visit(Unit arg, Constraints<Ty, Sym, En, Fk, Att> S) throws RuntimeException {
 		return "";
 	}
 

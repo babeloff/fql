@@ -18,7 +18,7 @@ import catdata.aql.exp.Exp;
  */
 public class AqlCmdLine {
 	
-	public static <Ty, En, Sym, Fk, Att> String schemaToSql(Schema<Ty, En, Sym, Fk, Att> S) {
+	public static <Ty, Sym, En, Fk, Att> String schemaToSql(Schema<Ty, Sym, En, Fk, Att> S) {
 		//prefix, type of ID, ID col name , truncater, printer, varchar length
 		Map<En, Triple<List<Chc<Fk, Att>>, List<String>, List<String>>> sch_sql = S.toSQL("", "Integer", "ID", Integer.MAX_VALUE, Object::toString, 255);
 		
@@ -40,8 +40,8 @@ public class AqlCmdLine {
 		return sch.trim();
 	}
 	
-	public static <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> 
-	String queryToSql(Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q) {
+	public static <Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> 
+	String queryToSql(Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> q) {
 		//use "char" for mysql, "varchar" for H2
 		Map<En2, String> Q = q.unnest().toSQLViews("", "", "ID", "char").second; //must unnest
 		String ret = "";

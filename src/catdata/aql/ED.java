@@ -16,23 +16,23 @@ import catdata.Triple;
 import catdata.Unit;
 import catdata.Util;
 
-public class ED<Ty, En, Sym, Fk, Att> {
+public class ED<Ty, Sym, En, Fk, Att> {
 	
 	public static enum WHICH { FRONT, BACK };
 	
 	public final boolean isUnique;
 	
-	public static <Ty,Sym> Schema<Ty,WHICH,Sym,Unit,Void> getEDSchema(TypeSide<Ty,Sym> ty, AqlOptions ops) {
-		Collage<Ty, WHICH, Sym, Unit, Void, Void, Void> col = new Collage<>(ty.collage());
+	public static <Ty,Sym> Schema<Ty,Sym,WHICH,Unit,Void> getEDSchema(TypeSide<Ty,Sym> ty, AqlOptions ops) {
+		Collage<Ty, Sym, WHICH, Unit, Void, Void, Void> col = new Collage<>(ty.collage());
 		col.ens.add(WHICH.FRONT);
 		col.ens.add(WHICH.BACK);
 		col.fks.put(new Unit(), new Pair<>(WHICH.BACK, WHICH.FRONT));
 		
-		Schema<Ty,WHICH,Sym,Unit,Void> ret = new Schema<>(ty, col.ens, col.atts.map, col.fks.map, new HashSet<>(), AqlProver.create(ops, col, ty.js), true); //TODO aq;
+		Schema<Ty,Sym,WHICH,Unit,Void> ret = new Schema<>(ty, col.ens, col.atts.map, col.fks.map, new HashSet<>(), AqlProver.create(ops, col, ty.js), true); //TODO aq;
 		return ret;
 	}
 	
-	public final Query<Ty,En,Sym,Fk,Att,WHICH,Unit,Void> Q;
+	public final Query<Ty,Sym,En,Fk,Att,WHICH,Unit,Void> Q;
 
 	@Override
 	public String toString() {
@@ -50,7 +50,7 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		if (!Awh.isEmpty()) {
 			toString += "\twhere";
 			List<String> temp = new LinkedList<>();
-			for (Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> p : Awh) {
+			for (Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> p : Awh) {
 				temp.add(p.first + " = " + p.second);
 			}
 			
@@ -72,7 +72,7 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		if (!Ewh.isEmpty()) {
 			toString += "\twhere";
 			List<String> temp = new LinkedList<>();
-			for (Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> p : Ewh) {
+			for (Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> p : Ewh) {
 				temp.add(p.first + " = " + p.second);
 			}
 			
@@ -81,33 +81,33 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		return toString;
 	}
 
-	public final Schema<Ty, En, Sym, Fk, Att> schema;
+	public final Schema<Ty, Sym, En, Fk, Att> schema;
 	
 	public final Ctx<Var, En> As;
 
 	public final Ctx<Var, En> Es;
 
-	public final Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> Awh;
+	public final Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> Awh;
 	
-	public final Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> Ewh;
+	public final Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> Ewh;
 
-	private final Term<Ty, En, Sym, Fk, Att, Var, Var> freeze(Term<Ty, En, Sym, Fk, Att, Void, Void> t) {
-		Term<Ty, En, Sym, Fk, Att, Var, Var> ret = t.mapGenSk(Util.voidFn(), Util.voidFn());
-		Map<Var, Term<Ty, En, Sym, Fk, Att, Var, Var>> m = new HashMap<>();
+	private final Term<Ty, Sym, En, Fk, Att, Var, Var> freeze(Term<Ty, Sym, En, Fk, Att, Void, Void> t) {
+		Term<Ty, Sym, En, Fk, Att, Var, Var> ret = t.mapGenSk(Util.voidFn(), Util.voidFn());
+		Map<Var, Term<Ty, Sym, En, Fk, Att, Var, Var>> m = new HashMap<>();
 		for (Var v : Util.union(As.keySet(), Es.keySet())) {
 			m.put(v, Term.Gen(v));
 		}
 		return ret.subst(m);
 	}
-	private final Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>> freeze(Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs) {
-		Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>> ret = new LinkedList<>();
-		for (Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq : eqs) {
+	private final Collection<Eq<Ty, Sym, En, Fk, Att, Var, Var>> freeze(Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> eqs) {
+		Collection<Eq<Ty, Sym, En, Fk, Att, Var, Var>> ret = new LinkedList<>();
+		for (Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> eq : eqs) {
 			ret.add(new Eq<>(new Ctx<>(), freeze(eq.first), freeze(eq.second)));
 		}
 		return ret;
 	}
 	
-	public ED(Schema<Ty, En, Sym, Fk, Att> schema, Ctx<Var, En> as, Ctx<Var, En> es, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> awh, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> ewh, boolean isUnique, AqlOptions options) {
+	public ED(Schema<Ty, Sym, En, Fk, Att> schema, Ctx<Var, En> as, Ctx<Var, En> es, Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> awh, Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> ewh, boolean isUnique, AqlOptions options) {
 		this.schema = schema;
 		As = new Ctx<>(as.map);
 		Es = new Ctx<>(es.map);
@@ -117,7 +117,7 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		if (!Collections.disjoint(As.keySet(), Es.keySet())) {
 			throw new RuntimeException("The forall and exists clauses do not use disjoint variables.");
 		}
-		Ctx<WHICH, Triple<Ctx<Var, En>, Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>>, AqlOptions>> 
+		Ctx<WHICH, Triple<Ctx<Var, En>, Collection<Eq<Ty, Sym, En, Fk, Att, Var, Var>>, AqlOptions>> 
 		is = new Ctx<>();
 	
 		is.put(WHICH.FRONT, new Triple<>(As, freeze(Awh), options));
@@ -126,15 +126,15 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		AsEs.putAll(Es.map);
 		is.put(WHICH.BACK, new Triple<>(AsEs, freeze(Util.union(Awh, Ewh)), options));
 
-		Ctx<Var, Term<Void, En, Void, Fk, Void, Var, Void>> ctx = new Ctx<>();
+		Ctx<Var, Term<Void, Void, En, Fk, Void, Var, Void>> ctx = new Ctx<>();
 		for (Var v : As.keySet()) {
 			ctx.put(v, Term.Gen(v));
 		}
-		Ctx<Unit, Pair<Ctx<Var, Term<Void, En, Void, Fk, Void, Var, Void>>, Boolean>> 
+		Ctx<Unit, Pair<Ctx<Var, Term<Void, Void, En, Fk, Void, Var, Void>>, Boolean>> 
 		fks = new Ctx<>();
 		fks.put(new Unit(), new Pair<>(ctx, true));
 		
-		Schema<Ty, WHICH, Sym, Unit, Void> zzz = getEDSchema(schema.typeSide, options);
+		Schema<Ty, Sym, WHICH, Unit, Void> zzz = getEDSchema(schema.typeSide, options);
 		Q = Query.makeQuery(is, new Ctx<>(), fks, schema, zzz, false, false); //TODO AQL speed these can be set to true
 	}
 	

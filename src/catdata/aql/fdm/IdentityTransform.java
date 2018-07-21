@@ -6,13 +6,13 @@ import catdata.aql.Instance;
 import catdata.aql.Term;
 import catdata.aql.Transform;
 
-public class IdentityTransform<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Transform<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y> {
+public class IdentityTransform<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> extends Transform<Ty, Sym, En, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y> {
 
-	private final Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
-	private final Ctx<Gen, Term<Void,En,Void,Fk,Void,Gen,Void>> gens = new Ctx<>();
-	private final Ctx<Sk, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> sks = new Ctx<>();
+	private final Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
+	private final Ctx<Gen, Term<Void,Void,En,Fk,Void,Gen,Void>> gens = new Ctx<>();
+	private final Ctx<Sk, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> sks = new Ctx<>();
 
-	public IdentityTransform(Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i) {
+	public IdentityTransform(Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i) {
 		Util.assertNotNull(i);
         I = i;
 		for (Gen gen : i.gens().keySet()) {
@@ -24,22 +24,22 @@ public class IdentityTransform<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Tran
 	}
 
 	@Override
-	public Ctx<Gen, Term<Void,En,Void,Fk,Void,Gen,Void>> gens() {
+	public Ctx<Gen, Term<Void,Void,En,Fk,Void,Gen,Void>> gens() {
 		return gens;
 	}
 
 	@Override
-	public Ctx<Sk, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> sks() {
+	public Ctx<Sk, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> sks() {
 		return sks;
 	}
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> src() {
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> src() {
 		return I;
 	}
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> dst() {
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> dst() {
 		return I;
 	}
 

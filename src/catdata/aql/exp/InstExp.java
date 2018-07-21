@@ -47,24 +47,24 @@ import catdata.aql.fdm.SigmaChaseAlgebra;
 import catdata.aql.fdm.SigmaInstance;
 import catdata.graph.DMG;
 
-public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-		extends Exp<Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> {
+public abstract class InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+		extends Exp<Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> {
 
 	@Override
 	public Kind kind() {
 		return Kind.INSTANCE;
 	}
 
-	public abstract SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G);
+	public abstract SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G);
 
 	///////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpCoEq<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, ID, Chc<Sk2, Pair<ID, Att>>> {
+	public static final class InstExpCoEq<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, ID, Chc<Sk2, Pair<ID, Att>>> {
 
-		public final TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t1, t2;
+		public final TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t1, t2;
 
 		public final Map<String, String> options;
 
@@ -78,8 +78,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Util.union(t1.deps(), t2.deps());
 		}
 
-		public InstExpCoEq(TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t1,
-				TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t2,
+		public InstExpCoEq(TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t1,
+				TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t2,
 				List<Pair<String, String>> options) {
 			this.t1 = t1;
 			this.t2 = t2;
@@ -129,7 +129,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			if (!t1.type(G).first.equals(t2.type(G).first)) {
 				throw new RuntimeException(
 						"Domains do not match: " + t1.type(G).first + " and \n\n" + t2.type(G).first);
@@ -141,31 +141,33 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen2, Sk2, ID, Chc<Sk2, Pair<ID, Att>>> eval(AqlEnv env) {
-			Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h1 = t1.eval(env);
-			Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h2 = t2.eval(env);
+		public Instance<Ty, Sym, En, Fk, Att, Gen2, Sk2, ID, Chc<Sk2, Pair<ID, Att>>> eval(AqlEnv env) {
+			Transform<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h1 = t1.eval(env);
+			Transform<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h2 = t2.eval(env);
 
-			// Schema<Ty, En, Sym, Fk, Att> sch0 = sch.eval(env);
-			Collage<Ty, En, Sym, Fk, Att, Gen2, Sk2> col = new Collage<>(h1.dst().collage());
+			// Schema<Ty, Sym, En, Fk, Att> sch0 = sch.eval(env);
+			Collage<Ty, Sym, En, Fk, Att, Gen2, Sk2> col = new Collage<>(h1.dst().collage());
 			AqlOptions strat = new AqlOptions(options, col, env.defaults);
-			Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen2, Sk2>, Term<Ty, En, Sym, Fk, Att, Gen2, Sk2>>> eqs0 = new HashSet<>(
+			Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen2, Sk2>, Term<Ty, Sym, En, Fk, Att, Gen2, Sk2>>> eqs0 = new HashSet<>(
 					h1.dst().eqs());
 
 			for (Gen1 g : h1.src().gens().keySet()) {
-				Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> l = h1.gens().get(g).map(Util.voidFn(), Util.voidFn(),
-						Function.identity(), Util.voidFn(), Function.identity(), Util.voidFn());
-				Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> r = h2.gens().get(g).map(Util.voidFn(), Util.voidFn(),
+				Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> l = h1.gens().get(g).map(
+						Util.voidFn(), Util.voidFn(), Function.identity(), 
+						Util.voidFn(), Function.identity(), Util.voidFn());
+				
+				Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> r = h2.gens().get(g).map(Util.voidFn(), Util.voidFn(),
 						Function.identity(), Util.voidFn(), Function.identity(), Util.voidFn());
 				eqs0.add(new Pair<>(l, r));
 				col.eqs.add(new Eq<>(new Ctx<>(), l, r));
 			}
 			for (Sk1 g : h1.src().sks().keySet()) {
-				Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> l = h1.sks().get(g);
-				Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> r = h2.sks().get(g);
+				Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> l = h1.sks().get(g);
+				Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> r = h2.sks().get(g);
 				eqs0.add(new Pair<>(l, r));
 				col.eqs.add(new Eq<>(new Ctx<>(), l, r));
 			}
-			InitialAlgebra<Ty, En, Sym, Fk, Att, Gen2, Sk2, ID> initial0 = new InitialAlgebra<>(strat,
+			InitialAlgebra<Ty, Sym, En, Fk, Att, Gen2, Sk2, ID> initial0 = new InitialAlgebra<>(strat,
 					h1.src().schema(), col, new It(), Object::toString, Object::toString);
 
 			return new LiteralInstance<>(h1.src().schema(), col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0,
@@ -177,12 +179,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	///////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpCoProdFull<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends
-			InstExp<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID, Chc<Pair<String, Sk>, Pair<ID, Att>>> {
+	public static final class InstExpCoProdFull<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> extends
+			InstExp<Ty, Sym, En, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID, Chc<Pair<String, Sk>, Pair<ID, Att>>> {
 
 		public final List<String> Is;
 
-		public final SchExp<Ty, En, Sym, Fk, Att> sch;
+		public final SchExp<Ty, Sym, En, Fk, Att> sch;
 
 		public final Map<String, String> options;
 
@@ -191,7 +193,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return options;
 		}
 
-		public InstExpCoProdFull(List<String> is, SchExp<Ty, En, Sym, Fk, Att> sch,
+		public InstExpCoProdFull(List<String> is, SchExp<Ty, Sym, En, Fk, Att> sch,
 				List<Pair<String, String>> options) {
 			Is = is;
 			if (is.size() != new HashSet<>(Is).size()) {
@@ -253,9 +255,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			for (String x : Is) {
-				SchExp<Ty, En, Sym, Fk, Att> t = new InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>(x).type(G);
+				SchExp<Ty, Sym, En, Fk, Att> t = new InstExpVar<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>(x).type(G);
 				if (!G.eq(t, sch)) { // TODO aql schema equality
 					throw new RuntimeException(
 							"Instance " + x + " has schema " + t + ",\n\nnot " + sch + "\n\nas expected");
@@ -265,17 +267,17 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID, Chc<Pair<String, Sk>, Pair<ID, Att>>> eval(
+		public Instance<Ty, Sym, En, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID, Chc<Pair<String, Sk>, Pair<ID, Att>>> eval(
 				AqlEnv env) {
-			Schema<Ty, En, Sym, Fk, Att> sch0 = sch.eval(env);
-			Collage<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>> col = new Collage<>(sch0.collage());
+			Schema<Ty, Sym, En, Fk, Att> sch0 = sch.eval(env);
+			Collage<Ty, Sym, En, Fk, Att, Pair<String, Gen>, Pair<String, Sk>> col = new Collage<>(sch0.collage());
 			AqlOptions strat = new AqlOptions(options, col, env.defaults);
-			Set<Pair<Term<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>, Term<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>>> eqs0 = new HashSet<>();
+			Set<Pair<Term<Ty, Sym, En, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>, Term<Ty, Sym, En, Fk, Att, Pair<String, Gen>, Pair<String, Sk>>>> eqs0 = new HashSet<>();
 
 			for (String x : Is) {
 				@SuppressWarnings("unchecked")
-				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> 
-				I = (Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>) 
+				Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> 
+				I = (Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>) 
 					new InstExpVar<Object, Object, Object, Object, Object, Gen, Sk, X, Y>(x).eval(env);
 				for (Gen g : I.gens().keySet()) {
 					col.gens.put(new Pair<>(x, g), I.gens().get(g));
@@ -285,12 +287,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 				}
 				Function<Gen, Pair<String, Gen>> f1 = z -> new Pair<>(x, z);
 				Function<Sk, Pair<String, Sk>> f2 = z -> new Pair<>(x, z);
-				for (Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq : I.eqs()) {
+				for (Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq : I.eqs()) {
 					eqs0.add(new Pair<>(eq.first.mapGenSk(f1, f2), eq.second.mapGenSk(f1, f2)));
 					col.eqs.add(new Eq<>(new Ctx<>(), eq.first.mapGenSk(f1, f2), eq.second.mapGenSk(f1, f2)));
 				}
 			}
-			InitialAlgebra<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID> initial0 = new InitialAlgebra<>(
+			InitialAlgebra<Ty, Sym, En, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID> initial0 = new InitialAlgebra<>(
 					strat, sch0, col, new It(), Object::toString, Object::toString);
 
 			return new LiteralInstance<>(sch0, col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0,
@@ -303,12 +305,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 	///////////////////////////////////////////////////////////////////////
 
 	// TODO aql the types here are lies
-	public static final class InstExpCoProdSigma<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> {
+	public static final class InstExpCoProdSigma<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> {
 
-		public final List<Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>>> Is;
+		public final List<Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>>> Is;
 
-		public final SchExp<Ty, En, Sym, Fk, Att> sch;
+		public final SchExp<Ty, Sym, En, Fk, Att> sch;
 
 		public final Map<String, String> options;
 
@@ -318,8 +320,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		public InstExpCoProdSigma(
-				List<Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>>> is,
-				SchExp<Ty, En, Sym, Fk, Att> sch, List<Pair<String, String>> options) {
+				List<Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>>> is,
+				SchExp<Ty, Sym, En, Fk, Att> sch, List<Pair<String, String>> options) {
 			Is = is;
 			this.sch = sch;
 			this.options = Util.toMapSafely(options);
@@ -328,7 +330,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		@Override
 		public Collection<Pair<String, Kind>> deps() {
 			Set<Pair<String, Kind>> ret = new HashSet<>(sch.deps());
-			for (Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> i : Is) {
+			for (Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> i : Is) {
 				ret.addAll(i.first.deps());
 				ret.addAll(i.second.deps());
 			}
@@ -347,7 +349,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		// TODO aql term equality
 		private boolean hasNoSigmas() {
-			for (Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> l : Is) {
+			for (Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> l : Is) {
 				if (!l.first.equals(new MapExpId<>(sch))) {
 					return false;
 				}
@@ -393,9 +395,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
-			for (Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> x : Is) {
-				SchExp<Ty, En, Sym, Fk, Att> ac = new InstExpSigma<>(x.first, x.second, Collections.emptyMap()).type(G);
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
+			for (Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> x : Is) {
+				SchExp<Ty, Sym, En, Fk, Att> ac = new InstExpSigma<>(x.first, x.second, Collections.emptyMap()).type(G);
 				if (!G.eq(ac, sch)) { // TODO aql schema equality
 					throw new RuntimeException(
 							"Instance " + x.second + " has schema " + ac + ",\n\nnot " + sch + "\n\nas expected");
@@ -405,15 +407,15 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
-			Schema<Ty, En, Sym, Fk, Att> sch0 = sch.eval(env);
-			Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col = new Collage<>(sch0.collage());
+		public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
+			Schema<Ty, Sym, En, Fk, Att> sch0 = sch.eval(env);
+			Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col = new Collage<>(sch0.collage());
 			AqlOptions strat = new AqlOptions(options, col, env.defaults);
-			Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>();
+			Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>();
 
-			for (Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> x : Is) {
-				Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> M = x.first.eval(env);
-				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I = x.second.eval(env);
+			for (Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> x : Is) {
+				Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> M = x.first.eval(env);
+				Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I = x.second.eval(env);
 				for (Gen g : I.gens().keySet()) {
 					if (col.gens.containsKey(g)) {
 						if (!(boolean) strat.getOrDefault(AqlOption.coproduct_allow_type_collisions_unsafe)) {
@@ -442,12 +444,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 						col.sks.put(g, I.sks().get(g));
 					}
 				}
-				for (Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq : I.eqs()) {
+				for (Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq : I.eqs()) {
 					eqs0.add(new Pair<>(M.trans(eq.first), M.trans(eq.second)));
 					col.eqs.add(new Eq<>(new Ctx<>(), M.trans(eq.first), M.trans(eq.second)));
 				}
 			}
-			InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, sch0, col,
+			InitialAlgebra<Ty, Sym, En, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, sch0, col,
 					new It(), Object::toString, Object::toString);
 			return new LiteralInstance<>(sch0, col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0,
 					(Boolean) strat.getOrDefault(AqlOption.require_consistency),
@@ -459,22 +461,22 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 	///////////////////////////////////////////////////////////////////////
 
 	/*
-	 * public static final class InstExpCoProd<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends
-	 * InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>> {
+	 * public static final class InstExpCoProd<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> extends
+	 * InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>> {
 	 * 
-	 * public final InstExpCoProdSigma<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> exp;
+	 * public final InstExpCoProdSigma<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> exp;
 	 * 
 	 * @Override public Map<String, String> options() { return exp.options; }
 	 * 
-	 * public InstExpCoProd(List<InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> is,
-	 * SchExp<Ty, En, Sym, Fk, Att> sch, List<Pair<String, String>> options) {
-	 * List<Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk,
+	 * public InstExpCoProd(List<InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> is,
+	 * SchExp<Ty, Sym, En, Fk, Att> sch, List<Pair<String, String>> options) {
+	 * List<Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk,
 	 * Att, Gen, Sk, X, Y>>> js; this.exp = new
-	 * InstExpCoProdSigma<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y>(js, sch, options); }
+	 * InstExpCoProdSigma<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y>(js, sch, options); }
 	 * 
 	 * @Override public Collection<Pair<String, Kind>> deps() { Set<Pair<String,
-	 * Kind>> ret = new HashSet<>(sch.deps()); for(Pair<MapExp<Ty, En, Sym, Fk, Att,
-	 * En, Fk, Att>, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> i : Is) {
+	 * Kind>> ret = new HashSet<>(sch.deps()); for(Pair<MapExp<Ty, Sym, En, Fk, Att,
+	 * En, Fk, Att>, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> i : Is) {
 	 * ret.addAll(i.first.deps()); ret.addAll(i.second.deps()); } return ret; }
 	 * 
 	 * 
@@ -498,24 +500,24 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 	 * (other.sch != null) return false; } else if (!sch.equals(other.sch)) return
 	 * false; return true; }
 	 * 
-	 * @Override public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) { for
-	 * (Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk,
-	 * Att, Gen, Sk, X, Y>> x : Is) { SchExp<Ty, En, Sym, Fk, Att> ac = new
+	 * @Override public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) { for
+	 * (Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk,
+	 * Att, Gen, Sk, X, Y>> x : Is) { SchExp<Ty, Sym, En, Fk, Att> ac = new
 	 * InstExpSigma<>(x.first, x.second, Collections.emptyMap()).type(G); if
 	 * (!G.eq(ac,sch)) { //TODO aql schema equality throw new
 	 * RuntimeException("Instance " + x.second + " has schema " + ac + ",\n\nnot " +
 	 * sch + "\n\nas expected"); } } return sch; }
 	 * 
-	 * @Override public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID,
-	 * Att>>> eval(AqlEnv env) { Schema<Ty, En, Sym, Fk, Att> sch0 = sch.eval(env);
-	 * Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col = new Collage<>(sch0.collage());
+	 * @Override public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID,
+	 * Att>>> eval(AqlEnv env) { Schema<Ty, Sym, En, Fk, Att> sch0 = sch.eval(env);
+	 * Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col = new Collage<>(sch0.collage());
 	 * AqlOptions strat = new AqlOptions(options, col, env.defaults);
-	 * Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen,
+	 * Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen,
 	 * Sk>>> eqs0 = new HashSet<>();
 	 * 
-	 * for (Pair<MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>, InstExp<Ty, En, Sym, Fk,
-	 * Att, Gen, Sk, X, Y>> x : Is) { Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> M =
-	 * x.first.eval(env); Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I =
+	 * for (Pair<MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>, InstExp<Ty, Sym, En, Fk,
+	 * Att, Gen, Sk, X, Y>> x : Is) { Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> M =
+	 * x.first.eval(env); Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I =
 	 * x.second.eval(env); for (Gen g : I.gens().keySet()) { if
 	 * (col.gens.containsKey(g)) { if (!(boolean)strat.getOrDefault(AqlOption.
 	 * coproduct_allow_type_collisions_unsafe)) { throw new
@@ -530,10 +532,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 	 * + g +
 	 * ". Possible solution: add options coproduct_allow_type_collisions_unsafe=true"
 	 * ); } else { continue; } } else { col.sks.put(g, I.sks().get(g)); } } for
-	 * (Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen,
+	 * (Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen,
 	 * Sk>> eq : I.eqs()) { eqs0.add(new Pair<>(M.trans(eq.first),
 	 * M.trans(eq.second))); col.eqs.add(new Eq<>(new Ctx<>(), M.trans(eq.first),
-	 * M.trans(eq.second))); } } InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Sk, ID>
+	 * M.trans(eq.second))); } } InitialAlgebra<Ty, Sym, En, Fk, Att, Gen, Sk, ID>
 	 * initial0 = new InitialAlgebra<>(strat, sch0, col, new It(), Object::toString,
 	 * Object::toString); return new LiteralInstance<>(sch0, col.gens.map,
 	 * col.sks.map, eqs0, initial0.dp(), initial0, (Boolean)
@@ -545,12 +547,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	///////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpChase<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Object, Object, Object, Object> {
+	public static final class InstExpChase<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Object, Object, Object, Object> {
 
-		public final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+		public final InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 
-		public final EdsExp<Ty, En, Sym, Fk, Att> eds;
+		public final EdsExp<Ty, Sym, En, Fk, Att> eds;
 
 		// public final int limit;
 
@@ -561,7 +563,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return options;
 		}
 
-		public InstExpChase(EdsExp<Ty, En, Sym, Fk, Att> eds, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i,
+		public InstExpChase(EdsExp<Ty, Sym, En, Fk, Att> eds, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i,
 				List<Pair<String, String>> options) {
 			I = i;
 			this.eds = eds;
@@ -611,7 +613,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			if (!G.eq(I.type(G), eds.type(G))) {
 				throw new RuntimeException("type of " + I + ", namely " + I.type(G) + " is not equal to type of " + eds
 						+ ", namely " + eds.type(G));
@@ -622,10 +624,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Object, Object, Object, Object> eval(AqlEnv env) {
-			Instance<Ty, En, Sym, Fk, Att, ?, ?, ?, ?> ret = eds.eval(env).chase(I.eval(env),
+		public Instance<Ty, Sym, En, Fk, Att, Object, Object, Object, Object> eval(AqlEnv env) {
+			Instance<Ty, Sym, En, Fk, Att, ?, ?, ?, ?> ret = eds.eval(env).chase(I.eval(env),
 					new AqlOptions(options, null, env.defaults));
-			return (Instance<Ty, En, Sym, Fk, Att, Object, Object, Object, Object>) ret;
+			return (Instance<Ty, Sym, En, Fk, Att, Object, Object, Object, Object>) ret;
 		}
 
 		@Override
@@ -637,17 +639,17 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	///////////////////////////////////////////////////////////////////////
 
-	public static class InstExpDom<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1> {
+	public static class InstExpDom<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1> {
 
-		public final TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t;
+		public final TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t;
 
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
 		}
 
-		public InstExpDom(TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t) {
+		public InstExpDom(TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t) {
 			this.t = t;
 		}
 
@@ -682,7 +684,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1> eval(AqlEnv env) {
 			return t.eval(env).src();
 		}
 
@@ -692,23 +694,23 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			return t.type(G).first.type(G);
 		}
 
 	}
 
-	public static class InstExpCod<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2> {
+	public static class InstExpCod<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2> {
 
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
 		}
 
-		public final TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t;
+		public final TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t;
 
-		public InstExpCod(TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t) {
+		public InstExpCod(TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t) {
 			this.t = t;
 		}
 
@@ -743,7 +745,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2> eval(AqlEnv env) {
 			return t.eval(env).dst();
 		}
 
@@ -753,7 +755,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			return t.type(G).first.type(G);
 		}
 
@@ -761,8 +763,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static class InstExpColim<N, E, Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Pair<N, Gen>, Pair<N, Sk>, ID, Chc<Pair<N, Sk>, Pair<ID, Att>>>
+	public static class InstExpColim<N, E, Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Pair<N, Gen>, Pair<N, Sk>, ID, Chc<Pair<N, Sk>, Pair<ID, Att>>>
 			implements Raw {
 
 		private Ctx<String, List<InteriorLabel<Object>>> raw = new Ctx<>();
@@ -772,12 +774,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return raw;
 		}
 
-		public final SchExp<Ty, En, Sym, Fk, Att> schema;
+		public final SchExp<Ty, Sym, En, Fk, Att> schema;
 
 		public final GraphExp<N, E> shape;
 
-		public final Ctx<N, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> nodes;
-		public final Ctx<E, TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>> edges;
+		public final Ctx<N, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> nodes;
+		public final Ctx<E, TransExp<Ty, Sym, En, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>> edges;
 
 		public final Map<String, String> options;
 
@@ -787,9 +789,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@SuppressWarnings("unchecked")
-		public InstExpColim(GraphExp<N, E> shape, SchExp<Ty, En, Sym, Fk, Att> schema,
-				List<Pair<LocStr, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>>> nodes,
-				List<Pair<LocStr, TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>>> edges,
+		public InstExpColim(GraphExp<N, E> shape, SchExp<Ty, Sym, En, Fk, Att> schema,
+				List<Pair<LocStr, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>>> nodes,
+				List<Pair<LocStr, TransExp<Ty, Sym, En, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>>> edges,
 				List<Pair<String, String>> options) {
 			this.schema = schema;
 			this.shape = shape;
@@ -798,14 +800,14 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			this.options = Util.toMapSafely(options);
 
 			List<InteriorLabel<Object>> f = new LinkedList<>();
-			for (Pair<LocStr, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> p : nodes) {
+			for (Pair<LocStr, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> p : nodes) {
 				f.add(new InteriorLabel<>("nodes", new Pair<>(p.first.str, p.second), p.first.loc,
 						x -> x.first + " -> " + x.second).conv());
 			}
 			raw.put("nodes", f);
 
 			f = new LinkedList<>();
-			for (Pair<LocStr, TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>> p : edges) {
+			for (Pair<LocStr, TransExp<Ty, Sym, En, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>> p : edges) {
 				f.add(new InteriorLabel<>("edges", new Pair<>(p.first.str, p.second), p.first.loc,
 						x -> x.first + " -> " + x.second).conv());
 			}
@@ -872,10 +874,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Pair<N, Gen>, Pair<N, Sk>, ID, Chc<Pair<N, Sk>, Pair<ID, Att>>> eval(
+		public Instance<Ty, Sym, En, Fk, Att, Pair<N, Gen>, Pair<N, Sk>, ID, Chc<Pair<N, Sk>, Pair<ID, Att>>> eval(
 				AqlEnv env) {
-			Ctx<N, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>> nodes0 = new Ctx<>();
-			Ctx<E, Transform<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>> edges0 = new Ctx<>();
+			Ctx<N, Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>> nodes0 = new Ctx<>();
+			Ctx<E, Transform<Ty, Sym, En, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>> edges0 = new Ctx<>();
 
 			for (N n : nodes.keySet()) {
 				nodes0.put(n, nodes.get(n).eval(env));
@@ -889,7 +891,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			for (N n : nodes.keySet()) {
 				if (!G.eq(nodes.get(n).type(G), schema)) { // TODO aql schema equality
 					throw new RuntimeException("The instance for " + n + " has schema " + nodes.get(n).type(G)
@@ -902,10 +904,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			DMG<N, E> g = shape.eval(G).dmg;
 
 			for (E e : g.edges.keySet()) {
-				InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> reqdSrc = nodes.get(g.edges.get(e).first);
-				InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> reqdDst = nodes.get(g.edges.get(e).second);
+				InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> reqdSrc = nodes.get(g.edges.get(e).first);
+				InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> reqdDst = nodes.get(g.edges.get(e).second);
 
-				InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> givenSrc = edges.get(e).type(G).first,
+				InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> givenSrc = edges.get(e).type(G).first,
 						givenDst = edges.get(e).type(G).second;
 
 				if (!reqdSrc.equals(givenSrc)) {
@@ -923,10 +925,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			Collection<Pair<String, Kind>> ret = new HashSet<>();
 			ret.addAll(schema.deps());
 			ret.addAll(shape.deps());
-			for (InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> p : nodes.values()) {
+			for (InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> p : nodes.values()) {
 				ret.addAll(p.deps());
 			}
-			for (TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y> p : edges.values()) {
+			for (TransExp<Ty, Sym, En, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y> p : edges.values()) {
 				ret.addAll(p.deps());
 			}
 			return ret;
@@ -936,11 +938,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpCoEval<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
-			extends InstExp<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att1>>> {
+	public static final class InstExpCoEval<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
+			extends InstExp<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att1>>> {
 
-		public final QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q;
-		public final InstExp<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> J;
+		public final QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q;
+		public final InstExp<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> J;
 		public final Map<String, String> options;
 
 		@Override
@@ -948,8 +950,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return options;
 		}
 
-		public InstExpCoEval(QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q,
-				InstExp<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> j, List<Pair<String, String>> options) {
+		public InstExpCoEval(QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> q,
+				InstExp<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> j, List<Pair<String, String>> options) {
 			Q = q;
 			J = j;
 			this.options = Util.toMapSafely(options);
@@ -961,7 +963,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En1, Sym, Fk1, Att1> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En1, Fk1, Att1> type(AqlTyping G) {
 			if (!J.type(G).equals(Q.type(G).second)) { // TODO aql schema equality
 				throw new RuntimeException(
 						"Schema of instance is " + J.type(G) + " but target of query is " + Q.type(G).second);
@@ -970,7 +972,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att1>>> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att1>>> eval(AqlEnv env) {
 			return new CoEvalInstance<>(Q.eval(env), J.eval(env), new AqlOptions(options, null, env.defaults));
 		}
 
@@ -1020,11 +1022,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpEval<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
-			extends InstExp<Ty, En2, Sym, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y> {
+	public static final class InstExpEval<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
+			extends InstExp<Ty, Sym, En2, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y> {
 
-		public final QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q;
-		public final InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I;
+		public final QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q;
+		public final InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> I;
 		public final Map<String, String> options;
 
 		@Override
@@ -1032,8 +1034,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return options;
 		}
 
-		public InstExpEval(QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q,
-				InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i, List<Pair<String, String>> options) {
+		public InstExpEval(QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> q,
+				InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> i, List<Pair<String, String>> options) {
 			Q = q;
 			I = i;
 			this.options = Util.toMapSafely(options);
@@ -1082,7 +1084,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En2, Sym, Fk2, Att2> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En2, Fk2, Att2> type(AqlTyping G) {
 			if (!G.eq(I.type(G), Q.type(G).first)) { // TODO aql schema equality
 				throw new RuntimeException("In evaluating a query, schema of instance is " + I.type(G)
 						+ " but source of query is " + Q.type(G).first + "\nThe query is " + this);
@@ -1091,7 +1093,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En2, Sym, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En2, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y> eval(AqlEnv env) {
 			return new EvalInstance<>(Q.eval(env), I.eval(env), new AqlOptions(options, null, env.defaults));
 		}
 
@@ -1104,11 +1106,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpSigma<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
-			extends InstExp<Ty, En2, Sym, Fk2, Att2, Gen, Sk, ID, Chc<Sk, Pair<ID, Att2>>> {
+	public static final class InstExpSigma<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
+			extends InstExp<Ty, Sym, En2, Fk2, Att2, Gen, Sk, ID, Chc<Sk, Pair<ID, Att2>>> {
 
-		public final InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I;
-		public final MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
+		public final InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> I;
+		public final MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F;
 		public final Map<String, String> options;
 
 		@Override
@@ -1121,8 +1123,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Util.union(I.deps(), F.deps());
 		}
 
-		public InstExpSigma(MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f,
-				InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i, Map<String, String> options) {
+		public InstExpSigma(MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f,
+				InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> i, Map<String, String> options) {
 			I = i;
 			F = f;
 			this.options = options;
@@ -1166,9 +1168,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En2, Sym, Fk2, Att2> type(AqlTyping G) {
-			SchExp<Ty, En1, Sym, Fk1, Att1> t0 = I.type(G);
-			Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En2, Sym, Fk2, Att2>> t1 = F.type(G);
+		public SchExp<Ty, Sym, En2, Fk2, Att2> type(AqlTyping G) {
+			SchExp<Ty, Sym, En1, Fk1, Att1> t0 = I.type(G);
+			Pair<SchExp<Ty, Sym, En1, Fk1, Att1>, SchExp<Ty, Sym, En2, Fk2, Att2>> t1 = F.type(G);
 
 			if (!G.eq(t1.first, t0)) { // TODO aql schema equality
 				throw new RuntimeException("Type error: In " + this + " domain of mapping is " + t1.first
@@ -1184,11 +1186,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SigmaInstance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> eval(AqlEnv env) {
-			Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F = this.F.eval(env);
-			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I = this.I.eval(env);
+		public SigmaInstance<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> eval(AqlEnv env) {
+			Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F = this.F.eval(env);
+			Instance<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> I = this.I.eval(env);
 			
-			Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col = new Collage<>(F.dst.collage());
+			Collage<Ty, Sym, En2, Fk2, Att2, Gen, Sk> col = new Collage<>(F.dst.collage());
 			
 			col.sks.putAll(I.sks().map);
 			for (Gen gen : I.gens().keySet()) {
@@ -1196,10 +1198,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			}
 			
 			@SuppressWarnings("unused")
-			Set<Pair<Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> 
+			Set<Pair<Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>, Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>>> 
 			eqs = new HashSet<>();
 			
-			for (Pair<Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>, Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>> eq : I.eqs()) {
+			for (Pair<Term<Ty, Sym, En1, Fk1, Att1, Gen, Sk>, Term<Ty, Sym, En1, Fk1, Att1, Gen, Sk>> eq : I.eqs()) {
 				col.eqs.add(new Eq<>(new Ctx<>(), F.trans(eq.first), F.trans(eq.second)));
 			}
 			return new SigmaInstance<>(F, I, new AqlOptions(options, col, env.defaults));
@@ -1207,11 +1209,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	}
 
-	public static final class InstExpSigmaChase<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> extends
-			InstExp<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> {
+	public static final class InstExpSigmaChase<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> extends
+			InstExp<Ty, Sym, En2, Fk2, Att2, Gen, Sk, Lineage<Void, Void, En2, Fk2, Void, Gen, Void>, Chc<Sk, Pair<Lineage<Void, Void, En2, Fk2, Void, Gen, Void>, Att2>>> {
 
-		public final InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I;
-		public final MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
+		public final InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> I;
+		public final MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F;
 		public final Map<String, String> options;
 		// public final Integer max;
 
@@ -1225,8 +1227,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Util.union(I.deps(), F.deps());
 		}
 
-		public InstExpSigmaChase(MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f,
-				InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i, Map<String, String> options) {
+		public InstExpSigmaChase(MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f,
+				InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> i, Map<String, String> options) {
 			I = i;
 			F = f;
 			this.options = options;
@@ -1272,9 +1274,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En2, Sym, Fk2, Att2> type(AqlTyping G) {
-			SchExp<Ty, En1, Sym, Fk1, Att1> t0 = I.type(G);
-			Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En2, Sym, Fk2, Att2>> t1 = F.type(G);
+		public SchExp<Ty, Sym, En2, Fk2, Att2> type(AqlTyping G) {
+			SchExp<Ty, Sym, En1, Fk1, Att1> t0 = I.type(G);
+			Pair<SchExp<Ty, Sym, En1, Fk1, Att1>, SchExp<Ty, Sym, En2, Fk2, Att2>> t1 = F.type(G);
 
 			if (!G.eq(t1.first, t0)) { // TODO aql schema equality
 				throw new RuntimeException("Type error: In " + this + " domain of mapping is " + t1.first
@@ -1295,10 +1297,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> eval(
+		public Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, Lineage<Void, Void, En2, Fk2, Void, Gen, Void>, Chc<Sk, Pair<Lineage<Void, Void, En2, Fk2, Void, Gen, Void>, Att2>>> eval(
 				AqlEnv env) {
-			Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f = F.eval(env);
-			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i = I.eval(env);
+			Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f = F.eval(env);
+			Instance<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> i = I.eval(env);
 			AqlOptions op = new AqlOptions(options, null, env.defaults);
 
 			String type = (String) op.getOrDefault(AqlOption.chase_style);
@@ -1306,28 +1308,28 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 				throw new RuntimeException("Style must be leftkan or parallel");
 			}
 
-			Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col = new Collage<>(f.dst.collage());
+			Collage<Ty, Sym, En2, Fk2, Att2, Gen, Sk> col = new Collage<>(f.dst.collage());
 
 			col.sks.putAll(i.sks().map);
 			for (Gen gen : i.gens().keySet()) {
 				col.gens.put(gen, f.ens.get(i.gens().get(gen)));
 			}
 
-			Set<Pair<Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> eqs = new HashSet<>();
-			for (Pair<Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>, Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>> eq : i.eqs()) {
+			Set<Pair<Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>, Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>>> eqs = new HashSet<>();
+			for (Pair<Term<Ty, Sym, En1, Fk1, Att1, Gen, Sk>, Term<Ty, Sym, En1, Fk1, Att1, Gen, Sk>> eq : i.eqs()) {
 				eqs.add(new Pair<>(f.trans(eq.first), f.trans(eq.second)));
 				col.eqs.add(new Eq<>(new Ctx<>(), f.trans(eq.first), f.trans(eq.second)));
 			}
 
 			if (type.equals("leftkan")) {
-				SigmaLeftKanAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaLeftKanAlgebra<>(
+				SigmaLeftKanAlgebra<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaLeftKanAlgebra<>(
 						f, i, col);
 
 				return new LiteralInstance<>(alg.schema(), col.gens.map, col.sks.map, eqs, alg, alg,
 						(Boolean) op.getOrDefault(AqlOption.require_consistency),
 						(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 			} else if (type.equals("parallel")) {
-				SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaChaseAlgebra<>(
+				SigmaChaseAlgebra<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaChaseAlgebra<>(
 						f, i, col);
 
 				return new LiteralInstance<>(alg.schema(), col.gens.map, col.sks.map, eqs, alg, alg,
@@ -1339,11 +1341,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 	}
 
-	public static final class InstExpDelta<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y>
-			extends InstExp<Ty, En1, Sym, Fk1, Att1, Pair<En1, X>, Y, Pair<En1, X>, Y> {
+	public static final class InstExpDelta<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En1, Fk1, Att1, Pair<En1, X>, Y, Pair<En1, X>, Y> {
 
-		public final InstExp<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> I;
-		public final MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
+		public final InstExp<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> I;
+		public final MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F;
 
 		@Override
 		public Map<String, String> options() {
@@ -1355,8 +1357,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Util.union(I.deps(), F.deps());
 		}
 
-		public InstExpDelta(MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f,
-				InstExp<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> i) {
+		public InstExpDelta(MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f,
+				InstExp<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> i) {
 			I = i;
 			F = f;
 		}
@@ -1393,9 +1395,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En1, Sym, Fk1, Att1> type(AqlTyping G) {
-			SchExp<Ty, En2, Sym, Fk2, Att2> t0 = I.type(G);
-			Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En2, Sym, Fk2, Att2>> t1 = F.type(G);
+		public SchExp<Ty, Sym, En1, Fk1, Att1> type(AqlTyping G) {
+			SchExp<Ty, Sym, En2, Fk2, Att2> t0 = I.type(G);
+			Pair<SchExp<Ty, Sym, En1, Fk1, Att1>, SchExp<Ty, Sym, En2, Fk2, Att2>> t1 = F.type(G);
 
 			if (!G.eq(t1.second, t0)) { // TODO aql schema equality
 				throw new RuntimeException("Type error: In " + this + " codomain of mapping is " + t1.first
@@ -1411,18 +1413,18 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En1, Sym, Fk1, Att1, Pair<En1, X>, Y, Pair<En1, X>, Y> eval(AqlEnv env) {
-			Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f = F.eval(env);
-			Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> i = I.eval(env);
+		public Instance<Ty, Sym, En1, Fk1, Att1, Pair<En1, X>, Y, Pair<En1, X>, Y> eval(AqlEnv env) {
+			Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f = F.eval(env);
+			Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> i = I.eval(env);
 			return new DeltaInstance<>(f, i);
 		}
 
 	}
 
 	public static final class InstExpEmpty<Ty, Sym, En, Fk, Att>
-			extends InstExp<Ty, En, Sym, Fk, Att, Void, Void, Void, Void> {
+			extends InstExp<Ty, Sym, En, Fk, Att, Void, Void, Void, Void> {
 
-		public final SchExp<Ty, En, Sym, Fk, Att> schema;
+		public final SchExp<Ty, Sym, En, Fk, Att> schema;
 
 		@Override
 		public Map<String, String> options() {
@@ -1434,7 +1436,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return schema.deps();
 		}
 
-		public InstExpEmpty(SchExp<Ty, En, Sym, Fk, Att> schema) {
+		public InstExpEmpty(SchExp<Ty, Sym, En, Fk, Att> schema) {
 			if (schema == null) {
 				throw new RuntimeException("Attempt to create InstExpEmpty with null schema");
 			}
@@ -1467,19 +1469,19 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public InitialInstance<Ty, En, Sym, Fk, Att> eval(AqlEnv env) {
+		public InitialInstance<Ty, Sym, En, Fk, Att> eval(AqlEnv env) {
 			return new InitialInstance<>(schema.eval(env));
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			return schema;
 		}
 
 	}
 
-	public static final class InstExpVar<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+	public static final class InstExpVar<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 		public final String var;
 
 		@Override
@@ -1501,7 +1503,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
 			return env.defs.insts.get(var);
 		}
 
@@ -1532,21 +1534,21 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			if (!G.defs.insts.containsKey(var)) {
 				throw new RuntimeException("Not an instance: " + var);
 			}
-			return (SchExp<Ty, En, Sym, Fk, Att>) G.defs.insts.get(var);
+			return (SchExp<Ty, Sym, En, Fk, Att>) G.defs.insts.get(var);
 		}
 
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpLit<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+	public static final class InstExpLit<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
-		public final Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> inst;
+		public final Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> inst;
 
 		@Override
 		public Map<String, String> options() {
@@ -1558,7 +1560,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Collections.emptyList();
 		}
 
-		public InstExpLit(Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> inst) {
+		public InstExpLit(Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> inst) {
 			if (inst == null) {
 				throw new RuntimeException("Attempt to create InstExpLit with null schema");
 			}
@@ -1566,7 +1568,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
 			return inst;
 		}
 
@@ -1596,7 +1598,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			return new SchExpLit<>(inst.schema());
 		}
 
@@ -1604,27 +1606,27 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpDistinct<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+	public static final class InstExpDistinct<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
-		public final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+		public final InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
 		}
 
-		public InstExpDistinct(InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i) {
+		public InstExpDistinct(InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i) {
 			I = i;
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			return I.type(G);
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
 			return new DistinctInstance<>(I.eval(env));
 		}
 
@@ -1667,27 +1669,27 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	///////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpAnonymize<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
-			extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+	public static final class InstExpAnonymize<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
+			extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
-		public final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+		public final InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
 		}
 
-		public InstExpAnonymize(InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i) {
+		public InstExpAnonymize(InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i) {
 			I = i;
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 			return I.type(G);
 		}
 
 		@Override
-		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
+		public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> eval(AqlEnv env) {
 			return new Anonymized<>(I.eval(env));
 		}
 
@@ -1730,10 +1732,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	///////////////////////////////////////////////////////////////////////////////
 
-	public static final class InstExpFrozen<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2>
-			extends InstExp<Ty, En1, Sym, Fk1, Att1, Var, Var, ID, Chc<Var, Pair<ID, Att1>>> {
+	public static final class InstExpFrozen<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2>
+			extends InstExp<Ty, Sym, En1, Fk1, Att1, Var, Var, ID, Chc<Var, Pair<ID, Att1>>> {
 
-		public final QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q;
+		public final QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q;
 		public final En2 I;
 
 		@Override
@@ -1741,7 +1743,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Collections.emptyMap();
 		}
 
-		public InstExpFrozen(QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q, En2 i) {
+		public InstExpFrozen(QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> q, En2 i) {
 			Q = q;
 			I = i;
 		}
@@ -1783,12 +1785,12 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En1, Sym, Fk1, Att1> type(AqlTyping G) {
+		public SchExp<Ty, Sym, En1, Fk1, Att1> type(AqlTyping G) {
 			return Q.type(G).first;
 		}
 
 		@Override
-		public Frozen<Ty, En1, Sym, Fk1, Att1> eval(AqlEnv env) {
+		public Frozen<Ty, Sym, En1, Fk1, Att1> eval(AqlEnv env) {
 			return Q.eval(env).ens.get(I);
 		}
 
@@ -1800,11 +1802,11 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	//////////////////////
 
-	public static final class InstExpPi<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
-			extends InstExp<Ty, En2, Sym, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y> {
+	public static final class InstExpPi<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
+			extends InstExp<Ty, Sym, En2, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y> {
 
-		public final InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I;
-		public final MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
+		public final InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> I;
+		public final MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F;
 		public final Map<String, String> options;
 
 		@Override
@@ -1817,8 +1819,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return Util.union(I.deps(), F.deps());
 		}
 
-		public InstExpPi(MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f,
-				InstExp<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i, Map<String, String> options) {
+		public InstExpPi(MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f,
+				InstExp<Ty, Sym, En1, Fk1, Att1, Gen, Sk, X, Y> i, Map<String, String> options) {
 			I = i;
 			F = f;
 			this.options = options;
@@ -1862,9 +1864,9 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public SchExp<Ty, En2, Sym, Fk2, Att2> type(AqlTyping G) {
-			SchExp<Ty, En1, Sym, Fk1, Att1> t0 = I.type(G);
-			Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En2, Sym, Fk2, Att2>> t1 = F.type(G);
+		public SchExp<Ty, Sym, En2, Fk2, Att2> type(AqlTyping G) {
+			SchExp<Ty, Sym, En1, Fk1, Att1> t0 = I.type(G);
+			Pair<SchExp<Ty, Sym, En1, Fk1, Att1>, SchExp<Ty, Sym, En2, Fk2, Att2>> t1 = F.type(G);
 
 			if (!G.eq(t1.first, t0)) { // TODO aql schema equality
 				throw new RuntimeException("Type error: In " + this + " domain of mapping is " + t1.first
@@ -1880,10 +1882,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public Instance<Ty, En2, Sym, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y>  eval(AqlEnv env) {
-			QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q = new QueryExpDeltaCoEval<>(F, Util.toList(options));
-			InstExpEval<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> r = new InstExpEval<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>(q, I, Util.toList(options));
-			Instance<Ty, En2, Sym, Fk2, Att2, Row<En2,X>, Y, Row<En2,X>, Y>  w = r.eval(env);
+		public Instance<Ty, Sym, En2, Fk2, Att2, Row<En2, X>, Y, Row<En2, X>, Y>  eval(AqlEnv env) {
+			QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> q = new QueryExpDeltaCoEval<>(F, Util.toList(options));
+			InstExpEval<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> r = new InstExpEval<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>(q, I, Util.toList(options));
+			Instance<Ty, Sym, En2, Fk2, Att2, Row<En2,X>, Y, Row<En2,X>, Y>  w = r.eval(env);
 			return w;
 		}
 

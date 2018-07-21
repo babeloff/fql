@@ -46,7 +46,7 @@ import catdata.aql.fdm.InitialAlgebra;
 import catdata.aql.fdm.LiteralInstance;
 import catdata.aql.fdm.SaturatedInstance;
 
-public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>>
+public final class InstExpRaw extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>>
 		implements Raw {
 
 	public static class Gen implements Comparable<Gen> {
@@ -146,7 +146,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 		return ret;
 	}
 
-	public final SchExp<Ty, En, Sym, Fk, Att> schema;
+	public final SchExp<Ty, Sym, En, Fk, Att> schema;
 
 	public final Set<String> imports;
 
@@ -165,7 +165,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 	@SuppressWarnings("unchecked")
 	public InstExpRaw(SchExp<?, ?, ?, ?, ?> schema, List<LocStr> imports, List<Pair<LocStr, String>> gens,
 			List<Pair<Integer, Pair<RawTerm, RawTerm>>> eqs, List<Pair<String, String>> options) {
-		this.schema = (SchExp<Ty, En, Sym, Fk, Att>) schema;
+		this.schema = (SchExp<Ty, Sym, En, Fk, Att>) schema;
 		this.imports = LocStr.set1(imports);
 		this.gens = LocStr.set2(gens);
 		this.eqs = LocStr.proj2(eqs);
@@ -314,20 +314,20 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public synchronized Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
-		Schema<Ty, En, Sym, Fk, Att> sch = schema.eval(env);
-		Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col = new Collage<>(sch.collage());
+	public synchronized Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
+		Schema<Ty, Sym, En, Fk, Att> sch = schema.eval(env);
+		Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col = new Collage<>(sch.collage());
 
-		Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>();
+		Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>();
 
 		for (String k : imports) {
-			Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> v = env.defs.insts.get(k);
+			Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> v = env.defs.insts.get(k);
 			col.addAll(v.collage());
 			eqs0.addAll(v.eqs());
 		}
 
 		/*
-		 * for (String k : imports) { Instance<Ty, En, Sym, Fk, Att, Gen, Sk,
+		 * for (String k : imports) { Instance<Ty, Sym, En, Fk, Att, Gen, Sk,
 		 * ID, Chc<Sk, Pair<ID, Att>>> u = env.defs.insts.get(k); for (Object o
 		 * : u.gens().keySet()) { if (!(o instanceof Gen)) { throw new
 		 * RuntimeException("Cannot import " + o + " from " + k +
@@ -336,7 +336,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 		 * RuntimeException("Cannot import " + o + " from " + k +
 		 * " because it is not a labelled null"); } }
 		 * 
-		 * @SuppressWarnings("unchecked") Instance<Ty, En, Sym, Fk, Att, String,
+		 * @SuppressWarnings("unchecked") Instance<Ty, Sym, En, Fk, Att, String,
 		 * String, ID, Chc<String, Pair<ID, String>>> v = env.defs.insts.get(k);
 		 * 
 		 * col.gens.putAll(v.gens().map); col.sks.putAll(v.sks().map);
@@ -362,7 +362,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 			try {
 				Map<String, Chc<Ty, En>> ctx = Collections.emptyMap();
 
-				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq0 = RawTerm
+				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq0 = RawTerm
 						.infer1x(ctx, eq.first, eq.second, null, col, "", sch.typeSide.js).first3();
 
 				eqs0.add(new Pair<>(eq0.second, eq0.third));
@@ -392,14 +392,14 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 				tys0.put(ty, new HashSet<>());
 			}
 			Ctx<Gen, Ctx<Fk, Gen>> fks0 = new Ctx<>();
-			Ctx<Gen, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Null<?>>>> atts0 = new Ctx<>();
+			Ctx<Gen, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Null<?>>>> atts0 = new Ctx<>();
 			for (Gen gen : col.gens.keySet()) {
 				fks0.put(gen, new Ctx<>());
 				atts0.put(gen, new Ctx<>());
 			}
-			for (Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> e : eqs0) {
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs = e.first;
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> rhs = e.second;
+			for (Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> e : eqs0) {
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> lhs = e.first;
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> rhs = e.second;
 				if (rhs.gen != null && lhs.fk != null && lhs.arg.gen != null) {
 					fks0.get(lhs.arg.gen).put(lhs.fk, rhs.gen);
 				} else if (lhs.gen != null && rhs.fk != null && rhs.arg.gen != null) {
@@ -413,7 +413,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 							+ "; each equation must be of the form gen.fk=gen or gen.att=javaobject");
 				}
 			}
-			Ctx<Null<?>, Term<Ty, En, Sym, Fk, Att, Gen, Null<?>>> extraRepr = new Ctx<>();
+			Ctx<Null<?>, Term<Ty, Sym, En, Fk, Att, Gen, Null<?>>> extraRepr = new Ctx<>();
 			for (Gen gen : col.gens.keySet()) {
 				for (Att att : sch.attsFrom(col.gens.get(gen))) {
 					if (!atts0.get(gen).containsKey(att)) {
@@ -423,7 +423,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 				}
 			}
 
-			ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>>(
+			ImportAlgebra<Ty, Sym, En, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty, Sym, En, Fk, Att, Gen, Null<?>>(
 					sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dont_check_closure);
 
 			return new SaturatedInstance(alg, alg, (Boolean) strat.getOrDefault(AqlOption.require_consistency),
@@ -431,7 +431,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 
 		}
 
-		InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Sk, ID> initial = new InitialAlgebra<>(strat, sch, col, new It(),
+		InitialAlgebra<Ty, Sym, En, Fk, Att, Gen, Sk, ID> initial = new InitialAlgebra<>(strat, sch, col, new It(),
 				Object::toString, Object::toString);
 
 		return new LiteralInstance<>(sch, col.gens.map, col.sks.map, eqs0, initial.dp(), initial,
@@ -443,7 +443,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 	// running
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return schema;
 	}
 

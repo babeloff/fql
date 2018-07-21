@@ -19,31 +19,31 @@ import catdata.aql.Collage;
 import catdata.aql.Head;
 import catdata.aql.Var;
 
-public class CompletionProver<Ty, En, Sym, Fk, Att, Gen, Sk> extends DPKB<Chc<Ty,En>, Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> {
+public class CompletionProver<Ty, Sym, En, Fk, Att, Gen, Sk> extends DPKB<Chc<Ty,En>, Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> {
 	
-	private final LPOUKB<Chc<Ty,En>, Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> cp;
+	private final LPOUKB<Chc<Ty,En>, Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> cp;
 	
-	public CompletionProver(Collection<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> init, AqlOptions ops, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) throws InterruptedException {
+	public CompletionProver(Collection<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> init, AqlOptions ops, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) throws InterruptedException {
 		super(col.toKB().tys, col.toKB().syms, col.toKB().eqs);
 		boolean sort = (Boolean) ops.getOrDefault(AqlOption.completion_sort);
 		boolean filter_subsumed = (Boolean) ops.getOrDefault(AqlOption.completion_filter_subsumed);
 		boolean compose = (Boolean) ops.getOrDefault(AqlOption.completion_compose);
 		boolean syntactic_ac = (Boolean) ops.getOrDefault(AqlOption.completion_syntactic_ac);
 		
-		Set<Triple<KBExp<Head<Ty,En,Sym,Fk,Att,Gen,Sk>,Var>, KBExp<Head<Ty,En,Sym,Fk,Att,Gen,Sk>,Var>, Map<Var, Chc<Ty,En>>>>
+		Set<Triple<KBExp<Head<Ty, Sym, En,Fk,Att,Gen,Sk>,Var>, KBExp<Head<Ty, Sym, En,Fk,Att,Gen,Sk>,Var>, Map<Var, Chc<Ty,En>>>>
 		E0 = theory.stream().map(x -> new Triple<>(x.second, x.third, x.first)).collect(Collectors.toSet());
 		@SuppressWarnings("unchecked")
-		List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> prec2 = (List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>>) ops.getOrDefault(AqlOption.completion_precedence);
+		List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> prec2 = (List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>>) ops.getOrDefault(AqlOption.completion_precedence);
 		if (prec2 == null) {
-			Map<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Integer> m = new HashMap<>();
-			for (Head<Ty, En, Sym, Fk, Att, Gen, Sk> c : signature.keySet()) {
+			Map<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Integer> m = new HashMap<>();
+			for (Head<Ty, Sym, En, Fk, Att, Gen, Sk> c : signature.keySet()) {
 				m.put(c, signature.get(c).first.size());
 			}
 			prec2 = LPOUKB.inferPrec(m, E0); 
 		//	System.out.println("prec2 " + prec2);
 		}
-		List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> prec = new LinkedList<>(prec2);
-		for (Head<Ty, En, Sym, Fk, Att, Gen, Sk> c : init) {
+		List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> prec = new LinkedList<>(prec2);
+		for (Head<Ty, Sym, En, Fk, Att, Gen, Sk> c : init) {
 			if (!signature.containsKey(c)) {
 				prec.remove(c); //simplfied away TODO aql kind of weird
 			}
@@ -56,9 +56,9 @@ public class CompletionProver<Ty, En, Sym, Fk, Att, Gen, Sk> extends DPKB<Chc<Ty
 		
 		Util.assertNoDups(prec);
 		if (!new HashSet<>(prec).equals(signature.keySet())) {
-			Set<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> precMinusSig = new HashSet<>(prec);
+			Set<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> precMinusSig = new HashSet<>(prec);
 			precMinusSig.removeAll(signature.keySet());
-			Set<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> sigMinusPrec = new HashSet<>(signature.keySet());
+			Set<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> sigMinusPrec = new HashSet<>(signature.keySet());
 			sigMinusPrec.removeAll(prec);
 			throw new RuntimeException("Incorrect precedence. Symbols in precedence but not signature: " + precMinusSig + " and symbols in signature but not precedence: " + sigMinusPrec);
 		}		
@@ -68,7 +68,7 @@ public class CompletionProver<Ty, En, Sym, Fk, Att, Gen, Sk> extends DPKB<Chc<Ty
 	}
 
 	@Override
-	public boolean eq(Map<Var, Chc<Ty, En>> ctx, KBExp<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> lhs, KBExp<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> rhs) {
+	public boolean eq(Map<Var, Chc<Ty, En>> ctx, KBExp<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> lhs, KBExp<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> rhs) {
 		return cp.eq(ctx, lhs, rhs);
 	}
 
@@ -78,7 +78,7 @@ public class CompletionProver<Ty, En, Sym, Fk, Att, Gen, Sk> extends DPKB<Chc<Ty
 	}
 
 	@Override
-	public KBExp<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> nf(Map<Var, Chc<Ty, En>> ctx, KBExp<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> term) {
+	public KBExp<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> nf(Map<Var, Chc<Ty, En>> ctx, KBExp<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> term) {
 		return cp.nf(ctx, term);
 	}
 	

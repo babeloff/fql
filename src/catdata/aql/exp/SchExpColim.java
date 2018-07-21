@@ -14,7 +14,7 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
-public class SchExpColim<N> extends SchExp<Ty, En, Sym, Fk, Att> {
+public class SchExpColim<N> extends SchExp<Ty, Sym, En, Fk, Att> {
 
 		public final ColimSchExp<N> exp;
 
@@ -24,7 +24,7 @@ public class SchExpColim<N> extends SchExp<Ty, En, Sym, Fk, Att> {
 		
 		//TODO aql schema equality too weak
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
+		public SchExp<Ty, Sym, En, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {
 			return this;
 		}
 		
@@ -64,7 +64,7 @@ public class SchExpColim<N> extends SchExp<Ty, En, Sym, Fk, Att> {
 
 		
 		@Override
-		public Schema<Ty, En, Sym, Fk, Att> eval(AqlEnv env) {
+		public Schema<Ty, Sym, En, Fk, Att> eval(AqlEnv env) {
 			return exp.eval(env).schemaStr;
 		}
 

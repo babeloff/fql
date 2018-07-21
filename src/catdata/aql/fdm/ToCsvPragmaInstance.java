@@ -20,12 +20,12 @@ import catdata.aql.Pragma;
 import catdata.aql.Term;
 import catdata.aql.AqlOptions.AqlOption;
 
-public class ToCsvPragmaInstance<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends Pragma {
+public class ToCsvPragmaInstance<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> extends Pragma {
 	
 	private final String fil;
 		
 	
-	private final Instance<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I;
+	private final Instance<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> I;
 
 
 	private final AqlOptions op;
@@ -44,7 +44,7 @@ public class ToCsvPragmaInstance<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends Pragma {
 		return format;
 	} 
 	
-	public ToCsvPragmaInstance(Instance<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I, String s, AqlOptions op) {
+	public ToCsvPragmaInstance(Instance<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> I, String s, AqlOptions op) {
 		if (!s.endsWith("/")) {
             s += "/";
 		}
@@ -53,7 +53,7 @@ public class ToCsvPragmaInstance<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends Pragma {
 		this.I = I;
 	}
 	
-	public static <Ty, Sym, Y> String print(Term<Ty, Void, Sym, Void, Void, Void, Y> term) {
+	public static <Ty, Sym, Y> String print(Term<Ty, Sym, Void, Void, Void, Void, Y> term) {
 		if (term.obj != null) {
 			return term.obj.toString();
 		} else if (term.sym != null && term.args.isEmpty()) {

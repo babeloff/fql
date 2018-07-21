@@ -17,7 +17,7 @@ import catdata.Pair;
 import catdata.Triple;
 import catdata.Util;
 
-public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
+public final class Schema<Ty, Sym, En, Fk, Att> implements Semantics {
 
 	@Override
 	public int size() {
@@ -35,7 +35,7 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 	public final Ctx<Att, Pair<En, Ty>> atts;
 	public final Ctx<Fk, Pair<En, En>> fks;
 
-	public final Set<Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs;
+	public final Set<Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> eqs;
 
 	// TODO: aql who is calling isTypeSide and isSchema?
 
@@ -61,7 +61,7 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 						"On foreign key " + fk + ", the source entity " + ty.first + " is not declared.");
 			}
 		}
-		for (Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq : eqs) {
+		for (Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> eq : eqs) {
 			// check that the context is valid for each eq
 			if (!ens.contains(eq.first.second)) {
 				throw new RuntimeException("In schema equation " + toString(eq) + ", context sort " + eq.first.second
@@ -85,7 +85,7 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 		if (typeSide.js.java_tys.isEmpty()) {
 			return;
 		}
-		for (Eq<Ty, En, Sym, Fk, Att, Object, Object> eq : collage().simplify().first.eqs) {
+		for (Eq<Ty, Sym, En, Fk, Att, Object, Object> eq : collage().simplify().first.eqs) {
 			if (checkJava) {
 				Chc<Ty, En> lhs = collage().type(eq.ctx, eq.lhs);
 
@@ -102,23 +102,23 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 	}
 
 	private String toString(
-			Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq) {
+			Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> eq) {
 		return "forall " + eq.first.first + ":" + eq.first.second + ", " + eq.second + " = " + eq.third;
 	}
 
-	public final Chc<Ty, En> type(Pair<Var, En> p, Term<Ty, En, Sym, Fk, Att, ?, ?> term) {
+	public final Chc<Ty, En> type(Pair<Var, En> p, Term<Ty, Sym, En, Fk, Att, ?, ?> term) {
 		return term.type(new Ctx<>(), new Ctx<>(p), typeSide.tys, typeSide.syms.map, typeSide.js.java_tys.map, ens,
 				atts.map, fks.map, new HashMap<>(), new HashMap<>());
 	}
 
-	public static <Ty, Sym> Schema<Ty, Void, Sym, Void, Void> terminal(TypeSide<Ty, Sym> t) {
+	public static <Ty, Sym> Schema<Ty, Sym, Void, Void, Void> terminal(TypeSide<Ty, Sym> t) {
 		return new Schema<>(t, Collections.emptySet(), Collections.emptyMap(), Collections.emptyMap(),
 				Collections.emptySet(), t.semantics, false);
 	}
 
 	public Schema(TypeSide<Ty, Sym> typeSide, Set<En> ens, Map<Att, Pair<En, Ty>> atts, Map<Fk, Pair<En, En>> fks,
-			Set<Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs,
-			DP<Ty, En, Sym, Fk, Att, Void, Void> semantics, boolean checkJava) {
+			Set<Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> eqs,
+			DP<Ty, Sym, En, Fk, Att, Void, Void> semantics, boolean checkJava) {
 		Util.assertNotNull(typeSide, ens, fks, atts, eqs, semantics);
 		this.typeSide = typeSide;
 		this.atts = new Ctx<>(atts);
@@ -129,39 +129,40 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 		validate(checkJava);
 	}
 
-	public final DP<Ty, En, Sym, Fk, Att, Void, Void> dp;
+	public final DP<Ty, Sym, En, Fk, Att, Void, Void> dp;
 
 	// this could take a while, so make sure two threads don't accidentally do
 	// it at the same time
 	@SuppressWarnings("unchecked")
-	public <Gen, Sk> DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp() {
-		return (DP<Ty, En, Sym, Fk, Att, Gen, Sk>) dp;
+	public <Gen, Sk> DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp() {
+		return (DP<Ty, Sym, En, Fk, Att, Gen, Sk>) dp;
 	}
 
-	private Collage<Ty, En, Sym, Fk, Att, Void, Void> collage;
+	private Collage<Ty, Sym, En, Fk, Att, Void, Void> collage;
 
 	@SuppressWarnings("unchecked")
-	public final synchronized <Gen, Sk> Collage<Ty, En, Sym, Fk, Att, Gen, Sk> collage() {
+	public final synchronized <Gen, Sk> Collage<Ty, Sym, En, Fk, Att, Gen, Sk> collage() {
 		if (collage != null) {
 			if (!collage.gens.isEmpty() || !collage.sks.isEmpty()) {
 				throw new RuntimeException("Anomaly: please report");
 			}
-			return (Collage<Ty, En, Sym, Fk, Att, Gen, Sk>) collage; // TODO aql
+			return (Collage<Ty, Sym, En, Fk, Att, Gen, Sk>) collage; // TODO aql
 																		// typesafety
 		}
 		collage = new Collage<>(typeSide.collage());
 		collage.ens.addAll(ens);
 		collage.atts.putAll(atts.map);
 		collage.fks.putAll(fks.map);
-		for (Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> x : eqs) {
+		for (Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> x : eqs) {
 			collage.eqs.add(new Eq<>(new Ctx<>(x.first.first, Chc.inRight(x.first.second)), upgrade(x.second),
 					upgrade(x.third)));
 		}
-		return (Collage<Ty, En, Sym, Fk, Att, Gen, Sk>) collage;
+		return (Collage<Ty, Sym, En, Fk, Att, Gen, Sk>) collage;
 	}
 
-	private <Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> upgrade(Term<Ty, En, Sym, Fk, Att, Void, Void> term) {
-		return term.map(Function.identity(), Function.identity(), Function.identity(), Function.identity(),
+	@SuppressWarnings("unchecked")
+	private <Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> upgrade(Term<Ty, Sym, En, Fk, Att, Void, Void> term) {
+		return (Term<Ty, Sym, En, Fk, Att, Gen, Sk>) term.map(Function.identity(), Function.identity(), Function.identity(), Function.identity(),
 				Util.voidFn(), Util.voidFn());
 	}
 
@@ -292,8 +293,8 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 		return l;
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> fold(List<Fk> fks,
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> head) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> fold(List<Fk> fks,
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> head) {
 		for (Fk fk : fks) {
 			head = Term.Fk(fk, head);
 		}

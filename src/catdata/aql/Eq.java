@@ -5,12 +5,12 @@ import catdata.Ctx;
 import catdata.Triple;
 import catdata.Util;
 
-public class Eq<Ty, En, Sym, Fk, Att, Gen, Sk> {
+public class Eq<Ty, Sym, En, Fk, Att, Gen, Sk> {
 
-	public final Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs, rhs;
+	public final Term<Ty, Sym, En, Fk, Att, Gen, Sk> lhs, rhs;
 	public final Ctx<Var, Chc<Ty, En>> ctx;
 	
-	public Eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs, Term<Ty, En, Sym, Fk, Att, Gen, Sk> rhs) {
+	public Eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, Gen, Sk> lhs, Term<Ty, Sym, En, Fk, Att, Gen, Sk> rhs) {
 		Util.assertNotNull(lhs, rhs, ctx);
 		this.lhs = lhs;
 		this.rhs = rhs;
@@ -59,7 +59,7 @@ public class Eq<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return ctx.toString(lhs, rhs);
 	}
 	
-	public final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> toTriple() {
+	public final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> toTriple() {
 		return new Triple<>(ctx, lhs, rhs);
 	}
 	

@@ -39,9 +39,9 @@ import catdata.aql.fdm.LiteralInstance;
 //TODO AQL CSV version of this
 //TODO merge this with coproduct sigma
 public final class InstExpJdbcQuotient<X, Y>
-extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements Raw {
+extends InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements Raw {
 	
-	public final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+	public final InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 	
 	public final Map<String, String> options;
 	
@@ -63,7 +63,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 
 
 
-	public InstExpJdbcQuotient(String clazz, String jdbcString, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i, 
+	public InstExpJdbcQuotient(String clazz, String jdbcString, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i, 
 			List<Pair<LocStr,String>> queries,
 			List<Pair<String, String>> options) {
 		I = i;
@@ -142,14 +142,14 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 	} 
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return I.type(G);
 	}
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
-		Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
-		Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col = new Collage<>(J.collage());
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
+		Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
+		Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col = new Collage<>(J.collage());
 		AqlOptions strat = new AqlOptions(options, col, env.defaults);
 
 		String toGet = jdbcString;
@@ -163,7 +163,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 		}
 		
 		
-		Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> 
+		Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> 
 		eqs0 = new HashSet<>(J.eqs());
 
 //		Collection<Pair<Gen, Gen>> q = new HashSet<>(); //TODO aql
@@ -198,8 +198,8 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 					} else if (!J.gens().containsKey(gen2)) {
 						throw new LocException(q.getKey().loc, "Cannot import record linkage: " + gen2 + " is not a generator in the input instance");
 					}
-					Term<Ty, En, Sym, Fk, Att, Gen, Sk> l = Term.Gen(gen1);
-					Term<Ty, En, Sym, Fk, Att, Gen, Sk> r = Term.Gen(gen2);
+					Term<Ty, Sym, En, Fk, Att, Gen, Sk> l = Term.Gen(gen1);
+					Term<Ty, Sym, En, Fk, Att, Gen, Sk> r = Term.Gen(gen2);
 					eqs0.add(new Pair<>(l, r));
 					col.eqs.add(new Eq<>(new Ctx<>(), l, r));	
 				}
@@ -214,7 +214,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 			throw new RuntimeException(thr);
 		}
 		
-		InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, J.schema(), col, new It(), Object::toString, Object::toString);			 
+		InitialAlgebra<Ty, Sym, En, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, J.schema(), col, new It(), Object::toString, Object::toString);			 
 			
 		return new LiteralInstance<>(J.schema(), col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0, (Boolean) strat.getOrDefault(AqlOption.require_consistency), (Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe)); 
 	}

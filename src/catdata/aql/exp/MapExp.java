@@ -11,28 +11,28 @@ import catdata.aql.Mapping;
 import catdata.aql.exp.SchExp.SchExpLit;
 
 //TODO aql move back to presentation / tables distinction?
-public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2>> {
+public abstract class MapExp<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mapping<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2>> {
 	
 	@Override
 	public Kind kind() {
 		return Kind.MAPPING;
 	}
 	
-	public abstract Pair<SchExp<Ty,En1,Sym,Fk1,Att1>, SchExp<Ty,En2,Sym,Fk2,Att2>> type(AqlTyping G);
+	public abstract Pair<SchExp<Ty, Sym, En1,Fk1,Att1>, SchExp<Ty, Sym, En2,Fk2,Att2>> type(AqlTyping G);
 	
 	
 	//////////////////////////////////////////////////////////////////////
 	
-	public static final class MapExpComp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2,En3,Fk3,Att3> 
-	extends MapExp<Ty,En1,Sym,Fk1,Att1,En3,Fk3,Att3> {
+	public static final class MapExpComp<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2,En3,Fk3,Att3> 
+	extends MapExp<Ty, Sym, En1,Fk1,Att1,En3,Fk3,Att3> {
 		
-		public final MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> m1;
-		public final MapExp<Ty,En2,Sym,Fk2,Att2,En3,Fk3,Att3> m2;
+		public final MapExp<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> m1;
+		public final MapExp<Ty, Sym, En2,Fk2,Att2,En3,Fk3,Att3> m2;
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
 		}
-		public MapExpComp(MapExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> m1, MapExp<Ty, En2, Sym, Fk2, Att2, En3, Fk3, Att3> m2) {
+		public MapExpComp(MapExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> m1, MapExp<Ty, Sym, En2, Fk2, Att2, En3, Fk3, Att3> m2) {
 			this.m1 = m1;
 			this.m2 = m2;
 		}
@@ -74,7 +74,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 
 		@Override
-		public Pair<SchExp<Ty, En1, Sym, Fk1, Att1>, SchExp<Ty, En3, Sym, Fk3, Att3>> type(AqlTyping G) {
+		public Pair<SchExp<Ty, Sym, En1, Fk1, Att1>, SchExp<Ty, Sym, En3, Fk3, Att3>> type(AqlTyping G) {
 			//TODO aql schema equality
 			if (!G.eq(m1.type(G).second, m2.type(G).first)) {
 				throw new RuntimeException("Cod of first arg, " + m1.type(G).second + " is not equal to dom of second arg, " + m2.type(G).first + " in " + this);
@@ -83,7 +83,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 
 		@Override
-		public Mapping<Ty, En1, Sym, Fk1, Att1, En3, Fk3, Att3> eval(AqlEnv env) {
+		public Mapping<Ty, Sym, En1, Fk1, Att1, En3, Fk3, Att3> eval(AqlEnv env) {
 			return Mapping.compose(m1.eval(env), m2.eval(env));
 		}
 
@@ -101,7 +101,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 	
 	/////////////////////////////////////////////////////////////////////
 
-	public static final class MapExpId<Ty,En,Sym,Fk,Att> extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
+	public static final class MapExpId<Ty, Sym, En,Fk,Att> extends MapExp<Ty, Sym, En,Fk,Att,En,Fk,Att> {
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
@@ -111,9 +111,9 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 			return sch.deps();
 		}
 				
-		public final SchExp<Ty,En,Sym,Fk,Att> sch;
+		public final SchExp<Ty, Sym, En,Fk,Att> sch;
 
-		public MapExpId(SchExp<Ty, En, Sym, Fk, Att> sch) {
+		public MapExpId(SchExp<Ty, Sym, En, Fk, Att> sch) {
 			if (sch == null) {
 				throw new RuntimeException("Attempt to create MapExpId with null schema");
 			}
@@ -146,19 +146,19 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 
 		@Override
-		public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
+		public Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
 			return Mapping.id(sch.eval(env));
 		}
 
 		@Override
-		public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
+		public Pair<SchExp<Ty, Sym, En, Fk, Att>, SchExp<Ty, Sym, En, Fk, Att>> type(AqlTyping G) {
 			return new Pair<>(sch, sch);
 		}
 	
 	}
 	
 	
-	public static final class MapExpVar<Ty,En,Sym,Fk,Att> extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
+	public static final class MapExpVar<Ty, Sym, En,Fk,Att> extends MapExp<Ty, Sym, En,Fk,Att,En,Fk,Att> {
 		public final String var;
 		@Override
 		public Map<String, String> options() {
@@ -176,7 +176,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
+		public Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
 			return env.defs.maps.get(var);
 		}
 
@@ -211,18 +211,18 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 		@SuppressWarnings("unchecked")
 		@Override
-		public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {		
+		public Pair<SchExp<Ty, Sym, En, Fk, Att>, SchExp<Ty, Sym, En, Fk, Att>> type(AqlTyping G) {		
 			if (!G.defs.maps.containsKey(var)) {
 				throw new RuntimeException("Not a mapping: " + var);
 			}
-			return (Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>>) ((Object)G.defs.maps.get(var));
+			return (Pair<SchExp<Ty, Sym, En, Fk, Att>, SchExp<Ty, Sym, En, Fk, Att>>) ((Object)G.defs.maps.get(var));
 		}
 
 	}
 
 /////////////////////////////////////////////////////////////////////
 	
-	public static final class MapExpLit<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> extends MapExp<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> {
+	public static final class MapExpLit<Ty, Sym1, En1,Fk1,Att1,En2,Fk2,Att2> extends MapExp<Ty, Sym1, En1,Fk1,Att1,En2,Fk2,Att2> {
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
@@ -232,15 +232,15 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 			return Collections.emptyList();
 		}
 		
-		public final Mapping<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> map;
+		public final Mapping<Ty, Sym1, En1,Fk1,Att1,En2,Fk2,Att2> map;
 		
-		public MapExpLit(Mapping<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> map) {
+		public MapExpLit(Mapping<Ty, Sym1, En1,Fk1,Att1,En2,Fk2,Att2> map) {
 			Util.assertNotNull(map);
 			this.map = map;
 		}
 
 		@Override
-		public Mapping<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> eval(AqlEnv env) {
+		public Mapping<Ty, Sym1, En1,Fk1,Att1,En2,Fk2,Att2> eval(AqlEnv env) {
 			return map;
 		}
 
@@ -270,7 +270,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 
 		@Override
-		public Pair<SchExp<Ty, En1, Sym1, Fk1, Att1>, SchExp<Ty, En2, Sym1, Fk2, Att2>> type(AqlTyping G) {
+		public Pair<SchExp<Ty, Sym1, En1, Fk1, Att1>, SchExp<Ty, Sym1, En2, Fk2, Att2>> type(AqlTyping G) {
 			return new Pair<>(new SchExpLit<>(map.src), new SchExpLit<>(map.dst));
 		}
 

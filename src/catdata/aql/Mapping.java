@@ -17,14 +17,14 @@ import catdata.Triple;
 import catdata.Util;
 
 //apparently iteration of a set is not deterministic between calls, use linkedhashset if need deterministic order
-public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantics {
+public final class Mapping<Ty,Sym,En1,Fk1,Att1,En2,Fk2,Att2> implements Semantics {
 	
-	private Schema<Ty,Chc<En1,En2>,Sym,Chc<Chc<Fk1,Fk2>,En1>,Chc<Att1,Att2>> collage;
-	public synchronized Schema<Ty,Chc<En1,En2>,Sym,Chc<Chc<Fk1,Fk2>,En1>,Chc<Att1,Att2>> collage() {
+	private Schema<Ty,Sym,Chc<En1,En2>,Chc<Chc<Fk1,Fk2>,En1>,Chc<Att1,Att2>> collage;
+	public synchronized Schema<Ty,Sym,Chc<En1,En2>,Chc<Chc<Fk1,Fk2>,En1>,Chc<Att1,Att2>> collage() {
 		if (collage != null) {
 			return collage;
 		}
-		DP<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1, Fk2>,En1>, Chc<Att1, Att2>, Void, Void> dp = new DP<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1, Fk2>,En1>, Chc<Att1, Att2>, Void, Void>() {
+		DP<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1, Fk2>,En1>, Chc<Att1, Att2>, Void, Void> dp = new DP<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1, Fk2>,En1>, Chc<Att1, Att2>, Void, Void>() {
 			@Override
 			public String toStringProver() {
 				return Util.anomaly();
@@ -32,8 +32,8 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 
 			@Override
 			public boolean eq(Ctx<Var, Chc<Ty, Chc<En1, En2>>> ctx,
-					Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1, Fk2>, En1>, Chc<Att1, Att2>, Void, Void> lhs,
-					Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1, Fk2>, En1>, Chc<Att1, Att2>, Void, Void> rhs) {
+					Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1, Fk2>, En1>, Chc<Att1, Att2>, Void, Void> lhs,
+					Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1, Fk2>, En1>, Chc<Att1, Att2>, Void, Void> rhs) {
 				return Util.anomaly();
 			}
 
@@ -43,19 +43,19 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		Set<Chc<En1, En2>> ens2 = Chc.or(src.ens, dst.ens);
 		Map<Chc<Att1, Att2>, Pair<Chc<En1, En2>, Ty>> atts2 = or(src.atts, dst.atts); //TODO aql these don't need to be passed as params
 		Map<Chc<Chc<Fk1,Fk2>,En1>, Pair<Chc<En1, En2>, Chc<En1, En2>>> fks2 = or2(src.fks, dst.fks);
-		Set<Triple<Pair<Var, Chc<En1, En2>>, Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>, Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>>> 
+		Set<Triple<Pair<Var, Chc<En1, En2>>, Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>, Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>>> 
 		eqs2 = new HashSet<>();
-		for (Triple<Pair<Var, En1>, Term<Ty, En1, Sym, Fk1, Att1, Void, Void>, Term<Ty, En1, Sym, Fk1, Att1, Void, Void>> eq : src.eqs) {
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> 
+		for (Triple<Pair<Var, En1>, Term<Ty, Sym, En1, Fk1, Att1, Void, Void>, Term<Ty, Sym, En1, Fk1, Att1, Void, Void>> eq : src.eqs) {
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> 
 			t1 = eq.second.<Chc<En1,En2>>mapEn().mapFk(x->Chc.<Chc<Fk1,Fk2>,En1>inLeft(Chc.inLeft(x))).mapAtt(x->Chc.inLeft(x));
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> 
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> 
 			t2 = eq.third.<Chc<En1,En2>>mapEn().mapFk(x->Chc.<Chc<Fk1,Fk2>,En1>inLeft(Chc.inLeft(x))).mapAtt(x->Chc.inLeft(x));
 			eqs2.add(new Triple<>(new Pair<>(eq.first.first, Chc.inLeft(eq.first.second)), t1, t2));
 		}
-		for (Triple<Pair<Var, En2>, Term<Ty, En2, Sym, Fk2, Att2, Void, Void>, Term<Ty, En2, Sym, Fk2, Att2, Void, Void>> eq : dst.eqs) {
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>
+		for (Triple<Pair<Var, En2>, Term<Ty, Sym, En2, Fk2, Att2, Void, Void>, Term<Ty, Sym, En2, Fk2, Att2, Void, Void>> eq : dst.eqs) {
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>
 			t1 = eq.second.<Chc<En1,En2>>mapEn().mapFk(x->Chc.<Chc<Fk1,Fk2>,En1>inLeft(Chc.inRight(x))).mapAtt(x->Chc.inRight(x));
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void>
 			t2 = eq.third.<Chc<En1,En2>>mapEn().mapFk(x->Chc.<Chc<Fk1,Fk2>,En1>inLeft(Chc.inRight(x))).mapAtt(x->Chc.inRight(x));
 			
 			eqs2.add(new Triple<>(new Pair<>(eq.first.first, Chc.inRight(eq.first.second)),t1, t2));
@@ -65,10 +65,10 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 			En1 w = src.fks.get(a).second;
 			//a.m_w = m_v.F(a)
 			Var x = new Var("x");
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> lhs
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> lhs
 			= Term.Fk(Chc.inRight(w), Term.Fk(Chc.inLeft(Chc.inLeft(a)), Term.Var(x)));
 			
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> rhs
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> rhs
 			= Term.Fks(Chc.inLeft(Chc.inRight(fks.get(a).second)), Term.Fk(Chc.inRight(v), Term.Var(x)));
 			
 			eqs2.add(new Triple<>(new Pair<>(x, Chc.inLeft(v)), lhs, rhs));
@@ -79,23 +79,23 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 			Ty w = src.atts.get(a).second;
 			//a = m_v.F(a)
 			Var x = atts.get(a).first;
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> lhs
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> lhs
 			= Term.Att(Chc.inLeft(a), Term.Var(x));
 					
 			@SuppressWarnings("unused")
 			En2 en2 = atts.get(a).second;
-			Term<Ty, Chc<En1, En2>, Sym, Fk2, Att2, Void, Void> l = atts.get(a).third.mapEn();
+			Term<Ty, Sym, Chc<En1, En2>, Fk2, Att2, Void, Void> l = atts.get(a).third.mapEn();
 			Function<Fk2,Chc<Chc<Fk1,Fk2>,En1>> f = xx->Chc.inLeft(Chc.inRight(xx));
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> 
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> 
 			term = l.mapFk(f).mapAtt(xx->Chc.inRight(xx));
 			
-			Term<Ty, Chc<En1, En2>, Sym, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> rhs 
+			Term<Ty, Sym, Chc<En1, En2>, Chc<Chc<Fk1,Fk2>,En1>, Chc<Att1, Att2>, Void, Void> rhs 
 			= term.subst(Util.singMap(x, Term.Fk(Chc.inRight(v), Term.Var(x))));
 			
 			eqs2.add(new Triple<>(new Pair<>(x, Chc.inLeft(v)), lhs, rhs));
 		}
 		
-		collage = new Schema<Ty,Chc<En1,En2>,Sym,Chc<Chc<Fk1,Fk2>,En1>,Chc<Att1,Att2>>(src.typeSide, ens2, atts2, fks2, eqs2, dp, false);
+		collage = new Schema<Ty,Sym,Chc<En1,En2>,Chc<Chc<Fk1,Fk2>,En1>,Chc<Att1,Att2>>(src.typeSide, ens2, atts2, fks2, eqs2, dp, false);
 		return collage;
 	}
 	
@@ -132,7 +132,7 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		return src.size();
 	}
 	
-	public static <Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2,En3,Fk3,Att3> Mapping<Ty,En1,Sym,Fk1,Att1,En3,Fk3,Att3> compose(Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> m1, Mapping<Ty,En2,Sym,Fk2,Att2,En3,Fk3,Att3> m2) {
+	public static <Ty,Sym,En1,Fk1,Att1,En2,Fk2,Att2,En3,Fk3,Att3> Mapping<Ty,Sym,En1,Fk1,Att1,En3,Fk3,Att3> compose(Mapping<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> m1, Mapping<Ty, Sym, En2,Fk2,Att2,En3,Fk3,Att3> m2) {
 		if (!m1.dst.equals(m2.src)) {
 			throw new RuntimeException("Anomaly, please report.\n\n" + m1.dst + "\n\n" + m2.src);
 		}
@@ -149,18 +149,18 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 			}
 			fks0.put(fk1, new Pair<>(en3, l));
 		}
-		Map<Att1, Triple<Var, En3, Term<Ty, En3, Sym, Fk3, Att3, Void, Void>>> atts0 = new HashMap<>();
+		Map<Att1, Triple<Var, En3, Term<Ty, Sym, En3, Fk3, Att3, Void, Void>>> atts0 = new HashMap<>();
 		for (Att1 att1 : m1.atts.keySet()) {
 			En3 en3 = m2.ens.get(m1.atts.get(att1).second);
 			Var v = m1.atts.get(att1).first; 
-			Term<Ty, En3, Sym, Fk3, Att3, Void, Void> t = subst(m1.atts.get(att1).third, m2);
+			Term<Ty, Sym, En3, Fk3, Att3, Void, Void> t = subst(m1.atts.get(att1).third, m2);
 			atts0.put(att1, new Triple<>(v, en3, t));
 		}
 		
 		return new Mapping<>(ens0, atts0, fks0, m1.src, m2.dst, false); //TODO aql options here
 	}
 	
-	private static <Ty, En2, Sym, Fk2, Att2, En3, Fk3, Att3> Term<Ty, En3, Sym, Fk3, Att3, Void, Void> subst(Term<Ty, En2, Sym, Fk2, Att2, Void, Void> t, Mapping<Ty,En2,Sym,Fk2,Att2,En3,Fk3,Att3> m2) {
+	private static <Ty, Sym, En2, Fk2, Att2, En3, Fk3, Att3> Term<Ty, Sym, En3, Fk3, Att3, Void, Void> subst(Term<Ty, Sym, En2, Fk2, Att2, Void, Void> t, Mapping<Ty, Sym, En2,Fk2,Att2,En3,Fk3,Att3> m2) {
 		if (t.var != null) {
 			return Term.Var(t.var);
 		} else if (t.gen != null) {
@@ -170,15 +170,15 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		} else if (t.obj != null) {
 			return Term.Obj(t.obj, t.ty);
 		} else if (t.sym != null) {
-			List<Term<Ty, En3, Sym, Fk3, Att3, Void, Void>> l = new LinkedList<>();
-			for (Term<Ty, En2, Sym, Fk2, Att2, Void, Void> x : t.args) {
+			List<Term<Ty, Sym, En3, Fk3, Att3, Void, Void>> l = new LinkedList<>();
+			for (Term<Ty, Sym, En2, Fk2, Att2, Void, Void> x : t.args) {
 				l.add(subst(x, m2));
 			}
 			return Term.Sym(t.sym, l);
 		} else if (t.fk != null) {
 			return Term.Fks(m2.fks.get(t.fk).second, subst(t.arg, m2));
 		} else if (t.att != null) {
-			Triple<Var, En3, Term<Ty, En3, Sym, Fk3, Att3, Void, Void>> x = m2.atts.get(t.att);
+			Triple<Var, En3, Term<Ty, Sym, En3, Fk3, Att3, Void, Void>> x = m2.atts.get(t.att);
 			return x.third.subst(Util.singMap(x.first, subst(t.arg, m2)));
 		}
 		return Util.anomaly();
@@ -190,26 +190,27 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 	}
 	
 	//TODO: aql push this into Morphism class?
-	private Morphism<Ty,En1,Sym,Fk1,Att1,Void,Void,En2,Sym,Fk2,Att2,Void,Void> semantics;
-	public Morphism<Ty,En1,Sym,Fk1,Att1,Void,Void,En2,Sym,Fk2,Att2,Void,Void> semantics() {
+	private Morphism<Ty,Sym,En1,Fk1,Att1,Void,Void,Sym,En2,Fk2,Att2,Void,Void> semantics;
+	public Morphism<Ty,Sym,En1,Fk1,Att1,Void,Void,Sym,En2,Fk2,Att2,Void,Void> semantics() {
 		if (semantics != null) {
 			return semantics;
 		}
 		
-		semantics = new Morphism<Ty,En1,Sym,Fk1,Att1,Void,Void,En2,Sym,Fk2,Att2,Void,Void>() {
+		semantics = new Morphism<Ty,Sym,En1,Fk1,Att1,Void,Void,Sym,En2,Fk2,Att2,Void,Void>() {
 
 			@Override
-			public Collage<Ty, En1, Sym, Fk1, Att1, Void, Void> src() {
+			public Collage<Ty, Sym, En1, Fk1, Att1, Void, Void> src() {
 				return src.collage();
 			}
 
 			@Override
-			public Collage<Ty, En2, Sym, Fk2, Att2, Void, Void> dst() {
+			public Collage<Ty,Sym,En2,Fk2,Att2,Void,Void> dst() {
 				return dst.collage();
 			}
 
 			@Override
-			public Pair<Ctx<Var, Chc<Ty, En2>>, Term<Ty, En2, Sym, Fk2, Att2, Void, Void>> translate(Ctx<Var, Chc<Ty, En1>> ctx, Term<Ty, En1, Sym, Fk1, Att1, Void, Void> term) {
+			public Pair<Ctx<Var, Chc<Ty, En2>>, Term<Ty, Sym, En2, Fk2, Att2, Void, Void>> 
+			translate(Ctx<Var, Chc<Ty, En1>> ctx, Term<Ty, Sym, En1, Fk1, Att1, Void, Void> term) {
 				LinkedHashMap<Var, Chc<Ty, En2>> map = new LinkedHashMap<>();
 				for (Var var : ctx.keySet()) {
 					if (ctx.get(var).left) {
@@ -247,7 +248,7 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		return ret;
 	}
 		
-	public <Gen,Sk> Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> trans(Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk> term) {
+	public <Gen,Sk> Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk> trans(Term<Ty, Sym, En1, Fk1, Att1, Gen, Sk> term) {
 		if (term.var != null) {
 			return Term.Var(term.var);
 		} else if (term.obj != null) {
@@ -257,16 +258,16 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		} else if (term.sk != null) {
 			return Term.Sk(term.sk);
 		} else if (term.fk != null) {
-			Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> ret = trans(term.arg);
+			Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk> ret = trans(term.arg);
 			for (Fk2 fk : fks.get(term.fk).second) {
 				ret = Term.Fk(fk, ret);
 			}
 			return ret;
 		} else if (term.att != null) {
-			Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> ret = trans(term.arg);
-			Map<Var, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>> map = new HashMap<>();
+			Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk> ret = trans(term.arg);
+			Map<Var, Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>> map = new HashMap<>();
 			map.put(atts.get(term.att).first, ret);
-			Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> conv = atts.get(term.att).third.map(Function.identity(),Function.identity(),Function.identity(),Function.identity(),Util.voidFn(), Util.voidFn());
+			Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk> conv = atts.get(term.att).third.map(Function.identity(),Function.identity(),Function.identity(),Function.identity(),Util.voidFn(), Util.voidFn());
 			return conv.subst(map);
 		} else if (term.sym != null) {
 			return Term.Sym(term.sym, term.args.stream().map(this::trans).collect(Collectors.toList()));
@@ -276,16 +277,16 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 
 
 	public final Ctx<En1, En2> ens;
-	public final Ctx<Att1, Triple<Var,En2,Term<Ty,En2,Sym,Fk2,Att2,Void,Void>>> atts; //TODO aql polymorphic get instead of Void,Void doesn't seem to work
+	public final Ctx<Att1, Triple<Var,En2,Term<Ty, Sym, En2,Fk2,Att2,Void,Void>>> atts; //TODO aql polymorphic get instead of Void,Void doesn't seem to work
 
 	public final Ctx<Fk1,  Pair<En2, List<Fk2>>> fks;
 		
-	public final Schema<Ty,En1,Sym,Fk1,Att1> src;
-	public final Schema<Ty,En2,Sym,Fk2,Att2> dst;
+	public final Schema<Ty, Sym, En1,Fk1,Att1> src;
+	public final Schema<Ty, Sym, En2,Fk2,Att2> dst;
 
 	//TODO aql mapping compose
 	
-	public static <Ty,En,Sym,Fk,Att> Mapping<Ty,En,Sym,Fk,Att,En,Fk,Att> id(Schema<Ty,En,Sym,Fk,Att> s) {
+	public static <Ty,Sym,En,Fk,Att> Mapping<Ty,Sym,En,Fk,Att,En,Fk,Att> id(Schema<Ty,Sym,En,Fk,Att> s) {
 		if (s == null) {
 			throw new RuntimeException("Attempt to create identity mapping with null schema");
 		}
@@ -294,14 +295,14 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		for (Fk fk : s.fks.keySet()) {
 			fks.put(fk, new Pair<>(s.fks.get(fk).first, Util.singList(fk)));
 		}
-		Map<Att, Triple<Var, En, Term<Ty,En,Sym,Fk,Att,Void,Void>>> atts = new HashMap<>();
+		Map<Att, Triple<Var, En, Term<Ty, Sym, En,Fk,Att,Void,Void>>> atts = new HashMap<>();
 		for (Att att : s.atts.keySet()) {
 			atts.put(att, new Triple<>(new Var("v"), s.atts.get(att).first, Term.Att(att, Term.Var(new Var("v")))));
 		}
 		return new Mapping<>(ens, atts, fks, s, s, true); 
 	}
 	
-	public Mapping(Map<En1, En2> ens, Map<Att1, Triple<Var,En2,Term<Ty, En2, Sym, Fk2, Att2, Void, Void>>> atts, Map<Fk1, Pair<En2, List<Fk2>>> fks, Schema<Ty, En1, Sym, Fk1, Att1> src, Schema<Ty, En2, Sym, Fk2, Att2> dst, boolean doNotCheckEquations) {
+	public Mapping(Map<En1, En2> ens, Map<Att1, Triple<Var,En2,Term<Ty, Sym, En2, Fk2, Att2, Void, Void>>> atts, Map<Fk1, Pair<En2, List<Fk2>>> fks, Schema<Ty, Sym, En1, Fk1, Att1> src, Schema<Ty, Sym, En2, Fk2, Att2> dst, boolean doNotCheckEquations) {
 		Util.assertNotNull(ens, atts, fks, src, dst);
 		this.ens = new Ctx<>(ens);
 		this.atts = new Ctx<>(atts);
@@ -325,7 +326,7 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 			}	
 		}
 		for (Att1 att1 : src.atts.keySet()) {
-			Triple<Var, En2, Term<Ty, En2, Sym, Fk2, Att2, Void, Void>> att2 = atts.map.get(att1);
+			Triple<Var, En2, Term<Ty, Sym, En2, Fk2, Att2, Void, Void>> att2 = atts.map.get(att1);
 			if (att2 == null) {
 				throw new RuntimeException("source attribute " + att1 + " has no mapping");
 			}
@@ -334,7 +335,7 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 			if (proposed_en == null) {
 				throw new RuntimeException("in mapping for attribute " + att1 + ", not given a sort for " + v);
 			}
-			Term<Ty, En2, Sym, Fk2, Att2, ?, ?> term = att2.third;
+			Term<Ty, Sym, En2, Fk2, Att2, ?, ?> term = att2.third;
 			
 			En1 en1 = src.atts.get(att1).first;
 			Ty ty1 = src.atts.get(att1).second;
@@ -360,7 +361,7 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 				throw new RuntimeException("proposed source of foreign key mapping for " + fk1 + " is " + p.first + " and not " + en2_s + " as expected");
 			}
 			Var v = new Var("v");
-			Term<Ty, En2, Sym, Fk2, Att2, ?, ?> fk2 = Term.Fks(p.second, Term.Var(v));
+			Term<Ty, Sym, En2, Fk2, Att2, ?, ?> fk2 = Term.Fks(p.second, Term.Var(v));
 			Chc<Ty, En2> en2_t_actual = dst.type(new Pair<>(v, en2_s), fk2);
 			if (!en2_t_actual.equals(Chc.inRight(en2_t))) {
 				throw new RuntimeException("source foreign key " + fk1 + " maps to target path " + Util.sep(p.second, ".") + ", which has target entity " + en2_t_actual.toStringMash() + ", not " + en2_t + " as expected");
@@ -383,9 +384,9 @@ public final class Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> implements Semantic
 		}
 		
 		if (!doNotCheckEquations) {
-			for (Triple<Pair<Var, En1>, Term<Ty, En1, Sym, Fk1, Att1, Void, Void>, Term<Ty, En1, Sym, Fk1, Att1, Void, Void>> eq : src.eqs) {
+			for (Triple<Pair<Var, En1>, Term<Ty, Sym, En1, Fk1, Att1, Void, Void>, Term<Ty, Sym, En1, Fk1, Att1, Void, Void>> eq : src.eqs) {
 				Pair<Var, Chc<Ty,En2>> ctx = new Pair<>(eq.first.first, Chc.inRight(ens.get(eq.first.second)));
-				Term<Ty, En2, Sym, Fk2, Att2, Void, Void> lhs = trans(eq.second), rhs = trans(eq.third);
+				Term<Ty, Sym, En2, Fk2, Att2, Void, Void> lhs = trans(eq.second), rhs = trans(eq.third);
 				boolean ok = dst.dp.eq(new Ctx<>(ctx), lhs, rhs);
 				if (!ok) {
 					throw new RuntimeException("Equation " + eq.second + " = " + eq.third + " translates to " + lhs + " = " + rhs + ", which is not provable");

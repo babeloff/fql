@@ -30,7 +30,7 @@ public class ToJdbcPragmaTransform<Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> extends Pragma
 //	private final String clazz;
 	private final String idCol;
 
-	private final Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h;
+	private final Transform<Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h;
 	
 	private final String colTy;
 	private final int colTy0;
@@ -39,7 +39,7 @@ public class ToJdbcPragmaTransform<Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> extends Pragma
 	private final AqlOptions options2;
 	
 	//TODO aql column type mapping for jdbc instance export
-	public ToJdbcPragmaTransform(String prefix, Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h, String clazz, String jdbcString, AqlOptions options1, AqlOptions options2) {
+	public ToJdbcPragmaTransform(String prefix, Transform<Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h, String clazz, String jdbcString, AqlOptions options1, AqlOptions options2) {
 		try {
 			Class.forName(clazz);
 		} catch (ClassNotFoundException e) {

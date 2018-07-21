@@ -34,7 +34,7 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
-public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> implements Raw {
+public class QueryExpRawSimple extends QueryExp<Ty, Sym, En, Fk, Att, En, Fk, Att> implements Raw {
 
 	@Override
 	public int hashCode() {
@@ -67,20 +67,20 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 		return true;
 	}
 
-	private final SchExp<Ty, En, Sym, Fk, Att> src;
+	private final SchExp<Ty, Sym, En, Fk, Att> src;
 
 	private final Block block;
 	
 
 	@SuppressWarnings("unchecked")
 	public QueryExpRawSimple(SchExp<?, ?, ?, ?, ?> src, Integer i, PreBlock block) {
-		this.src = (SchExp<Ty, En, Sym, Fk, Att>) src;
+		this.src = (SchExp<Ty, Sym, En, Fk, Att>) src;
 		this.block = new Block(block, new LocStr(i, "Q"));
 	}	
 	
 	@SuppressWarnings("unchecked")
 	public QueryExpRawSimple(SchExp<?, ?, ?, ?, ?> src,	Integer i, Block block) {
-		this.src = (SchExp<Ty, En, Sym, Fk, Att>) src;
+		this.src = (SchExp<Ty, Sym, En, Fk, Att>) src;
 		this.block = block;
 	}
 
@@ -95,7 +95,7 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 	}
 
 	@Override
-	public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
+	public Pair<SchExp<Ty, Sym, En, Fk, Att>, SchExp<Ty, Sym, En, Fk, Att>> type(AqlTyping G) {
 		return new Pair<>(src, new SchExpCod<>(this));
 	}
 
@@ -106,9 +106,9 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 	
 	//TODO aql merge with queryexpraw
 	@Override
-	public Query<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
-		Schema<Ty, En, Sym, Fk, Att> src0 = src.eval(env);
-		Collage<Ty, En, Sym, Fk, Att, Void, Void> srcCol = src0.collage();
+	public Query<Ty, Sym, En, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
+		Schema<Ty, Sym, En, Fk, Att> src0 = src.eval(env);
+		Collage<Ty, Sym, En, Fk, Att, Void, Void> srcCol = src0.collage();
 		En En = new En("Q");
 		
 		AqlOptions ops =  new AqlOptions(block.options, null, env.defaults);
@@ -123,19 +123,19 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 				ops.getOrDefault(AqlOption.allow_java_eqs_unsafe);
 
 
-		Ctx<En, Triple<Ctx<Var, En>, Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>>, AqlOptions>> ens0 = new Ctx<>();
-		Ctx<Att, Term<Ty, En, Sym, Fk, Att, Var, Var>> atts0 = new Ctx<>();
-		Ctx<Fk, Pair<Ctx<Var, Term<Void, En, Void, Fk, Void, Var, Void>>, Boolean>> fks0 = new Ctx<>();
+		Ctx<En, Triple<Ctx<Var, En>, Collection<Eq<Ty, Sym, En, Fk, Att, Var, Var>>, AqlOptions>> ens0 = new Ctx<>();
+		Ctx<Att, Term<Ty, Sym, En, Fk, Att, Var, Var>> atts0 = new Ctx<>();
+		Ctx<Fk, Pair<Ctx<Var, Term<Void, Void, En, Fk, Void, Var, Void>>, Boolean>> fks0 = new Ctx<>();
 
-		Ctx<En, Collage<Ty, En, Sym, Fk, Att, Var, Var>> cols = new Ctx<>();
+		Ctx<En, Collage<Ty, Sym, En, Fk, Att, Var, Var>> cols = new Ctx<>();
 			
 		QueryExpRaw.processBlock(block.options, env, src0, ens0, cols, block, new Ctx<>());
 		
-		Collage<Ty, En, Sym, Fk, Att, Void, Void> colForDst = new Collage<>(src0.typeSide.collage());
+		Collage<Ty, Sym, En, Fk, Att, Void, Void> colForDst = new Collage<>(src0.typeSide.collage());
 		colForDst.ens.add(En);
 		for (Pair<Att, RawTerm> p : block.atts) {
 			Map<String, Chc<Ty, En>> s = QueryExpRaw.unVar(cols.get(En).gens).<Ty>inRight().map;
-			Term<Ty, catdata.aql.exp.SchExpRaw.En, Sym, Fk, Att, Gen, Sk> term 
+			Term<Ty, Sym, catdata.aql.exp.SchExpRaw.En, Fk, Att, Gen, Sk> term 
 			= RawTerm.infer1x(s, p.second, p.second, null, srcCol.convert(), "",
 					src0.typeSide.js).second;
 			Chc<Ty, En> ty = srcCol.type(new Ctx<>(s).map((k,v) -> new Pair<>(new Var(k), v)), term.convert());
@@ -146,8 +146,8 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 			colForDst.atts.put(p.first, new Pair<>(En, ty.l));
 		}
 		
-		DP<Ty, En, Sym, Fk, Att, Void, Void> dp = AqlProver.create(ops, colForDst, src0.typeSide.js);
-		Schema<Ty, En, Sym, Fk, Att> dst0 = new Schema<Ty, En, Sym, Fk, Att>
+		DP<Ty, Sym, En, Fk, Att, Void, Void> dp = AqlProver.create(ops, colForDst, src0.typeSide.js);
+		Schema<Ty, Sym, En, Fk, Att> dst0 = new Schema<Ty, Sym, En, Fk, Att>
 		(src0.typeSide, colForDst.ens, colForDst.atts.map, colForDst.fks.map, new HashSet<>(), dp, checkJava);
 
 		for (Pair<Att, RawTerm> p : block.atts) {

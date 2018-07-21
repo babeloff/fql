@@ -31,9 +31,9 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 			return Collections.emptyMap();
 		}
 		
-		public final SchExp<Ty, ?, Sym, ?, ?> schema;
+		public final SchExp<Ty, Sym, ?, ?, ?> schema;
 
-		public TyExpSch(SchExp<Ty, ?, Sym, ?, ?> schema) {
+		public TyExpSch(SchExp<Ty, Sym, ?, ?, ?> schema) {
 			this.schema = schema;
 		}
 

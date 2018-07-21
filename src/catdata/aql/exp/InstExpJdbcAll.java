@@ -46,7 +46,7 @@ import catdata.sql.SqlTable;
 
 //TODO: if has primary key column, use that instead of making one up
 //TODO: allow user to pick which
-public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> {
+public class InstExpJdbcAll extends InstExp<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> {
 
 	private final Map<String, String> options;
 
@@ -70,15 +70,15 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 		return x.substring(0, 1).toUpperCase() + x.substring(1, x.length());
 	}
 	
-	private Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> toInstance(AqlEnv env, SqlInstance inst, SqlSchema info) {
+	private Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> toInstance(AqlEnv env, SqlInstance inst, SqlSchema info) {
 		AqlOptions ops = new AqlOptions(options, null, env.defaults);
-		Schema<Ty, En, Sym, Fk, Att> sch = makeSchema(env, info, ops);
+		Schema<Ty, Sym, En, Fk, Att> sch = makeSchema(env, info, ops);
 
 		Ctx<En, Collection<Gen>> ens0 = new Ctx<>(Util.newSetsFor0(sch.ens));
 		Ctx<Ty, Collection<Null<?>>> tys0 = new Ctx<>();
 		Ctx<Gen, Ctx<Fk, Gen>> fks0 = new Ctx<>();
-		Ctx<Gen, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Null<?>>>> atts0 = new Ctx<>();
-		Ctx<Null<?>, Term<Ty, En, Sym, Fk, Att, Gen, Null<?>>> extraRepr = new Ctx<>();
+		Ctx<Gen, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Null<?>>>> atts0 = new Ctx<>();
+		Ctx<Null<?>, Term<Ty, Sym, En, Fk, Att, Gen, Null<?>>> extraRepr = new Ctx<>();
 
 		for (Ty ty : sch.typeSide.tys) {
 			tys0.put(ty, new HashSet<>());
@@ -129,7 +129,7 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 							atts0.put(i, new Ctx<>());
 						}
 						Optional<Object> val = tuple.get(c);
-						Term<Ty, Void, Sym, Void, Void, Void, Null<?>> xxx
+						Term<Ty, Sym, Void, Void, Void, Void, Null<?>> xxx
 						 = InstExpJdbc.objectToSk(sch, val.orElse(null), i, new Att(new En(table.name), c.name), tys0, extraRepr, false, nullOnErr);
 						atts0.get(i).put(new Att(new En(table.name), c.name), xxx);
 					}
@@ -151,18 +151,18 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 			}
 		}
 
-		ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty,En,Sym,Fk,Att,Gen,Null<?>>(sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dontCheckClosure);
+		ImportAlgebra<Ty, Sym, En, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty, Sym, En,Fk,Att,Gen,Null<?>>(sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dontCheckClosure);
 
 		return new SaturatedInstance<>(alg, alg, (Boolean) ops.getOrDefault(AqlOption.require_consistency), (Boolean) ops.getOrDefault(AqlOption.allow_java_eqs_unsafe), true, extraRepr);
 	}
 
-	public Schema<Ty, En, Sym, Fk, Att> makeSchema(AqlEnv env, SqlSchema info, AqlOptions ops) {
+	public Schema<Ty, Sym, En, Fk, Att> makeSchema(AqlEnv env, SqlSchema info, AqlOptions ops) {
 		boolean checkJava = !(Boolean) ops.getOrDefault(AqlOption.allow_java_eqs_unsafe);
 	
 		TypeSide<Ty, Sym> typeSide = new SqlTypeSide(ops);
 		//typeSide.validate(true);
-		Collage<Ty, En, Sym, Fk, Att, Void, Void> col0 = new Collage<>(typeSide.collage());
-		Set<Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> eqs = new HashSet<>();
+		Collage<Ty, Sym, En, Fk, Att, Void, Void> col0 = new Collage<>(typeSide.collage());
+		Set<Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> eqs = new HashSet<>();
 
 		//String sep = (String) ops.getOrDefault(AqlOption.import_col_seperator);
 		
@@ -185,23 +185,23 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 				SqlColumn scol = fk.map.get(tcol);
 				Att l = new Att(new En(scol.table.name), scol.name);
 				Att r = new Att(new En(tcol.table.name), tcol.name);
-				Term<Ty, En, Sym, Fk, Att, Void, Void> lhs = Term.Att(l, Term.Var(v));
-				Term<Ty, En, Sym, Fk, Att, Void, Void> rhs = Term.Att(r, Term.Fk(new Fk(new En(fk.source.name), fk.toString()), Term.Var(v)));
+				Term<Ty, Sym, En, Fk, Att, Void, Void> lhs = Term.Att(l, Term.Var(v));
+				Term<Ty, Sym, En, Fk, Att, Void, Void> rhs = Term.Att(r, Term.Fk(new Fk(new En(fk.source.name), fk.toString()), Term.Var(v)));
 				eqs.add(new Triple<>(new Pair<>(v, new En(fk.source.name)), lhs, rhs));
 				col0.eqs.add(new Eq<>(new Ctx<>(new Pair<>(v, Chc.inRight(new En(fk.source.name)))), lhs, rhs));
 			}
 		}
 
-		DP<Ty, En, Sym, Fk, Att, Void, Void> dp = AqlProver.create(new AqlOptions(options, col0, env.defaults), col0, typeSide.js);
+		DP<Ty, Sym, En, Fk, Att, Void, Void> dp = AqlProver.create(new AqlOptions(options, col0, env.defaults), col0, typeSide.js);
 
-		Schema<Ty, En, Sym, Fk, Att> sch = new Schema<>(typeSide, col0.ens, col0.atts.map, col0.fks.map, eqs, dp, checkJava);
+		Schema<Ty, Sym, En, Fk, Att> sch = new Schema<>(typeSide, col0.ens, col0.atts.map, col0.fks.map, eqs, dp, checkJava);
 		return sch;
 	}
 
 	
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> eval(AqlEnv env) {
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> eval(AqlEnv env) {
 		String toGet = jdbcString;
 		String driver = clazz;
 		AqlOptions op = new AqlOptions(options, null, env.defaults);
@@ -281,7 +281,7 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 	}
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return new SchExp.SchExpInst<>(this);
 	}
 

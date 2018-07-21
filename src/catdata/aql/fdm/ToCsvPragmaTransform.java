@@ -15,7 +15,7 @@ import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Pragma;
 import catdata.aql.Transform;
 
-public class ToCsvPragmaTransform<Ty,En,Sym,Att,Fk,Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> extends Pragma {
+public class ToCsvPragmaTransform<Ty, Sym, En,Att,Fk,Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> extends Pragma {
 	
 	
 	private final File file;
@@ -24,9 +24,9 @@ public class ToCsvPragmaTransform<Ty,En,Sym,Att,Fk,Gen1, Sk1, Gen2, Sk2, X1, Y1,
 
 	private AqlOptions options2;
 
-	private Transform<Ty, En, Sym, Att, Fk, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h;
+	private Transform<Ty, Sym, En, Att, Fk, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h;
 	
-	public ToCsvPragmaTransform(Transform<Ty,En,Sym,Att,Fk,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h, String s, AqlOptions options1, AqlOptions options2) {
+	public ToCsvPragmaTransform(Transform<Ty, Sym, En,Att,Fk,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h, String s, AqlOptions options1, AqlOptions options2) {
 		this.options1 = options1;
 		this.options2 = options2;
 		this.file = new File(s);

@@ -26,7 +26,7 @@ import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.fdm.SaturatedInstance;
 
 public  final class InstExpRandom
-extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integer,En>,Pair<Integer,Att>> implements Raw {
+extends InstExp<Ty, Sym, En,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integer,En>,Pair<Integer,Att>> implements Raw {
 
 	private Ctx<String, List<InteriorLabel<Object>>> raw = new Ctx<>();
 	
@@ -38,7 +38,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 			
 	public final Map<String, String> options;
 	
-	public final SchExp<Ty, En, Sym, Fk, Att> sch;
+	public final SchExp<Ty, Sym, En, Fk, Att> sch;
 	
 	@Override
 	public Map<String, String> options() {
@@ -48,7 +48,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 	public InstExpRandom(SchExp<?,?,?,?,?> sch, List<Pair<LocStr, String>> ens, List<Pair<String, String>> options) {
 		this.ens = new Ctx<>(Util.toMapSafely(LocStr.set2y(ens, x -> Integer.parseInt(x))));
 		this.options = Util.toMapSafely(options);
-		this.sch = (SchExp<Ty, En, Sym, Fk, Att>) sch;
+		this.sch = (SchExp<Ty, Sym, En, Fk, Att>) sch;
 		List<InteriorLabel<Object>> f = new LinkedList<>();
 		for (Pair<LocStr, String> p : ens) {
 			f.add(new InteriorLabel<>("generators", new Pair<>(p.first.str, p.second), p.first.loc,
@@ -112,22 +112,22 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 	}
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return sch;
 	}
 
 	//not exactly the smartest way
 	@Override
-	public SaturatedInstance<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>, Pair<Integer, En>, Pair<Integer, Att>> eval(AqlEnv env) {
+	public SaturatedInstance<Ty, Sym, En, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>, Pair<Integer, En>, Pair<Integer, Att>> eval(AqlEnv env) {
 		int seed = (Integer) new AqlOptions(options, null, env.defaults).getOrDefault(AqlOption.random_seed);
 		Random rand = new Random(seed);
 	
-		Schema<Ty, En, Sym, Fk, Att> schema = sch.eval(env);
+		Schema<Ty, Sym, En, Fk, Att> schema = sch.eval(env);
 
 		Ctx<En, Collection<Pair<Integer,En>>> ens0 = new Ctx<>();
 		Ctx<Ty, Collection<Pair<Integer,Att>>> tys = new Ctx<>();
 		Ctx<Pair<Integer, En>, Ctx<Fk, Pair<Integer, En>>> fks = new Ctx<>();
-		Ctx<Pair<Integer,En>, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Pair<Integer, Att>>>> atts = new Ctx<>();
+		Ctx<Pair<Integer,En>, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Pair<Integer, Att>>>> atts = new Ctx<>();
 		for (Ty ty : schema.typeSide.tys) {
 			tys.put(ty, new LinkedList<>());
 		}
@@ -136,7 +136,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 			int size = ens.get(en);
 			for (int i = 0; i < size; i++) {
 				l.add(new Pair<>(i,new En(en)));
-				Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Pair<Integer, Att>>> ctx = new Ctx<>();
+				Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Pair<Integer, Att>>> ctx = new Ctx<>();
 				for (Att att : schema.attsFrom(new En(en))) {
 					ctx.put(att, Term.Sk(new Pair<>(i, att)));
 					tys.get(schema.atts.get(att).second).add(new Pair<>(i, att));
@@ -154,12 +154,12 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 			ens0.put(new En(en), l);	
 		}
 				
-		ImportAlgebra<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>> 
-		alg = new ImportAlgebra<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>> 
+		ImportAlgebra<Ty, Sym, En, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>> 
+		alg = new ImportAlgebra<Ty, Sym, En, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>> 
 		(schema, ens0, tys, fks, atts, x->x.toString(), x->x.toString() , true); 
 		
 		
-		DP<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> dp = new DP<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>>() {
+		DP<Ty, Sym, En, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> dp = new DP<Ty, Sym, En, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>>() {
 
 			@Override
 			public String toStringProver() {
@@ -167,8 +167,8 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 			}
 
 			@Override
-			public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> lhs,
-					Term<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> rhs) {
+			public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> lhs,
+					Term<Ty, Sym, En, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> rhs) {
 				if (!ctx.isEmpty()) {
 					Util.anomaly();
 				}
@@ -178,7 +178,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 		};
 		
 		return new SaturatedInstance
-				<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>, Pair<Integer,En>, Pair<Integer, Att>> 
+				<Ty, Sym, En, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>, Pair<Integer,En>, Pair<Integer, Att>> 
 		(alg, dp, false, true, false, new Ctx<>());
 	}
 

@@ -14,7 +14,7 @@ import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
 public class MapExpColim<N> 
-extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
+extends MapExp<Ty, Sym, En,Fk,Att,En,Fk,Att> {
 
 	public final N node;
 	
@@ -60,10 +60,10 @@ extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
 	}
 
 	@Override
-	public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
+	public Pair<SchExp<Ty, Sym, En, Fk, Att>, SchExp<Ty, Sym, En, Fk, Att>> type(AqlTyping G) {
 		try {
-			SchExp<Ty, En, Sym, Fk, Att> dst = new SchExpColim<>(exp);
-			SchExp<Ty, En, Sym, Fk, Att> src = exp.getNode(node, G);
+			SchExp<Ty, Sym, En, Fk, Att> dst = new SchExpColim<>(exp);
+			SchExp<Ty, Sym, En, Fk, Att> src = exp.getNode(node, G);
 			return new Pair<>(src, dst);				
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -74,7 +74,7 @@ extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
 	
 
 	@Override
-	public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
+	public Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
 		return exp.eval(env).mappingsStr.get(node);
 	}
 

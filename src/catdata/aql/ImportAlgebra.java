@@ -7,22 +7,22 @@ import catdata.Ctx;
 import catdata.Triple;
 import catdata.Util;
 
-public class ImportAlgebra<Ty,En,Sym,Fk,Att,X,Y> extends Algebra<Ty,En,Sym,Fk,Att,X,Y,X,Y>  implements DP<Ty,En,Sym,Fk,Att,X,Y>  {
+public class ImportAlgebra<Ty,Sym,En,Fk,Att,X,Y> extends Algebra<Ty,Sym,En,Fk,Att,X,Y,X,Y>  implements DP<Ty,Sym,En,Fk,Att,X,Y>  {
 
-	private final Schema<Ty, En, Sym, Fk, Att> schema;
+	private final Schema<Ty, Sym, En, Fk, Att> schema;
 	private final Ctx<En, Collection<X>> ens;
 	private final Ctx<Ty, Collection<Y>> tys;
 	private final Ctx<X, Ctx<Fk, X>> fks;
-	private final Ctx<X, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Y>>> atts;
+	private final Ctx<X, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Y>>> atts;
 	
 	private final Function<X, String> printX;
 	private final Function<Y, String> printY;
 	
-	private final Collage<Ty, Void, Sym, Void, Void, Void, Y> talg = new Collage<>();
+	private final Collage<Ty, Sym, Void, Void, Void, Void, Y> talg = new Collage<>();
 	
-//	private final Ctx<Y, Term<Ty, En, Sym, Fk, Att, X, Y>> reprT_extra;
+//	private final Ctx<Y, Term<Ty, Sym, En, Fk, Att, X, Y>> reprT_extra;
 	 
-	public ImportAlgebra(Schema<Ty, En, Sym, Fk, Att> schema, Ctx<En, Collection<X>> ens, Ctx<Ty, Collection<Y>> tys, Ctx<X, Ctx<Fk, X>> fks, Ctx<X, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Y>>> atts, Function<X, String> printX, Function<Y, String> printY, boolean dontCheckClosure) {
+	public ImportAlgebra(Schema<Ty, Sym, En, Fk, Att> schema, Ctx<En, Collection<X>> ens, Ctx<Ty, Collection<Y>> tys, Ctx<X, Ctx<Fk, X>> fks, Ctx<X, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Y>>> atts, Function<X, String> printX, Function<Y, String> printY, boolean dontCheckClosure) {
 		this.schema = schema;
 		this.ens = ens;
 		this.tys = tys;
@@ -59,7 +59,7 @@ public class ImportAlgebra<Ty,En,Sym,Fk,Att,X,Y> extends Algebra<Ty,En,Sym,Fk,At
 					if (!atts.get(x).containsKey(att)) {
 						throw new RuntimeException("Incomplete import: no value for attribute " + att + " specified for  ID " + x + " in entity " + en);
 							}
-					Term<Ty, Void, Sym, Void, Void, Void, Y> y = att(att, x);
+					Term<Ty, Sym, Void, Void, Void, Void, Y> y = att(att, x);
 					if (y.sk != null && !tys.get(schema.atts.get(att).second).contains(y.sk)) {
 						throw new RuntimeException("Incomplete import: value for " + x + "'s attribute " + att + " is " + y.sk + " which is not an ID imported into " + schema.atts.get(att).second) ;
 					}
@@ -93,13 +93,13 @@ public class ImportAlgebra<Ty,En,Sym,Fk,Att,X,Y> extends Algebra<Ty,En,Sym,Fk,At
 				talg.sks.put(y, ty);
 			}
 		}
-		for (Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> x : schema.typeSide.eqs) {
+		for (Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> x : schema.typeSide.eqs) {
 			talg.eqs.add(new Eq<>(x.first.inLeft(), x.second.mapGenSk(Util.voidFn(), Util.voidFn()), x.third.mapGenSk(Util.voidFn(),Util.voidFn())));
 		}
 	}
 
 	@Override
-	public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, X, Y> lhs, Term<Ty, En, Sym, Fk, Att, X, Y> rhs) {
+	public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, X, Y> lhs, Term<Ty, Sym, En, Fk, Att, X, Y> rhs) {
 		if (!ctx.isEmpty()) {
 			Util.anomaly();
 		} else if (lhs.hasTypeType()) {
@@ -109,7 +109,7 @@ public class ImportAlgebra<Ty,En,Sym,Fk,Att,X,Y> extends Algebra<Ty,En,Sym,Fk,At
 	}
 
 	@Override
-	public Schema<Ty, En, Sym, Fk, Att> schema() {
+	public Schema<Ty, Sym, En, Fk, Att> schema() {
 		return schema;
 	}
 
@@ -129,22 +129,22 @@ public class ImportAlgebra<Ty,En,Sym,Fk,Att,X,Y> extends Algebra<Ty,En,Sym,Fk,At
 	}
 
 	@Override
-	public Term<Ty, Void, Sym, Void, Void, Void, Y> att(Att att, X x) {
+	public Term<Ty, Sym, Void, Void, Void, Void, Y> att(Att att, X x) {
 		return atts.get(x).get(att);
 	}
 
 	@Override
-	public Term<Ty, Void, Sym, Void, Void, Void, Y> sk(Y sk) {
+	public Term<Ty, Sym, Void, Void, Void, Void, Y> sk(Y sk) {
 		return Term.Sk(sk);
 	}
 
 	@Override
-	public Term<Void, En, Void, Fk, Void, X, Void> repr(X x) {
+	public Term<Void, Void, En, Fk, Void, X, Void> repr(X x) {
 		return Term.Gen(x);
 	}
 
 	@Override
-	public Term<Ty, En, Sym, Fk, Att, X, Y> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Y> y) {
+	public Term<Ty, Sym, En, Fk, Att, X, Y> reprT_protected(Term<Ty, Sym, Void, Void, Void, Void, Y> y) {
 		if (schema.typeSide.js.java_tys.isEmpty()) {
 			return y.map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
 		}
@@ -167,7 +167,7 @@ public class ImportAlgebra<Ty,En,Sym,Fk,Att,X,Y> extends Algebra<Ty,En,Sym,Fk,At
 	}
 
 	@Override
-	public Collage<Ty, Void, Sym, Void, Void, Void, Y> talg() {
+	public Collage<Ty, Sym, Void, Void, Void, Void, Y> talg() {
 		return talg;
 	}
 

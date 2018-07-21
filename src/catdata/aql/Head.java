@@ -4,7 +4,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import catdata.Util;
 
-public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> {
+public class Head<Ty, Sym, En, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> {
 
 	//these are necessary for KB
 	/*
@@ -39,7 +39,7 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 	
 	
 	@Override
-	 public int compareTo(Head<Ty, En, Sym, Fk, Att, Gen, Sk> other) {
+	 public int compareTo(Head<Ty, Sym, En, Fk, Att, Gen, Sk> other) {
 	return	Util.anomaly();
 //			return toString().compareTo(other.toString()); //essentially an arbitrary precedence on ground symbols
 	   }
@@ -63,7 +63,7 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 	} */
 	/*
 	@Override
-	public int compareTo(Head<Ty, En, Sym, Fk, Att, Gen, Sk> o) {
+	public int compareTo(Head<Ty, Sym, En, Fk, Att, Gen, Sk> o) {
 		return new CompareToBuilder()
 				.append(ty, o.ty)
 				.append(sym, o.sym)
@@ -89,7 +89,7 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 		if (obj.getClass() != getClass()) {
 			return false;
 		}
-		Head<Ty, En, Sym, Fk, Att, Gen, Sk> o = (Head<Ty, En, Sym, Fk, Att, Gen, Sk>) obj;
+		Head<Ty, Sym, En, Fk, Att, Gen, Sk> o = (Head<Ty, Sym, En, Fk, Att, Gen, Sk>) obj;
 		return new EqualsBuilder()
 				.append(ty, o.ty)
 				.append(sym, o.sym)
@@ -170,43 +170,43 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 	public final Object obj;
 	public final Ty ty;
 	
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> Sym(Sym sym) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> Sym(Sym sym) {
 		if (sym == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
 		return new Head<>(sym, null, null, null, null, null, null);
 	}
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> Fk(Fk fk) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> Fk(Fk fk) {
 		if (fk == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
 		return new Head<>(null, fk, null, null, null, null, null);
 	}
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> Att(Att att) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> Att(Att att) {
 		if (att == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
 		return new Head<>(null, null, att, null, null, null, null);
 	}
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> Gen(Gen gen) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> Gen(Gen gen) {
 		if (gen == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
 		return new Head<>(null, null, null, gen, null, null, null);
 	}
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> Sk(Sk sk) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> Sk(Sk sk) {
 		if (sk == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
 		return new Head<>(null, null, null, null, sk, null, null);
 	}
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> Obj(Object obj, Ty ty) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> Obj(Object obj, Ty ty) {
 		if (obj == null || ty == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
 		return new Head<>(null, null, null, null, null, obj, ty);
 	}
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Head<Ty, En, Sym, Fk, Att, Gen, Sk> ObjAqlInternal(Object obj) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Head<Ty, Sym, En, Fk, Att, Gen, Sk> ObjAqlInternal(Object obj) {
 		if (obj == null) {
 			throw new RuntimeException("Anomaly, please report");
 		}
@@ -223,7 +223,7 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 		this.ty = ty;
 	}
 
-	public Head(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Head(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
         sym = term.sym;
         fk = term.fk;
         att = term.att;
@@ -359,7 +359,7 @@ public class Head<Ty, En, Sym, Fk, Att, Gen, Sk> implements Comparable<Head<Ty, 
 				return false;
 			}
 			@SuppressWarnings("unchecked")
-			Head<Ty, En, Sym, Fk, Att, Gen, Sk> o = (Head<Ty, En, Sym, Fk, Att, Gen, Sk>) x;
+			Head<Ty, Sym, En, Fk, Att, Gen, Sk> o = (Head<Ty, Sym, En, Fk, Att, Gen, Sk>) x;
 			if (ty != null) {
 				return (ty.equals(o.ty) && obj.equals(o.obj));
 			}

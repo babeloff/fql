@@ -17,7 +17,7 @@ import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Instance;
 import catdata.aql.Pragma;
 
-public class ToJdbcPragmaInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Pragma {
+public class ToJdbcPragmaInstance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> extends Pragma {
 
 	private final String jdbcString;
 	private final String prefix;
@@ -25,7 +25,7 @@ public class ToJdbcPragmaInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends P
 	private final int truncate;
 
 	
-	private final Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+	private final Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 	
 	private final int len;
 	private AqlOptions options;
@@ -33,7 +33,7 @@ public class ToJdbcPragmaInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends P
 	//TODO aql have pragma for tojdbc inst print queries
 	//TODO aql multi-line quoting doesn't colorize correctly
 	
-	public ToJdbcPragmaInstance(String prefix, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I, String clazz, String jdbcString, AqlOptions options) {
+	public ToJdbcPragmaInstance(String prefix, Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I, String clazz, String jdbcString, AqlOptions options) {
 		try {
 			Class.forName(clazz);
 		} catch (ClassNotFoundException e) {
@@ -125,7 +125,7 @@ public class ToJdbcPragmaInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends P
 		}	
 	}
 /*
-	private Object fromTerm(Term<Ty, Void, Sym, Void, Void, Void, Y> term) {
+	private Object fromTerm(Term<Ty, Sym, Void, Void, Void, Void, Y> term) {
 		if (term.obj != null) {
 			return term.obj;
 		} else if (term.sym != null && term.args.isEmpty()) {

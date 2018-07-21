@@ -31,7 +31,7 @@ public class SqlTypeSide extends TypeSide<Ty, Sym> {
 		return Collections.emptyMap();
 	}
 	
-	private static Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs() {
+	private static Set<Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>>> eqs() {
 		return Collections.emptySet();
 	}
 	

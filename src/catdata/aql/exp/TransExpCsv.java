@@ -19,7 +19,7 @@ import catdata.aql.exp.TyExpRaw.Ty;
 public class TransExpCsv<X1,Y1,X2,Y2> 
 	extends TransExpImport<Gen,Sk,Gen,Sk,X1,Y1,X2,Y2,Map<En, List<String[]>>> {
 
-	public TransExpCsv(InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X1,Y1> src, InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X2,Y2> dst, List<Pair<LocStr, String>> files, List<Pair<String, String>> options) {
+	public TransExpCsv(InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X1,Y1> src, InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X2,Y2> dst, List<Pair<LocStr, String>> files, List<Pair<String, String>> options) {
 		super(src, dst, files, options);
 	}
 
@@ -55,7 +55,7 @@ public class TransExpCsv<X1,Y1,X2,Y2>
 	}
 
 	@Override
-	protected void processEn(En en, Schema<Ty, En, Sym, Fk, Att> sch, Map<En, List<String[]>> h, String q) throws Exception {
+	protected void processEn(En en, Schema<Ty, Sym, En, Fk, Att> sch, Map<En, List<String[]>> h, String q) throws Exception {
 		for (String[] row : h.get(en)) {
 			if (row.length != 2) {
 				throw new RuntimeException("On " + en + ", encountered a row of length != 2: " + Arrays.toString(row) );
@@ -73,7 +73,7 @@ public class TransExpCsv<X1,Y1,X2,Y2>
 	}
 
 	@Override
-	protected Map<En, List<String[]>> start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected Map<En, List<String[]>> start(Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		Map<En, List<String[]>> ret = InstExpCsv.start2(map, op, sch, false);
 		return ret;
 	}

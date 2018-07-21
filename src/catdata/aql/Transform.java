@@ -8,7 +8,7 @@ import catdata.Ctx;
 import catdata.Pair;
 import catdata.Util;
 
-public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> implements Semantics {
+public abstract class Transform<Ty,Sym,En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> implements Semantics {
 
 	@Override
 	public Kind kind() {
@@ -20,11 +20,11 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 		return src().size();
 	}
 	
-	public abstract Ctx<Gen1, Term<Void,En,Void,Fk,Void,Gen2,Void>> gens();
-	public abstract Ctx<Sk1, Term<Ty,En,Sym,Fk,Att,Gen2,Sk2>> sks();
+	public abstract Ctx<Gen1, Term<Void,Void,En,Fk,Void,Gen2,Void>> gens();
+	public abstract Ctx<Sk1, Term<Ty,Sym,En,Fk,Att,Gen2,Sk2>> sks();
 			
-	public abstract Instance<Ty,En,Sym,Fk,Att,Gen1,Sk1,X1,Y1> src();
-	public abstract Instance<Ty,En,Sym,Fk,Att,Gen2,Sk2,X2,Y2> dst();
+	public abstract Instance<Ty,Sym,En,Fk,Att,Gen1,Sk1,X1,Y1> src();
+	public abstract Instance<Ty,Sym,En,Fk,Att,Gen2,Sk2,X2,Y2> dst();
 	
 	//TODO aql transform initial
 
@@ -38,7 +38,7 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 				if (!gens().containsKey(gen1)) {
 					throw new RuntimeException("source generator " + gen1 + " has no transform");
 				}
-				Term<Void, En, Void, Fk, Void, Gen2, Void> gen2 = gens().map.get(gen1).map(Util.voidFn(), Util.voidFn(), Function.identity(), Util.voidFn(), Function.identity(), Util.voidFn());
+				Term<Void, Void, En, Fk, Void, Gen2, Void> gen2 = gens().map.get(gen1).map(Util.voidFn(), Util.voidFn(), Function.identity(), Util.voidFn(), Function.identity(), Util.voidFn());
 				Chc<Ty, En> en2 = dst().type(gen2.map(Util.voidFn(), Util.voidFn(), Function.identity(), Util.voidFn(), Function.identity(), Util.voidFn()));
 				if (!en2.equals(Chc.inRight(en1))) {
 					throw new RuntimeException("source generator " + gen1 + " transforms to " + gen2 + ", which has sort " + en2.toStringMash() + ", not " + en1 + " as expected");
@@ -46,7 +46,7 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 			}
 			for (Sk1 sk1 : src().sks().keySet()) {
 				Ty ty1 = src().sks().get(sk1);
-				Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> sk2 = sks().map.get(sk1);
+				Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> sk2 = sks().map.get(sk1);
 				if (sk2 == null) {
 					throw new RuntimeException("source labelled null " + sk1 + " has no transform");
 				}
@@ -67,8 +67,8 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 			}
 			
 			if (!dontValidateEqs) { 
-				for (Pair<Term<Ty, En, Sym, Fk, Att, Gen1, Sk1>, Term<Ty, En, Sym, Fk, Att, Gen1, Sk1>> eq : src().eqs()) {
-					Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> lhs = trans(eq.first), rhs = trans(eq.second);
+				for (Pair<Term<Ty, Sym, En, Fk, Att, Gen1, Sk1>, Term<Ty, Sym, En, Fk, Att, Gen1, Sk1>> eq : src().eqs()) {
+					Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> lhs = trans(eq.first), rhs = trans(eq.second);
 					dst().type(lhs);
 					dst().type(rhs);
 					boolean ok = dst().dp().eq(new Ctx<>(), lhs, rhs);
@@ -146,32 +146,32 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 		return toString;
 	}
 	
-	//private Morphism<Ty,En,Sym,Fk,Att,Gen1,Sk1,En,Sym,Fk,Att,Gen2,Sk2> semantics;
-	/* public final Morphism<Ty,En,Sym,Fk,Att,Gen1,Sk1,En,Sym,Fk,Att,Gen2,Sk2> semantics() {
+	//private Morphism<Ty, Sym, En,Fk,Att,Gen1,Sk1,En,Sym,Fk,Att,Gen2,Sk2> semantics;
+	/* public final Morphism<Ty, Sym, En,Fk,Att,Gen1,Sk1,En,Sym,Fk,Att,Gen2,Sk2> semantics() {
 		if (semantics != null) {
 			return semantics;
 		}
-		for (Pair<Term<Ty, En, Sym, Fk, Att, Gen1, Sk1>, Term<Ty, En, Sym, Fk, Att, Gen1, Sk1>> eq : src().eqs()) {
-			Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> lhs = trans(eq.first), rhs = trans(eq.second);
+		for (Pair<Term<Ty, Sym, En, Fk, Att, Gen1, Sk1>, Term<Ty, Sym, En, Fk, Att, Gen1, Sk1>> eq : src().eqs()) {
+			Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> lhs = trans(eq.first), rhs = trans(eq.second);
 			boolean ok = dst().dp().eq(new Ctx<>(), lhs, rhs);
 			if (!ok) {
 				throw new RuntimeException("Equation " + eq.first + " = " + eq.second + " translates to " + lhs + " = " + rhs + ", which is not provable");
 			}
 		}
-		semantics = new Morphism<Ty,En,Sym,Fk,Att,Gen1,Sk1,En,Sym,Fk,Att,Gen2,Sk2>() {
+		semantics = new Morphism<Ty, Sym, En,Fk,Att,Gen1,Sk1,En,Sym,Fk,Att,Gen2,Sk2>() {
 
 			@Override
-			public Pair<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen2, Sk2>> translate(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Gen1, Sk1> term) {
+			public Pair<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen2, Sk2>> translate(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, Gen1, Sk1> term) {
 				return new Pair<>(ctx, trans(term));
 			}
 
 			@Override
-			public Collage<Ty, En, Sym, Fk, Att, Gen1, Sk1> src() {
+			public Collage<Ty, Sym, En, Fk, Att, Gen1, Sk1> src() {
 				return Transform.this.src().collage();
 			}
 
 			@Override
-			public Collage<Ty, En, Sym, Fk, Att, Gen2, Sk2> dst() {
+			public Collage<Ty, Sym, En, Fk, Att, Gen2, Sk2> dst() {
 				return Transform.this.dst().collage();
 			}
 			
@@ -179,7 +179,7 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 		return semantics;
 	} */
 
-	public final Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> trans(Term<Ty, En, Sym, Fk, Att, Gen1, Sk1> term) {
+	public final Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> trans(Term<Ty, Sym, En, Fk, Att, Gen1, Sk1> term) {
 		if (term.var != null) {
 			return Term.Var(term.var); 
 		} else if (term.obj != null) {
@@ -199,12 +199,12 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 	}
 	
 	public X2 repr(X1 x1){
-		Term<Void, En, Void, Fk, Void, Gen1, Void> a = src().algebra().repr(x1);
-		Term<Void, En, Void, Fk, Void, Gen2, Void> b = trans0(a); //
+		Term<Void, Void, En, Fk, Void, Gen1, Void> a = src().algebra().repr(x1);
+		Term<Void, Void, En, Fk, Void, Gen2, Void> b = trans0(a); //
 		return dst().algebra().nf(b);
 	}
 	
-	private Term<Void, En, Void, Fk, Void, Gen2, Void> trans0(Term<Void, En, Void, Fk, Void, Gen1, Void> term) {
+	private Term<Void, Void, En, Fk, Void, Gen2, Void> trans0(Term<Void, Void, En, Fk, Void, Gen1, Void> term) {
 		if (term.fk != null) {
 			return Term.Fk(term.fk, trans0(term.arg));
 		} else if (term.gen != null) {
@@ -213,8 +213,8 @@ public abstract class Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> 
 		throw new RuntimeException("Anomaly: please report");
 	}
 	
-	public Term<Ty,En,Sym,Fk,Att,Gen2,Sk2> reprT(Y1 y1){
-		Term<Ty, En, Sym, Fk, Att, Gen1, Sk1> a = src().algebra().reprT(Term.Sk(y1));
+	public Term<Ty, Sym, En,Fk,Att,Gen2,Sk2> reprT(Y1 y1){
+		Term<Ty, Sym, En, Fk, Att, Gen1, Sk1> a = src().algebra().reprT(Term.Sk(y1));
 		return trans(a);
 	}
 	

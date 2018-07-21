@@ -23,16 +23,16 @@ import catdata.aql.Term;
 import catdata.aql.Transform;
 import catdata.aql.Var;
 
-public class CoEvalInstance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> 
-extends Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, Att1>>> {	
+public class CoEvalInstance<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> 
+extends Instance<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, Att1>>> {	
 	
-	private final Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q;
+	private final Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q;
 	@SuppressWarnings("unused")
-	private final Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y>  J;
-	private final InitialAlgebra<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y, ID> init;
-	private final Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, Att1>>> I;
+	private final Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y>  J;
+	private final InitialAlgebra<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y, ID> init;
+	private final Instance<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, Att1>>> I;
 	
-	public CoEvalInstance(Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q, Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> J, AqlOptions options) {
+	public CoEvalInstance(Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q, Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> J, AqlOptions options) {
 		if (!Q.dst.equals(J.schema())) {
 			throw new RuntimeException("In co-eval instance, target of query is " + Q.dst + ", but instance has type " + J.schema());
 		} else if (!Q.consts.keySet().containsAll(Q.params.keySet())) {
@@ -45,11 +45,11 @@ extends Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, At
 		this.Q = Q;
 		this.J = J;
 
-		Set<Pair<Term<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y>, Term<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y>>> eqs = new HashSet<>();
+		Set<Pair<Term<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y>, Term<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y>>> eqs = new HashSet<>();
 
-		Collage<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y> col = new Collage<>(Q.src.collage());
+		Collage<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y> col = new Collage<>(Q.src.collage());
 		col.sks.putAll(J.algebra().talg().sks.map);
-		for (Eq<Ty, Void, Sym, Void, Void, Void, Y> eq : J.algebra().talg().eqs) {
+		for (Eq<Ty, Sym, Void, Void, Void, Void, Y> eq : J.algebra().talg().eqs) {
 			if (!eq.ctx.isEmpty()) {
 				throw new RuntimeException("Anomaly: please report");
 			}
@@ -62,7 +62,7 @@ extends Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, At
 					En1 s = Q.ens.get(t).gens.get(v);
 					col.gens.put(new Pair<>(v, j), s);
 				}
-				for (Eq<Ty, En1, Sym, Fk1, Att1, Var, Var> eq : Q.ens.get(t).eqs) {
+				for (Eq<Ty, Sym, En1, Fk1, Att1, Var, Var> eq : Q.ens.get(t).eqs) {
 					if (!eq.ctx.isEmpty()) {
 						throw new RuntimeException("Anomaly: please report");
 					}
@@ -70,28 +70,28 @@ extends Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, At
 									   eq.rhs.mapGenSk(x -> new Pair<>(x, j), x -> Util.anomaly())));
 				}
 				for (Fk2 fk : J.schema().fksFrom(t)) {
-					Transform<Ty, En1, Sym, Fk1, Att1, Var, Var, Var, Var, ID, Chc<Var, Pair<ID, Att1>>, ID, Chc<Var, Pair<ID, Att1>>> 
+					Transform<Ty, Sym, En1, Fk1, Att1, Var, Var, Var, Var, ID, Chc<Var, Pair<ID, Att1>>, ID, Chc<Var, Pair<ID, Att1>>> 
 					fk0 = Q.fks.get(fk);
 					for (Var v0 : fk0.src().gens().keySet()) {
-						Term<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y> 
+						Term<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y> 
 						rhs = fk0.gens().get(v0).map(Util.voidFn(),Util.voidFn(),Function.identity(),Util.voidFn(),x->new Pair<>(x, j),Util::abort);
-						Term<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y> 
+						Term<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y> 
 						lhs = Term.Gen(new Pair<>(v0, J.algebra().fk(fk, j))); 
 						eqs.add(new Pair<>(lhs, rhs));
 					}
 				}
 				for (Att2 att : J.schema().attsFrom(t)) {
-					Term<Ty, En1, Sym, Fk1, Att1, Var, Var> att0 = Q.atts.get(att);
-					Term<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y> 
+					Term<Ty, Sym, En1, Fk1, Att1, Var, Var> att0 = Q.atts.get(att);
+					Term<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y> 
 					rhs = att0.mapGenSk(x -> new Pair<>(x, j), x->Util.anomaly());
-					Term<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y> 
+					Term<Ty, Sym, En1, Fk1, Att1, Pair<Var,X>, Y> 
 					lhs = J.algebra().att(att, j).map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity()); 
 					eqs.add(new Pair<>(lhs, rhs));					
 				}
 			}
 		}
 		
-		for (Pair<Term<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y>, Term<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y>> eq : eqs) {
+		for (Pair<Term<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y>, Term<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y>> eq : eqs) {
 			col.eqs.add(new Eq<>(new Ctx<>(), eq.first, eq.second));			
 		}
 	
@@ -106,7 +106,7 @@ extends Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, At
 	}
 
 	@Override
-	public Schema<Ty, En1, Sym, Fk1, Att1> schema() {
+	public Schema<Ty, Sym, En1, Fk1, Att1> schema() {
 		return Q.src;
 	}
 
@@ -121,17 +121,17 @@ extends Instance<Ty, En1, Sym, Fk1, Att1, Pair<Var,X>, Y, ID, Chc<Y, Pair<ID, At
 	}
 
 	@Override
-	public Set<Pair<Term<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y>, Term<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y>>> eqs() {
+	public Set<Pair<Term<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y>, Term<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y>>> eqs() {
 		return I.eqs();
 	}
 
 	@Override
-	public DP<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y> dp() {
+	public DP<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y> dp() {
 		return I.dp();
 	}
 
 	@Override
-	public Algebra<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att1>>> algebra() {
+	public Algebra<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att1>>> algebra() {
 		return I.algebra();
 	}
 

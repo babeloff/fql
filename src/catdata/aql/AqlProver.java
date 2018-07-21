@@ -27,7 +27,7 @@ public class AqlProver {
 	//decide, for example, that e = 2 -> e + 1 = 3.  So the DP is not necessarily a decision
 	//procedure for the input theory + java - or even any theory at all, because you may not have
 	//x = y and y = z -> x = z when java is involved.  
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> DP<Ty, En, Sym, Fk, Att, Gen, Sk> create(AqlOptions ops, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col1, AqlJs<Ty, Sym> js) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> DP<Ty, Sym, En, Fk, Att, Gen, Sk> create(AqlOptions ops, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col1, AqlJs<Ty, Sym> js) {
 		ProverName name = (ProverName) ops.getOrDefault(AqlOption.prover);
 		long timeout = (Long) ops.getOrDefault(AqlOption.timeout);
 		
@@ -78,7 +78,7 @@ public class AqlProver {
 		}
 	}
 
-	private static <Sk, En, Fk, Ty, Att, Sym, Gen> ProverName auto(AqlOptions ops, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
+	private static <Sk, En, Fk, Ty, Att, Sym, Gen> ProverName auto(AqlOptions ops, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
 		if (col.eqs.isEmpty()) {
 			return ProverName.free;
 		} else if (col.isGround()) {
@@ -91,7 +91,7 @@ public class AqlProver {
 		throw new RuntimeException("Cannot automatically chose prover: theory is not free, ground, monoidal, or program.  Possible solutions include: \n\n1) use the completion prover, possibly with an explicit precedence (see KB example) \n\n2) Reorient equations from left to right to obtain a size-reducing orthogonal rewrite system \n\n3) Remove all equations involving function symbols of arity > 1 \n\n4) Remove all type side and schema equations \n\n5) disable checking of equations in queries using dont_validate_unsafe=true as an option \n\n6) adding options program_allow_nontermination_unsafe=true \n\n7) emailing support, info@catinf.com ");
 	}
 	
-	private static <Ty, En, Sym, Fk, Att, Gen, Sk> boolean reorientable(Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
+	private static <Ty, Sym, En, Fk, Att, Gen, Sk> boolean reorientable(Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
 		try {
 			reorient(col);
 		} catch (Exception ex) {
@@ -100,10 +100,10 @@ public class AqlProver {
 		return true;
 	}
 
-	private static <Ty, En, Sym, Fk, Att, Gen, Sk> Collage<Ty, En, Sym, Fk, Att, Gen, Sk> reorient(Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
-		Collage<Ty, En, Sym, Fk, Att, Gen, Sk> ret = new Collage<>(col);
+	private static <Ty, Sym, En, Fk, Att, Gen, Sk> Collage<Ty, Sym, En, Fk, Att, Gen, Sk> reorient(Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
+		Collage<Ty, Sym, En, Fk, Att, Gen, Sk> ret = new Collage<>(col);
 		ret.eqs.clear();
-		for (Eq<Ty, En, Sym, Fk, Att, Gen, Sk> eq : col.eqs) {
+		for (Eq<Ty, Sym, En, Fk, Att, Gen, Sk> eq : col.eqs) {
 			if (size(eq.lhs) < size(eq.rhs)) {
 				ret.eqs.add(new Eq<>(eq.ctx, eq.rhs, eq.lhs));
 			} else if (size(eq.lhs) > size(eq.rhs)) {
@@ -116,14 +116,14 @@ public class AqlProver {
 		return ret;
 	}
 
-	private static <Ty, En, Sym, Fk, Att, Gen, Sk> int size(Term<Ty, En, Sym, Fk, Att, Gen, Sk> e) {
+	private static <Ty, Sym, En, Fk, Att, Gen, Sk> int size(Term<Ty, Sym, En, Fk, Att, Gen, Sk> e) {
 		if (e.obj != null || e.gen != null || e.sk != null || e.var != null) {
 			return 1;
 		} else if (e.att != null || e.fk != null) {
 			return 1 + size(e.arg);
 		} 
 		int ret = 1;
-		for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : e.args) {
+		for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : e.args) {
 			ret += size(arg);
 		}
 		return ret;
@@ -133,12 +133,12 @@ public class AqlProver {
 	
 
 	// these Lists will never have dups
-	/* private static <Ty, En, Sym, Fk, Att, Gen, Sk> List<List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>>> allArgs(Sym sym, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
-		List<List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>>> ret = new LinkedList<>();
+	/* private static <Ty, Sym, En, Fk, Att, Gen, Sk> List<List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>>> allArgs(Sym sym, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
+		List<List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>>> ret = new LinkedList<>();
 		ret.add(new LinkedList<>());
 
 		for (Ty ty : col.syms.get(sym).first) {
-			List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> l = new LinkedList<>();
+			List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> l = new LinkedList<>();
 			for (Sym sym2 : col.syms.keySet()) {
 				if (col.syms.get(sym2).first.isEmpty() && col.syms.get(sym2).second.equals(ty)) {
 					l.add(Head.Sym(sym2));

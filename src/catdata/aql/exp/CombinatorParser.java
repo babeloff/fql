@@ -497,7 +497,7 @@ public class CombinatorParser implements IAqlParser {
 				.tuple(env(b, "->"), options).between(token("{"), token("}"));
 
 		Parser<InstExpCsv> ret = Parsers.tuple(token("import_csv"), ident.followedBy(token(":")), sch_ref.lazy(), qs)
-				.map(x -> new InstExpCsv((SchExp<Ty, En, Sym, Fk, Att>) x.c, x.d.a, x.d.b, x.b));
+				.map(x -> new InstExpCsv((SchExp<Ty, Sym, En, Fk, Att>) x.c, x.d.a, x.d.b, x.b));
 		return ret;
 	}
 
@@ -511,8 +511,8 @@ public class CombinatorParser implements IAqlParser {
 				.map(x -> new TransExpCsv(x.b, x.c, x.d.a, x.d.b));
 		return ret;
 	}
-	// public TransExpJdbc(InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1> src,
-	// InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2> dst, List<String>
+	// public TransExpJdbc(InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1> src,
+	// InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2> dst, List<String>
 	// imports, List<Pair<String, String>> options, String clazz, String
 	// jdbcString, List<Pair<String, String>> map) {
 
