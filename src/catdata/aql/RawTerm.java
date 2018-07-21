@@ -8,8 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
+
+import com.sun.tools.sjavac.Log;
 
 import catdata.Chc;
 import catdata.Ctx;
@@ -87,16 +88,16 @@ public final class RawTerm {
 		return term.head;
 	}
 	
-	private static Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> infer_good(
-			RawTerm e, Chc<Ty, En> expected, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js,
+	private static Set<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> infer_good(
+			RawTerm e, Chc<Ty, En> expected, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js,
 			Map<Var, Chc<Ty, En>> vars) {
 		if (e.annotation != null && !col.tys.contains(new Ty(e.annotation))) {
 			throw new RuntimeException(pre + "Annotation " + e.annotation + " is not a type (" + col.tys + ").");
 		}
 
-		Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> ret = new HashSet<>();
+		Set<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> ret = new HashSet<>();
 		if (vars.keySet().contains(new Var((String) e.head)) && e.annotation == null) {
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Var(new Var((String) e.head));
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Var(new Var((String) e.head));
 			if (expected != null) {
 				Ctx<Var, Chc<Ty, En>> ret2 = new Ctx<>();
 				ret2.put(new Var((String) e.head), expected);
@@ -124,21 +125,21 @@ public final class RawTerm {
 		if (col.syms.containsKey(new Sym(e.head)) && e.annotation == null) {
 			// //System.out.println("a " + e);
 
-			List<List<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>>> l = new LinkedList<>();
+			List<List<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>>> l = new LinkedList<>();
 			l.add(new LinkedList<>());
 			for (int i = 0; i < e.args.size(); i++) {
 				RawTerm arg = e.args.get(i);
 				// //System.out.println("arg " + arg);
 
 				Ty ty = col.syms.get(new Sym(e.head)).first.get(i);
-				Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> z = infer_good(arg,
+				Set<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> z = infer_good(arg,
 						Chc.inLeft(ty), col, pre, js, vars);
 
-				List<List<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>>> l2 = new LinkedList<>();
+				List<List<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>>> l2 = new LinkedList<>();
 
-				for (List<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> old : l) {
+				for (List<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> old : l) {
 					// //System.out.println("old " + old);
-					for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> y : z) {
+					for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> y : z) {
 						// //System.out.println("y " + y);
 
 						if (y.third.equals(Chc.inLeft(ty))) {
@@ -152,14 +153,14 @@ public final class RawTerm {
 			}
 			// //System.out.println("l " + l);
 
-			outer: for (List<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> outcome : l) {
+			outer: for (List<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> outcome : l) {
 				// //System.out.println("outcome " + outcome);
 
-				List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> w = outcome.stream().map(x -> x.first)
+				List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> w = outcome.stream().map(x -> x.first)
 						.collect(Collectors.toList());
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Sym(new Sym(e.head), w);
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Sym(new Sym(e.head), w);
 				Ctx<Var, Chc<Ty, En>> ret2 = new Ctx<>();
-				for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> ctx0 : outcome) {
+				for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> ctx0 : outcome) {
 					// //System.out.println("ctx0 " + ctx0);
 
 					if (!ctx0.second.agreeOnOverlap(ret2) || !ctx0.second.agreeOnOverlap(Ctx.fromNullable(vars))) {
@@ -200,9 +201,9 @@ public final class RawTerm {
 		
 		for (En en : col.ens) {
 			if (col.fks.containsKey(new Fk(en, e.head)) && e.args.size() == 1 && e.annotation == null) {
-				for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : infer_good(
+				for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : infer_good(
 						e.args.get(0), Chc.inRight(col.fks.get(new Fk(en, e.head)).first), col, pre, js, vars)) {
-					Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Fk(new Fk(en, e.head), outcome.first);
+					Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Fk(new Fk(en, e.head), outcome.first);
 					//System.out.println("trying " + en + " and " + e.head);
 					Ctx<Var, Chc<Ty, En>> ret2 = new Ctx<>(outcome.second.map);
 					Var v = new Var(e.args.get(0).head);
@@ -235,11 +236,11 @@ public final class RawTerm {
 			
 			if (col.atts.containsKey(new Att(en, e.head)) && e.args.size() == 1 && e.annotation == null) {
 						 //System.out.println("x " + e);
-						for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : infer_good(
+						for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : infer_good(
 								e.args.get(0), Chc.inRight(col.atts.get(new Att(en, e.head)).first), col, pre, js, vars)) {
 							 //System.out.println("y " + outcome);
 
-							Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Att(new Att(en, e.head), outcome.first);
+							Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Att(new Att(en, e.head), outcome.first);
 							Ctx<Var, Chc<Ty, En>> ret2 = new Ctx<>(outcome.second.map);
 							Var v = new Var(e.args.get(0).head);
 							Chc<Ty, En> ty = Chc.inRight(col.atts.get(new Att(en, e.head)).first);
@@ -277,7 +278,7 @@ public final class RawTerm {
 		
 		
 		if (col.gens.containsKey(new Gen(e.head)) && e.args.isEmpty() && e.annotation == null) {
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Gen(new Gen(e.head));
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Gen(new Gen(e.head));
 			Chc<Ty, En> ret3 = Chc.inRight(col.gens.get(new Gen(e.head)));
 			if (expected != null && !expected.equals(ret3)) {
 			} else {
@@ -285,7 +286,7 @@ public final class RawTerm {
 			}
 		}
 		if (col.sks.containsKey(new Sk(e.head)) && e.args.isEmpty() && e.annotation == null) {
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Sk(new Sk(e.head));
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Sk(new Sk(e.head));
 			Chc<Ty, En> ret3 = Chc.inLeft(col.sks.get(new Sk(e.head)));
 			if (expected != null && !expected.equals(ret3)) {
 			} else {
@@ -294,7 +295,7 @@ public final class RawTerm {
 		}
 		if (e.args.isEmpty() && e.annotation != null) {
 			Ty ty = new Ty(e.annotation);
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Obj(js.parse(ty, e.head), ty);
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Obj(js.parse(ty, e.head), ty);
 			Chc<Ty, En> ret3 = Chc.inLeft(ty);
 			if (expected != null && !expected.equals(ret3)) {
 			} else {
@@ -308,7 +309,7 @@ public final class RawTerm {
 					continue;
 				}
 				try {
-					Term<Ty, En, Sym, Fk, Att, Gen, Sk> ret1 = Term.Obj(js.parse(ty, e.head), ty);
+					Term<Ty, Sym, En, Fk, Att, Gen, Sk> ret1 = Term.Obj(js.parse(ty, e.head), ty);
 					Chc<Ty, En> ret3 = Chc.inLeft(ty);
 					if (expected != null && !expected.equals(ret3)) {
 						//System.out.println("zzz");
@@ -330,7 +331,7 @@ public final class RawTerm {
 		return ret;
 	}
 
-	private static  boolean isSymbolAll(Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col,
+	private static  boolean isSymbolAll(Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col,
 			String s) {
 		return col.syms.containsKey(new Sym(s)) || 
 				col.fks.keySet().stream().map(x -> x.str).collect(Collectors.toSet()).contains(s) ||
@@ -339,10 +340,10 @@ public final class RawTerm {
 				col.sks.map.containsKey(new Sk(s));
 	}
  
-	public static Quad<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Chc<Ty, En>> infer1x(
+	public static Quad<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Chc<Ty, En>> infer1x(
 			Map<String, Chc<Ty, En>> ctx0, RawTerm e0, RawTerm f, Chc<Ty, En> expected,
-			Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js) {
-		Set<Quad<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Chc<Ty, En>>> ret = new HashSet<>();
+			Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col, String pre, AqlJs<Ty, Sym> js) {
+		Set<Quad<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Chc<Ty, En>>> ret = new HashSet<>();
 
 		Map<Var, Chc<Ty, En>> vars0 = new HashMap<>();
 		for (String s : ctx0.keySet()) {
@@ -357,7 +358,7 @@ public final class RawTerm {
 				initial.put(v, ctx0.get(v.var));
 			}
 		}
-		Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> lhs = infer_good(e0,
+		Set<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> lhs = infer_good(e0,
 				expected, col, pre, js, vars0);
 		
 		if (lhs.isEmpty()) {
@@ -376,7 +377,7 @@ public final class RawTerm {
 			throw new RuntimeException(pre + msg);
 		}
 		
-		Set<Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> rhs;
+		Set<Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>>> rhs;
 		if (f == null) {
 			rhs = lhs;
 		} else {
@@ -398,20 +399,20 @@ public final class RawTerm {
 			throw new RuntimeException(pre + msg);
 		}
 
-		for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : lhs) {
+		for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : lhs) {
 			if (!vars.containsAll(outcome.second.keySet())) {
 				Util.anomaly();
 			}
 		}
-		for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : rhs) {
+		for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> outcome : rhs) {
 			if (!vars.containsAll(outcome.second.keySet())) {
 				Util.anomaly();
 			}
 		}
 
 		List<String> misses = new LinkedList<>();
-		for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> p : lhs) {
-			for (Triple<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> q : rhs) {
+		for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> p : lhs) {
+			for (Triple<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Ctx<Var, Chc<Ty, En>>, Chc<Ty, En>> q : rhs) {
 				if (!p.second.agreeOnOverlap(q.second)) {
 					continue;
 				}
@@ -477,7 +478,7 @@ public final class RawTerm {
 
 	
 	 public static void assertUnambig(String head,
-				Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
+				Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
 			int n = boolToInt(col.syms.containsKey(new Sym(head))) 
 					+ boolToInt(col.atts.keySet().stream().map(x -> x.str).collect(Collectors.toSet()).contains(head)) 
 					+ boolToInt(col.fks.keySet().stream().map(x -> x.str).collect(Collectors.toSet()).contains(head)) 
@@ -493,8 +494,8 @@ public final class RawTerm {
 	
 	//@SuppressWarnings("unchecked")
 	//only used for precedences with aql options
-	 public static  Head<Ty, En, Sym, Fk, Att, Gen, Sk> toHeadNoPrim(String head,
-			Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
+	 public static  Head<Ty, Sym, En, Fk, Att, Gen, Sk> toHeadNoPrim(String head,
+			Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
 		Util.assertNotNull(head);
 		Util.assertNotNull(col);
 		 assertUnambig(head, col);
@@ -638,8 +639,8 @@ public final class RawTerm {
 		return ret;
 	}
 
-	public static Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> infer2(
-			List<Pair<String, String>> l, RawTerm a, RawTerm b, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col,
+	public static Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> infer2(
+			List<Pair<String, String>> l, RawTerm a, RawTerm b, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col,
 			AqlJs<Ty, Sym> js) {
 		Map<String, Chc<Ty, En>> ctx = new HashMap<>();
 		for (Pair<String, String> p : l) {
@@ -664,7 +665,7 @@ public final class RawTerm {
 				ctx.put(p.first, null);
 			}
 		}
-		Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq0 = infer1x(
+		Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq0 = infer1x(
 				ctx, a, b, null, col, "", js).first3();
 
 		LinkedHashMap<Var, Chc<Ty, En>> map = new LinkedHashMap<>();
@@ -675,7 +676,7 @@ public final class RawTerm {
 
 		Ctx<Var, Chc<Ty, En>> ctx2 = new Ctx<>(map);
 
-		Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> tr = new Triple<>(
+		Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> tr = new Triple<>(
 				ctx2, eq0.second, eq0.third);
 		return tr;
 	}

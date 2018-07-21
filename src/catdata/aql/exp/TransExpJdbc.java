@@ -28,7 +28,7 @@ extends TransExpImport<Gen, Sk, Gen, Sk, X1, Y1, X2, Y2, Connection>  {
 	public final String jdbcString;
 
 
-	public TransExpJdbc(String clazz, String jdbcString, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X1, Y1> src, InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X2, Y2> dst, List<Pair<LocStr, String>> map, List<Pair<String, String>> options) {
+	public TransExpJdbc(String clazz, String jdbcString, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X1, Y1> src, InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X2, Y2> dst, List<Pair<LocStr, String>> map, List<Pair<String, String>> options) {
 		super(src, dst, map, options);
 		this.clazz = clazz;
 		this.jdbcString = jdbcString;
@@ -110,7 +110,7 @@ extends TransExpImport<Gen, Sk, Gen, Sk, X1, Y1, X2, Y2, Connection>  {
 	}
 
 	@Override
-	protected Connection start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected Connection start(Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		String toGet = jdbcString;
 		if (clazz.trim().isEmpty()) {
 			String driver = (String) op.getOrDefault(AqlOption.jdbc_default_class);
@@ -123,7 +123,7 @@ extends TransExpImport<Gen, Sk, Gen, Sk, X1, Y1, X2, Y2, Connection>  {
 	}
 	
 	@Override
-	protected void processEn(En en, Schema<Ty, En, Sym, Fk, Att> sch, Connection conn, String q) throws Exception {
+	protected void processEn(En en, Schema<Ty, Sym, En, Fk, Att> sch, Connection conn, String q) throws Exception {
 		Statement stmt = conn.createStatement();
 		stmt.execute(q);
 		ResultSet rs = stmt.getResultSet();

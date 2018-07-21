@@ -1,16 +1,16 @@
 package catdata.aql;
 
-public class Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> {
+public class Lineage<Ty, Sym, En,Fk,Att,Gen,Sk> {
 
 	public final Integer i;
-	public final Term<Ty,En,Sym,Fk,Att,Gen,Sk> t;
+	public final Term<Ty, Sym, En,Fk,Att,Gen,Sk> t;
 	
 	@SuppressWarnings({ "hiding", "unchecked" })
-	public <Ty,En,Sym,Fk,Att,Gen,Sk> Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> convert() {
-		return (Lineage<Ty, En, Sym, Fk, Att, Gen, Sk>) this;
+	public <Ty, Sym, En,Fk,Att,Gen,Sk> Lineage<Ty, Sym, En,Fk,Att,Gen,Sk> convert() {
+		return (Lineage<Ty, Sym, En, Fk, Att, Gen, Sk>) this;
 	}
 
-	public Lineage(Integer i, Term<Ty,En,Sym,Fk,Att,Gen,Sk> t) {
+	public Lineage(Integer i, Term<Ty, Sym, En,Fk,Att,Gen,Sk> t) {
 		this.i = i;
 		this.t = t;
 	}

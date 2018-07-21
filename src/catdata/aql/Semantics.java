@@ -56,19 +56,19 @@ public interface Semantics {
 	
 	
 /*
-	public <Ty, En, Sym, Fk, Att> R visit(G arg, Schema<Ty, En, Sym, Fk, Att> S) throws E;
+	public <Ty, Sym, En, Fk, Att> R visit(G arg, Schema<Ty, Sym, En, Fk, Att> S) throws E;
 	
-	public <Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> R visit(G arg, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I) throws E;
+	public <Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> R visit(G arg, Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I) throws E;
 
-	public <Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> R visit(G arg, Transform<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h) throws E;
+	public <Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> R visit(G arg, Transform<Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> h) throws E;
 
 	public R visit(G arg, Pragma P);
 	
 	public R visit(G arg, Comment P);
 	
-	public <Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> R visit(G arg, Query<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> Q);
+	public <Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> R visit(G arg, Query<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> Q);
 	
-	public <Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> R visit(G arg, Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> Q);
+	public <Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> R visit(G arg, Mapping<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> Q);
 	
 	public <N,e> R visit(G arg, DMG<N,e> T) throws E;
 */

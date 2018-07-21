@@ -10,9 +10,9 @@ import catdata.Util;
 import catdata.aql.Kind;
 import catdata.aql.TypeSide;
 
-public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> implements TyExpI<Ty,Sym> {
+public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 	
-	public TyExpI resolve(Program<Exp<?>> prog) {
+	public TyExp<Ty, Sym> resolve(@SuppressWarnings("unused") Program<Exp<?>> prog) {
 		return this;
 	}
 	
@@ -31,9 +31,9 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> implements T
 			return Collections.emptyMap();
 		}
 		
-		public final SchExpI schema;
+		public final SchExp<Ty, Sym, ?, ?, ?> schema;
 
-		public TyExpSch(SchExpI schema) {
+		public TyExpSch(SchExp<Ty, Sym, ?, ?, ?> schema) {
 			this.schema = schema;
 		}
 
@@ -77,8 +77,8 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> implements T
 	}
 	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	public static class TyExpEmpty<Ty,Sym> extends TyExp<Ty,Sym> {
+
+	public static final class TyExpEmpty extends TyExp<Void,Void> {
 		
 		@Override
 		public Collection<Pair<String, Kind>> deps() {
@@ -89,10 +89,9 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> implements T
 			return Collections.emptyMap();
 		}
 			
-		@SuppressWarnings("unchecked")
 		@Override
-		public TypeSide<Ty,Sym> eval(AqlEnv env) {
-			return (TypeSide<Ty, Sym>) TypeSide.terminal();
+		public TypeSide<Void,Void> eval(AqlEnv env) {
+			return TypeSide.terminal();
 		}
 	
 		@Override

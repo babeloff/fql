@@ -4,18 +4,18 @@ import catdata.Chc;
 import catdata.Ctx;
 
 //TODO aql all DPs just have to handle java now
-public interface DP<Ty,En,Sym,Fk,Att,Gen,Sk> {
+public interface DP<Ty,Sym,En,Fk,Att,Gen,Sk> {
 	
 	public abstract String toStringProver();
 		
-	boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs, Term<Ty, En, Sym, Fk, Att, Gen, Sk> rhs);
+	boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, Gen, Sk> lhs, Term<Ty, Sym, En, Fk, Att, Gen, Sk> rhs);
 	
 	default boolean hasNFs() {
 		return false;
 	}
 	
 	@SuppressWarnings("unused")
-	default Term<Ty,En,Sym,Fk,Att,Gen,Sk> nf(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	default Term<Ty, Sym, En,Fk,Att,Gen,Sk> nf(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		throw new RuntimeException("Anomaly: please report");
 	}
 	

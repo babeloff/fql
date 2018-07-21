@@ -73,7 +73,7 @@ public class EasikAql {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@SuppressWarnings("hiding")
-	private static <Ty,En,Sym,Fk,Att> String aqlToEasik(String name, Schema<Ty,En,Sym,Fk,Att> schema, int x, int y, int len, Set<String> warnings) {
+	private static <Ty, Sym, En,Fk,Att> String aqlToEasik(String name, Schema<Ty, Sym, En,Fk,Att> schema, int x, int y, int len, Set<String> warnings) {
 		String pre = "\n<easketch cascade=\"cascade\" name=\"" + name + "\" partial-cascade=\"set_null\" x=\"" + x + "\" y=\"" + y + "\">"
 				+ "\n<header>"
 				+ "\n<title>" + name + "</title>"
@@ -114,7 +114,7 @@ public class EasikAql {
 		str += "\n<keys/>";
 		
 		str += "\n<constraints>";
-		for (Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq : schema.eqs) {
+		for (Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> eq : schema.eqs) {
 			if (schema.type(eq.first, eq.second).left) {
 				warnings.add("observation_equations not exported.");
 				continue;
@@ -136,13 +136,13 @@ public class EasikAql {
 	}
 
 	@SuppressWarnings("hiding")
-	private static <Ty,En,Sym,Fk,Att> String aqlTypeToString(Schema<Ty,En,Sym,Fk,Att> schema, Ty t) {
+	private static <Ty, Sym, En,Fk,Att> String aqlTypeToString(Schema<Ty, Sym, En,Fk,Att> schema, Ty t) {
 		String s = schema.typeSide.js.java_tys.containsKey(t) ? schema.typeSide.js.java_tys.get(t) : "";
 		return easikTypeFor(s);
 	}
 
 	@SuppressWarnings("hiding")
-	private static <Ty,En,Sym,Fk,Att> String aqlToEasik(Schema<Ty,En,Sym,Fk,Att> schema, Pair<Var, En> p, Term<Ty, En, Sym, Fk, Att, Void, Void> term) {
+	private static <Ty, Sym, En,Fk,Att> String aqlToEasik(Schema<Ty, Sym, En,Fk,Att> schema, Pair<Var, En> p, Term<Ty, Sym, En, Fk, Att, Void, Void> term) {
 		String str = "\n<path codomain=\"" + schema.type(p, term).r + "\" domain=\"" + p.second +"\">";
 		List<String> l = new LinkedList<>();
 		while (term.fk != null) {

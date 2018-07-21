@@ -8,19 +8,19 @@ import catdata.Chc;
 import catdata.Ctx;
 import catdata.Pair;
 
-public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+public class Anonymized<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
-	private final Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+	private final Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 
 	int fresh = 0;
 	private final Ctx<String, String> iso_string_1 = new Ctx<>(), iso_string_2 = new Ctx<>();
 	private final Ctx<Integer, Integer> iso_int_1 = new Ctx<>(), iso_int_2 = new Ctx<>();
 
-	private Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>.InnerAlgebra algebra;
+	private Anonymized<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>.InnerAlgebra algebra;
 
-	private DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp;
+	private DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp;
 	
-	private class InnerDP implements DP<Ty, En, Sym, Fk, Att, Gen, Sk> {
+	private class InnerDP implements DP<Ty, Sym, En, Fk, Att, Gen, Sk> {
 
 		@Override
 		public String toStringProver() {
@@ -28,17 +28,17 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 		}
 
 		@Override
-		public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs,
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> rhs) {
+		public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, Gen, Sk> lhs,
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> rhs) {
 			return I.dp().eq(ctx, iso2(lhs), iso2(rhs));
 		}
 		
 	}
 	
-	private class InnerAlgebra extends Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+	private class InnerAlgebra extends Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
 		@Override
-		public Schema<Ty, En, Sym, Fk, Att> schema() {
+		public Schema<Ty, Sym, En, Fk, Att> schema() {
 			return I.schema();
 		}
 
@@ -58,25 +58,25 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Y> att(Att att, X x) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Y> att(Att att, X x) {
 			return iso1(I.algebra().att(att, x)).convert();
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Y> sk(Sk sk) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Y> sk(Sk sk) {
 			return iso1(I.algebra().sk(sk)).convert();
 		}
 
 		@Override
-		public Term<Void, En, Void, Fk, Void, Gen, Void> repr(X x) {
+		public Term<Void, Void, En, Fk, Void, Gen, Void> repr(X x) {
 			return I.algebra().repr(x);
 		}
 
 		@Override
-		public Collage<Ty, Void, Sym, Void, Void, Void, Y> talg() {
-			Collage<Ty, Void, Sym, Void, Void, Void, Y> col = new Collage<>(I.algebra().talg());
+		public Collage<Ty, Sym, Void, Void, Void, Void, Y> talg() {
+			Collage<Ty, Sym, Void, Void, Void, Void, Y> col = new Collage<>(I.algebra().talg());
 			col.eqs.clear();
-			for (Eq<Ty, Void, Sym, Void, Void, Void, Y> eq : I.algebra().talg().eqs) {
+			for (Eq<Ty, Sym, Void, Void, Void, Void, Y> eq : I.algebra().talg().eqs) {
 				col.eqs.add(new Eq<>(eq.ctx, iso1(eq.lhs), iso1(eq.rhs)));
 			}
 			return col;
@@ -91,7 +91,7 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 		}
 
 		@Override
-		public Term<Ty, En, Sym, Fk, Att, Gen, Sk> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Y> y) {
+		public Term<Ty, Sym, En, Fk, Att, Gen, Sk> reprT_protected(Term<Ty, Sym, Void, Void, Void, Void, Y> y) {
 			return iso1(I.algebra().reprT_protected(iso2(y.convert()).convert())).convert();
 		}
 
@@ -147,19 +147,19 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 	}
 	
 	@SuppressWarnings("hiding")
-	private <En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> iso1(Term<Ty, En, Sym, Fk, Att, Gen, Sk> t) {
+	private <En, Sym, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> iso1(Term<Ty, Sym, En, Fk, Att, Gen, Sk> t) {
 		return t.visit(x->Term.Var(x),(obj,ty)->Term.Obj(iso1(obj,ty),ty), (sym,x)->Term.Sym(sym, x), (fk,x)->Term.Fk(fk,x), (att,x)->Term.Att(att,x), x->Term.Gen(x), x->Term.Sk(x));
 	}
 	
-	private Term<Ty, En, Sym, Fk, Att, Gen, Sk> iso2(Term<Ty, En, Sym, Fk, Att, Gen, Sk> t) {
+	private Term<Ty, Sym, En, Fk, Att, Gen, Sk> iso2(Term<Ty, Sym, En, Fk, Att, Gen, Sk> t) {
 		return t.visit(x->Term.Var(x),(obj,ty)->Term.Obj(iso2(obj,ty),ty), (sym,x)->Term.Sym(sym, x), (fk,x)->Term.Fk(fk,x), (att,x)->Term.Att(att,x), x->Term.Gen(x), x->Term.Sk(x));
 	}
 	
 	//TODO aql note this can fail at runtime
-	public Anonymized(Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i) {
+	public Anonymized(Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i) {
 		I = i;
 		for (Att att : i.schema().atts.keySet()) {
-			for (Pair<X, Term<Ty, Void, Sym, Void, Void, Void, Y>> p : i.algebra().attAsSet(att)) {
+			for (Pair<X, Term<Ty, Sym, Void, Void, Void, Void, Y>> p : i.algebra().attAsSet(att)) {
 				iso1(p.second);
 			}
 		}
@@ -169,7 +169,7 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 	}
 
 	@Override
-	public Schema<Ty, En, Sym, Fk, Att> schema() {
+	public Schema<Ty, Sym, En, Fk, Att> schema() {
 		return I.schema();
 	}
 
@@ -184,17 +184,17 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 	}
 
 	@Override
-	public Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs() {
+	public Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs() {
 		return I.eqs().stream().map(x->new Pair<>(iso1(x.first),iso1(x.second))).collect(Collectors.toSet());
 	}
 
 	@Override
-	public DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp() {
+	public DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp() {
 		return dp;
 	}
 
 	@Override
-	public Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> algebra() {
+	public Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> algebra() {
 		return algebra;
 	}
 	

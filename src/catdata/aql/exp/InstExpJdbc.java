@@ -35,7 +35,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	public InstExpJdbc(SchExp<?, ?, ?, ?, ?> schema,
 			List<Pair<String, String>> options, String clazz, String jdbcString,
 			List<Pair<LocStr, String>> map) {
-		super((SchExp<Ty, En, Sym, Fk, Att>) schema, map, options);
+		super((SchExp<Ty, Sym, En, Fk, Att>) schema, map, options);
 
 		this.clazz = clazz;
 		this.jdbcString = jdbcString;
@@ -45,7 +45,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	}
 
 	@Override
-	protected Connection start(Schema<Ty, En, Sym, Fk, Att> sch) throws SQLException {
+	protected Connection start(Schema<Ty, Sym, En, Fk, Att> sch) throws SQLException {
 		
 		if(isJoined) {
 			for (String s : map.keySet()) {
@@ -97,7 +97,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	}
 
 	@Override
-	protected void shreddedAtt(Connection conn, Att att, String s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected void shreddedAtt(Connection conn, Att att, String s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		Statement stmt = conn.createStatement();
 		stmt.execute(s);
 		ResultSet rs = stmt.getResultSet();
@@ -131,7 +131,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	}
 
 	@Override
-	protected void shreddedFk(Connection conn, Fk fk, String s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected void shreddedFk(Connection conn, Fk fk, String s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		Statement stmt = conn.createStatement();
 		stmt.execute(s);
 		ResultSet rs = stmt.getResultSet();
@@ -170,7 +170,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	}
 
 	@Override
-	protected void shreddedEn(Connection conn, En en, String s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected void shreddedEn(Connection conn, En en, String s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		Statement stmt = conn.createStatement();
 		stmt.execute(s);
 		ResultSet rs = stmt.getResultSet();
@@ -197,7 +197,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	}
 
 	@Override
-	protected void joinedEn(Connection conn, En en, String s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
+	protected void joinedEn(Connection conn, En en, String s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception {
 		
 		if (s == null) {
 			if (!(boolean) op.getOrDefault(AqlOption.import_missing_is_empty)) {
@@ -252,7 +252,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	
 	}
 
-	private void checkColumns(En en, String s, Schema<Ty, En, Sym, Fk, Att> sch, ResultSetMetaData rsmd)
+	private void checkColumns(En en, String s, Schema<Ty, Sym, En, Fk, Att> sch, ResultSetMetaData rsmd)
 			throws SQLException {
 		Set<String> colNames = new HashSet<>();
 		for (int i = 1; i <= rsmd.getColumnCount(); i++) {

@@ -8,7 +8,7 @@ import catdata.Util;
 import catdata.aql.Constraints;
 import catdata.aql.Kind;
 
-public abstract class EdsExp<Ty, En, Sym, Fk, Att> extends Exp<Constraints<Ty, En, Sym, Fk, Att>> {
+public abstract class EdsExp<Ty, Sym, En, Fk, Att> extends Exp<Constraints<Ty, Sym, En, Fk, Att>> {
 
 	
 	@Override
@@ -16,7 +16,7 @@ public abstract class EdsExp<Ty, En, Sym, Fk, Att> extends Exp<Constraints<Ty, E
 		return Kind.CONSTRAINTS;
 	}
 
-	public abstract SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G);
+	public abstract SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G);
 
 		
 

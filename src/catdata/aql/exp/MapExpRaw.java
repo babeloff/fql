@@ -31,7 +31,7 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
-public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> implements Raw {
+public final class MapExpRaw extends MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att> implements Raw {
 
 	@Override
 	public Collection<Pair<String, Kind>> deps() {
@@ -42,8 +42,8 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 		return ret;
 	}
 
-	public final SchExp<Ty, En, Sym, Fk, Att> src;
-	public final SchExp<Ty, En, Sym, Fk, Att> dst;
+	public final SchExp<Ty, Sym, En, Fk, Att> src;
+	public final SchExp<Ty, Sym, En, Fk, Att> dst;
 
 	public final Set<String> imports;
 
@@ -69,8 +69,8 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 	public MapExpRaw(SchExp<?, ?, ?, ?, ?> src, SchExp<?, ?, ?, ?, ?> dst, List<LocStr> imports,
 			List<Pair<LocStr, Triple<String, List<Pair<LocStr, List<String>>>, List<Pair<LocStr, Triple<String, String, RawTerm>>>>>> list,
 			List<Pair<String, String>> options) {
-		this.src = (SchExp<Ty, En, Sym, Fk, Att>) src;
-		this.dst = (SchExp<Ty, En, Sym, Fk, Att>) dst;
+		this.src = (SchExp<Ty, Sym, En, Fk, Att>) src;
+		this.dst = (SchExp<Ty, Sym, En, Fk, Att>) dst;
 		this.imports = LocStr.set1(imports);
 
 		Map<LocStr, Triple<String, List<Pair<LocStr, List<String>>>, List<Pair<LocStr, Triple<String, String, RawTerm>>>>> list2 = Util
@@ -260,21 +260,21 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 	}
 
 	@Override
-	public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
-		Schema<Ty, En, Sym, Fk, Att> src0 = src.eval(env);
-		Schema<Ty, En, Sym, Fk, Att> dst0 = dst.eval(env);
+	public Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
+		Schema<Ty, Sym, En, Fk, Att> src0 = src.eval(env);
+		Schema<Ty, Sym, En, Fk, Att> dst0 = dst.eval(env);
 		// Collage<String, String, String, String, String, Void, Void> scol =
 		// new Collage<>(src0);
-		Collage<Ty, En, Sym, Fk, Att, Void, Void> dcol = new Collage<>(dst0.collage());
+		Collage<Ty, Sym, En, Fk, Att, Void, Void> dcol = new Collage<>(dst0.collage());
 
 		Map<En, En> ens0 = new HashMap<>();
 		// Map<String, Pair<String, List<String>>> fks0 = new HashMap<>();
-		Map<Att, Triple<Var, En, Term<Ty, En, Sym, Fk, Att, Void, Void>>> atts0 = new HashMap<>();
+		Map<Att, Triple<Var, En, Term<Ty, Sym, En, Fk, Att, Void, Void>>> atts0 = new HashMap<>();
 		Map<Fk, Pair<En, List<Fk>>> fksX = new HashMap<>();
 
 		for (String k : imports) {
 			@SuppressWarnings("unchecked")
-			Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> v = env.defs.maps.get(k);
+			Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> v = env.defs.maps.get(k);
 			Util.putAllSafely(ens0, v.ens.map);
 			Util.putAllSafely(fksX, v.fks.map);
 			Util.putAllSafely(atts0, v.atts.map);
@@ -369,7 +369,7 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 
 				Map<String, Chc<Ty, En>> ctx = Util.singMap(var, var_en2);
 
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> term0 = RawTerm.infer1x(ctx, term, null, proposed_ty2,
+				Term<Ty, Sym, En, Fk, Att, Gen, Sk> term0 = RawTerm.infer1x(ctx, term, null, proposed_ty2,
 						dcol.convert(), "", src0.typeSide.js).second;
 
 				Util.putSafely(atts0, new Att(new En(att.first.first), att.first.second),
@@ -382,13 +382,13 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 
 		AqlOptions ops = new AqlOptions(options, null, env.defaults);
 
-		Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> ret = new Mapping<>(ens0, atts0, fksX, src0, dst0,
+		Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att> ret = new Mapping<>(ens0, atts0, fksX, src0, dst0,
 				(Boolean) ops.getOrDefault(AqlOption.dont_validate_unsafe));
 		return ret;
 	}
 
 	@Override
-	public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
+	public Pair<SchExp<Ty, Sym, En, Fk, Att>, SchExp<Ty, Sym, En, Fk, Att>> type(AqlTyping G) {
 		return new Pair<>(src, dst);
 	}
 }

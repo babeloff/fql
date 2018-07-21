@@ -159,7 +159,7 @@ public final class AqlOptions {
 			return ret;
 		}
 		
-		public static List<Head<Ty, En, Sym, Fk, Att, Gen, Sk>> getPrec(String str, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col) {
+		public static List<Head<Ty, Sym, En, Fk, Att, Gen, Sk>> getPrec(String str, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col) {
 			Util.assertNotNull(str);
 			
 			return Arrays.asList(str.split("\\s+")).stream().map(x -> RawTerm.toHeadNoPrim(x, col)).collect(Collectors.toList());		
@@ -356,7 +356,7 @@ public final class AqlOptions {
 	 * @param col possibly null
 	 */ 
 	@SuppressWarnings("hiding")
-	public <Ty, En, Sym, Fk, Att, Gen, Sk> AqlOptions(Map<String, String> map, @SuppressWarnings("rawtypes") Collage col, AqlOptions defaults) {
+	public <Ty, Sym, En, Fk, Att, Gen, Sk> AqlOptions(Map<String, String> map, @SuppressWarnings("rawtypes") Collage col, AqlOptions defaults) {
 		options = new HashMap<>(defaults.options);
 		for (String key : map.keySet()) {
 			AqlOption op = AqlOption.valueOf(key);
@@ -371,7 +371,7 @@ public final class AqlOptions {
 	 * @param map
 	 * @param col possibly null
 	 */ 
-	/*public <Ty, En, Sym, Fk, Att, Gen, Sk> AqlOptions(Map<String, String> map, Collage<Ty,En,Sym,Fk,Att,Gen,Sk> col) {
+	/*public <Ty, Sym, En, Fk, Att, Gen, Sk> AqlOptions(Map<String, String> map, Collage<Ty, Sym, En,Fk,Att,Gen,Sk> col) {
 		options = new HashMap<>();
 		for (String key : map.keySet()) {
 			AqlOption op = AqlOption.valueOf(key);
@@ -380,7 +380,7 @@ public final class AqlOptions {
 		}		
 	} */
 
-	private static Object getFromMap(Map<String, String> map, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, AqlOption op) {
+	private static Object getFromMap(Map<String, String> map, Collage<Ty, Sym, En, Fk, Att, Gen, Sk> col, AqlOption op) {
 		switch (op) {
 		case jdbc_query_export_convert_type:
 			return op.getString(map);

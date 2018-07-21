@@ -17,17 +17,17 @@ import catdata.aql.Var;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.fdm.EvalAlgebra.Row;
 
-public class CoEvalEvalUnitTransform<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>  
-extends Transform<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Row<En2,ID>, Chc<Y, Pair<ID, Att1>>, X, Y, Row<En2,ID>, Chc<Y, Pair<ID, Att1>>> {
+public class CoEvalEvalUnitTransform<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>  
+extends Transform<Ty, Sym, En2, Fk2, Att2, Gen, Sk, Row<En2,ID>, Chc<Y, Pair<ID, Att1>>, X, Y, Row<En2,ID>, Chc<Y, Pair<ID, Att1>>> {
 	//TODO aql recomputes
-	private final Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q;
-	private final Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> I;
-	private final CoEvalInstance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> J;
-	private final EvalInstance<Ty, En1, Sym, Fk1, Att1, Pair<Var, X>, Y, En2, Fk2, Att2, ID, Chc<Y, Pair<ID, Att1>>> K; //TODO aql recomputes
-	private final Ctx<Gen, Term<Void, En2, Void, Fk2, Void, Row<En2, ID>, Void>> gens = new Ctx<>();
-	private final Ctx<Sk, Term<Ty, En2, Sym, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>>> sks = new Ctx<>();
+	private final Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q;
+	private final Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> I;
+	private final CoEvalInstance<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> J;
+	private final EvalInstance<Ty, Sym, En1, Fk1, Att1, Pair<Var, X>, Y, En2, Fk2, Att2, ID, Chc<Y, Pair<ID, Att1>>> K; //TODO aql recomputes
+	private final Ctx<Gen, Term<Void, Void, En2, Fk2, Void, Row<En2, ID>, Void>> gens = new Ctx<>();
+	private final Ctx<Sk, Term<Ty, Sym, En2, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>>> sks = new Ctx<>();
 	
-	public CoEvalEvalUnitTransform(Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> q, Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> i, AqlOptions options) {
+	public CoEvalEvalUnitTransform(Query<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> q, Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> i, AqlOptions options) {
 		if (!q.dst.equals(i.schema())) {
 			throw new RuntimeException("Q has dst schema " + q.src + " but instance has schema " + i.schema());
 		}
@@ -45,19 +45,19 @@ extends Transform<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Row<En2,ID>, Chc<Y, Pair<ID,
 				tuple.put(v, id);
 			}
 			Row<En2, ID> row = Row.mkRow(tuple, en2);		
-			Term<Void, En2, Void, Fk2, Void, Row<En2, ID>, Void> term = Term.Gen(row);
+			Term<Void, Void, En2, Fk2, Void, Row<En2, ID>, Void> term = Term.Gen(row);
 			gens.put(gen, term);
 		}
 		for (Sk sk : src().sks().keySet()) {
-			Term<Ty, Void, Sym, Void, Void, Void, Y> y = I.algebra().sk(sk);
-			Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Pair<ID, Att1>>> y2 = trans0(y);
-			Term<Ty, En2, Sym, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>> w = y2.map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
+			Term<Ty, Sym, Void, Void, Void, Void, Y> y = I.algebra().sk(sk);
+			Term<Ty, Sym, Void, Void, Void, Void, Chc<Y, Pair<ID, Att1>>> y2 = trans0(y);
+			Term<Ty, Sym, En2, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>> w = y2.map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
 			sks.put(sk, w);
 		}	
 		validate((Boolean) options.getOrDefault(AqlOption.dont_validate_unsafe));
 	}
 	
-	private Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Pair<ID, Att1>>> trans0(Term<Ty, Void, Sym, Void, Void, Void, Y> term) {
+	private Term<Ty, Sym, Void, Void, Void, Void, Chc<Y, Pair<ID, Att1>>> trans0(Term<Ty, Sym, Void, Void, Void, Void, Y> term) {
 		if (term.sk != null) {
 			return Term.Sk(Chc.inLeft(term.sk));
 		} else if (term.sym != null) {
@@ -69,19 +69,19 @@ extends Transform<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Row<En2,ID>, Chc<Y, Pair<ID,
 	}
 	
 	@Override
-	public Ctx<Gen, Term<Void, En2, Void, Fk2, Void, Row<En2, ID>, Void>> gens() {
+	public Ctx<Gen, Term<Void, Void, En2, Fk2, Void, Row<En2, ID>, Void>> gens() {
 		return gens;
 	}
 	@Override
-	public Ctx<Sk, Term<Ty, En2, Sym, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>>> sks() {
+	public Ctx<Sk, Term<Ty, Sym, En2, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>>> sks() {
 		return sks;
 	}
 	@Override
-	public Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> src() {
+	public Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> src() {
 		return I;
 	}
 	@Override
-	public Instance<Ty, En2, Sym, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>> dst() {
+	public Instance<Ty, Sym, En2, Fk2, Att2, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>, Row<En2, ID>, Chc<Y, Pair<ID, Att1>>> dst() {
 		return K;
 	}		
 

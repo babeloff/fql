@@ -32,11 +32,11 @@ public class TypeSide<Ty, Sym> implements Semantics {
 	
 	public final Set<Ty> tys;
 	public final Ctx<Sym, Pair<List<Ty>, Ty>> syms;
-	public final Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs;
+	public final Set<Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>>> eqs;
 
 	public final AqlJs<Ty, Sym> js;
 	
-	private <En,Fk,Att,Gen,Sk> Ty type(Ctx<Var, Ty> ctx, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	private <En,Fk,Att,Gen,Sk> Ty type(Ctx<Var, Ty> ctx, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		if (!term.isTypeSide()) {
 			throw new RuntimeException(term + " is not a typeside term");
 		} 
@@ -48,20 +48,20 @@ public class TypeSide<Ty, Sym> implements Semantics {
 	}
 
 	
-	private static <Ty, Sym> Collage<Ty, Void, Sym, Void, Void, Void, Void> col(Set<Ty> tys, Map<Sym, Pair<List<Ty>, Ty>> syms, Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs, Map<Ty, String> java_tys, Map<Ty, String> java_parsers, Map<Sym, String> java_fns) {
-		Collage<Ty, Void, Sym, Void, Void, Void, Void> col = new Collage<>();
+	private static <Ty, Sym> Collage<Ty, Sym, Void, Void, Void, Void, Void> col(Set<Ty> tys, Map<Sym, Pair<List<Ty>, Ty>> syms, Set<Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>>> eqs, Map<Ty, String> java_tys, Map<Ty, String> java_parsers, Map<Sym, String> java_fns) {
+		Collage<Ty, Sym, Void, Void, Void, Void, Void> col = new Collage<>();
 		col.tys.addAll(tys);
 		col.syms.putAll(syms);
 		col.java_tys.putAll(java_tys);
 		col.java_parsers.putAll(java_parsers);
 		col.java_fns.putAll(java_fns);
-		for (Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> eq : eqs) {
+		for (Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> eq : eqs) {
 			col.eqs.add(new Eq<>(eq.first.inLeft(), eq.second, eq.third));
 		}
 		return col;
 	}
 	
-	public TypeSide(Set<Ty> tys, Map<Sym, Pair<List<Ty>, Ty>> syms, Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs, Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string, AqlOptions strategy) {
+	public TypeSide(Set<Ty> tys, Map<Sym, Pair<List<Ty>, Ty>> syms, Set<Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>>> eqs, Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string, AqlOptions strategy) {
 		Util.assertNotNull(tys, syms, eqs, java_tys_string, java_parser_string, java_fns_string);
 		this.tys = tys;
 		this.syms = new Ctx<>(syms);
@@ -79,15 +79,7 @@ public class TypeSide<Ty, Sym> implements Semantics {
 
 	
 	
-	public TypeSide(
-			Set<Ty> tys, 
-			Map<Sym, Pair<List<Ty>, Ty>> syms, 
-			Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> eqs,
-			/*Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string,*/ 
-			AqlJs<Ty,Sym> js, 
-			DP<Ty, Void, Sym, Void, Void, Void, Void> semantics, 
-			boolean checkJava) 
-	{
+	public TypeSide(Set<Ty> tys, Map<Sym, Pair<List<Ty>, Ty>> syms, Set<Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>>> eqs, /*Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string,*/ AqlJs<Ty,Sym> js, DP<Ty, Sym, Void, Void, Void, Void, Void> semantics, boolean checkJava) {
 		Util.assertNotNull(tys, syms, eqs, js, semantics);
 		this.tys = tys;
 		this.syms = new Ctx<>(syms);
@@ -111,7 +103,7 @@ public class TypeSide<Ty, Sym> implements Semantics {
 			}
 			
 		}
-		for (Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> eq : eqs) {
+		for (Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> eq : eqs) {
 			//check that the context is valid for each eq
 			Set<Ty> used_tys = new HashSet<>(eq.first.values());
 			used_tys.removeAll(tys);
@@ -151,7 +143,7 @@ public class TypeSide<Ty, Sym> implements Semantics {
 
 	private void validateJava() {
 	
-		for (Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> eq : eqs) {
+		for (Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> eq : eqs) {
 			Ty lhs = type(eq.first, eq.second);
 			
 			if (js.java_tys.containsKey(lhs)) {
@@ -203,7 +195,7 @@ public class TypeSide<Ty, Sym> implements Semantics {
 	}
 
 	
-	public <En,Fk,Att,Gen,Sk> void assertNoJava(Term<Ty, En, Sym, Fk, Att, Gen, Sk> t) {
+	public <En,Fk,Att,Gen,Sk> void assertNoJava(Term<Ty, Sym, En, Fk, Att, Gen, Sk> t) {
 		if (t.var != null) {
 			return;
 		} else if (t.fk != null || t.att != null) {
@@ -216,7 +208,7 @@ public class TypeSide<Ty, Sym> implements Semantics {
 			} else if (js.java_tys.keySet().contains(x.second)) {
 				throw new RuntimeException("In " + t + ", functions with java types are not allowed");
 			} 
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : t.args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : t.args) {
 				assertNoJava(arg);
 			}
 			return;
@@ -227,33 +219,19 @@ public class TypeSide<Ty, Sym> implements Semantics {
 		throw new RuntimeException("Anomaly: please report."); //else if (t.g)
 	} 
 	
-	private String toString(Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> eq) {
+	private String toString(Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> eq) {
 		String pre = eq.first.isEmpty() ? "" : "forall ";
 		return pre + eq.first + ". " + eq.second + " = " + eq.third;
 	}
 
-	public static <Ty,Sym> TypeSide<Ty,Sym> terminal() {
-		
-		final Set<Ty> tys = new HashSet<>(); 
-		final Map<Sym, Pair<List<Ty>, Ty>> syms = new HashMap<>();
-		final Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> 
-		eqs = new HashSet<>();
-		/* Map<Ty, String> java_tys_string, Map<Ty, String> java_parser_string, Map<Sym, String> java_fns_string,*/ 
-		final AqlJs<Ty,Sym> js = new AqlJs<>(new Ctx<>(), new Ctx<>(), new Ctx<>(), new Ctx<>());
-		
-		@SuppressWarnings("unchecked")
-		final DP<Ty, Void, Sym, Void, Void, Void, Void> 
-		semantics = (DP<Ty, Void, Sym, Void, Void, Void, Void>) DP.terminal; 
-		
-		final boolean checkJava = false;
-		
-		return new TypeSide<Ty,Sym>(tys, syms, eqs, js, semantics, checkJava);
+	public static TypeSide<Void,Void> terminal() {
+		return new TypeSide<>(new HashSet<>(), new HashMap<>(), new HashSet<>(), new AqlJs<>(new Ctx<>(), new Ctx<>(), new Ctx<>(), new Ctx<>()), DP.terminal, false);
 	}
 
-	public final DP<Ty, Void, Sym, Void, Void, Void, Void> semantics;
+	public final DP<Ty, Sym, Void, Void, Void, Void, Void> semantics;
 
 	/*
-	public DP<Ty, Void, Sym, Void, Void, Void, Void> semantics() {
+	public DP<Ty, Sym, Void, Void, Void, Void, Void> semantics() {
 		if (semantics != null) {
 			return semantics;
 		}
@@ -261,17 +239,17 @@ public class TypeSide<Ty, Sym> implements Semantics {
 		return semantics;
 	} */
 	
-	private Collage<Ty, Void, Sym, Void, Void, Void, Void> collage;
+	private Collage<Ty, Sym, Void, Void, Void, Void, Void> collage;
 	@SuppressWarnings("unchecked")
-	public synchronized <En,Fk,Att,Gen,Sk>   Collage<Ty, En, Sym, Fk, Att, Gen, Sk> collage() {
+	public synchronized <En,Fk,Att,Gen,Sk>   Collage<Ty, Sym, En, Fk, Att, Gen, Sk> collage() {
 		if (collage != null) {
 			if (!collage.atts.isEmpty() || !collage.fks.isEmpty() || !collage.gens.isEmpty()|| !collage.sks.isEmpty()) {
 				throw new RuntimeException("Anomaly: please report"); 
 			}
-			return (Collage<Ty, En, Sym, Fk, Att, Gen, Sk>) collage;
+			return (Collage<Ty, Sym, En, Fk, Att, Gen, Sk>) collage;
 		}
 		collage = col(tys, syms.map, eqs, js.java_tys.map, js.java_parsers.map, js.java_fns.map);
-		return (Collage<Ty, En, Sym, Fk, Att, Gen, Sk>) collage;
+		return (Collage<Ty, Sym, En, Fk, Att, Gen, Sk>) collage;
 	}
 
 	@Override

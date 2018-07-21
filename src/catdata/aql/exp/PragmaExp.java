@@ -54,13 +54,13 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@SuppressWarnings("hiding")
-	public static final class PragmaExpConsistent<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends PragmaExp {
-		public final InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I;
+	public static final class PragmaExpConsistent<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> extends PragmaExp {
+		public final InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> I;
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
 		}
-		public PragmaExpConsistent(InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i) {
+		public PragmaExpConsistent(InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i) {
 			I = i;
 		}
 
@@ -101,7 +101,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 				@Override
 				public void execute() {
-					Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
+					Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
 					if (!J.algebra().hasFreeTypeAlgebra()) {
 						throw new RuntimeException("Not necessarily consistent: type algebra is\n\n" + J.algebra().talg());
 					}
@@ -127,11 +127,11 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("hiding")
-	public static final class PragmaExpCheck<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> extends PragmaExp {
-		public InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I;
-		public EdsExp<Ty,En,Sym,Fk,Att> C;
+	public static final class PragmaExpCheck<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> extends PragmaExp {
+		public InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> I;
+		public EdsExp<Ty, Sym, En,Fk,Att> C;
 		
-		public PragmaExpCheck(InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i, EdsExp<Ty, En, Sym, Fk, Att> c) {
+		public PragmaExpCheck(InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i, EdsExp<Ty, Sym, En, Fk, Att> c) {
 			I = i;
 			C = c;
 		}
@@ -184,17 +184,17 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 				@Override
 				public void execute() {
-					Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
-					Collection<Pair<ED<Ty, En, Sym, Fk, Att>, Row<WHICH, X>>> t 
+					Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
+					Collection<Pair<ED<Ty, Sym, En, Fk, Att>, Row<WHICH, X>>> t 
 					= C.eval(env).triggers(J, env.defaults);
 					if (!t.isEmpty()) {
 						throw new RuntimeException("Not satisfied.\n\n" + printTriggers(t, J)); 
 					}
 				}
 
-				private String printTriggers(Collection<Pair<ED<Ty, En, Sym, Fk, Att>, Row<WHICH, X>>> t, Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> J) {
-					Map<ED<Ty, En, Sym, Fk, Att>, List<Row<WHICH, X>>> m = new HashMap<>();
-					for (Pair<ED<Ty, En, Sym, Fk, Att>, Row<WHICH, X>> p : t) {
+				private String printTriggers(Collection<Pair<ED<Ty, Sym, En, Fk, Att>, Row<WHICH, X>>> t, Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> J) {
+					Map<ED<Ty, Sym, En, Fk, Att>, List<Row<WHICH, X>>> m = new HashMap<>();
+					for (Pair<ED<Ty, Sym, En, Fk, Att>, Row<WHICH, X>> p : t) {
 						if (!m.containsKey(p.first)) {
 							m.put(p.first, new LinkedList<>());
 						}
@@ -202,7 +202,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 						l.add(p.second);
 					}
 					String ret = "";
-					for (ED<Ty, En, Sym, Fk, Att> ed : m.keySet()) {
+					for (ED<Ty, Sym, En, Fk, Att> ed : m.keySet()) {
 						ret += "======================\n";
 						ret += "On constraint\n\n" + ed.toString() + "\n\nthe failing triggers are:\n\n";
 						ret += Util.sep(m.get(ed).iterator(), "\n", r->Util.sep(r.map(z->J.algebra().printX(z)).asMap(),"->",", "));
@@ -534,20 +534,20 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("hiding")
-	public static final class PragmaExpToCsvInst<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> extends PragmaExp {
+	public static final class PragmaExpToCsvInst<Ty, Sym, En, Att, Fk, Gen, Sk, X, Y> extends PragmaExp {
 
 		public final String file;
 
 		public final Map<String, String> options;
 
-		public final InstExp<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> inst;
+		public final InstExp<Ty, Sym, En, Att, Fk, Gen, Sk, X, Y> inst;
 
 		@Override
 		public Map<String, String> options() {
 			return options;
 		}
 
-		public PragmaExpToCsvInst(InstExp<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> inst, String file, List<Pair<String, String>> options) {
+		public PragmaExpToCsvInst(InstExp<Ty, Sym, En, Att, Fk, Gen, Sk, X, Y> inst, String file, List<Pair<String, String>> options) {
 			Util.assertNotNull(file, options, inst);
 			this.file = file;
 			this.options = Util.toMapSafely(options);
@@ -616,21 +616,21 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	///////////////////////////////////////////////////////////////////
 
 	@SuppressWarnings("hiding")
-	public static final class PragmaExpToCsvTrans<Ty, En, Sym, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> extends PragmaExp {
+	public static final class PragmaExpToCsvTrans<Ty, Sym, En, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> extends PragmaExp {
 
 		public final String file;
 
 		public final Map<String, String> options1;
 		public final Map<String, String> options2;
 
-		public final TransExp<Ty, En, Sym, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> trans;
+		public final TransExp<Ty, Sym, En, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> trans;
 
 		@Override
 		public Map<String, String> options() {
 			return options1;
 		}
 
-		public PragmaExpToCsvTrans(TransExp<Ty, En, Sym, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> trans, String file, List<Pair<String, String>> options1, List<Pair<String, String>> options2) {
+		public PragmaExpToCsvTrans(TransExp<Ty, Sym, En, Att, Fk, Gen1, Sk1, X1, Y1, Gen2, Sk2, X2, Y2> trans, String file, List<Pair<String, String>> options1, List<Pair<String, String>> options2) {
 			this.file = file;
 			this.options1 = Util.toMapSafely(options1);
 			this.options2 = Util.toMapSafely(options2);
@@ -911,7 +911,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	/////////////////////////////////////////////////
 
 	@SuppressWarnings("hiding")
-	public static class PragmaExpToJdbcInst<Ty, En, Sym, Att, Fk, Gen, Sk, X, Y> extends PragmaExp {
+	public static class PragmaExpToJdbcInst<Ty, Sym, En, Att, Fk, Gen, Sk, X, Y> extends PragmaExp {
 
 		public final String jdbcString;
 		public final String prefix;
@@ -919,14 +919,14 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 		public final Map<String, String> options;
 
-		public final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+		public final InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 
 		@Override
 		public Map<String, String> options() {
 			return options;
 		}
 
-		public PragmaExpToJdbcInst(InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i, String clazz, String jdbcString, String prefix, List<Pair<String, String>> options) {
+		public PragmaExpToJdbcInst(InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i, String clazz, String jdbcString, String prefix, List<Pair<String, String>> options) {
 			this.jdbcString = jdbcString;
 			this.prefix = prefix;
 			this.clazz = clazz;
@@ -1028,14 +1028,14 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		public final Map<String, String> options1;
 		public final Map<String, String> options2;
 
-		public final TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h;
+		public final TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h;
 
 		@Override
 		public Map<String, String> options() {
 			return options1;
 		}
 
-		public PragmaExpToJdbcTrans(TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h, String clazz, String jdbcString, String prefix, List<Pair<String, String>> options1, List<Pair<String, String>> options2) {
+		public PragmaExpToJdbcTrans(TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h, String clazz, String jdbcString, String prefix, List<Pair<String, String>> options1, List<Pair<String, String>> options2) {
 			this.jdbcString = jdbcString;
 			this.prefix = prefix;
 			this.clazz = clazz;
@@ -1143,7 +1143,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@SuppressWarnings("hiding")
-	public static class PragmaExpToJdbcQuery<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> extends PragmaExp {
+	public static class PragmaExpToJdbcQuery<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> extends PragmaExp {
 
 		public final String jdbcString;
 		public final String prefixSrc;
@@ -1152,14 +1152,14 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 		public final Map<String, String> options;
 
-		public final QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q;
+		public final QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q;
 
 		@Override
 		public Map<String, String> options() {
 			return options;
 		}
 
-		public PragmaExpToJdbcQuery(QueryExp<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q, String clazz, String jdbcString, String prefixSrc, String prefixDst, List<Pair<String, String>> options) {
+		public PragmaExpToJdbcQuery(QueryExp<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> Q, String clazz, String jdbcString, String prefixSrc, String prefixDst, List<Pair<String, String>> options) {
 			this.jdbcString = jdbcString;
 			this.prefixSrc = prefixSrc;
 			this.prefixDst = prefixDst;

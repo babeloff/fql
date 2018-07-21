@@ -38,7 +38,7 @@ import catdata.aql.fdm.InitialAlgebra;
 import catdata.aql.fdm.LiteralInstance;
 
 //TODO aql merge with InstExpRaw
-public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk,Pair<ID,Att>>> implements Raw {
+public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,ID,Chc<Sk,Pair<ID,Att>>> implements Raw {
 	
 	@Override
 	public int hashCode() {
@@ -77,7 +77,7 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 		return true;
 	}
 
-	public final InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I;
+	public final InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> I;
 	
 	private Ctx<String, List<InteriorLabel<Object>>> raw = new Ctx<>();
 	
@@ -100,7 +100,7 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 	}
 
 	//typesafe by covariance of read-only collections
-	public InstExpQuotient(InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I, List<Pair<Integer,Pair<RawTerm, RawTerm>>> eqs, List<Pair<String, String>> options) {
+	public InstExpQuotient(InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> I, List<Pair<Integer,Pair<RawTerm, RawTerm>>> eqs, List<Pair<String, String>> options) {
 		this.eqs = LocStr.proj2(eqs);
 		this.options = Util.toMapSafely(options);
 		this.I = I;
@@ -174,17 +174,17 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 	
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
-		Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
-		Collage<Ty,En,Sym,Fk,Att,Gen,Sk> col = new Collage<>(J.collage());
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
+		Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> J = I.eval(env);
+		Collage<Ty, Sym, En,Fk,Att,Gen,Sk> col = new Collage<>(J.collage());
 		
-		Set<Pair<Term<Ty,En,Sym,Fk,Att,Gen,Sk>, Term<Ty,En,Sym,Fk,Att,Gen,Sk>>> eqs0 = new HashSet<>();
+		Set<Pair<Term<Ty, Sym, En,Fk,Att,Gen,Sk>, Term<Ty, Sym, En,Fk,Att,Gen,Sk>>> eqs0 = new HashSet<>();
 
 		for (Pair<RawTerm, RawTerm> eq : eqs) {
 			try {
 				Map<String, Chc<Ty, En>> ctx = Collections.emptyMap();
 				
-				Triple<Ctx<Var,Chc<Ty,En>>,Term<Ty,En,Sym,Fk,Att,Gen,Sk>,Term<Ty,En,Sym,Fk,Att,Gen,Sk>>
+				Triple<Ctx<Var,Chc<Ty,En>>,Term<Ty, Sym, En,Fk,Att,Gen,Sk>,Term<Ty, Sym, En,Fk,Att,Gen,Sk>>
 				eq0 = RawTerm.infer1x(ctx, eq.first, eq.second, null, col, "", J.schema().typeSide.js).first3();
 						
 				if (J.type(eq0.second).left) {
@@ -205,7 +205,7 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 		
 		
 		AqlOptions strat = new AqlOptions(options, col, env.defaults);
-		InitialAlgebra<Ty,En,Sym,Fk,Att,Gen,Sk,ID> 
+		InitialAlgebra<Ty, Sym, En,Fk,Att,Gen,Sk,ID> 
 		initial = new InitialAlgebra<>(strat, J.schema(), col, new It(), Object::toString, Object::toString);
 				 
 		return new LiteralInstance<>(J.schema(), col.gens.map, col.sks.map, eqs0, initial.dp(), initial, (Boolean) strat.getOrDefault(AqlOption.require_consistency), (Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe)); 
@@ -214,7 +214,7 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 	//TODO aql: schema eval should happen first, so can typecheck before running
 	
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return I.type(G);
 	}
 	

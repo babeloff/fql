@@ -15,19 +15,19 @@ import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.It.ID;
 
 
-public class SigmaDeltaCounitTransform<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> 
-extends Transform<Ty, En2, Sym, Fk2, Att2, Pair<En1, X>, Y, Gen, Sk, ID, Chc<Y, Pair<ID, Att2>>, X, Y> {
+public class SigmaDeltaCounitTransform<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> 
+extends Transform<Ty, Sym, En2, Fk2, Att2, Pair<En1, X>, Y, Gen, Sk, ID, Chc<Y, Pair<ID, Att2>>, X, Y> {
 	
-	private final Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
-	private final Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> I;
+	private final Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> F;
+	private final Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> I;
 
-	private final DeltaInstance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> J;
-	private final SigmaInstance<Ty, En1, Sym, Fk1, Att1, Pair<En1, X>, Y, En2, Fk2, Att2, Pair<En1, X>, Y> K; //TODO aql recomputes
+	private final DeltaInstance<Ty, Sym, En1, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y> J;
+	private final SigmaInstance<Ty, Sym, En1, Fk1, Att1, Pair<En1, X>, Y, En2, Fk2, Att2, Pair<En1, X>, Y> K; //TODO aql recomputes
 
-	private final Ctx<Pair<En1, X>, Term<Void, En2, Void, Fk2, Void, Gen, Void>> gens = new Ctx<>();
-	private final Ctx<Y, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>> sks = new Ctx<>();
+	private final Ctx<Pair<En1, X>, Term<Void, Void, En2, Fk2, Void, Gen, Void>> gens = new Ctx<>();
+	private final Ctx<Y, Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>> sks = new Ctx<>();
 	
-	public SigmaDeltaCounitTransform(Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f, Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> i, AqlOptions options) {
+	public SigmaDeltaCounitTransform(Mapping<Ty, Sym, En1, Fk1, Att1, En2, Fk2, Att2> f, Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> i, AqlOptions options) {
 		F = f;
 		I = i;
 		J = new DeltaInstance<>(F, I);
@@ -44,22 +44,22 @@ extends Transform<Ty, En2, Sym, Fk2, Att2, Pair<En1, X>, Y, Gen, Sk, ID, Chc<Y, 
 	}
 
 	@Override
-	public Ctx<Pair<En1, X>, Term<Void, En2, Void, Fk2, Void, Gen, Void>> gens() {
+	public Ctx<Pair<En1, X>, Term<Void, Void, En2, Fk2, Void, Gen, Void>> gens() {
 		return gens;
 	}
 
 	@Override
-	public Ctx<Y, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>> sks() {
+	public Ctx<Y, Term<Ty, Sym, En2, Fk2, Att2, Gen, Sk>> sks() {
 		return sks;
 	}
 
 	@Override
-	public Instance<Ty, En2, Sym, Fk2, Att2, Pair<En1, X>, Y, ID, Chc<Y, Pair<ID, Att2>>> src() {
+	public Instance<Ty, Sym, En2, Fk2, Att2, Pair<En1, X>, Y, ID, Chc<Y, Pair<ID, Att2>>> src() {
 		return K;
 	}
 
 	@Override
-	public Instance<Ty, En2, Sym, Fk2, Att2, Gen, Sk, X, Y> dst() {
+	public Instance<Ty, Sym, En2, Fk2, Att2, Gen, Sk, X, Y> dst() {
 		return I;
 	}
 

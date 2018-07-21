@@ -36,7 +36,7 @@ import catdata.aql.fdm.SaturatedInstance;
 
 //TODO: aql change type of this to not be a lie
 public abstract class InstExpImport<Handle, Q>
-		extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> implements Raw {
+		extends InstExp<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> implements Raw {
 	
 	public abstract boolean equals(Object o);
 	public abstract int hashCode();
@@ -68,7 +68,7 @@ public abstract class InstExpImport<Handle, Q>
 		return toGen(en, o, prepend_entity_on_ids, import_col_seperator);
 	}
 	
-	public final SchExp<Ty, En, Sym, Fk, Att> schema;
+	public final SchExp<Ty, Sym, En, Fk, Att> schema;
 
 	public final Map<String, String> options;
 
@@ -81,7 +81,7 @@ public abstract class InstExpImport<Handle, Q>
 
 	public static IntRef counter = new IntRef(0);
 
-	public InstExpImport(SchExp<Ty, En, Sym, Fk, Att> schema, List<Pair<LocStr, Q>> map, List<Pair<String, String>> options) {
+	public InstExpImport(SchExp<Ty, Sym, En, Fk, Att> schema, List<Pair<LocStr, Q>> map, List<Pair<String, String>> options) {
 		this.schema = schema;
 
 		this.options = Util.toMapSafely(options);
@@ -96,14 +96,14 @@ public abstract class InstExpImport<Handle, Q>
 	}
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return schema;
 	}
 
-	public static  Term<Ty, Void, Sym, Void, Void, Void, Null<?>> objectToSk(
-			Schema<Ty, En, Sym, Fk, Att> sch, Object rhs, Gen x, Att att,
+	public static  Term<Ty, Sym, Void, Void, Void, Void, Null<?>> objectToSk(
+			Schema<Ty, Sym, En, Fk, Att> sch, Object rhs, Gen x, Att att,
 			Ctx<Ty, Collection<Null<?>>> sks, 
-			Ctx<Null<?>, Term<Ty, En, Sym, Fk, Att, Gen, Null<?>>> extraRepr, boolean shouldJS, boolean errMeansNull) {
+			Ctx<Null<?>, Term<Ty, Sym, En, Fk, Att, Gen, Null<?>>> extraRepr, boolean shouldJS, boolean errMeansNull) {
 		Ty ty = sch.atts.get(att).second;
 		if (rhs == null) {
 			Null<?> n = new Null<>(Term.Att(att, Term.Gen(x)));
@@ -153,12 +153,12 @@ public abstract class InstExpImport<Handle, Q>
 	protected Ctx<En, Collection<Gen>> ens0;
 	protected Ctx<Ty, Collection<Null<?>>> tys0;
 	protected Ctx<Gen, Ctx<Fk, Gen>> fks0;
-	protected Ctx<Gen, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Null<?>>>> atts0;
-	protected Ctx<Null<?>, Term<Ty, En, Sym, Fk, Att, Gen, Null<?>>> extraRepr;
+	protected Ctx<Gen, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Null<?>>>> atts0;
+	protected Ctx<Null<?>, Term<Ty, Sym, En, Fk, Att, Gen, Null<?>>> extraRepr;
 
 	@Override
-	public Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> eval(AqlEnv env) {
-		Schema<Ty, En, Sym, Fk, Att> sch = schema.eval(env);
+	public Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> eval(AqlEnv env) {
+		Schema<Ty, Sym, En, Fk, Att> sch = schema.eval(env);
 		for (Ty ty : sch.typeSide.tys) {
 			if (!sch.typeSide.js.java_tys.containsKey(ty)) {
 				throw new RuntimeException("Import is only allowed onto java types");
@@ -246,7 +246,7 @@ public abstract class InstExpImport<Handle, Q>
 			return forTheory(sch, ens0, tys0, fks0, atts0, op);
 		}
 
-		ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<>(sch, ens0, tys0, fks0, atts0,
+		ImportAlgebra<Ty, Sym, En, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<>(sch, ens0, tys0, fks0, atts0,
 				Object::toString, Object::toString, dont_check_closure);
 
 		return new SaturatedInstance<>(alg, alg, (Boolean) op.getOrDefault(AqlOption.require_consistency),
@@ -256,27 +256,27 @@ public abstract class InstExpImport<Handle, Q>
 
 	protected abstract String getHelpStr();
 
-	protected abstract Handle start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
+	protected abstract Handle start(Schema<Ty, Sym, En, Fk, Att> sch) throws Exception;
 	
 	protected abstract void end(Handle h) throws Exception;
 
-	protected abstract void shreddedAtt(Handle h, Att att, Q s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
+	protected abstract void shreddedAtt(Handle h, Att att, Q s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception;
 
-	protected abstract void shreddedFk(Handle h, Fk fk, Q s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
+	protected abstract void shreddedFk(Handle h, Fk fk, Q s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception;
 
-	protected abstract void shreddedEn(Handle h, En en, Q s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
+	protected abstract void shreddedEn(Handle h, En en, Q s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception;
 	
-	protected abstract void joinedEn(Handle h, En en, Q s, Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
+	protected abstract void joinedEn(Handle h, En en, Q s, Schema<Ty, Sym, En, Fk, Att> sch) throws Exception;
 	
 
 	@SuppressWarnings("hiding")
-	public static <Ty, En, Sym, Fk, Att, Gen> Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> forTheory(
-			Schema<Ty, En, Sym, Fk, Att> sch, Ctx<En, Collection<Gen>> ens0, Ctx<Ty, Collection<Null<?>>> tys0,
-			Ctx<Gen, Ctx<Fk, Gen>> fks0, Ctx<Gen, Ctx<Att, Term<Ty, Void, Sym, Void, Void, Void, Null<?>>>> atts0,
+	public static <Ty, Sym, En, Fk, Att, Gen> Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> forTheory(
+			Schema<Ty, Sym, En, Fk, Att> sch, Ctx<En, Collection<Gen>> ens0, Ctx<Ty, Collection<Null<?>>> tys0,
+			Ctx<Gen, Ctx<Fk, Gen>> fks0, Ctx<Gen, Ctx<Att, Term<Ty, Sym, Void, Void, Void, Void, Null<?>>>> atts0,
 			AqlOptions op) {
 
-		Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Null<?>>, Term<Ty, En, Sym, Fk, Att, Gen, Null<?>>>> eqs0 = new HashSet<>();
-		Collage<Ty, En, Sym, Fk, Att, Gen, Null<?>> col = new Collage<>(sch.collage());
+		Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Null<?>>, Term<Ty, Sym, En, Fk, Att, Gen, Null<?>>>> eqs0 = new HashSet<>();
+		Collage<Ty, Sym, En, Fk, Att, Gen, Null<?>> col = new Collage<>(sch.collage());
 		for (Gen gen : fks0.keySet()) {
 			for (Fk fk : fks0.get(gen).keySet()) {
 				eqs0.add(new Pair<>(Term.Fk(fk, Term.Gen(gen)), Term.Gen(fks0.get(gen).get(fk))));
@@ -300,23 +300,23 @@ public abstract class InstExpImport<Handle, Q>
 			}
 		}
 
-		InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>, ID> initial = new InitialAlgebra<>(op, sch, col, new It(),
+		InitialAlgebra<Ty, Sym, En, Fk, Att, Gen, Null<?>, ID> initial = new InitialAlgebra<>(op, sch, col, new It(),
 				(Gen x) -> x.toString(), (Null<?> x) -> x.toString());
 
-		Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, ID, Chc<Null<?>, Pair<ID, Att>>> I = new LiteralInstance<>(sch,
+		Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, ID, Chc<Null<?>, Pair<ID, Att>>> I = new LiteralInstance<>(sch,
 				col.gens.map, col.sks.map, eqs0, initial.dp(), initial,
 				(Boolean) op.getOrDefault(AqlOption.require_consistency),
 				(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 
 		@SuppressWarnings("unchecked")
-		Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>> J = (Instance<Ty, En, Sym, Fk, Att, Gen, Null<?>, Gen, Null<?>>) ((Object) I);
+		Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>> J = (Instance<Ty, Sym, En, Fk, Att, Gen, Null<?>, Gen, Null<?>>) ((Object) I);
 
 		return J;
 	}
 
 	/*
 	//different than rawterms
-	private void assertUnambig(String o, Schema<Ty, En, Sym, Fk, Att> sch) {
+	private void assertUnambig(String o, Schema<Ty, Sym, En, Fk, Att> sch) {
 		int i = 0;
 		if (sch.typeSide.tys.contains(new Ty(o))) {
 			i++;
@@ -340,7 +340,7 @@ public abstract class InstExpImport<Handle, Q>
 	} */
 	
 	@SuppressWarnings("unused")
-	private void totalityCheck(Schema<Ty, En, Sym, Fk, Att> sch, Map<En, Q> ens, Map<Ty, Q> tys,
+	private void totalityCheck(Schema<Ty, Sym, En, Fk, Att> sch, Map<En, Q> ens, Map<Ty, Q> tys,
 			Map<Att, Q> atts, Map<Fk, Q> fks) {
 		// for (En En : sch.ens) {
 		// if (!ens.containsKey(En)) {

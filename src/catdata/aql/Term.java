@@ -20,7 +20,7 @@ import catdata.provers.KBExp;
 import catdata.provers.KBExp.KBApp;
 import catdata.provers.KBExp.KBVar;
 
-public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
+public final class Term<Ty, Sym, En, Fk, Att, Gen, Sk> {
 	
 	
 	<X> X visit(Function<Var, X> varf, BiFunction<Object, Ty, X> tyf, BiFunction<Sym, List<X>, X> symf, BiFunction<Fk, X, X> fkf, BiFunction<Att, X, X> attf, Function<Gen, X> genf, Function<Sk, X> skf) {
@@ -38,7 +38,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 			return skf.apply(sk);
 		} else if (sym != null) {
 			List<X> l = new ArrayList<>(args.size());
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> x : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> x : args) {
 				l.add(x.visit(varf, tyf, symf, fkf, attf, genf, skf));
 			}
 			return symf.apply(sym, l);
@@ -47,29 +47,29 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	}
 	
 	
-	private static <Ty, En, Sym, Fk, Att, Gen, Sk,Ty2, En2, Sym2, Fk2, Att2, Gen2, Sk2> Term<Ty2, En2, Sym2, Fk2, Att2, Gen2, Sk2>
-	map(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term, Function<Ty,Ty2> tyf, Function<Sym, Sym2> symf, Function<Fk, Fk2> fkf, Function<Att, Att2> attf, Function<Gen, Gen2> genf, Function<Sk, Sk2> skf) {
+	private static <Ty, Sym, En, Fk, Att, Gen, Sk, Ty2, Sym2, En2, Fk2, Att2, Gen2, Sk2> Term<Ty2, Sym2, En2, Fk2, Att2, Gen2, Sk2>
+	map(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term, Function<Ty,Ty2> tyf, Function<Sym, Sym2> symf, Function<Fk, Fk2> fkf, Function<Att, Att2> attf, Function<Gen, Gen2> genf, Function<Sk, Sk2> skf) {
 		return term.visit(Term::Var, (obj,ty) -> Obj(obj, tyf.apply(ty)), (sym,args) -> Sym(symf.apply(sym), args), (fk,arg) -> Fk(fkf.apply(fk),arg), (att,arg) -> Att(attf.apply(att),arg), gen -> Gen(genf.apply(gen)), sk -> Sk(skf.apply(sk)));
 	}
 	
-	public <Ty2, En2, Sym2, Fk2, Att2, Gen2, Sk2> Term<Ty2, En2, Sym2, Fk2, Att2, Gen2, Sk2>
+	public <Ty2, Sym2, En2, Fk2, Att2, Gen2, Sk2> Term<Ty2, Sym2, En2, Fk2, Att2, Gen2, Sk2>
 	map(Function<Ty,Ty2> tyf, Function<Sym, Sym2> symf, Function<Fk, Fk2> fkf, Function<Att, Att2> attf, Function<Gen, Gen2> genf, Function<Sk, Sk2> skf) {
 		return map(this, tyf, symf, fkf, attf, genf, skf);
 	}
 	
-	public <Fk2> Term<Ty, En, Sym, Fk2, Att, Gen, Sk> mapFk(Function<Fk, Fk2> f) {
+	public <Fk2> Term<Ty, Sym, En, Fk2, Att, Gen, Sk> mapFk(Function<Fk, Fk2> f) {
 		return map(this, Function.identity(), Function.identity(), f, Function.identity(), Function.identity(), Function.identity());
 	}
 	
-	public <Att2> Term<Ty, En, Sym, Fk, Att2, Gen, Sk> mapAtt(Function<Att, Att2> f) {
+	public <Att2> Term<Ty, Sym, En, Fk, Att2, Gen, Sk> mapAtt(Function<Att, Att2> f) {
 		return map(this, Function.identity(), Function.identity(), Function.identity(), f, Function.identity(), Function.identity());
 	}
 	
-	public <Gen2> Term<Ty, En, Sym, Fk, Att, Gen2, Sk> mapGen(Function<Gen, Gen2> genf) {
+	public <Gen2> Term<Ty, Sym, En, Fk, Att, Gen2, Sk> mapGen(Function<Gen, Gen2> genf) {
 		return map(this, Function.identity(), Function.identity(), Function.identity(), Function.identity(), genf, Function.identity());
 	}
 	
-	public <Gen2,Sk2> Term<Ty, En, Sym, Fk, Att, Gen2, Sk2> mapGenSk(Function<Gen, Gen2> genf, Function<Sk, Sk2> skf) {
+	public <Gen2,Sk2> Term<Ty, Sym, En, Fk, Att, Gen2, Sk2> mapGenSk(Function<Gen, Gen2> genf, Function<Sk, Sk2> skf) {
 		return map(this, Function.identity(), Function.identity(), Function.identity(), Function.identity(), genf, skf);
 	}
 
@@ -79,12 +79,12 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	public final Att att;
 	public final Gen gen;
 	public final Sk sk;
-	public final List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args;
-	public final Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg;
+	public final List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args;
+	public final Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg;
 	public final Object obj;
 	public final Ty ty;
 	
-	public Term<Void, En, Void, Fk, Void, Gen, Void> asArgForAtt() {
+	public Term<Void, Void, En, Fk, Void, Gen, Void> asArgForAtt() {
 		if (gen != null) {
 			return asGen();
 		} else if (var != null) {
@@ -95,7 +95,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		throw new RuntimeException("Anomaly: please report " + this);
 	}
 	
-	public Term<Void, En, Void, Fk, Void, Gen, Void> asArgForFk() {
+	public Term<Void, Void, En, Fk, Void, Gen, Void> asArgForFk() {
 		if (fk != null) {
 			return Fk(fk, arg.asArgForFk());
 		} else if (gen != null) {
@@ -107,28 +107,28 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	}
 	
 	@SuppressWarnings("hiding")
-	public <Ty, En, Sym, Fk, Att, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> asGen() {
+	public <Ty, Sym, En, Fk, Att, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> asGen() {
 		if (gen != null) {
 			return Gen(gen);
 		}
 		throw new RuntimeException("Anomaly: please report");
 	}
 	@SuppressWarnings("hiding")
-	public <Ty, En, Sym, Fk, Att, Gen> Term<Ty, En, Sym, Fk, Att, Gen, Sk> asSk() {
+	public <Ty, Sym, En, Fk, Att, Gen> Term<Ty, Sym, En, Fk, Att, Gen, Sk> asSk() {
 		if (sk != null) {
 			return Sk(sk);
 		}
 		throw new RuntimeException("Anomaly: please report");
 	}
 	@SuppressWarnings("hiding")
-    private <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> asVar() {
+    private <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> asVar() {
 		if (var != null) {
 			return Var(var);
 		}
 		throw new RuntimeException("Anomaly: please report");
 	}
 	@SuppressWarnings("hiding")
-	public <En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> asObj() {
+	public <En, Sym, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> asObj() {
 		if (obj != null) {
 			return Obj(obj, ty);
 		}
@@ -140,7 +140,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		if (var != null) {
 			return true;
 		} else if (sym != null) {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> t : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> t : args) {
 				if (!t.isTypeSide()) {
 					return false;
 				}
@@ -184,7 +184,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		if (var != null) {
 			return false;
 		} else if (args != null) {
-            for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> t : args) {
+            for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> t : args) {
                 if (!t.isGround()) {
                     return false;
                 }
@@ -278,7 +278,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return ret;
 	}
 
-	private Term(Var var, Sym sym, Fk fks, Att att, Gen gen, Sk sk, List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args, Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg, Object obj, Ty ty) {
+	private Term(Var var, Sym sym, Fk fks, Att att, Gen gen, Sk sk, List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args, Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg, Object obj, Ty ty) {
 		this.var = var;
 		this.sym = sym;
 		fk = fks;
@@ -393,7 +393,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return toString(Object::toString, Object::toString);
 	}
 
-	private static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Head(Head<Ty, En, Sym, Fk, Att, Gen, Sk> head, List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args) {
+	private static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Head(Head<Ty, Sym, En, Fk, Att, Gen, Sk> head, List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args) {
 		if (head == null) {
 			throw new RuntimeException("Attempt to create term from null head");
 		} else if (args == null) {
@@ -424,14 +424,14 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	
 
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Var(Var var) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Var(Var var) {
 		if (var == null) {
 			throw new RuntimeException("Attempt to create a term with a null variable");
 		}
 		return new Term<>(var, null, null, null, null, null, null, null, null, null);
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Sym(Sym sym, List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Sym(Sym sym, List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args) {
 		if (sym == null) {
 			throw new RuntimeException("Attempt to create a term with a null symbol");
 		}
@@ -441,7 +441,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return new Term<>(null, sym, null, null, null, null, args, null, null, null);
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Att(Att att, Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Att(Att att, Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg) {
 		if (att == null) {
 			throw new RuntimeException("Attempt to create a term with a null attribute");
 		}
@@ -451,7 +451,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return new Term<>(null, null, null, att, null, null, null, arg, null, null);
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Fk(Fk fk, Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Fk(Fk fk, Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg) {
 		if (fk == null) {
 			throw new RuntimeException("Attempt to create a term with a null foreign key");
 		}
@@ -461,7 +461,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return new Term<>(null, null, fk, null, null, null, null, arg, null, null);
 	}
 	
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Fks(List<Fk> fks, Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Fks(List<Fk> fks, Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg) {
 		if (fks == null) {
 			throw new RuntimeException("Attempt to create a term with null foreign keys");
 		}
@@ -474,21 +474,21 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return arg;
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Gen(Gen gen) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Gen(Gen gen) {
 		if (gen == null) {
 			throw new RuntimeException("Attempt to create a term with a null generator");
 		}
 		return new Term<>(null, null, null, null, gen, null, null, null, null, null);
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Sk(Sk sk) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Sk(Sk sk) {
 		if (sk == null) {
 			throw new RuntimeException("Attempt to create a term with a null labelled null");
 		}
 		return new Term<>(null, null, null, null, null, sk, null, null, null, null);
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> Obj(Object obj, Ty ty) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> Obj(Object obj, Ty ty) {
 		if (ty == null) {
 			throw new RuntimeException("Attempt to create a primitive with a null type");
 		}
@@ -498,7 +498,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return new Term<>(null, null, null, null, null, null, null, null, obj, ty);
 	}
 /*
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> ObjAqlInternal(Object obj) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> ObjAqlInternal(Object obj) {
 		if (obj == null) {
 			throw new RuntimeException("Attempt to create a primitive with null object");
 		}
@@ -590,7 +590,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 			return var;
 		} else if (sym != null) {
 			Var var = null;
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args) {
 				Var var2 = arg.getOnlyVar();
 				if (var2 == null) {
 					continue;
@@ -612,16 +612,16 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		throw new RuntimeException("Anomaly: please report");
 	}
 
-	public boolean containsProper(Head<Ty, En, Sym, Fk, Att, Gen, Sk> head) {
+	public boolean containsProper(Head<Ty, Sym, En, Fk, Att, Gen, Sk> head) {
 		return !head.equals(new Head<>(this)) && contains(head);
 	}
-	public boolean contains(Head<Ty, En, Sym, Fk, Att, Gen, Sk> head) {
+	public boolean contains(Head<Ty, Sym, En, Fk, Att, Gen, Sk> head) {
 		if (var != null) {
 			return false;
 		} else if (new Head<>(this).equals(head)) {
 			return true;
 		}
-		for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+		for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args()) {
 			if (arg.contains(head)) {
 				return true;
 			}
@@ -652,7 +652,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (arg != null) {
 			return arg.containsAtt(att);
 		} else if (args != null) {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args) {
 				if (arg.containsAtt(att)) {
 					return true;
 				}
@@ -671,7 +671,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (arg != null) {
 			return arg.containsFk(fk);
 		} else if (args != null) {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args) {
 				if (arg.containsFk(fk)) {
 					return true;
 				}
@@ -691,7 +691,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (arg != null) {
 			return arg.containsSym(sym);
 		} else if (args != null) {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args) {
 				if (arg.containsSym(sym)) {
 					return true;
 				}
@@ -701,7 +701,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return false;
 	} */
 
-	public List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args() {
+	public List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args() {
 		if (args != null) {
 			return args;
 		} else if (arg != null) {
@@ -710,42 +710,42 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return Collections.emptyList();
 	}
 	/*
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replaceGen(Gen gen, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replaceGen(Gen gen, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		return replaceHead(Head.Gen(gen), Collections.emptyList(), term);
 	}
 
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replaceSk(Sk sk, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replaceSk(Sk sk, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		return replaceHead(Head.Sk(sk), Collections.emptyList(), term);
 	}
 
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replaceAtt(Att att, Var var, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replaceAtt(Att att, Var var, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		return replaceHead(Head.Att(att), Collections.singletonList(var), term);
 	}
 
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replaceFk(Fk fk, Var var, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replaceFk(Fk fk, Var var, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		return replaceHead(Head.Fk(fk), Collections.singletonList(var), term);
 	}
 
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replaceSym(Sym sym, List<Var> args, Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replaceSym(Sym sym, List<Var> args, Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {
 		return replaceHead(Head.Sym(sym), args, term);
 	}
 */
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replaceHead(Head<Ty, En, Sym, Fk, Att, Gen, Sk> replacee, List<Var> vars, Term<Ty, En, Sym, Fk, Att, Gen, Sk> replacer) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replaceHead(Head<Ty, Sym, En, Fk, Att, Gen, Sk> replacee, List<Var> vars, Term<Ty, Sym, En, Fk, Att, Gen, Sk> replacer) {
 		if (var != null) {
 			return this;
 		}
 		
-		List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args = new LinkedList<>();
-		for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+		List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args = new LinkedList<>();
+		for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args()) {
 			args.add(arg.replaceHead(replacee, vars, replacer));
 		}
 
-		Head<Ty, En, Sym, Fk, Att, Gen, Sk> head = new Head<>(this);
+		Head<Ty, Sym, En, Fk, Att, Gen, Sk> head = new Head<>(this);
 		if (!head.equals(replacee)) {
 			return Head(head, args);
 		}
 		
-		Map<Var, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> map = new HashMap<>();
+		Map<Var, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> map = new HashMap<>();
 		int i = 0;
 		for (Var var : vars) {
 			map.put(var, args.get(i++));
@@ -754,26 +754,26 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 				
 	}
 
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> subst(Map<Var, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> map) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> subst(Map<Var, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> map) {
 		if (var != null) {
 			if (map.containsKey(var)) {
 				return map.get(var);
 			}
 			return this;
 		} 
-		Head<Ty, En, Sym, Fk, Att, Gen, Sk> head = new Head<>(this);
-		List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args = args().stream().map(x -> x.subst(map)).collect(Collectors.toList());
+		Head<Ty, Sym, En, Fk, Att, Gen, Sk> head = new Head<>(this);
+		List<Term<Ty, Sym, En, Fk, Att, Gen, Sk>> args = args().stream().map(x -> x.subst(map)).collect(Collectors.toList());
 		return Head(head, args);
 	}
 
-	public KBExp<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> toKB() {
+	public KBExp<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> toKB() {
 		if (var != null) {
 			return new KBVar<>(var);
 		}
 		return new KBApp<>(new Head<>(this), args().stream().map(Term::toKB).collect(Collectors.toList()));	
 	}
 
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> fromKB(KBExp<Head<Ty, En, Sym, Fk, Att, Gen, Sk>, Var> e) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> fromKB(KBExp<Head<Ty, Sym, En, Fk, Att, Gen, Sk>, Var> e) {
 		if (e.isVar) {
 			return Var(e.getVar().var);
 		}
@@ -786,7 +786,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (gen != null) {
 			gens.add(gen);
 		} else {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args()) {
 				arg.gens(gens);
 			}
 		} 
@@ -798,7 +798,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (fk != null) {
 			fks.add(fk);
 		} else {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args()) {
 				arg.fks(fks);
 			}
 		} 
@@ -810,7 +810,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (att != null) {
 			atts.add(att);
 		} else {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args()) {
 				arg.atts(atts);
 			}
 		} 
@@ -822,7 +822,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else if (obj != null) {
 			objs.add(new Pair<>(obj, ty));
 		} else {
-			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+			for (Term<Ty, Sym, En, Fk, Att, Gen, Sk> arg : args()) {
 				arg.objs(objs);
 			}
 		} 
@@ -830,8 +830,8 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 
 	@SuppressWarnings({ "unchecked", "hiding" })
 	//@Deprecated
-	public <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> convert() {
-		return (Term<Ty, En, Sym, Fk, Att, Gen, Sk>) this;
+	public <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> convert() {
+		return (Term<Ty, Sym, En, Fk, Att, Gen, Sk>) this;
 	}
 
 
@@ -839,7 +839,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return toKB().vars();
 	} 
 	
-	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> upTalg(Term<Ty, Void, Sym, Void, Void, Void, Sk> term) {
+	public static <Ty, Sym, En, Fk, Att, Gen, Sk> Term<Ty, Sym, En, Fk, Att, Gen, Sk> upTalg(Term<Ty, Sym, Void, Void, Void, Void, Sk> term) {
 		return term.map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity()); 
 	}	
 
@@ -878,7 +878,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return l;
 	}
 
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replace(Map<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> g) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replace(Map<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> g) {
 		if (g.containsKey(this)) {
 			return g.get(this);
 		} else if (obj != null || gen != null || sk != null || var != null) {
@@ -896,7 +896,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return Util.anomaly();
 	}
 	
-	public Term<Ty, En, Sym, Fk, Att, Gen, Sk> replace(Term<Ty, En, Sym, Fk, Att, Gen, Sk> s, Term<Ty, En, Sym, Fk, Att, Gen, Sk> t) {
+	public Term<Ty, Sym, En, Fk, Att, Gen, Sk> replace(Term<Ty, Sym, En, Fk, Att, Gen, Sk> s, Term<Ty, Sym, En, Fk, Att, Gen, Sk> t) {
 		return replace(Util.singMap(s, t));
 	}
 
@@ -926,8 +926,8 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 
 
 	@SuppressWarnings({ "unchecked", "hiding" })
-	public <En> Term<Ty, En, Sym, Fk, Att, Gen, Sk> mapEn() {
-		return (Term<Ty, En, Sym, Fk, Att, Gen, Sk>) this;
+	public <En> Term<Ty, Sym, En, Fk, Att, Gen, Sk> mapEn() {
+		return (Term<Ty, Sym, En, Fk, Att, Gen, Sk>) this;
 	} 
 	
 //	cnf(associativity_plus,axiom,

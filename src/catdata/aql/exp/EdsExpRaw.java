@@ -31,7 +31,7 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
 
-public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
+public class EdsExpRaw extends EdsExp<Ty, Sym, En, Fk, Att> implements Raw {
 
 
 	
@@ -86,7 +86,7 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 		return ret;
 	}
 
-	public final SchExp<Ty, En, Sym, Fk, Att> schema;
+	public final SchExp<Ty, Sym, En, Fk, Att> schema;
 
 	public final Set<String> imports;
 
@@ -100,7 +100,7 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 	}
 	
 	public EdsExpRaw(SchExp<?, ?, ?, ?, ?> schema, List<LocStr> imports, List<Pair<Integer, EdExpRaw>> eds, List<Pair<String, String>> options) {
-		this.schema = (SchExp<Ty, En, Sym, Fk, Att>) schema;
+		this.schema = (SchExp<Ty, Sym, En, Fk, Att>) schema;
 		this.imports = LocStr.set1(imports);
 		this.eds = LocStr.proj2(eds);
 		this.options = Util.toMapSafely(options);
@@ -123,7 +123,7 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 	}
 
 	public EdsExpRaw(SchExp<?, ?, ?, ?, ?> schema, List<String> imports, List<EdExpRaw> eds, @SuppressWarnings("unused") Object o) {
-		this.schema = (SchExp<Ty, En, Sym, Fk, Att>) schema;
+		this.schema = (SchExp<Ty, Sym, En, Fk, Att>) schema;
 		this.imports = new HashSet<>(imports);
 		this.eds = new HashSet<>(eds);
 		this.options = Collections.emptyMap();
@@ -149,12 +149,12 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 	}
 
 	@Override
-	public Constraints<Ty, En, Sym, Fk, Att> eval(AqlEnv env) {
-		Schema<Ty, En, Sym, Fk, Att> sch = schema.eval(env);
-		Collection<ED<Ty, En, Sym, Fk, Att>> l = new LinkedList<>();
+	public Constraints<Ty, Sym, En, Fk, Att> eval(AqlEnv env) {
+		Schema<Ty, Sym, En, Fk, Att> sch = schema.eval(env);
+		Collection<ED<Ty, Sym, En, Fk, Att>> l = new LinkedList<>();
 		for (String k : imports) {
 			@SuppressWarnings("unchecked")
-			Constraints<Ty, En, Sym, Fk, Att> v = env.defs.eds.get(k);
+			Constraints<Ty, Sym, En, Fk, Att> v = env.defs.eds.get(k);
 			l.addAll(v.eds);
 		}
 		for (EdExpRaw e : eds) {
@@ -166,7 +166,7 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 	}
 
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> type(AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> type(AqlTyping G) {
 		return schema;
 	}
 	
@@ -343,11 +343,11 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 				raw.put("where ", f);
 			}
 
-			public ED<Ty, En, Sym, Fk, Att> eval(Schema<Ty, En, Sym, Fk, Att> sch, AqlOptions ops) {
-				Pair<Ctx<Var, En>, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>>> 
+			public ED<Ty, Sym, En, Fk, Att> eval(Schema<Ty, Sym, En, Fk, Att> sch, AqlOptions ops) {
+				Pair<Ctx<Var, En>, Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>>> 
 				x = eval1(sch, As, Awh);
 			
-				Pair<Ctx<Var, En>, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>>> 
+				Pair<Ctx<Var, En>, Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>>> 
 				y = eval1(sch, Util.append(As, Es), Ewh);
 				
 				for (Var k : x.first.keySet()) {
@@ -358,13 +358,13 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 
 
 
-			private static Pair<Ctx<Var, En>, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>>> eval1(Schema<Ty, En, Sym, Fk, Att> sch, List<Pair<String, String>> As, Set<Pair<RawTerm, RawTerm>> Awh) {
+			private static Pair<Ctx<Var, En>, Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>>> eval1(Schema<Ty, Sym, En, Fk, Att> sch, List<Pair<String, String>> As, Set<Pair<RawTerm, RawTerm>> Awh) {
 				Ctx<Var, En> As0 = new Ctx<>();
-				Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> 
+				Set<Pair<Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>>> 
 				Awh0 = new HashSet<>();
 				Ctx<String, Chc<Ty,En>> As1 = new Ctx<>();
 				
-				Collage<Ty, En, Sym, Fk, Att, Void, Void> 
+				Collage<Ty, Sym, En, Fk, Att, Void, Void> 
 				col = new Collage<>(sch.collage());
 				
 				for (Pair<String, String> p : As) {
@@ -379,7 +379,7 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 				}
 			
 				for (Pair<RawTerm, RawTerm> eq : Awh) {
-						Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>
+						Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>
 						eq0 =
 						RawTerm.infer1x(As1.map, eq.first, eq.second, null, col.convert(), "", sch.typeSide.js).first3();
 								

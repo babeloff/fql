@@ -482,7 +482,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 									.stream() 
 									.map(lvar -> 
 										new Pair<String, String>(
-												lvar.symbol().getText(),
+												lvar.symbol().getText(), 
 												nullable(lvar.typesideLocalType())))
 									.collect(Collectors.toList()),
 								this.terms.get(elt.typesideEval(0)), 
@@ -930,9 +930,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
-			
+				
 		final MapExpRaw 
 		mapping = new MapExpRaw(schemaSrc, schemaTgt, imports, entities, options);
 				
@@ -1093,7 +1093,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+					.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
 		
 		final QueryExp<Ty,En,Sym,Fk,Att,En,Fk,Att>
@@ -1110,7 +1110,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+					.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
 		
 		final QueryExp<Ty,En,Sym,Fk,Att,En,Fk,Att>
@@ -1129,9 +1129,9 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(ctx)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
-		
+				
 		final QueryExp.QueryExpCompose<Ty,En,Sym,Fk,Att,En,Fk,Att,En,Fk,Att> 
 		comp = new QueryExp.QueryExpCompose<>(queries.get(0), queries.get(1), options);
 				
@@ -1234,7 +1234,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(ctx)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
 		
 		final PreBlock 
@@ -1365,7 +1365,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
 		
 		final InstExp<Ty, En, Sym, Fk, Att, Row<En, X>, Y, Row<En, X>, Y>
@@ -1387,7 +1387,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
 		
 		final InstExp<Ty, En, Sym, Fk, Att, ?, Sk, ?, Y>
@@ -1425,8 +1425,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final Map<String, String> 
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
 		
 		final InstExp.InstExpSigma<Ty,En,Sym,Fk,Att,Gen,Sk,En,Fk,Att,X,Y>
@@ -1455,7 +1455,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExp.InstExpCoProdSigma<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y>
@@ -1479,7 +1479,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
 		
 		final InstExp.InstExpCoProdFull<Ty, En, Sym, Fk, Att, ?,?,?,?>
@@ -1503,10 +1503,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		instList = instKind.stream() 
 			.map(x -> new Pair<>(mapping, this.exp_inst.get(x)))
 			.collect(Collectors.toList());
-		  
+		
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExp.InstExpCoProdSigma<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
@@ -1527,10 +1527,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		instList = instKind.stream() 
 			.map(x -> x.getText())
 			.collect(Collectors.toList());
-		  
+		
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExp.InstExpCoProdFull<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y>
@@ -1551,7 +1551,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		  
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExp.InstExpCoEq<Ty,En,Sym,Fk,Att,Gen,Sk,Gen,Sk,X,Y,X,Y>
@@ -1584,12 +1584,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 					new Pair<>(makeLocStr(x.schemaArrowId()),
 							this.exp_trans.get(x.transformKind())))
 			.collect(Collectors.toList());
-		  
+				
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
-				
+		
 		final InstExp.InstExpColim<String,String,Ty,En,Sym,Fk,Att,Gen,Sk,X,Y>
 		inst = new InstExp.InstExpColim<>(graph, schema, nodes, edges, options);
 		
@@ -1632,10 +1632,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 									this.terms.get(eqn.instancePath(0)),
 									this.terms.get(eqn.instancePath(1)))))
 			.collect(Collectors.toList());
-		  
+		
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExp<?,?,?,?,?, Gen, Sk, ?,?> 
@@ -1654,10 +1654,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final EdsExp<Ty,En,Sym,Fk,Att>
 		edsExp = this.exp_rule.get(constraintKind);
-		  
+		
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExp.InstExpChase<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y>
@@ -1695,7 +1695,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final MappingKindContext mapKind = ctx.mappingKind();
 		final InstanceKindContext instKind = ctx.instanceKind();
 		final InstancePiSectionContext sect = ctx.instancePiSection();
-		  
+		
 		final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att>
 		mapExp = this.exp_map.get(mapKind);
 		
@@ -1704,8 +1704,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final Map<String, String> 
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+					.map(s -> this.aopts.get(s.allOptions()))
+					.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
 		
 		final InstExp.InstExpPi<Ty,En,Sym,Fk,Att,Gen,Sk,En,Fk,Att,X,Y>
@@ -1772,10 +1772,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.collect(Collectors.toList());
 		
 		eqs.addAll(meqs);
-		  
+		
 		final List<Pair<String,String>> 
 		options = Optional.ofNullable(sect)
-					.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 		
 		final InstExpRaw
@@ -1933,15 +1933,15 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X,Y,X,Y>
 		transExp = this.exp_trans.get(transRef); 
-		 
+		
 		final List<Pair<String,String>> 
 		options0 = Optional.ofNullable(sect0)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.orElseGet(LinkedList::new), 
+				.map(s -> this.aopts.get(s.allOptions()))
+				.orElseGet(LinkedList::new), 
 		options1 = Optional.ofNullable(sect1)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
-		
+			
 		final TransExp.TransExpCoEval<Ty,En,Sym,Fk, Att,Gen,Sk,En, Fk,Att,Gen,Sk, X,Y,X,Y> 
 		trans = new TransExp.TransExpCoEval<>(queryExp, transExp, options0, options1);
 			
@@ -1959,17 +1959,17 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final TransExp<Ty, En, Sym, Fk, Att, Gen, Sk, Gen, Sk, X, Y, X, Y>
 		transExp = this.exp_trans.get(transRef); 
-		 
+		
 		final Map<String, String> 
 		options0 = Optional.ofNullable(sect0)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
-			.orElseGet(HashMap::new),
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> toMap(s))
+				.orElseGet(HashMap::new),  
 		options1 = Optional.ofNullable(sect1)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
-		
+			
 		final TransExp.TransExpSigma<?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExp.TransExpSigma<>(mapExp, transExp, options0, options1); 
 			
@@ -2002,13 +2002,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		instExp = this.exp_inst.get(instRef);
-		 
+		
 		final Map<String, String> 
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
-		
+			
 		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp, options);
 			
@@ -2025,13 +2025,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		instExp = this.exp_inst.get(instRef);
-		 
+		
 		final Map<String, String> 
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
-		
+			
 		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
 		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp, options);
 			
@@ -2051,10 +2051,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		 
 		final Map<String, String> 
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+				.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
-		
+			
 		final TransExpCoEvalEvalUnit<Ty,En,Sym,Fk,Att,Gen,Sk,En,Fk,Att,X,Y>
 		trans = new TransExpCoEvalEvalUnit<>(queryExp, instExp, options);
 			
@@ -2071,13 +2071,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> 
 		instExp = this.exp_inst.get(instRef);
-		 
+		
 		final Map<String, String> 
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
-			.map(s -> toMap(s))
+						.map(s -> this.aopts.get(s.allOptions()))
+						.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
-		
+			
 		final TransExpCoEvalEvalCoUnit<Ty,En,Sym,Fk,Att,Gen,Sk,En,Fk,Att,X,Y>
 		trans = new TransExpCoEvalEvalCoUnit<>(queryExp, instExp, options);
 			
@@ -2097,16 +2097,16 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		final List<Pair<LocStr, String>>
 		sqls = sect.transformSqlEntityExpr().stream()
-			.map(x -> new Pair<>(
-				makeLocStr(x.schemaEntityId()),
-				x.transformSqlExpr().getText()))
+					.map(x -> new Pair<>(
+						makeLocStr(x.schemaEntityId()),
+						x.transformSqlExpr().getText()))
             .collect(Collectors.toList());  
 		 
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+					.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
-		
+			
 		final TransExpJdbc<X,Y,X,Y> 
 		trans = new TransExpJdbc<>(jdbcClass.getText(), jdbcUri.getText(), instSrc, instTgt, sqls, options);
 
@@ -2123,19 +2123,19 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		instSrcExp = this.exp_inst.get(instSrcRef),
 		instTgtExp = this.exp_inst.get(instTgtRef);
-		  
+		
 		final List<Pair<LocStr, String>>
 		transFiles = sect.transformFileExpr().stream()
-			.map(x -> new Pair<>(
-				makeLocStr(x.schemaEntityId()),
-				x.transformFile().getText()))
+						.map(x -> new Pair<>(
+							makeLocStr(x.schemaEntityId()),
+							x.transformFile().getText()))
 	        .collect(Collectors.toList());
         
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+						.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
-				
+			
 		final TransExpCsv<X,Y,X,Y> 
 		trans = new TransExpCsv<>(instSrcExp, instTgtExp, transFiles, options);
 			
@@ -2162,12 +2162,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 									makeLocStr(x.symbol()), 
 									this.terms.get(x.schemaPath())))
 				.collect(Collectors.toList());
-        
+		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
-			.map(s -> this.aopts.get(s.allOptions()))
+				.map(s -> this.aopts.get(s.allOptions()))
 			.orElseGet(LinkedList::new);
-		
+			
 		final TransExpRaw 
 		trans = new TransExpRaw(instSrcExp, instTgtExp, imports, gens, options); 
 			
@@ -2640,20 +2640,20 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		exp = new ColimSchExp.ColimSchExpVar<>(ctx.getText());
 		this.exp_scolim.put(ctx, exp);
 	}
-		
+	
 	@Override public void exitSchemaColimitExp_Quotient(AqlParser.SchemaColimitExp_QuotientContext ctx) {
 		final List<SchemaRefContext> schRefs = ctx.schemaRef();
 		final TypesideRefContext tyRef = ctx.typesideRef();
 		final SchemaColimitQuotientSectionContext sect = ctx.schemaColimitQuotientSection();
-		
+	
 		final TyExp<Ty, Sym> 
 		ty = this.exp_ty.get(tyRef);
-		
+	
 		final List<LocStr> 
 		schs = schRefs.stream() 
 			.map(ref -> makeLocStr(ref))
 			.collect(Collectors.toList());
-		
+	
 		final List<Pair<Integer, Quad<String, String, String, String>>> 
 		eqEn = sect.scQuotientEqu().stream() 
 			.map(eqn -> {
@@ -2721,5 +2721,5 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final RawTerm term = new RawTerm(ctx.schemaTermId().getText());
 		this.terms.put(ctx,term);
 	}
-	
+
 }

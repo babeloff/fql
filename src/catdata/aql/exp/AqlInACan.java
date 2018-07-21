@@ -101,7 +101,7 @@ class AqlInACan {
 				Object o = Util.timeout(() -> exp.eval(env), 10 * 1000); //hardcode timeout, do not exec pragmas
 				env.defs.put(n, exp.kind(), o);
 				if (exp.kind().equals(Kind.INSTANCE)) {
-					html += "<p><h2>" + n + " =\n</h2>" + toHtml(env, (Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ?, ?>) o) 
+					html += "<p><h2>" + n + " =\n</h2>" + toHtml(env, (Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ?, ?>) o) 
 						+ "\n</p><br><hr>\n";
 				} 
 				//TODO aql revisit if this should print html or javascript graphs
@@ -116,7 +116,7 @@ class AqlInACan {
 	
 	private static int i = 0;
 
-	public static <X,Y> String toHtml(AqlEnv env, Instance<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> I) {
+	public static <X,Y> String toHtml(AqlEnv env, Instance<Ty,Sym,En,Fk,Att,Gen,Sk,X,Y> I) {
 		String ret = "<div>";
 		
 		Map<En, Pair<List<String>,Object[][]>> tables = new AqlViewer(256, env).makeEnTables(I.algebra()); //TODO aql hardcoded

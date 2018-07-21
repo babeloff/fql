@@ -21,32 +21,32 @@ import catdata.aql.Schema;
 import catdata.aql.Term;
 import catdata.aql.Var;
 
-public class SaturatedInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> 
-extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
+public class SaturatedInstance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> 
+extends Instance<Ty, Sym, En, Fk, Att, X, Y, X, Y>  {
 
-	private final Set<Pair<Term<Ty, En, Sym, Fk, Att, X, Y>, Term<Ty, En, Sym, Fk, Att, X, Y>>> eqs = new HashSet<>();
+	private final Set<Pair<Term<Ty, Sym, En, Fk, Att, X, Y>, Term<Ty, Sym, En, Fk, Att, X, Y>>> eqs = new HashSet<>();
 	private final Ctx<X, En> gens = new Ctx<>();
 	private final Ctx<Y, Ty> sks; 
 	
-	private final DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp;
-	public final Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> alg;
+	private final DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp;
+	public final Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> alg;
 	private final InnerAlgebra inner_alg;
 	private final InnerDP inner_dp;
 
 	boolean requireConsistency, allowUnsafeJava;
-	private final Ctx<Y, Term<Ty, En, Sym, Fk, Att, X, Y>> reprT_extra;
+	private final Ctx<Y, Term<Ty, Sym, En, Fk, Att, X, Y>> reprT_extra;
 	
 	@Override
-	public DP<Ty, En, Sym, Fk, Att, X, Y> dp() {
+	public DP<Ty, Sym, En, Fk, Att, X, Y> dp() {
 		return inner_dp;
 	}
 
 	@Override
-	public Algebra<Ty, En, Sym, Fk, Att, X, Y, X, Y> algebra() {
+	public Algebra<Ty, Sym, En, Fk, Att, X, Y, X, Y> algebra() {
 		return inner_alg;
 	} 
 
-	public SaturatedInstance(Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> alg, DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp, boolean requireConsistency, boolean allowUnsafeJava, boolean labelledNulls, Ctx<Y, Term<Ty, En, Sym, Fk, Att, X, Y>> reprT_extra) {
+	public SaturatedInstance(Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> alg, DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp, boolean requireConsistency, boolean allowUnsafeJava, boolean labelledNulls, Ctx<Y, Term<Ty, Sym, En, Fk, Att, X, Y>> reprT_extra) {
 		this.alg = alg;
 		this.dp = dp;
 		this.requireConsistency = requireConsistency;
@@ -55,21 +55,21 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 			for (X x : alg.en(en)) {
 				gens.put(x, en);
 				for (Att att : schema().attsFrom(en)) {
-					Term<Ty, En, Sym, Fk, Att, X, Y> lhs = Term.Att(att, Term.Gen(x));
+					Term<Ty, Sym, En, Fk, Att, X, Y> lhs = Term.Att(att, Term.Gen(x));
 					if (labelledNulls) {
-						Term<Ty, En, Sym, Fk, Att, X, Y> rhs = lnConv(att, x);
+						Term<Ty, Sym, En, Fk, Att, X, Y> rhs = lnConv(att, x);
 						if (rhs == null) {
 							continue;
 						}
 						eqs.add(new Pair<>(lhs, rhs));
 					} else {
-						Term<Ty, En, Sym, Fk, Att, X, Y> rhs = alg.att(att, x).map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
+						Term<Ty, Sym, En, Fk, Att, X, Y> rhs = alg.att(att, x).map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
 						eqs.add(new Pair<>(lhs, rhs));
 					}
 				}
 				for (Fk fk : schema().fksFrom(en)) {
-					Term<Ty, En, Sym, Fk, Att, X, Y> lhs = Term.Fk(fk, Term.Gen(x));
-					Term<Ty, En, Sym, Fk, Att, X, Y> rhs = Term.Gen(alg.fk(fk, x));
+					Term<Ty, Sym, En, Fk, Att, X, Y> lhs = Term.Fk(fk, Term.Gen(x));
+					Term<Ty, Sym, En, Fk, Att, X, Y> rhs = Term.Gen(alg.fk(fk, x));
 					eqs.add(new Pair<>(lhs, rhs));
 				}
 			}
@@ -79,7 +79,7 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		} else {
 			sks = new Ctx<>(alg.talg().sks.map);
 		}
-		for (Eq<Ty, Void, Sym, Void, Void, Void, Y> eq : alg.talg().eqs) {
+		for (Eq<Ty, Sym, Void, Void, Void, Void, Y> eq : alg.talg().eqs) {
 			if (!eq.ctx.isEmpty()) {
 				continue;
 			}
@@ -94,7 +94,7 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 	}
 
 	
-	private Term<Ty, En, Sym, Fk, Att, X, Y> lnConv(Att att, X x) {
+	private Term<Ty, Sym, En, Fk, Att, X, Y> lnConv(Att att, X x) {
 		if (alg.talg().sks.map.containsKey(new Null<>(Term.Att(att, Term.Gen(x))))) {
 			return null;
 		} else {
@@ -103,10 +103,10 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 	}
 
 	private void checkSatisfaction() {
-		for (Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq : schema().eqs) {
+		for (Triple<Pair<Var, En>, Term<Ty, Sym, En, Fk, Att, Void, Void>, Term<Ty, Sym, En, Fk, Att, Void, Void>> eq : schema().eqs) {
 			for (X x : algebra().en(eq.first.second)) {
-				Term<Ty, En, Sym, Fk, Att, X, Y> lhs = eq.second.mapGenSk(Util.<X>voidFn(), Util.<Y>voidFn()).subst(Util.singMap0(eq.first.first, Term.Gen(x)));
-				Term<Ty, En, Sym, Fk, Att, X, Y> rhs = eq.third.mapGenSk(Util.<X>voidFn(), Util.<Y>voidFn()).subst(Util.singMap0(eq.first.first, Term.Gen(x)));
+				Term<Ty, Sym, En, Fk, Att, X, Y> lhs = eq.second.mapGenSk(Util.<X>voidFn(), Util.<Y>voidFn()).subst(Util.singMap0(eq.first.first, Term.Gen(x)));
+				Term<Ty, Sym, En, Fk, Att, X, Y> rhs = eq.third.mapGenSk(Util.<X>voidFn(), Util.<Y>voidFn()).subst(Util.singMap0(eq.first.first, Term.Gen(x)));
 				if (!dp().eq(new Ctx<>(), lhs, rhs)) {
 					throw new RuntimeException("Algebra does not satisfy equation forall " + eq.first.first + ". " + eq.second + " = " + eq.third + " on ID " + alg.printX(x) + ", yields unequal IDs " + lhs.toString(alg::printY, alg::printX) + " and " + rhs.toString(alg::printY, alg::printX));
 				}
@@ -125,16 +125,16 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 	}
 
 	@Override
-	public Set<Pair<Term<Ty, En, Sym, Fk, Att, X, Y>, Term<Ty, En, Sym, Fk, Att, X, Y>>> eqs() {
+	public Set<Pair<Term<Ty, Sym, En, Fk, Att, X, Y>, Term<Ty, Sym, En, Fk, Att, X, Y>>> eqs() {
 		return eqs;
 	}
 
 	@Override
-	public Schema<Ty, En, Sym, Fk, Att> schema() {
+	public Schema<Ty, Sym, En, Fk, Att> schema() {
 		return alg.schema();
 	}
 
-	private class InnerAlgebra extends Algebra<Ty,En,Sym,Fk,Att,X,Y,X,Y> {
+	private class InnerAlgebra extends Algebra<Ty, Sym, En,Fk,Att,X,Y,X,Y> {
 		
 		
 		@Override
@@ -158,12 +158,12 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Y> att(Att att, X x) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Y> att(Att att, X x) {
 			return alg.att(att, x);
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Y> sk(Y sk) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Y> sk(Y sk) {
 			return Term.Sk(sk);
 		}
 
@@ -173,28 +173,28 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		}
 
 		@Override
-		public Term<Void, En, Void, Fk, Void, X, Void> repr(X x) {
+		public Term<Void, Void, En, Fk, Void, X, Void> repr(X x) {
 			return Term.Gen(x); 
 		}
 
 		@Override
-		public Collage<Ty, Void, Sym, Void, Void, Void, Y> talg() {
+		public Collage<Ty, Sym, Void, Void, Void, Void, Y> talg() {
 			return alg.talg();
 		}
 
 		@Override
-		public Term<Ty, En, Sym, Fk, Att, X, Y> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Y> term) {
+		public Term<Ty, Sym, En, Fk, Att, X, Y> reprT_protected(Term<Ty, Sym, Void, Void, Void, Void, Y> term) {
 			if (term.sk != null && reprT_extra.containsKey(term.sk)) {
 				return reprT_extra.get(term.sk);
 			}
-			Term<Ty, En, Sym, Fk, Att, X, Y> x = alg.intoY(alg.reprT_protected(term)).map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
+			Term<Ty, Sym, En, Fk, Att, X, Y> x = alg.intoY(alg.reprT_protected(term)).map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
 			return x;
 		}
 		
 		
 
 		@Override
-		public Schema<Ty, En, Sym, Fk, Att> schema() {
+		public Schema<Ty, Sym, En, Fk, Att> schema() {
 			return alg.schema();
 		}
 
@@ -215,16 +215,16 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 
 		/*
 		@Override
-		public DP<Ty, En, Sym, Fk, Att, X, Y> dp() {
+		public DP<Ty, Sym, En, Fk, Att, X, Y> dp() {
 			return dp();
 		}*/
 		
 	}
 		
-	private class InnerDP implements DP<Ty, En, Sym, Fk, Att, X, Y> {
+	private class InnerDP implements DP<Ty, Sym, En, Fk, Att, X, Y> {
 
 		@Override
-		public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, X, Y> lhs, Term<Ty, En, Sym, Fk, Att, X, Y> rhs) {
+		public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, X, Y> lhs, Term<Ty, Sym, En, Fk, Att, X, Y> rhs) {
 			return dp.eq(ctx, transL(lhs), transL(rhs));
 		}
 
@@ -234,11 +234,11 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		}
 
 		@Override
-		public Term<Ty, En, Sym, Fk, Att, X, Y> nf(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, X, Y> term) {
+		public Term<Ty, Sym, En, Fk, Att, X, Y> nf(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, Sym, En, Fk, Att, X, Y> term) {
 			throw new RuntimeException("Anomaly: please report");
 		}
 		
-		private Term<Ty, En, Sym, Fk, Att, Gen, Sk> transL(Term<Ty, En, Sym, Fk, Att, X, Y> term) {
+		private Term<Ty, Sym, En, Fk, Att, Gen, Sk> transL(Term<Ty, Sym, En, Fk, Att, X, Y> term) {
 			if (term.obj != null) {
 				return Term.Obj(term.obj, term.ty); 
 			} else if (term.var != null) {

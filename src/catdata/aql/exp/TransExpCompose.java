@@ -10,17 +10,17 @@ import catdata.aql.Kind;
 import catdata.aql.Transform;
 import catdata.aql.fdm.ComposeTransform;
 
-public class TransExpCompose<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2,Gen3,Sk3,X3,Y3> 
-	extends TransExp<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen3,Sk3,X1,Y1,X3,Y3> {
+public class TransExpCompose<Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2,Gen3,Sk3,X3,Y3> 
+	extends TransExp<Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen3,Sk3,X1,Y1,X3,Y3> {
 
-	public final TransExp<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> t1;
-	public final TransExp<Ty,En,Sym,Fk,Att,Gen2,Sk2,Gen3,Sk3,X2,Y2,X3,Y3> t2;
+	public final TransExp<Ty, Sym, En,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> t1;
+	public final TransExp<Ty, Sym, En,Fk,Att,Gen2,Sk2,Gen3,Sk3,X2,Y2,X3,Y3> t2;
 	
 	@Override
 	public Map<String, String> options() {
 		return Collections.emptyMap();
 	}
-	public TransExpCompose(TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t1, TransExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, Gen3, Sk3, X2, Y2, X3, Y3> t2) {
+	public TransExpCompose(TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> t1, TransExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, Gen3, Sk3, X2, Y2, X3, Y3> t2) {
 		this.t1 = t1;
 		this.t2 = t2;
 	}
@@ -57,9 +57,9 @@ public class TransExpCompose<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2,Gen3
 	}
 
 	@Override
-	public Pair<InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1>, InstExp<Ty, En, Sym, Fk, Att, Gen3, Sk3, X3, Y3>> type(AqlTyping G) {
-		Pair<InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1>, InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2>> l = t1.type(G);
-		Pair<InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2>, InstExp<Ty, En, Sym, Fk, Att, Gen3, Sk3, X3, Y3>> r = t2.type(G);
+	public Pair<InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1>, InstExp<Ty, Sym, En, Fk, Att, Gen3, Sk3, X3, Y3>> type(AqlTyping G) {
+		Pair<InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1>, InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2>> l = t1.type(G);
+		Pair<InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2>, InstExp<Ty, Sym, En, Fk, Att, Gen3, Sk3, X3, Y3>> r = t2.type(G);
 		if (!l.second.equals(r.first)) {
 			throw new RuntimeException("Anomaly: in compose transform, dst of t1 is \n\n" + l.second +" \n\n but src of t2 is \n\n" + r.first);
 		}
@@ -69,7 +69,7 @@ public class TransExpCompose<Ty,En,Sym,Fk,Att,Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2,Gen3
 	
 
 	@Override
-	public Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen3, Sk3, X1, Y1, X3, Y3> eval(AqlEnv env) {
+	public Transform<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen3, Sk3, X1, Y1, X3, Y3> eval(AqlEnv env) {
 		return new ComposeTransform<>(t1.eval(env), t2.eval(env));
 	}
 

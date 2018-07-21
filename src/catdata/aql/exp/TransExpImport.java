@@ -25,7 +25,7 @@ import catdata.aql.exp.TyExpRaw.Ty;
 import catdata.aql.fdm.LiteralTransform;
 
 public abstract class TransExpImport<Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2, Handle>
-		extends TransExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> implements Raw {
+		extends TransExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> implements Raw {
 
 	private Ctx<String, List<InteriorLabel<Object>>> raw = new Ctx<>();
 
@@ -34,8 +34,8 @@ public abstract class TransExpImport<Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2, Handl
 		return raw;
 	}
 
-	public final InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1> src;
-	public final InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2> dst;
+	public final InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1> src;
+	public final InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2> dst;
 
 	public final Map<String, String> options;
 
@@ -46,8 +46,8 @@ public abstract class TransExpImport<Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2, Handl
 		return options;
 	}
 
-	public TransExpImport(InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1> src,
-			InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2> dst, List<Pair<LocStr, String>> map,
+	public TransExpImport(InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1> src,
+			InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2> dst, List<Pair<LocStr, String>> map,
 			List<Pair<String, String>> options) {
 		this.src = src;
 		this.dst = dst;
@@ -62,22 +62,22 @@ public abstract class TransExpImport<Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2, Handl
 		raw.put("imports", f);
 	}
 
-	protected Ctx<Gen1, Term<Void, En, Void, Fk, Void, Gen2, Void>> gens;
-	protected Ctx<Sk1, Term<Ty, En, Sym, Fk, Att, Gen2, Sk2>> sks;
+	protected Ctx<Gen1, Term<Void, Void, En, Fk, Void, Gen2, Void>> gens;
+	protected Ctx<Sk1, Term<Ty, Sym, En, Fk, Att, Gen2, Sk2>> sks;
 
 	protected AqlOptions op;
 	protected Boolean dontValidateEqs;
 	protected boolean labelledNulls;
 
 	@Override
-	public Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> eval(AqlEnv env) {
-		Instance<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1> src0 = src.eval(env);
-		Instance<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2> dst0 = dst.eval(env);
+	public Transform<Ty, Sym, En, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> eval(AqlEnv env) {
+		Instance<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1> src0 = src.eval(env);
+		Instance<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2> dst0 = dst.eval(env);
 		if (!src0.schema().equals(dst0.schema())) {
 			throw new RuntimeException(
 					"Schema of instance source is " + src0 + " but schema of target instance is " + dst0);
 		}
-		Schema<Ty, En, Sym, Fk, Att> sch = src0.schema();
+		Schema<Ty, Sym, En, Fk, Att> sch = src0.schema();
 
 		for (String o : map.keySet()) {
 			if (!sch.ens.contains(new En(o))) {
@@ -136,9 +136,9 @@ public abstract class TransExpImport<Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2, Handl
 
 	protected abstract void stop(Handle h) throws Exception;
 
-	protected abstract void processEn(En en, Schema<Ty, En, Sym, Fk, Att> sch, Handle h, String q) throws Exception;
+	protected abstract void processEn(En en, Schema<Ty, Sym, En, Fk, Att> sch, Handle h, String q) throws Exception;
 
-	protected abstract Handle start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception;
+	protected abstract Handle start(Schema<Ty, Sym, En, Fk, Att> sch) throws Exception;
 
 	@Override
 	public Collection<Pair<String, Kind>> deps() {
@@ -193,10 +193,10 @@ public abstract class TransExpImport<Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2, Handl
 	}
 
 	@Override
-	public Pair<InstExp<Ty, En, Sym, Fk, Att, Gen1, Sk1, X1, Y1>, InstExp<Ty, En, Sym, Fk, Att, Gen2, Sk2, X2, Y2>> type(
+	public Pair<InstExp<Ty, Sym, En, Fk, Att, Gen1, Sk1, X1, Y1>, InstExp<Ty, Sym, En, Fk, Att, Gen2, Sk2, X2, Y2>> type(
 			AqlTyping G) {
-		SchExp<Ty, En, Sym, Fk, Att> s = src.type(G);
-		SchExp<Ty, En, Sym, Fk, Att> t = dst.type(G);
+		SchExp<Ty, Sym, En, Fk, Att> s = src.type(G);
+		SchExp<Ty, Sym, En, Fk, Att> t = dst.type(G);
 		if (!G.eq(s, t)) { // TODO aql schema equality
 			throw new RuntimeException(
 					"Source instance of transform has schema\n" + s + " \n\n but target instance has schema\n" + t);

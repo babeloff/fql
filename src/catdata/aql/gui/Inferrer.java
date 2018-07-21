@@ -56,7 +56,7 @@ class Inferrer {
 		editor.topArea.insert(repl, editor.topArea.getSelectionEnd());
 	}
 
-	private static <Ty, En, Sym, Fk, Att> String inferInstance(Schema<Ty, En, Sym, Fk, Att> a) {
+	private static <Ty, Sym, En, Fk, Att> String inferInstance(Schema<Ty, Sym, En, Fk, Att> a) {
 		if (a == null) {
 			throw new RuntimeException("Compiled schema not found - try compiling before using inference.");
 		}
@@ -102,7 +102,7 @@ class Inferrer {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0, Gen, Sk, Gen0, Sk0> String inferTransform(Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ?, ?> a, Instance<Ty0, En0, Sym0, Fk0, Att0, Gen0, Sk0, ?, ?> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0, Gen, Sk, Gen0, Sk0> String inferTransform(Instance<Ty, Sym, En, Fk, Att, Gen, Sk, ?, ?> a, Instance<Ty0, En0, Sym0, Fk0, Att0, Gen0, Sk0, ?, ?> b) {
 		if (a == null || b == null) {
 			throw new RuntimeException("Compiled instances(s) not found - try compiling before using inference.");
 		}
@@ -121,7 +121,7 @@ class Inferrer {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferMapping(Schema<Ty, En, Sym, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferMapping(Schema<Ty, Sym, En, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
 		if (a == null || b == null) {
 			throw new RuntimeException("Compiled schema(s) not found - try compiling before using inference.");
 		}
@@ -132,7 +132,7 @@ class Inferrer {
 		return ens + "\n" + fks + "\n" + atts;
 	}
 
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferQuery(Schema<Ty, En, Sym, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferQuery(Schema<Ty, Sym, En, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
 		if (a == null || b == null) {
 			throw new RuntimeException("Compiled schema(s) not found - try compiling before using inference.");
 		}
@@ -143,22 +143,22 @@ class Inferrer {
 
 	}
 
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> List<String> varsColon2(En0 en, Schema<Ty, En, Sym, Fk, Att> a, @SuppressWarnings("unused") Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> List<String> varsColon2(En0 en, Schema<Ty, Sym, En, Fk, Att> a, @SuppressWarnings("unused") Schema<Ty0, Sym0, En0, Fk0, Att0> b) {
 		return a.ens.stream().map(x -> "v_" + en + "_" + x + "[:" + x + "]").collect(Collectors.toList());
 	}
 
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> List<String> varsColon(En0 en, Schema<Ty, En, Sym, Fk, Att> a, @SuppressWarnings("unused") Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> List<String> varsColon(En0 en, Schema<Ty, Sym, En, Fk, Att> a, @SuppressWarnings("unused") Schema<Ty0, Sym0, En0, Fk0, Att0> b) {
 		return a.ens.stream().map(x -> "v_" + en + "_" + x + ":" + x).collect(Collectors.toList());
 	}
 	/*
-	 * private static <Ty, En, Sym, Fk, Att,Ty0, En0, Sym0, Fk0, Att0>
-	 * List<String> vars(En0 en, Schema<Ty, En, Sym, Fk, Att> a, Schema<Ty0,
+	 * private static <Ty, Sym, En, Fk, Att,Ty0, En0, Sym0, Fk0, Att0>
+	 * List<String> vars(En0 en, Schema<Ty, Sym, En, Fk, Att> a, Schema<Ty0,
 	 * En0, Sym0, Fk0, Att0> b) { return a.ens.stream().map(x -> "v_" + en + "_"
 	 * + x).collect(Collectors.toList()); }
 	 */
 
 	@SuppressWarnings("unchecked")
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferTrans(Fk0 fk, Schema<Ty, En, Sym, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferTrans(Fk0 fk, Schema<Ty, Sym, En, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
 		List<String> dom = varsColon2(b.fks.get(fk).second, a, b);
 		List<String> cod = varsColon(b.fks.get(fk).first, a, b);
 
@@ -168,7 +168,7 @@ class Inferrer {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <Ty, En, Sym, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferBlock(En0 en, Schema<Ty, En, Sym, Fk, Att> a, Schema<Ty0, En0, Sym0, Fk0, Att0> b) {
+	private static <Ty, Sym, En, Fk, Att, Ty0, En0, Sym0, Fk0, Att0> String inferBlock(En0 en, Schema<Ty, Sym, En, Fk, Att> a, Schema<Ty0, Sym0, En0, Fk0, Att0> b) {
 		String s = "some type side symbols [" + pr4(b.typeSide.syms.map) + "]\n\t\t\t\t\tapplied to Attributes [" + pr3(b.atts.map) + "]\n\t\t\t\t\tapplied to paths of foreign keys [" + pr3(a.fks.map) + "]\n\t\t\t\t\tending on variables [" + pr(varsColon(en, a, b)) + "]";
 
 		List<String> as = Util.alphabetical(b.attsFrom(en)).stream().map(x -> x + " [:" + b.atts.get(x).second + "] -> " + s).collect(Collectors.toList());

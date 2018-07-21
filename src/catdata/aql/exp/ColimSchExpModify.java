@@ -35,7 +35,7 @@ public final class ColimSchExpModify<N> extends ColimSchExp<N> implements Raw {
 	}
 	
 	@Override
-	public SchExp<Ty, En, Sym, Fk, Att> getNode(N n, AqlTyping G) {
+	public SchExp<Ty, Sym, En, Fk, Att> getNode(N n, AqlTyping G) {
 		return colim.getNode(n, G);
 	}
 	
@@ -261,12 +261,12 @@ public final class ColimSchExpModify<N> extends ColimSchExp<N> implements Raw {
 				throw new RuntimeException("Not an fk: " + k.first + " in\n\n" + colim0.schemaStr);
 			}
 			String pre = "In processing " + k.first + " -> " + k.second  +", ";
-			Collage<Ty, En, Sym, Fk, Att,Void,Void> xxx = colim0.schemaStr.collage();
+			Collage<Ty, Sym, En, Fk, Att,Void,Void> xxx = colim0.schemaStr.collage();
 			RawTerm term = RawTerm.fold(k.second, "v");
 			En tr = colim0.schemaStr.fks.get(new Fk(new En(k.first.first),k.first.second)).second;
 
 			Ctx<String,Chc<Ty,En>> ctx = new Ctx<>("v", Chc.inRight(new En(k.first.first)));
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> t = 
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> t = 
 			RawTerm.infer1x(ctx.map, term, null, Chc.inRight(tr), xxx.convert(), pre, colim0.schemaStr.typeSide.js).second;
 			//colim0 = colim0.removeAtt(new Att(k.first), new Var(k.second.first), t.convert(), checkJava);
 			
@@ -282,9 +282,9 @@ public final class ColimSchExpModify<N> extends ColimSchExp<N> implements Raw {
 			if (k.second.second != null && !k.second.second.equals(r.first)) {
 				throw new RuntimeException(pre + " given type is " + k.second.second + " but expected " + r.first);
 			}
-			Collage<Ty, En, Sym, Fk, Att,Void,Void> xxx = colim0.schemaStr.collage();
+			Collage<Ty, Sym, En, Fk, Att,Void,Void> xxx = colim0.schemaStr.collage();
 			Ctx<String,Chc<Ty,En>> ctx = new Ctx<>(k.second.first, Chc.inRight(r.first));
-			Term<Ty, En, Sym, Fk, Att, Gen, Sk> t = 
+			Term<Ty, Sym, En, Fk, Att, Gen, Sk> t = 
 			RawTerm.infer1x(ctx.map, k.second.third, null, Chc.inLeft(r.second), xxx.convert(), pre, colim0.schemaStr.typeSide.js).second;
 			colim0 = colim0.removeAtt(new Att(new En(k.first.first), k.first.second), new Var(k.second.first), t.convert(), checkJava);
 		}

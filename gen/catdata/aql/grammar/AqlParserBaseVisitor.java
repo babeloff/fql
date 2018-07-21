@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql2/gen_src/catdata/aql/grammar/f90/-ru88jt/AqlParser.g4 by ANTLR 4.7
+=======
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/gg1/-ru88jt/AqlParser.g4 by ANTLR 4.7
+>>>>>>> antlr4parser
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 

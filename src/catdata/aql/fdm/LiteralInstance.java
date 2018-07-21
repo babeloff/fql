@@ -14,22 +14,22 @@ import catdata.aql.Schema;
 import catdata.aql.Term;
 
 //TODO aql rename to constant?
-public class LiteralInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+public class LiteralInstance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
-	private final Schema<Ty, En, Sym, Fk, Att> schema;
+	private final Schema<Ty, Sym, En, Fk, Att> schema;
 
 	private final Ctx<Gen, En> gens;
 	private final Ctx<Sk, Ty> sks;
 
-	private final Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs;
+	private final Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs;
 
-	private final DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp;
+	private final DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp;
 
-	private final Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> alg;
+	private final Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> alg;
 	
 	boolean requireConsistency, allowUnsafeJava;
 
-	public LiteralInstance(Schema<Ty, En, Sym, Fk, Att> schema, Map<Gen, En> gens, Map<Sk, Ty> sks, Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs, DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp, Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> alg, boolean requireConsistency, boolean allowUnsafeJava) {
+	public LiteralInstance(Schema<Ty, Sym, En, Fk, Att> schema, Map<Gen, En> gens, Map<Sk, Ty> sks, Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs, DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp, Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> alg, boolean requireConsistency, boolean allowUnsafeJava) {
 		Util.assertNotNull(schema, gens, sks, eqs, dp);
 		this.schema = schema;
 		this.gens = new Ctx<>(gens);
@@ -44,7 +44,7 @@ public class LiteralInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instan
 	}
 
 	@Override
-	public Schema<Ty, En, Sym, Fk, Att> schema() {
+	public Schema<Ty, Sym, En, Fk, Att> schema() {
 		return schema;
 	}
 
@@ -59,17 +59,17 @@ public class LiteralInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instan
 	}
 
 	@Override
-	public Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs() {
+	public Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs() {
 		return eqs;
 	}
 
 	@Override
-	public DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp() {
+	public DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp() {
 		return dp;
 	}
 
 	@Override
-	public Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> algebra() {
+	public Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> algebra() {
 		return alg;
 	}
 

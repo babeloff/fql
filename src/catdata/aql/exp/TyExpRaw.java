@@ -127,7 +127,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 
 	public final Map<String, String> options;
 	
-	private final Collage<Ty, Void, Sym, Void, Void, Void, Void> col;
+	private final Collage<Ty, Sym, Void, Void, Void, Void, Void> col;
 
 
 	@Override
@@ -179,7 +179,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Triple<Ctx<Var, Chc<Ty, Void>>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> infer1x(
+	private Triple<Ctx<Var, Chc<Ty, Void>>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> infer1x(
 		Map<String, Chc<Ty, En>> ctx0, RawTerm e0, RawTerm f, Chc<Ty, Void> expected,
 		@SuppressWarnings("rawtypes") Collage col, String pre, AqlJs<Ty, Sym> js) {
 	return RawTerm.infer1x(ctx0, e0, f, (Chc<Ty,En>)((Object)expected), col, pre, js).first3();
@@ -425,7 +425,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 	
 		for (Triple<List<Pair<String, String>>, RawTerm, RawTerm> eq : eqs) {
 			try {
-				Triple<Ctx<Var, Chc<Ty, Void>>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>> 
+				Triple<Ctx<Var, Chc<Ty, Void>>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>> 
 				tr = infer1x(yyy(eq.first), eq.second, eq.third, null, col, "", js);
 				col.eqs.add(new Eq<>(tr.first, tr.second, tr.third));
 			} catch (RuntimeException ex) {
@@ -440,7 +440,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 			col.addAll(v.collage());
 		}
 		
-		Set<Triple<Ctx<Var, Ty>, Term<Ty, Void, Sym, Void, Void, Void, Void>, Term<Ty, Void, Sym, Void, Void, Void, Void>>> 
+		Set<Triple<Ctx<Var, Ty>, Term<Ty, Sym, Void, Void, Void, Void, Void>, Term<Ty, Sym, Void, Void, Void, Void, Void>>> 
 		eqs0 = col.eqsAsTriples().stream().map(x -> new Triple<>(xxx(x.first),x.second,x.third)).collect(Collectors.toSet());
 	
 		TypeSide<Ty, Sym> ret = new TypeSide<Ty, Sym>(col.tys, col.syms.map, eqs0, col.java_tys.map,

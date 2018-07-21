@@ -18,15 +18,15 @@ import catdata.aql.Term;
 import catdata.graph.UnionFind;
 
 //TODO aql example of distinct
-public class DistinctInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+public class DistinctInstance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
-	private final Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I;
+	private final Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> I;
 	
-	private final Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs = new HashSet<>();
+	private final Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs = new HashSet<>();
 	
 	private final UnionFind<X> uf;
 	
-	public DistinctInstance(Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> i) {
+	public DistinctInstance(Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> i) {
 		I = i;
 		eqs.addAll(I.eqs());
 		uf = new UnionFind<>(I.algebra().allXs());
@@ -62,7 +62,7 @@ public class DistinctInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Insta
 	}
 
 	@Override
-	public Schema<Ty, En, Sym, Fk, Att> schema() {
+	public Schema<Ty, Sym, En, Fk, Att> schema() {
 		return I.schema();
 	}
 
@@ -77,27 +77,27 @@ public class DistinctInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Insta
 	}
 
 	@Override
-	public Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs() {
+	public Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs() {
 		return eqs;
 	}
 
 	@Override
-	public DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp() {
+	public DP<Ty, Sym, En, Fk, Att, Gen, Sk> dp() {
 		return I.dp();
 	}
 
 	@Override
-	public Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> algebra() {
+	public Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> algebra() {
 		return new InnerAlgebra();
 	}
 
-	private final class InnerAlgebra extends Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> {
+	private final class InnerAlgebra extends Algebra<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> {
 
 		InnerAlgebra() {
 		}
 
 		@Override
-		public Schema<Ty, En, Sym, Fk, Att> schema() {
+		public Schema<Ty, Sym, En, Fk, Att> schema() {
 			return I.schema();
 		}
 
@@ -112,12 +112,12 @@ public class DistinctInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Insta
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Y> att(Att att, X x) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Y> att(Att att, X x) {
 			return I.algebra().att(att, x);
 		}
 
 		@Override
-		public Term<Ty, Void, Sym, Void, Void, Void, Y> sk(Sk sk) {
+		public Term<Ty, Sym, Void, Void, Void, Void, Y> sk(Sk sk) {
 			return I.algebra().sk(sk);
 		}
 
@@ -127,17 +127,17 @@ public class DistinctInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Insta
 		}
 
 		@Override
-		public Term<Void, En, Void, Fk, Void, Gen, Void> repr(X x) {
+		public Term<Void, Void, En, Fk, Void, Gen, Void> repr(X x) {
 			return I.algebra().repr(conv(x));
 		}
 
 		@Override
-		public Collage<Ty, Void, Sym, Void, Void, Void, Y> talg() {
+		public Collage<Ty, Sym, Void, Void, Void, Void, Y> talg() {
 			return I.algebra().talg();
 		}
 
 		@Override
-		public Term<Ty, En, Sym, Fk, Att, Gen, Sk> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Y> y) {
+		public Term<Ty, Sym, En, Fk, Att, Gen, Sk> reprT_protected(Term<Ty, Sym, Void, Void, Void, Void, Y> y) {
 			return I.algebra().reprT(y);
 		}
 

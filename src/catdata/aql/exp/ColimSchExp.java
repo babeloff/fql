@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		return Kind.SCHEMA_COLIMIT;
 	}
 	
-	public abstract SchExp<Ty, En, Sym, Fk, Att> getNode(N n, AqlTyping G);
+	public abstract SchExp<Ty, Sym, En, Fk, Att> getNode(N n, AqlTyping G);
 	
 	public abstract ColimSchExp<N> type(AqlTyping G); 
 
@@ -54,7 +53,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		
 		public final TyExp<Ty, Sym> ty;
 
-		public final Ctx<N, SchExp<Ty, En, Sym, Fk, Att>> nodes;
+		public final Ctx<N, SchExp<Ty, Sym, En, Fk, Att>> nodes;
 
 		public final Set<Quad<N,En,N,En>> eqEn; 
 		
@@ -112,7 +111,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 	//TODO aql user col sep here
 		@Override
 		public ColimitSchema<N> eval(AqlEnv env) {
-			Ctx<N, Schema<Ty, En, Sym, Fk, Att>> nodes0 = new Ctx<>();
+			Ctx<N, Schema<Ty, Sym, En, Fk, Att>> nodes0 = new Ctx<>();
 			Set<En> ens = new HashSet<>();
 			for (N n : nodes.keySet()) {
 				nodes0.put(n, nodes.get(n).eval(env));
@@ -129,7 +128,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 			l = l.stream().filter(x -> !ens.contains(new En(x))).collect(Collectors.toList());
 			return RawTerm.fold(l, "_v0");  
 		}
-
+		
 		@Override
 		public synchronized String toString() {
 			final StringBuilder sb = new StringBuilder();
@@ -139,19 +138,19 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 				  .append(this.eqEn.stream()
 						  .map(x -> x.first + "." + x.second + " = " + x.third + "." + x.fourth)
 						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
-			}
+				}
 			if (!eqTerms2.isEmpty()) {
 				sb.append("\tpath_equations")
 				  .append(this.eqTerms2.stream()
 						  .map(x -> Util.sep(x.first, ".") + " = " + Util.sep(x.second, "."))
 						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
-			}
+				}			
 			if (!eqTerms.isEmpty()) {
 				sb.append("\tobservation_equations")
 				  .append(this.eqTerms.stream()
 						  .map(x -> "forall " + x.first + ". " + x.third + " = " + x.fourth)
 						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
-			}
+				}
 			if (!options.isEmpty()) {
 				sb.append("\toptions")
 				  .append(this.options.entrySet().stream()
@@ -169,7 +168,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		public Collection<Pair<String, Kind>> deps() {
 			Set<Pair<String, Kind>> ret = new HashSet<>();
 			ret.addAll(ty.deps());
-			for (SchExp<Ty, En, Sym, Fk, Att> v : nodes.values()) {
+			for (SchExp<Ty, Sym, En, Fk, Att> v : nodes.values()) {
 				ret.addAll(v.deps());
 			}
 			return ret;
@@ -236,7 +235,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> getNode(N n, AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> getNode(N n, AqlTyping G) {
 			return nodes.get(n);
 		}
 		
@@ -264,7 +263,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		}
 
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> getNode(N n, AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> getNode(N n, AqlTyping G) {
 			return type(G).getNode(n, G);
 		}
 		
@@ -332,9 +331,9 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		
 		public final ColimSchExp<N> colim;
 		
-		public final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> toUser;
+		public final MapExp<Ty,Sym,En,Fk,Att,En,Fk,Att> toUser;
 		
-		public final MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> fromUser;
+		public final MapExp<Ty,Sym,En,Fk,Att,En,Fk,Att> fromUser;
 		
 		@Override
 		public Map<String, String> options() {
@@ -342,7 +341,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		}
 		
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> getNode(N n, AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> getNode(N n, AqlTyping G) {
 			return colim.getNode(n, G);
 		}
 
@@ -385,7 +384,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 
 		
 
-		public ColimSchExpWrap(ColimSchExp<N> colim, MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> toUser, MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> fromUser) {
+		public ColimSchExpWrap(ColimSchExp<N> colim, MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att> toUser, MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att> fromUser) {
 			this.colim = colim;
 			this.toUser = toUser;
 			this.fromUser = fromUser;
@@ -432,9 +431,9 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 
 		public final TyExp<Ty, Sym> ty;
 
-		public final Ctx<N, SchExp<Ty, En, Sym, Fk, Att>> nodes;
+		public final Ctx<N, SchExp<Ty, Sym, En, Fk, Att>> nodes;
 
-		public final Ctx<E, MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>> edges;
+		public final Ctx<E, MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>> edges;
 		
 	
 		
@@ -446,12 +445,12 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		}
 		
 		@Override
-		public SchExp<Ty, En, Sym, Fk, Att> getNode(N n, AqlTyping G) {
+		public SchExp<Ty, Sym, En, Fk, Att> getNode(N n, AqlTyping G) {
 			return nodes.get(n);
 		}
 
 		@SuppressWarnings("unchecked")
-		public ColimSchExpRaw(GraphExp<N, E> shape, TyExp<Ty, Sym> ty, List<Pair<LocStr, SchExp<Ty, En, Sym, Fk, Att>>> nodes, List<Pair<LocStr, MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>>> edges, List<Pair<String, String>> options) {
+		public ColimSchExpRaw(GraphExp<N, E> shape, TyExp<Ty, Sym> ty, List<Pair<LocStr, SchExp<Ty, Sym, En, Fk, Att>>> nodes, List<Pair<LocStr, MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>>> edges, List<Pair<String, String>> options) {
 			this.shape = shape;
 			this.ty = ty;
 			this.nodes = new Ctx<>(LocStr.list2(nodes, x -> (N) x));
@@ -459,14 +458,14 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 			this.options = Util.toMapSafely(options);
 			
 			List<InteriorLabel<Object>> f = new LinkedList<>();
-			for (Pair<LocStr, SchExp<Ty, En, Sym, Fk, Att>> p : nodes) {
+			for (Pair<LocStr, SchExp<Ty, Sym, En, Fk, Att>> p : nodes) {
 				f.add(new InteriorLabel<>("nodes", new Pair<>(p.first.str, p.second), p.first.loc,
 						x -> x.first + " -> " + x.second).conv());
 			}
 			raw.put("nodes", f);
 			
 			f = new LinkedList<>();
-			for (Pair<LocStr, MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att>> p : edges) {
+			for (Pair<LocStr, MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>> p : edges) {
 				f.add(new InteriorLabel<>("edges", new Pair<>(p.first.str, p.second), p.first.loc,
 						x -> x.first + " -> " + x.second).conv());
 			}
@@ -538,10 +537,10 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		@Override
 		public Collection<Pair<String, Kind>> deps() {
 			Collection<Pair<String, Kind>> ret = new HashSet<>();
-			for (SchExp<Ty, En, Sym, Fk, Att> k : nodes.values()) {
+			for (SchExp<Ty, Sym, En, Fk, Att> k : nodes.values()) {
 				ret.addAll(k.deps());
 			}
-			for (MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> k : edges.values()) {
+			for (MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att> k : edges.values()) {
 				ret.addAll(k.deps());
 			}
 			ret.addAll(shape.deps());
@@ -551,11 +550,11 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 
 		@Override
 		public ColimitSchema<N> eval(AqlEnv env) {
-			Ctx<N, Schema<Ty, En, Sym, Fk, Att>> nodes0 = new Ctx<>();
+			Ctx<N, Schema<Ty, Sym, En, Fk, Att>> nodes0 = new Ctx<>();
 			for (N n : nodes.keySet()) {
 				nodes0.put(n, nodes.get(n).eval(env));
 			}
-			Ctx<E, Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att>> edges0 = new Ctx<>();
+			Ctx<E, Mapping<Ty, Sym, En, Fk, Att, En, Fk, Att>> edges0 = new Ctx<>();
 			for (E e : edges.keySet()) {
 				edges0.put(e, edges.get(e).eval(env));
 			}

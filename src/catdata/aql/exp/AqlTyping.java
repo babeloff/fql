@@ -12,7 +12,7 @@ public class AqlTyping {
 		return t1.resolve(prog).equals(t2.resolve(prog));
 	}
 
-	public <Ty, En, Sym, Fk, Att> boolean eq(SchExp<Ty, En, Sym, Fk, Att> s1, SchExp<Ty, En, Sym, Fk, Att> s2) {
+	public <Ty, Sym, En, Fk, Att> boolean eq(SchExp<Ty, Sym, En, Fk, Att> s1, SchExp<Ty, Sym, En, Fk, Att> s2) {
 		return s1.resolve(this, prog).equals(s2.resolve(this, prog));
 	}
 

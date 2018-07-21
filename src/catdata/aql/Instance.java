@@ -10,7 +10,7 @@ import catdata.Ctx;
 import catdata.Pair;
 import catdata.Util;  
 
-public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements Semantics {
+public abstract class Instance<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y> implements Semantics {
 
 	@Override
 
@@ -80,7 +80,7 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 	}
 
 	
-	public abstract Schema<Ty, En, Sym, Fk, Att> schema();
+	public abstract Schema<Ty, Sym, En, Fk, Att> schema();
 	
 	public abstract Ctx<Gen, En> gens(); 
 	public abstract Ctx<Sk, Ty> sks();
@@ -90,12 +90,12 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 	
 	public abstract boolean allowUnsafeJava();
 	
-	public abstract Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs();
+	public abstract Set<Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>>> eqs();
 
-	public abstract DP<Ty,En,Sym,Fk,Att,Gen,Sk> dp();
+	public abstract DP<Ty, Sym, En,Fk,Att,Gen,Sk> dp();
 	
 	
-	public final Chc<Ty,En> type(Term<Ty, En, Sym, Fk, Att, Gen, Sk> term) {		
+	public final Chc<Ty,En> type(Term<Ty, Sym, En, Fk, Att, Gen, Sk> term) {		
 		return term.type(new Ctx<>(), new Ctx<>(), schema().typeSide.tys, schema().typeSide.syms.map, schema().typeSide.js.java_tys.map, schema().ens, schema().atts.map, schema().fks.map, gens().map, sks().map);
 	}
 	
@@ -127,7 +127,7 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 				}
 			}
 			
-			for (Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq : eqs()) {
+			for (Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq : eqs()) {
 				//check lhs and rhs types match in all eqs
 				Chc<Ty, En> lhs = type(eq.first);
 				Chc<Ty, En> rhs = type(eq.second);
@@ -137,16 +137,16 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 			}				
 		}	
 	
-	private String toString(Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> eq) {
+	private String toString(Pair<Term<Ty, Sym, En, Fk, Att, Gen, Sk>, Term<Ty, Sym, En, Fk, Att, Gen, Sk>> eq) {
 		return eq.first + " = " + eq.second;
 	}
 	
 	
 	
-	public abstract Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> algebra();
+	public abstract Algebra<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> algebra();
 
-	private Collage<Ty, En, Sym, Fk, Att, Gen, Sk> collage;
-	public final synchronized Collage<Ty, En, Sym, Fk, Att, Gen, Sk> collage() {
+	private Collage<Ty, Sym, En, Fk, Att, Gen, Sk> collage;
+	public final synchronized Collage<Ty, Sym, En, Fk, Att, Gen, Sk> collage() {
 		if (collage != null) {
 			return collage;
 		}
