@@ -83,6 +83,7 @@ import catdata.aql.grammar.AqlParser.InstanceKindContext;
 import catdata.aql.grammar.AqlParser.InstanceLiteralSectionContext;
 import catdata.aql.grammar.AqlParser.InstancePiSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceQuotientSectionContext;
+import catdata.aql.grammar.AqlParser.InstanceRandomSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceRefContext;
 import catdata.aql.grammar.AqlParser.InstanceSigmaSectionContext;
 import catdata.aql.grammar.AqlParser.InstanceSymbolContext;
@@ -1276,7 +1277,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 * Instance section
 	 */
 	@Override public void enterInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) {
-		final String name = ctx.instanceId().getText();
+		// final String name = ctx.instanceId().getText();
 		// log.info("enter instance: " + name);
 	}
 	@Override public void exitInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) {
@@ -1697,7 +1698,30 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx, inst);
 	}
 	
-	@Override public void exitInstanceExp_Random(AqlParser.InstanceExp_RandomContext ctx) { }
+	@Override public void exitInstanceExp_Random(AqlParser.InstanceExp_RandomContext ctx) {
+		final SchemaRefContext schemaRef = ctx.schemaRef();
+		final InstanceRandomSectionContext sect = ctx.instanceRandomSection();
+		
+		final SchExp<?,?,?,?,?>
+		schRef = (SchExp<?, ?, ?, ?, ?>) this.exps.get(schemaRef);
+		
+		final List<Pair<LocStr, String>> 
+		ens = sect.instanceRandomAction().stream()
+			.map(x -> new Pair<>(
+					makeLocStr(x.schemaEntityId()), 
+					x.INTEGER().getText()))
+			.collect(Collectors.toList());
+
+		final List<Pair<String,String>> 
+		options = Optional.ofNullable(sect)
+				.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+		
+		final InstExp<Ty, Sym, En, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>, Pair<Integer, En>, Pair<Integer, Att>>
+		inst = new InstExpRandom(schRef, ens, options);
+		
+		this.exps.put(ctx, inst);
+	}
 	
 	@Override public void exitInstanceExp_Anonymize(AqlParser.InstanceExp_AnonymizeContext ctx) {
 		@SuppressWarnings("unchecked")

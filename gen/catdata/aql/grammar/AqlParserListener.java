@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/frc/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/8rc/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -2145,6 +2145,16 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInstanceRandomSection(AqlParser.InstanceRandomSectionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#instanceRandomAction}.
+	 * @param ctx the parse tree
+	 */
+	void enterInstanceRandomAction(AqlParser.InstanceRandomActionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#instanceRandomAction}.
+	 * @param ctx the parse tree
+	 */
+	void exitInstanceRandomAction(AqlParser.InstanceRandomActionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#instanceEvalSection}.
 	 * @param ctx the parse tree
