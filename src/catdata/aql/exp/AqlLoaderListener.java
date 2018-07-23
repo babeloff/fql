@@ -616,11 +616,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 	@Override public void exitSchemaExp_GetSchemaColimit(AqlParser.SchemaExp_GetSchemaColimitContext ctx) {
-		// @SuppressWarnings("unchecked")
-		// final ColimSchExp<String>
-		// schColimRef = (ColimSchExp<String>) this.exps.get(ctx.schemaColimitRef());
-		// TODO review the input to this action	
-		// this.exps.put(ctx, new SchExp.SchExpInst<Ty, Sym, En,Fk,Att>(schColimRef));
+		@SuppressWarnings("unchecked")
+		final ColimSchExp<String>
+		schColimRef = (ColimSchExp<String>) this.exps.get(ctx.schemaColimitRef());
+		this.exps.put(ctx, new SchExpColim<String>(schColimRef));
 	}
 
 
@@ -1276,7 +1275,10 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	/***************************************************
 	 * Instance section
 	 */
-	
+	@Override public void enterInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) {
+		final String name = ctx.instanceId().getText();
+		// log.info("enter instance: " + name);
+	}
 	@Override public void exitInstanceAssignment(AqlParser.InstanceAssignmentContext ctx) {
 		final String name = ctx.instanceId().getText();
 		final Integer id = getLoc(ctx);
@@ -1287,6 +1289,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		}
 		ns.put(name, exp);
 		this.decls.add(new Triple<>(name,id,exp));
+		//log.info("exit instance: " + name);
 	}
 	
 	@Override 
@@ -1451,7 +1454,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 }
 	@Override public void enterInstanceExp_CoSigma(AqlParser.InstanceExp_CoSigmaContext ctx) {
 		// TODO write
-		log.info("entering InstanceExp_CoSigma");
+		// log.info("entering InstanceExp_CoSigma");
 	}
 	@Override public void exitInstanceExp_CoSigma(AqlParser.InstanceExp_CoSigmaContext ctx) {
 		final List<InstanceCoProdPairContext> pairKind = ctx.instanceCoProdPair();

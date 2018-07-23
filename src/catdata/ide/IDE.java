@@ -131,7 +131,10 @@ public class IDE {
 				});
 				
 		        String[] inputFilePath = cmdLine.getOptionValues("input");
-				if (inputFilePath.length == 0) {
+		        if (inputFilePath == null) {
+		        	GUI.newAction(null, "", Language.getDefault());
+		        } 
+		        else if (inputFilePath.length == 0) {
 					GUI.newAction(null, "", Language.getDefault());
 				} else {
 					File[] fs = new File[inputFilePath.length];

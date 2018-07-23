@@ -23,7 +23,7 @@ schemaColimitExp
   ;
 
 schemaColimitKind
-: schemaColimitRef   # SchemaColimitKind_Ref 
+: schemaColimitRef                # SchemaColimitKind_Ref 
 | LPAREN schemaColimitExp RPAREN  # SchemaColimitKind_Exp 
 ;
 
@@ -39,7 +39,7 @@ scQuotientFkEqu : scTermPath EQUAL scTermPath ;
 
 scObsEquation
 : FORALL scGen DOT scTermPath EQUAL scTermPath
-  ;
+;
 
 scGen : symbol (COLON scGenType)? ;
 scGenType : symbol ;
