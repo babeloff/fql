@@ -3,13 +3,11 @@ package catdata.aql.exp;
 
 public abstract class AqlParserFactory {
 	
-	enum Mode {
+	public enum Mode {
 		   COMBINATOR,
 		   ANTLR4
 		}
-	public static Mode mode = 
-			Mode.ANTLR4;
-			// Mode.COMBINATOR ;
+	public static Mode mode = Mode.COMBINATOR ;
 			
 	protected AqlParserFactory() { }
 	
