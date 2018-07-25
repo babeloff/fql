@@ -19,7 +19,7 @@ queryExp
       (LBRACE queryDeltaEvalSection RBRACE)?
   #QueryExp_ToQuery
 
-  | TO_COQUERY schemaKind
+  | TO_COQUERY mappingKind
       (LBRACE queryDeltaCoEvalSection RBRACE)?
   #QueryExp_ToCoquery
 

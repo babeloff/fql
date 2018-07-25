@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/8rc/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/h17/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -3859,6 +3859,116 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scEntityId}.
+	 * @param ctx the parse tree
+	 */
+	void enterScEntityId(AqlParser.ScEntityIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scEntityId}.
+	 * @param ctx the parse tree
+	 */
+	void exitScEntityId(AqlParser.ScEntityIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scEntityAlias}.
+	 * @param ctx the parse tree
+	 */
+	void enterScEntityAlias(AqlParser.ScEntityAliasContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scEntityAlias}.
+	 * @param ctx the parse tree
+	 */
+	void exitScEntityAlias(AqlParser.ScEntityAliasContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scFkId}.
+	 * @param ctx the parse tree
+	 */
+	void enterScFkId(AqlParser.ScFkIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scFkId}.
+	 * @param ctx the parse tree
+	 */
+	void exitScFkId(AqlParser.ScFkIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scFkAlias}.
+	 * @param ctx the parse tree
+	 */
+	void enterScFkAlias(AqlParser.ScFkAliasContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scFkAlias}.
+	 * @param ctx the parse tree
+	 */
+	void exitScFkAlias(AqlParser.ScFkAliasContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scAttrId}.
+	 * @param ctx the parse tree
+	 */
+	void enterScAttrId(AqlParser.ScAttrIdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scAttrId}.
+	 * @param ctx the parse tree
+	 */
+	void exitScAttrId(AqlParser.ScAttrIdContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scAttrAlias}.
+	 * @param ctx the parse tree
+	 */
+	void enterScAttrAlias(AqlParser.ScAttrAliasContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scAttrAlias}.
+	 * @param ctx the parse tree
+	 */
+	void exitScAttrAlias(AqlParser.ScAttrAliasContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scArrowRenameEnt}.
+	 * @param ctx the parse tree
+	 */
+	void enterScArrowRenameEnt(AqlParser.ScArrowRenameEntContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scArrowRenameEnt}.
+	 * @param ctx the parse tree
+	 */
+	void exitScArrowRenameEnt(AqlParser.ScArrowRenameEntContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scArrowRenameFk}.
+	 * @param ctx the parse tree
+	 */
+	void enterScArrowRenameFk(AqlParser.ScArrowRenameFkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scArrowRenameFk}.
+	 * @param ctx the parse tree
+	 */
+	void exitScArrowRenameFk(AqlParser.ScArrowRenameFkContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scArrowRenameAttr}.
+	 * @param ctx the parse tree
+	 */
+	void enterScArrowRenameAttr(AqlParser.ScArrowRenameAttrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scArrowRenameAttr}.
+	 * @param ctx the parse tree
+	 */
+	void exitScArrowRenameAttr(AqlParser.ScArrowRenameAttrContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scArrowDeleteFk}.
+	 * @param ctx the parse tree
+	 */
+	void enterScArrowDeleteFk(AqlParser.ScArrowDeleteFkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scArrowDeleteFk}.
+	 * @param ctx the parse tree
+	 */
+	void exitScArrowDeleteFk(AqlParser.ScArrowDeleteFkContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scArrowDeleteAttr}.
+	 * @param ctx the parse tree
+	 */
+	void enterScArrowDeleteAttr(AqlParser.ScArrowDeleteAttrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scArrowDeleteAttr}.
+	 * @param ctx the parse tree
+	 */
+	void exitScArrowDeleteAttr(AqlParser.ScArrowDeleteAttrContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#schemaColimitModifySection}.
 	 * @param ctx the parse tree

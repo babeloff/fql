@@ -101,7 +101,7 @@ public abstract class MapExp<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> extends Exp<Map
 	
 	/////////////////////////////////////////////////////////////////////
 
-	public static final class MapExpId<Ty, Sym, En,Fk,Att> extends MapExp<Ty, Sym, En,Fk,Att,En,Fk,Att> {
+	public static final class MapExpId<Ty,Sym,En,Fk,Att> extends MapExp<Ty,Sym,En,Fk,Att,En,Fk,Att> {
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();
@@ -111,9 +111,9 @@ public abstract class MapExp<Ty, Sym, En1,Fk1,Att1,En2,Fk2,Att2> extends Exp<Map
 			return sch.deps();
 		}
 				
-		public final SchExp<Ty, Sym, En,Fk,Att> sch;
+		public final SchExp<Ty,Sym,En,Fk,Att> sch;
 
-		public MapExpId(SchExp<Ty, Sym, En, Fk, Att> sch) {
+		public MapExpId(SchExp<Ty,Sym,En,Fk,Att> sch) {
 			if (sch == null) {
 				throw new RuntimeException("Attempt to create MapExpId with null schema");
 			}

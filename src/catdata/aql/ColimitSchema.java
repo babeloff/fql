@@ -263,7 +263,8 @@ public class ColimitSchema<N> implements Semantics {
 			throw new RuntimeException("The term " + t + " has type " + schemaStr.type(new Pair<>(v, en1), t).toStringMash() + " and not " + en2 + " as expected.");
 		}
 		if (!schemaStr.dp.eq(new Ctx<>(v, Chc.inRight(en1)), t, Term.Fk(src, Term.Var(v)))) {
-			throw new RuntimeException("The term " + t + " is not provably equal to " + Term.Fk(src, Term.Var(v)));
+			throw new RuntimeException("In context " + new Ctx<>(v, Chc.inRight(en1)) 
+					+ " the term " + t + " is not provably equal to " + Term.Fk(src, Term.Var(v)));
 		}
 		Mapping<Ty,Sym,En,Fk,Att,En,Fk,Att> isoToUser = Mapping.id(schemaStr);
 		Mapping<Ty,Sym,En,Fk,Att,En,Fk,Att> isoFromUser = Mapping.id(schemaStr);

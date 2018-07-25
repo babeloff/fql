@@ -45,6 +45,7 @@ import catdata.aql.exp.SchExpRaw.Fk;
 import catdata.aql.exp.TransExp.TransExpCoEvalEvalCoUnit;
 import catdata.aql.exp.TransExp.TransExpCoEvalEvalUnit;
 import catdata.aql.exp.TransExp.TransExpId;
+import catdata.aql.exp.TransExp.TransExpSigmaDeltaCounit;
 import catdata.aql.exp.TransExp.TransExpSigmaDeltaUnit;
 import catdata.aql.exp.TyExpRaw.Sym;
 import catdata.aql.exp.TyExpRaw.Ty;
@@ -100,7 +101,9 @@ import catdata.aql.grammar.AqlParser.QueryRefContext;
 import catdata.aql.grammar.AqlParser.QuerySimpleSectionContext;
 import catdata.aql.grammar.AqlParser.SchemaArrowIdContext;
 import catdata.aql.grammar.AqlParser.SchemaColimitKindContext;
+import catdata.aql.grammar.AqlParser.SchemaColimitModifySectionContext;
 import catdata.aql.grammar.AqlParser.SchemaColimitQuotientSectionContext;
+import catdata.aql.grammar.AqlParser.SchemaColimitRefContext;
 import catdata.aql.grammar.AqlParser.SchemaEntityIdContext;
 import catdata.aql.grammar.AqlParser.SchemaEquationSigContext;
 import catdata.aql.grammar.AqlParser.SchemaGenTypeContext;
@@ -144,12 +147,13 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	
 	/**
 	 * The location of tokens is used by the editor.
+	 * It may be better to look up the constant id property.
 	 * 
 	 * @param ctx
 	 * @return
 	 */
 	private LocStr makeLocStr(ParserRuleContext ctx) {
-		return new LocStr(ctx.getStart().getStartIndex(), ctx.getText());
+		return new LocStr(ctx.getStart().getStartIndex(), unquote(ctx.getText()));
 	}	
 	private Integer getLoc(ParserRuleContext ctx) {
 		return ctx.getStart().getStartIndex();
@@ -216,6 +220,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	toMap(final List<Pair<String,String>> options) 	{ 
 		return options.stream()
 			.collect(Collectors.toMap(p -> p.first, p -> p.second)); 
+	}
+	
+	@SuppressWarnings("unused")
+	private List<Pair<String,String>> 
+	toList(Map<String, String> opts) {
+		return opts.entrySet().stream() 
+			.map(x -> new Pair<>(x.getKey(), x.getValue()))
+			.collect(Collectors.toList());
 	}
 	
 	private final ParseTreeProperty<List<Pair<String,String>>> aopts;
@@ -435,7 +447,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 							elt.typesideTypeId().getText());
 
 					return elt.typesideConstantId().stream()
-							.map(id -> new Pair<LocStr, Pair<List<String>, String>>( 
+							.map(id -> new Pair<>( 
 									makeLocStr(id),	type))
 							.collect(Collectors.toList());
 				})
@@ -1096,11 +1108,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final QueryDeltaCoEvalSectionContext sect = ctx.queryDeltaCoEvalSection();
 		
 		@SuppressWarnings("unchecked")
-		final SchExp<Ty, Sym, En, Fk, Att>
-		schKind = (SchExp<Ty, Sym, En, Fk, Att>) this.exps.get(ctx.schemaKind());
-		
-		final MapExp<Ty, Sym, En,Fk,Att,En,Fk,Att> 
-		mapExp = new MapExp.MapExpId<Ty, Sym, En,Fk,Att>(schKind);
+		final MapExp<Ty, Sym, En,Fk,Att,En,Fk,Att>
+		mapExp = (MapExp<Ty, Sym, En, Fk, Att, En, Fk, Att>) this.exps.get(ctx.mappingKind());
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
@@ -1393,12 +1402,14 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final InstanceCoevalSectionContext sect = ctx.instanceCoevalSection();
 		
 		@SuppressWarnings("unchecked")
-		final QueryExp<Ty, Sym, En,Fk,Att,En,Fk,Att>
-		queryKindExp = (QueryExp<Ty, Sym, En, Fk, Att, En, Fk, Att>) this.exps.get(queryKind);
+		final QueryExp<Ty,Sym,En,Fk,Att,En,Fk,Att>
+		queryKindExp = (QueryExp<Ty,Sym,En,Fk,Att,En,Fk,Att>) 
+			this.exps.get(queryKind);
 		
 		@SuppressWarnings("unchecked")
 		final InstExp<Ty, Sym, En,Fk,Att,Gen,Sk,X,Y> 
-		instKindExp = (InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>) this.exps.get(instKind);
+		instKindExp = (InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>) 
+		    this.exps.get(instKind);
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(sect)
@@ -1406,7 +1417,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.orElseGet(LinkedList::new);
 		
 		final InstExp<Ty, Sym, En, Fk, Att, Pair<Var, X>, Y, ID, Chc<Y, Pair<ID, Att>>>
-		inst = new InstExp.InstExpCoEval<Ty, Sym, En,Fk,Att,Gen,Sk,En,Fk,Att,X,Y>(queryKindExp, instKindExp, options);
+		inst = new InstExp.InstExpCoEval<>(queryKindExp, instKindExp, options);
 		
 		this.exps.put(ctx, inst);
 	}
@@ -1454,7 +1465,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx, inst);
 	 }
 	@Override public void enterInstanceExp_CoSigma(AqlParser.InstanceExp_CoSigmaContext ctx) {
-		// TODO write
+		// provided to aid in debugging.
 		// log.info("entering InstanceExp_CoSigma");
 	}
 	@Override public void exitInstanceExp_CoSigma(AqlParser.InstanceExp_CoSigmaContext ctx) {
@@ -2109,8 +2120,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 				.map(s -> toMap(s))
 			.orElseGet(HashMap::new);
 			
-		final TransExpSigmaDeltaUnit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
-		trans = new TransExpSigmaDeltaUnit<>(mapExp, instExp, options);
+		final TransExpSigmaDeltaCounit<?,?,?,?, ?,?,?,?, ?,?,?,?> 
+		trans = new TransExpSigmaDeltaCounit<>(mapExp, instExp, options);
 			
 		this.exps.put(ctx,trans);
 	}
@@ -2785,7 +2796,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		entEquationTerms = new LinkedList<>();
 		
 		final List<Pair<String,String>>
-		options = Optional.ofNullable(sect)
+		options = Optional.ofNullable(ctx)
 					.map(s -> this.aopts.get(s.allOptions()))
 					.orElseGet(LinkedList::new);
 			
@@ -2796,11 +2807,96 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 	
 	@Override public void exitSchemaColimitExp_CoProduct(AqlParser.SchemaColimitExp_CoProductContext ctx) {
-		// TODO write
+		final List<SchemaRefContext> schRefs = ctx.schemaRef();
+		final TypesideRefContext tyRef = ctx.typesideRef();
+	
+		@SuppressWarnings("unchecked")
+		final TyExp<Ty, Sym> 
+		ty = (TyExp<Ty, Sym>) this.exps.get(tyRef);
+	
+		final List<LocStr> 
+		schs = schRefs.stream() 
+			.map(ref -> makeLocStr(ref))
+			.collect(Collectors.toList());
+					
+		final List<Pair<Integer, Quad<String, String, String, String>>> eqEn = new LinkedList<>(); 
+		final List<Pair<Integer, Quad<String, String, RawTerm, RawTerm>>> entEquationTerms = new LinkedList<>(); 
+		final List<Pair<Integer, Pair<List<String>, List<String>>>> obsEquationTerms = new LinkedList<>(); 
+		final List<Pair<String, String>> options = new LinkedList<>(); 
+		
+		final ColimSchExp.ColimSchExpQuotient<String> 
+		term = new ColimSchExp.ColimSchExpQuotient<String>(ty, schs, eqEn , entEquationTerms, obsEquationTerms, options); 
+		
+		this.exps.put(ctx,term);
 	}
 	
 	@Override public void exitSchemaColimitExp_Modify(AqlParser.SchemaColimitExp_ModifyContext ctx) {
-		// TODO write
+		final SchemaColimitRefContext schColimRef = ctx.schemaColimitRef();
+		final SchemaColimitModifySectionContext sect = ctx.schemaColimitModifySection();
+	
+		@SuppressWarnings("unchecked")
+		final ColimSchExp.ColimSchExpVar<String>
+		schColimRefExp = (ColimSchExpVar<String>) this.exps.get(schColimRef);
+	
+		final List<Pair<LocStr, String>> 
+		ens = sect.scArrowRenameEnt().stream()
+			.map(x -> new Pair<>( 
+					makeLocStr(x.scEntityId()),
+					x.scEntityAlias().getText()))
+			.collect(Collectors.toList());
+		
+		final List<Pair<Pair<String,LocStr>, String>> 
+		fksRename = sect.scArrowRenameFk().stream()
+				.map(x -> new Pair<>( 
+						new Pair<>( 
+								x.scEntityAlias().getText(),
+								makeLocStr(x.scFkId())),
+						x.scFkAlias().getText()))
+				.collect(Collectors.toList());
+		
+		final List<Pair<Pair<String,LocStr>, String>> 
+		attsRename = sect.scArrowRenameAttr().stream()
+				.map(x -> new Pair<>( 
+						new Pair<>( 
+								x.scEntityAlias().getText(),
+								makeLocStr(x.scAttrId())),
+						x.scAttrAlias().getText()))
+				.collect(Collectors.toList());
+		
+		final List<Pair<Pair<String,LocStr>, List<String>>> 
+		fksDelete = sect.scArrowDeleteFk().stream()
+				.map(x -> 
+					new Pair<> ( 
+						new Pair<>( 
+								x.scEntityAlias().getText(),
+								makeLocStr(x.scFkId())),
+						x.scFkAlias().stream() 
+							.map(y -> y.getText())
+							.collect(Collectors.toList())))
+				.collect(Collectors.toList());
+		
+		final List<Pair<Pair<String,LocStr>, Triple<String, String, RawTerm>>> 
+		attsDelete = sect.scArrowDeleteAttr().stream()
+				.map(x -> 
+					new Pair<>( 
+						new Pair<>( 
+								x.scEntityAlias().getText(),
+								makeLocStr(x.scAttrId())),
+						new Triple<>(
+								x.scAttrAlias(0).getText(),
+								x.scAttrAlias(1).getText(),
+								(RawTerm) null)))
+				.collect(Collectors.toList());
+				
+		final List<Pair<String,String>>
+		options = Optional.ofNullable(ctx)
+					.map(s -> this.aopts.get(s.allOptions()))
+					.orElseGet(LinkedList::new);
+			
+		final ColimSchExpModify<String> 
+		term = new ColimSchExpModify<>(schColimRefExp, ens, fksRename, attsRename, fksDelete, attsDelete, options); 
+		
+		this.exps.put(ctx,term);
 	}
 	
 	@Override public void exitSchemaColimitExp_Wrap(AqlParser.SchemaColimitExp_WrapContext ctx) {

@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/8rc/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/h17/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -2291,6 +2291,72 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scEntityId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScEntityId(AqlParser.ScEntityIdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scEntityAlias}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScEntityAlias(AqlParser.ScEntityAliasContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scFkId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScFkId(AqlParser.ScFkIdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scFkAlias}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScFkAlias(AqlParser.ScFkAliasContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scAttrId}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScAttrId(AqlParser.ScAttrIdContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scAttrAlias}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScAttrAlias(AqlParser.ScAttrAliasContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scArrowRenameEnt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScArrowRenameEnt(AqlParser.ScArrowRenameEntContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scArrowRenameFk}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScArrowRenameFk(AqlParser.ScArrowRenameFkContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scArrowRenameAttr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScArrowRenameAttr(AqlParser.ScArrowRenameAttrContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scArrowDeleteFk}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScArrowDeleteFk(AqlParser.ScArrowDeleteFkContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scArrowDeleteAttr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScArrowDeleteAttr(AqlParser.ScArrowDeleteAttrContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#schemaColimitModifySection}.
 	 * @param ctx the parse tree
