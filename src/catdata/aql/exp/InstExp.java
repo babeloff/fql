@@ -337,6 +337,7 @@ public abstract class InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
 			return ret;
 		}
 
+		
 		@Override
 		public String toString() {
 			if (hasNoSigmas()) {
@@ -862,15 +863,17 @@ public abstract class InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
 				return false;
 			return true;
 		}
-
+		
 		@Override
-		public String toString() {
-			String ret = "colim " + shape + " " + schema + " {";
-			ret += "\n\tnodes\n\t\t";
-			ret += Util.sep(nodes.map, " -> ", "\n\t\t");
-			ret += "\n\tedges\n\t\t";
-			ret += Util.sep(edges.map, " -> ", "\n\t\t");
-			return ret + "\n}";
+		public String makeString() {
+			return new StringBuilder() 
+					.append("colim ").append(shape).append(" ").append(schema).append(" {")
+					.append("\n\tnodes\n\t\t")
+					.append(Util.sep(nodes.map, " -> ", "\n\t\t"))
+					.append("\n\tedges\n\t\t")
+					.append(Util.sep(edges.map, " -> ", "\n\t\t"))
+					.append("\n}")
+					.toString();
 		}
 
 		@Override
@@ -1288,12 +1291,15 @@ public abstract class InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, X, Y>
 
 		@Override
 		public String toString() {
-			@SuppressWarnings("unused")
 			String l = "";
 			if (!options.isEmpty()) {
 				l = " {\n" + Util.sep(options, " = ", "\n\t") + "\n}";
 			}
-			return "sigma_chase " + F + " " + I;
+			return new StringBuilder()
+					.append("sigma_chase " + F)
+					.append(" " + I)
+					.append("\n" + l)
+					.toString();
 		}
 
 		@Override

@@ -23,17 +23,16 @@ public class TransExpCsv<X1,Y1,X2,Y2>
 		super(src, dst, files, options);
 	}
 
-	@Override //TODO aql
-	public String toString() {
-		String s = "";
+	@Override 
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder()
+				.append("import_csv ").append(src).append(" -> ").append(dst).append(" {\n\t")
+				.append(Util.sep(map, " -> ", "\n\t"));
 		if (!options.isEmpty()) {
-			s = "options" + Util.sep(options, "\n\t\t", " = ");
+			sb.append("options").append(Util.sep(options, "\n\t\t", " = "));
 		}
-		return "import_csv " + src + " -> " + dst + " {\n\t" + Util.sep(map, " -> ", "\n\t") + s + "\n}";
-
+		return  sb.append("\n}").toString();
 	}
-
-
 
 	@Override
 	public int hashCode() {

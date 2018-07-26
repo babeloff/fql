@@ -2,6 +2,10 @@ package catdata.aql.exp;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 
 import catdata.Pair;
 import catdata.aql.AqlOptions.AqlOption;
@@ -19,9 +23,18 @@ public abstract class Exp<X> {
 	
 	public abstract X eval(AqlEnv env);
 		
-	@Override
-	public abstract String toString();
+	private final Supplier<String> latestToString = Suppliers.memoizeWithExpiration(
+            this::makeString, 20, TimeUnit.SECONDS);
 	
+	@Override
+	public String toString() { return this.latestToString.get(); }
+	
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("undefined expression");
+		return sb.toString();
+	}
+		
 	@Override
 	public abstract int hashCode();
 

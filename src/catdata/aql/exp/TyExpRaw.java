@@ -314,7 +314,7 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 	}
 
 	@Override
-	public synchronized String toString() {
+	public String makeString() {
 		final StringBuilder sb = new StringBuilder();
 
 		if (!imports.isEmpty()) {

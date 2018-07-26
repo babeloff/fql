@@ -10,11 +10,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 
 import catdata.Chc;
 import catdata.Ctx;
@@ -165,6 +168,7 @@ public final class InstExpRaw extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, ID,
 	@SuppressWarnings("unchecked")
 	public InstExpRaw(SchExp<?, ?, ?, ?, ?> schema, List<LocStr> imports, List<Pair<LocStr, String>> gens,
 			List<Pair<Integer, Pair<RawTerm, RawTerm>>> eqs, List<Pair<String, String>> options) {
+
 		this.schema = (SchExp<Ty, Sym, En, Fk, Att>) schema;
 		this.imports = LocStr.set1(imports);
 		this.gens = LocStr.set2(gens);
@@ -188,8 +192,7 @@ public final class InstExpRaw extends InstExp<Ty, Sym, En, Fk, Att, Gen, Sk, ID,
 		raw.put("equations", xx);
 	}
 
-	@Override
-	public synchronized String toString() {
+	public synchronized String makeString() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("literal : " + schema + " {\n");
 		

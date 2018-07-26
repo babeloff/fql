@@ -137,7 +137,7 @@ public class QueryExpRaw extends QueryExp<Ty, Sym, En, Fk, Att, En, Fk, Att> imp
 		}
 
 		@Override
-		public synchronized String toString() {
+		public String makeString() {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("{");
 
@@ -290,7 +290,7 @@ public class QueryExpRaw extends QueryExp<Ty, Sym, En, Fk, Att, En, Fk, Att> imp
 		}
 
 		@Override
-		public synchronized String toString() {
+		public String makeString() {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("\nentity ")
 				.append(this.en.str)
@@ -410,7 +410,7 @@ public class QueryExpRaw extends QueryExp<Ty, Sym, En, Fk, Att, En, Fk, Att> imp
 	}
 
 	@Override
-	public synchronized String toString() {
+	public String makeString() {
 		final StringBuilder sb = new StringBuilder("literal : ");
 		sb.append(this.src).append(" -> ").append(this.dst);
 		sb.append("\n{");

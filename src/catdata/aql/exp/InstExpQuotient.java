@@ -112,25 +112,20 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,S
 		raw.put("equations", xx);
 	}
 
-	private String toString;
-	
 	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
-		
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("quotient " + I + "{\n"); 
 		List<String> temp = new LinkedList<>();
 		
 		if (!eqs.isEmpty()) {
-			toString += "\tequations";
+			sb.append("\tequations");
 			temp = new LinkedList<>();
 			for (Pair<RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
 				temp.add(sym.first + " = " + sym.second);
 			}
 			if (eqs.size() < 9) {
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n"); 
 			} else {
 				int step = 3;
 				int longest = 32;
@@ -140,8 +135,7 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,S
 					}
 				}
 				for (int i = 0; i < temp.size(); i += step) {
-					StringBuilder sb = new StringBuilder();
-					Formatter formatter = new Formatter(sb, Locale.US);
+					Formatter formatter = new Formatter(new StringBuilder(), Locale.US);
 					List<String> args = new LinkedList<>();
 					List<String> format = new LinkedList<>();
 					for (int j = i; j < Integer.min(temp.size(), i + step); j++) {
@@ -150,23 +144,23 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,S
 					}
 					String x = formatter.format(Util.sep(format, ""), args.toArray(new String[0])).toString();
 					formatter.close();
-					toString += "\n\t\t" + x;
+					sb.append("\n\t\t" + x); 
 				}
-				toString += "\n";
+				sb.append("\n"); 
 			}
 		}
 		
 		if (!options.isEmpty()) {
-			toString += "\toptions";
+			sb.append("\toptions"); 
 			temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n"); 
 		}
-		
-		return "quotient " + I + "{\n" + toString + "}";
+		sb.append("}");
+		return sb.toString();
 	} 
 
 

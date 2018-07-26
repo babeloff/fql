@@ -102,13 +102,13 @@ extends InstExp<Ty, Sym, En,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Int
 
 	@Override
 	public String toString() {
-		String s = "random : " + sch + " {\n";
-		String x = "";
+		final StringBuilder sb = new StringBuilder()
+			.append("random : ").append(sch).append(" {\n");
 		if (ens.size() > 0) {
-			x = "generators\n" + Util.sep(ens.map, " -> ", "\n");
+			sb.append("generators\n")
+				.append(Util.sep(ens.map, " -> ", "\n"));
 		}
-		
-		return s + x + "\n}";
+		return sb.append("\n}").toString();
 	}
 
 	@Override

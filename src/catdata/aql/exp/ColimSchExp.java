@@ -130,8 +130,15 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 		}
 
 		@Override
-		public synchronized String toString() {
+		public String makeString() {
 			final StringBuilder sb = new StringBuilder();
+			
+			if (eqEn.isEmpty() && eqTerms.isEmpty() && eqTerms2.isEmpty()) {
+				return sb.append("coproduct ")
+				     .append(Util.sep(nodes.keySet(), " + ")
+						 .toString(); 
+			} 
+			sb.append("quotient ").append(Util.sep(nodes.keySet(), " + ")).append(" {\n");
 			
 			if (!eqEn.isEmpty()) {
 				sb.append("\tentity_equations")
@@ -157,11 +164,7 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 						  .map(sym -> sym.getKey() + " = " + sym.getValue())
 						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 			}
-			if (eqEn.isEmpty() && eqTerms.isEmpty() && eqTerms2.isEmpty()) {
-				return "coproduct " + Util.sep(nodes.keySet(), " + "); 
-			} else {
-				return "quotient " + Util.sep(nodes.keySet(), " + ") + " {\n" + sb.toString() + "\n}";
-			}
+			return sb.append("\n}").toString();
 		} 
 
 		@Override
@@ -476,13 +479,15 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 	
 
 		@Override
-		public String toString() {
-			String ret = "literal " + shape + " : " + ty + " {";
-			ret += "\n\tnodes\n\t\t";
-			ret += Util.sep(nodes.map, " -> ", "\n\t\t");
-			ret += "\n\tedges\n\t\t";
-			ret += Util.sep(edges.map, " -> ", "\n\t\t");
-			return ret + "\n}";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder();
+			sb.append("literal " + shape + " : " + ty + " {");
+			sb.append("\n\tnodes\n\t\t");
+			sb.append(Util.sep(nodes.map, " -> ", "\n\t\t"));
+			sb.append("\n\tedges\n\t\t");
+			sb.append(Util.sep(edges.map, " -> ", "\n\t\t"));
+			sb.append("\n}");
+			return sb.toString();
 		}
 
 		@Override

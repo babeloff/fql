@@ -97,7 +97,10 @@ public class InstExpCsv
 
 	@Override
 	public String toString() {
-		return "import_csv " + f + " : " + schema + " {\n\t" + Util.sep(map, " -> ", "\n\t") + "\n}";
+		return new StringBuilder()
+				.append("import_csv " + f + " : " + schema + " {\n\t")
+				.append(Util.sep(map, " -> ", "\n\t") + "\n}")
+				.toString();
 	}
 	/*
 	 * @Override public boolean equals(Object obj) { return (obj instanceof

@@ -122,12 +122,20 @@ public abstract class GraphExp<N,E> extends Exp<Graph<N,E>> {
 		}
 
 		@Override
-		public String toString() {
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder();
+			
 			List<String> l = new LinkedList<>();
 			for (Object e  : edges.keySet()) {
 				l.add(e + ": " + edges.get(e).first + " -> " + edges.get(e).second);
 			}
-			return "literal {\n\tnodes\n\t\t" + Util.sep(nodes, " ") + "\n\tedges\n\t\t" + Util.sep(l, "\n\t\t") + "\n}";
+			return sb
+				.append("literal {\n\tnodes\n\t\t")
+				.append(Util.sep(nodes, " "))
+				.append("\n\tedges\n\t\t")
+				.append(Util.sep(l, "\n\t\t"))
+				.append("\n}")
+				.toString();
 		}
 
 		@Override
