@@ -1870,10 +1870,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override public void exitInstanceLiteral(AqlParser.InstanceLiteralContext ctx) {
 		final String value = this.str.get(ctx.instanceLiteralValue());
+		final InstanceSymbolContext annotate = ctx.instanceSymbol();
+		
 		@SuppressWarnings("unused")
 		final InstanceSymbolContext symbol = ctx.instanceSymbol();
 		
-		final RawTerm term = new RawTerm(value);
+		final RawTerm term = (annotate == null) ? new RawTerm(value) : new RawTerm(value, annotate.getText());
 		this.terms.put(ctx,  term);
 	}
 	

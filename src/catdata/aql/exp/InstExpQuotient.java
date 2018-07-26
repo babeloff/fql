@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import catdata.Chc;
 import catdata.Ctx;
@@ -115,15 +116,15 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,S
 	@Override
 	public String makeString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("quotient " + I + "{\n"); 
-		List<String> temp = new LinkedList<>();
+		sb.append("quotient " + I + "{\n");
 		
 		if (!eqs.isEmpty()) {
 			sb.append("\tequations");
-			temp = new LinkedList<>();
-			for (Pair<RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
-				temp.add(sym.first + " = " + sym.second);
-			}
+
+			final List<String> temp = Util.alphabetical(eqs).stream()
+					.map(sym -> sym.first + " + " + sym.second)
+					.collect(Collectors.toList());
+			
 			if (eqs.size() < 9) {
 				sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n"); 
 			} else {
@@ -135,14 +136,16 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,S
 					}
 				}
 				for (int i = 0; i < temp.size(); i += step) {
-					Formatter formatter = new Formatter(new StringBuilder(), Locale.US);
+					Formatter formatter = new Formatter(null, Locale.US);
 					List<String> args = new LinkedList<>();
 					List<String> format = new LinkedList<>();
 					for (int j = i; j < Integer.min(temp.size(), i + step); j++) {
 						args.add(temp.get(j));
 						format.add("%-" + longest + "s");
 					}
-					String x = formatter.format(Util.sep(format, ""), args.toArray(new String[0])).toString();
+					final String formatStr = Util.sep(format, "");
+					final Object[] formatTgt = args.toArray(new String[0]);
+					final String x = formatter.format(formatStr, formatTgt).toString();
 					formatter.close();
 					sb.append("\n\t\t" + x); 
 				}
@@ -152,7 +155,7 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty, Sym, En,Fk,Att,Gen,S
 		
 		if (!options.isEmpty()) {
 			sb.append("\toptions"); 
-			temp = new LinkedList<>();
+			final List<String> temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
