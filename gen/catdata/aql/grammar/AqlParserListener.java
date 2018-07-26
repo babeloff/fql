@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/g6v/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/ova/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -3859,6 +3859,26 @@ public interface AqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scSymPath}.
+	 * @param ctx the parse tree
+	 */
+	void enterScSymPath(AqlParser.ScSymPathContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scSymPath}.
+	 * @param ctx the parse tree
+	 */
+	void exitScSymPath(AqlParser.ScSymPathContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AqlParser#scAlias}.
+	 * @param ctx the parse tree
+	 */
+	void enterScAlias(AqlParser.ScAliasContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AqlParser#scAlias}.
+	 * @param ctx the parse tree
+	 */
+	void exitScAlias(AqlParser.ScAliasContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AqlParser#scEntityId}.
 	 * @param ctx the parse tree

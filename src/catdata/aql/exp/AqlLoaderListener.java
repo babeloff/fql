@@ -159,28 +159,16 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		return ctx.getStart().getStartIndex();
 	}
 	
-	public AqlLoaderListener() {
-		this.decls = new LinkedList<>();
-		this.global_options = new LinkedList<>();
-		this.kind = q -> q.kind().toString();
-
-		this.str = new ParseTreeProperty<>();
-		this.exps = new ParseTreeProperty<>();
-		this.mapped_terms_1 = new ParseTreeProperty<>();
-		this.value_option = new ParseTreeProperty<>();
-		this.terms = new ParseTreeProperty<>();
-		
-		this.prexps = new ParseTreeProperty<>();
-		this.mapped_terms_2 = new ParseTreeProperty<>();
-		this.aopts = new ParseTreeProperty<>();
-	}
-	public final List<Triple<String, Integer, Exp<?>>> decls;
-	public final List<Pair<String, String>> global_options;
-	public Function<Exp<?>, String> kind;
+	public AqlLoaderListener() {}
 	
-	private final ParseTreeProperty<String> str;
-	private final ParseTreeProperty<Exp<?>> exps;
-	private final ParseTreeProperty<RawTerm> terms;
+	public final List<Triple<String, Integer, Exp<?>>> decls = new LinkedList<>();
+	public final List<Pair<String, String>> global_options = new LinkedList<>();
+	public Function<Exp<?>, String> kind = q -> q.kind().toString();
+	
+	private final ParseTreeProperty<List<String>> path = new ParseTreeProperty<>();
+	private final ParseTreeProperty<String> str = new ParseTreeProperty<>();
+	private final ParseTreeProperty<Exp<?>> exps = new ParseTreeProperty<>();
+	private final ParseTreeProperty<RawTerm> terms = new ParseTreeProperty<>();
 	
 	public final Map<String, Exp<?>> ns = new HashMap<>();
 	
@@ -230,7 +218,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.collect(Collectors.toList());
 	}
 	
-	private final ParseTreeProperty<List<Pair<String,String>>> aopts;
+	private final ParseTreeProperty<List<Pair<String,String>>>
+	aopts = new ParseTreeProperty<>();
 	
 	@Override public void exitAllOptions(AqlParser.AllOptionsContext ctx) {
 		final List<Pair<String,String>>	
@@ -260,7 +249,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	 * see AqlOptions.g4
 	 */
 
-	private final ParseTreeProperty<Pair<String,String>> value_option;
+	private final ParseTreeProperty<Pair<String,String>> value_option = new ParseTreeProperty<>();
 	
 	@Override public void exitOptionsDeclarationSection(AqlParser.OptionsDeclarationSectionContext ctx) {
 		for(final ParseTree child : ctx.optionsDeclaration() ) {
@@ -636,7 +625,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 
-	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> mapped_terms_2;
+	private final ParseTreeProperty<Quad<String,String,RawTerm,RawTerm>> 
+	mapped_terms_2 = new ParseTreeProperty<>();
 	
 	@Override public void exitSchemaExp_Literal(AqlParser.SchemaExp_LiteralContext ctx) {
 		final SchemaLiteralSectionContext 
@@ -937,7 +927,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		this.exps.put(ctx,mapping);
 	}
 	
-	private final ParseTreeProperty<Triple<String,String,RawTerm>> mapped_terms_1;
+	private final ParseTreeProperty<Triple<String,String,RawTerm>> 
+	mapped_terms_1 = new ParseTreeProperty<>();
 
 	@Override public void exitMappingLiteralSubsection(AqlParser.MappingLiteralSubsectionContext ctx) { 
 		final List<SchemaEntityIdContext>
@@ -1143,7 +1134,8 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 	}
 
 
-	private final ParseTreeProperty<PreBlock> prexps;
+	private final ParseTreeProperty<PreBlock> 
+	prexps = new ParseTreeProperty<>();
 	
 	@Override public void exitQueryExp_Simple(AqlParser.QueryExp_SimpleContext ctx) {
 		final SchemaKindContext schemaKind = ctx.schemaKind();
@@ -2793,7 +2785,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			.collect(Collectors.toList());
 		
 		final List<Pair<Integer, Pair<List<String>, List<String>>>> 
-		entEquationTerms = new LinkedList<>();
+		entEquationTerms = sect.scQuotientFkEqu().stream()
+				.map(eqn -> new Pair<>(
+						getLoc(eqn), 
+						new Pair<>(this.path.get(eqn.scSymPath(0)),
+								this.path.get(eqn.scSymPath(1)))))
+				.collect(Collectors.toList());
 		
 		final List<Pair<String,String>>
 		options = Optional.ofNullable(ctx)
@@ -2915,10 +2912,17 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final RawTerm term = new RawTerm(ctx.schemaTermId().getText(), child);
 		this.terms.put(ctx,term);
 	}
-	
+
 	@Override public void exitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx) {
 		final RawTerm term = new RawTerm(ctx.schemaTermId().getText());
 		this.terms.put(ctx,term);
+	}
+
+	@Override public void exitScSymPath(AqlParser.ScSymPathContext ctx) {
+		final List<String> path = ctx.scAlias().stream()
+				.map(x -> x.getText())
+				.collect(Collectors.toList());
+		this.path.put(ctx,path);
 	}
 
 }

@@ -3,15 +3,18 @@ package catdata.aql.exp;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.sun.tools.sjavac.Log;
 
 import catdata.Pair;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Kind;
 
 public abstract class Exp<X> {
+	private static Logger log = Logger.getLogger(Exp.class.getName());
 	
 	public Object getOrDefault(AqlEnv env, AqlOption option) {
 		return env.defaults.getOrDefault(options(), option);
@@ -27,7 +30,10 @@ public abstract class Exp<X> {
             this::makeString, 20, TimeUnit.SECONDS);
 	
 	@Override
-	public String toString() { return this.latestToString.get(); }
+	public String toString() { 
+		log.warning(new StringBuilder().append("to string : ").append(this.kind()).toString());
+		return this.latestToString.get(); 
+	}
 	
 	public String makeString() {
 		final StringBuilder sb = new StringBuilder();

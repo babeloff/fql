@@ -134,11 +134,14 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 			final StringBuilder sb = new StringBuilder();
 			
 			if (eqEn.isEmpty() && eqTerms.isEmpty() && eqTerms2.isEmpty()) {
-				return sb.append("coproduct ")
-				     .append(Util.sep(nodes.keySet(), " + ")
-						 .toString(); 
+				return sb
+						.append("coproduct ")
+						.append(Util.sep(nodes.keySet(), " + "))
+						.append(" : ").append(this.ty)
+						.toString(); 
 			} 
-			sb.append("quotient ").append(Util.sep(nodes.keySet(), " + ")).append(" {\n");
+			sb.append("quotient ").append(Util.sep(nodes.keySet(), " + "))
+				.append(" : ").append(this.ty).append(" ").append(" {\n");
 			
 			if (!eqEn.isEmpty()) {
 				sb.append("\tentity_equations")

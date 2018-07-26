@@ -30,11 +30,11 @@ schemaColimitKind
 schemaColimitQuotientSection
 : (ENTITY_EQUATIONS scQuotientEqu*)?
   (PATH_EQUATIONS scQuotientFkEqu*)?
-    (OBSERVATION_EQUATIONS scObsEquation* )?
+  (OBSERVATION_EQUATIONS scObsEquation* )?
   ;
 
 scQuotientEqu : scTermPath EQUAL scTermPath ;
-scQuotientFkEqu : scTermPath EQUAL scTermPath ;
+scQuotientFkEqu : scSymPath EQUAL scSymPath ;
 
 scObsEquation
 : FORALL scGen DOT scTermPath EQUAL scTermPath
@@ -47,6 +47,9 @@ scTermPath
 : schemaRef DOT schemaTermId  # ScTermPath_Dotted
 | schemaTermId                # ScTermPath_Singular
 ;
+
+scSymPath : scAlias (DOT scAlias)* ;
+scAlias : symbol ;
 
 scEntityId : symbol ;
 scEntityAlias : symbol ;

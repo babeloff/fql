@@ -1,4 +1,4 @@
-// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/g6v/-ru88jt/AqlParser.g4 by ANTLR 4.7
+// Generated from /home/fred/.boot/cache/tmp/home/fred/github/fql1/gen_src/catdata/aql/grammar/ova/-ru88jt/AqlParser.g4 by ANTLR 4.7
 package catdata.aql.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -2291,6 +2291,18 @@ public interface AqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitScTermPath_Singular(AqlParser.ScTermPath_SingularContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scSymPath}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScSymPath(AqlParser.ScSymPathContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AqlParser#scAlias}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScAlias(AqlParser.ScAliasContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AqlParser#scEntityId}.
 	 * @param ctx the parse tree
