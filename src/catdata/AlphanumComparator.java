@@ -12,7 +12,7 @@ import java.util.Comparator;
  */
 public class AlphanumComparator implements Comparator<Object> {
 	private final boolean isDigit(char ch) {
-		return ((ch >= 48) && (ch <= 57));
+		return   ((ch >= 48) && (ch <= 57));
 	}
 
 	/**

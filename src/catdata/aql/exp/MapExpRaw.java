@@ -196,7 +196,8 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
 		}
 
-		return "literal : " + src + " -> " + dst + " {\n" + toString + "}";
+		toString = "literal : " + src + " -> " + dst + " {\n" + toString + "}";
+		return toString;
 	}
 
 	@Override

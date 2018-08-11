@@ -145,7 +145,8 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 		List<String> l = eds.stream().map(x -> x.toString()).collect(Collectors.toList());
 		toString += Util.sep(l, "\n\n");
 
-		return "literal : " + schema + " {\n" + toString + "}";
+		toString = "literal : " + schema + " {\n" + toString + "}";
+		return toString;
 	}
 
 	@Override

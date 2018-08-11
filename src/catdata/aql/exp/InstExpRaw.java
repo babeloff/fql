@@ -260,7 +260,8 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
 		}
 
-		return "literal : " + schema + " {\n" + toString + "}";
+		toString = "literal : " + schema + " {\n" + toString + "}";
+		return toString;
 	}
 
 	@Override

@@ -95,6 +95,8 @@ extends Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Chc<Sk, Pair<X, Att>>>
 	}
 	
 	public InitialAlgebra(DP<Ty, En, Sym, Fk, Att, Gen, Sk> dp, Schema<Ty, En, Sym, Fk, Att> schema, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, Iterator<X> fresh, Function<Gen, String> printGen, Function<Sk, String> printSk) {
+		//System.out.println("starting ");
+		//schema.assertAcyclic();
 		ens = Util.newSetsFor(schema.ens);
 		this.col = col;
 		this.schema = schema;
@@ -150,6 +152,7 @@ extends Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Chc<Sk, Pair<X, Att>>>
 	
 	private boolean saturate1() throws InterruptedException {
 		//schema.typeSide.collage(); sanity check
+//System.out.println(ens);
 
 		boolean changed = false;
 		for (Gen gen : col.gens.keySet()) {

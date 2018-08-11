@@ -1,7 +1,6 @@
 package catdata.aql.exp;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -168,15 +167,12 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 			toString = "";
 
 		
-			List<String> temp = new LinkedList<>();
-
-			temp.add(block.toString());
 			
-				toString += "\t\t" + Util.sep(temp, "\n\n\t\t") + "\n";
+			toString += block.toString2() + "\n";
 			
 			
-
-			return "simple : " + src + " {\n" + toString + "\n}";
+			toString = "simple : " + src + " {\n" + toString + "\n}";
+			return toString;
 		}
 
 	

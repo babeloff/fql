@@ -50,19 +50,18 @@ public class SigmaInstance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, 
 			eqs.add(new Pair<>(F.trans(eq.first), F.trans(eq.second)));
 			col.eqs.add(new Eq<>(new Ctx<>(), F.trans(eq.first), F.trans(eq.second)));
 		}
-		/* do not delete - in use by ryan for prover experiments with sarah
-		try {
-			Util.writeFile(col.tptp(), "/Users/ryan/Desktop/sigma" + System.currentTimeMillis() + ".tptp");
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		Util.anomaly();
-		*/
+		///* do not delete - in use by ryan for prover experiments with sarah
+		//try {
+		//	Util.writeFile(col.tptp(), "/Users/ryan/Desktop/sigma" + System.currentTimeMillis() + ".tptp");
+		////} catch (Exception ex) {
+		//	ex.printStackTrace();
+		//}
+		//Util.anomaly();
+		//*/
 		Function<Gen,String> printGen = x -> I.algebra().printX(I.algebra().nf(Term.Gen(x)));
 		Function<Sk, String> printSk = x -> I.algebra().sk(x).toString(I.algebra()::printY, Util.voidFn());
 		InitialAlgebra<Ty, En2, Sym, Fk2, Att2, Gen, Sk, ID> initial 
 		= new InitialAlgebra<>(strat, schema(), col, new It(), printGen, printSk);
-				
 		J = new LiteralInstance<>(schema(), col.gens.map, col.sks.map, eqs, initial.dp(), initial, (Boolean) strat.getOrDefault(AqlOption.require_consistency), (Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe)); 
 		validate();
 	}

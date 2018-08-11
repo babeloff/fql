@@ -163,6 +163,8 @@ public final class AqlMultiDriver implements Callable<Unit> {
 			thr.start();
 		}
 		barrier();
+		//
+		//System.out.println("through barrier");
 
 		if (!exn.isEmpty()) {
 			for (RuntimeException t : exn) {
@@ -226,13 +228,13 @@ public final class AqlMultiDriver implements Callable<Unit> {
 		return b;
 	}
 
-	private Unit notifyOfDeath() {
+	private Unit notifyOfDeath() {	
+		synchronized (this) { 
+			notifyAll();
+		}
 		synchronized (ended) {
 			ended.i++;
 			ended.notifyAll();
-		}
-		synchronized (this) { 
-			notifyAll();
 		}
 		return new Unit();
 	}

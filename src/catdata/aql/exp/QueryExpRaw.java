@@ -311,12 +311,12 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 			if (toString != null) {
 				return toString;
 			}
-			toString = "";
+			toString = "entity " + en + " -> {\n";
 
 			List<String> temp = new LinkedList<>();
 
 			if (!gens.isEmpty()) {
-				toString += "from\t";
+				toString += "\t\t\tfrom\t";
 
 				Map<En, Set<Var>> x = Util.revS(Util.toMapSafely(gens));
 				temp = new LinkedList<>();
@@ -364,9 +364,73 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 				toString += "\n\t\t\t\t" + Util.sep(temp, "\n\t\t\t\t\t");
 			}
 
-			return "\t" + toString;
+			toString = "\t" + toString + "\n\t\t\t\t}";
+			return toString;
 		}
 
+		private String toString2;
+
+		public synchronized String toString2() {
+			if (toString2 != null) {
+				return toString2;
+			}
+			toString2 = "";
+
+			List<String> temp = new LinkedList<>();
+
+			if (!gens.isEmpty()) {
+				toString2 += "\t\t\t\tfrom ";
+
+				Map<En, Set<Var>> x = Util.revS(Util.toMapSafely(gens));
+				temp = new LinkedList<>();
+				for (En En : Util.alphabetical(x.keySet())) {
+					temp.add(Util.sep(x.get(En), " ") + " : " + En);
+				}
+
+				toString2 += Util.sep(temp, "\n\t\t\t\t\t");
+			}
+
+			if (!eqs.isEmpty()) {
+				toString2 += "\n\t\t\t\twhere\t";
+				temp = new LinkedList<>();
+				for (Pair<RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
+					temp.add(sym.first + " = " + sym.second);
+				}
+				toString2 += Util.sep(temp, "\n\t\t\t\t\t");
+			}
+
+			if (!atts.isEmpty()) {
+				toString2 += "\n\t\t\t\tattributes\t";
+				temp = new LinkedList<>();
+				for (Pair<Att, RawTerm> sym : Util.alphabetical(atts)) {
+					temp.add(sym.first + " -> " + sym.second);
+				}
+				toString2 += Util.sep(temp, "\n\t\t\t\t\t");
+			}
+
+			if (!fks.isEmpty()) {
+				toString2 += "\n\t\t\t\tforeign_keys\t";
+				temp = new LinkedList<>();
+				for (Pair<catdata.aql.exp.SchExpRaw.Fk, Trans> sym : Util.alphabetical(fks)) {
+					temp.add(sym.first.str + " -> {" + sym.second + "}");
+				}
+				toString2 += Util.sep(temp, "\n\t\t\t\t\t");
+			}
+
+			if (!options.isEmpty()) {
+				toString2 += "\n\t\t\t\toptions";
+				temp = new LinkedList<>();
+				for (Entry<String, String> sym : options.entrySet()) {
+					temp.add(sym.getKey() + " = " + sym.getValue());
+				}
+
+				toString2 += "\n\t\t\t\t" + Util.sep(temp, "\n\t\t\t\t\t");
+			}
+
+			toString2 = "\t" + toString2;
+			return toString2;
+		}
+		
 		@Override
 		public Ctx<String, List<InteriorLabel<Object>>> raw() {
 			return raw;
@@ -457,7 +521,7 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 		List<String> temp = new LinkedList<>();
 
 		if (!blocks.isEmpty()) {
-			toString += "\tentity";
+			
 
 			for (Block x : blocks) {
 				temp.add(x.toString());
@@ -476,7 +540,8 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
 		}
 
-		return "literal : " + src + " -> " + dst + " {\n" + toString + "}";
+		toString = "literal : " + src + " -> " + dst + " {\n" + toString + "}";
+		return toString;
 	}
 
 	public QueryExpRaw(List<Pair<LocStr, String>> params, List<Pair<LocStr, RawTerm>> consts, SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,

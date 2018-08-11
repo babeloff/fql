@@ -57,7 +57,7 @@ public class MaedmaxProver<T, C, V> extends DPKB<T, C, V>  {
 			Util.writeFile(th.tptp(allowEmptySorts), g.getAbsolutePath());
 			System.out.println(g.getAbsolutePath());
 			
-			String str = exePath + "-T " + seconds + " --interactive --aql " + g.getAbsolutePath();
+			String str = exePath + " -T " + seconds + " --interactive --aql " + g.getAbsolutePath();
 			proc = Runtime.getRuntime().exec(str);
 			
 			
@@ -68,9 +68,9 @@ public class MaedmaxProver<T, C, V> extends DPKB<T, C, V>  {
 			String line = reader.readLine();
 			if (line == null) {
 				throw new RuntimeException("Call to maedmax yields null, process is alive: " + proc.isAlive() + ".  Command: " + str);
-			} else if (!line.equals("OK")) {
-				throw new RuntimeException("Maedmax error: " + line);
-			}
+			} // else if (!line.equals("OK")) {
+		//		throw new RuntimeException("Maedmax error: " + line);
+		//	}
 			
 		} catch (IOException e) {
 			throw new RuntimeException(e);

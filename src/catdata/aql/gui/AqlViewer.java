@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -51,7 +52,6 @@ import catdata.aql.TypeSide;
 import catdata.aql.Var;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlParser;
-import catdata.aql.exp.CombinatorParser;
 import catdata.aql.exp.Exp;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
@@ -529,7 +529,22 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 //		ret.add(viewSchema2(schema), "Graph2");
 		ret.addTab("DP", viewDP(S.dp(), S.collage(), S.typeSide.js));
 	//	ret.add(new CodeTextPanel("", schema.collage().toString()), "Temp");
+		ret.add("Acyclic?", acyclicPanel(S));
 		return new Unit();
+	}
+
+	private <Ty, En, Sym, Fk, Att> Component acyclicPanel(Schema<Ty, En, Sym, Fk, Att> s) {
+		JPanel p = new JPanel();
+		JButton b = new JButton("Acyclic?");
+		p.add(b);
+		b.addActionListener(x -> {
+			String acyclic = Boolean.toString(s.acyclic());
+			p.remove(b);
+			p.add(new JLabel(acyclic));
+			p.revalidate();
+			p.repaint();
+		});
+		return p;
 	}
 
 	@Override
@@ -582,7 +597,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 			List<String> l = q.toSQLViews("", "", "id", "varchar").first;
 			return new CodeTextPanel("", Util.sep(l, ";\n\n"));
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			return new CodeTextPanel("SQL exn", ex.getMessage());
 		}
 	} 

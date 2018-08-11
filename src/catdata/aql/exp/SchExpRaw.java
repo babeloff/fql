@@ -382,7 +382,8 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
 		}
 
-		return "literal : " + typeSide + " {\n" + toString + "}";
+		toString = "literal : " + typeSide + " {\n" + toString + "}";
+		return toString;
 	}
 
 	@Override

@@ -407,7 +407,8 @@ public final class TyExpRaw extends TyExp<Ty, Sym> implements Raw {
 			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
 		}
 
-		return "literal {\n" + toString + "}";
+		toString = "literal {\n" + toString + "}";
+		return toString;
 	}
 
 

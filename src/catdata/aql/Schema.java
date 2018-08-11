@@ -13,9 +13,11 @@ import java.util.stream.Collectors;
 
 import catdata.Chc;
 import catdata.Ctx;
+import catdata.LineException;
 import catdata.Pair;
 import catdata.Triple;
 import catdata.Util;
+import catdata.graph.DAG;
 
 public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 
@@ -99,6 +101,18 @@ public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 			}
 		}
 
+	}
+	
+	public boolean acyclic() {
+		DAG<En> dag = new DAG<>();
+		for (Fk fk : fks.keySet()) {
+			boolean ok = dag.addEdge(fks.get(fk).first, fks.get(fk).second);
+			if (!ok) {
+				return false;
+				//throw new RuntimeException("Adding dependency on " + fk + " causes circularity " + dag);
+			}
+		}
+		return true;
 	}
 
 	private String toString(

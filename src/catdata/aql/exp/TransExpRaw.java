@@ -100,7 +100,8 @@ Ctx<String, List<InteriorLabel<Object>>> raw = new Ctx<>();
 			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
 		}
 		
-		return "literal : " + src + " -> " + dst + " {\n" + toString + "}";
+		toString = "literal : " + src + " -> " + dst + " {\n" + toString + "}";
+		return toString;
 	} 
 
 

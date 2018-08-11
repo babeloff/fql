@@ -178,7 +178,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 					ret.ens.get(en).add(n, n);
 				}
 			}
-			// //System.out.println("yyy " + ret);
+			//System.out.println("yyy " + ret);
 
 			for (Fk2 fk : F.dst.fks.keySet()) {
 				En2 a = F.dst.fks.get(fk).first;
@@ -188,10 +188,10 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 					Lineage<Void, En2, Void, Fk2, Void, Gen, Void> n1 = ufs.get(a).find(x.first);
 					Lineage<Void, En2, Void, Fk2, Void, Gen, Void> n2 = ufs.get(b).find(x.second);
 					ret.fks.get(fk).add(n1, n2);
-					// //System.out.println("on " + fk + " doing " + x + " is " + n1 + "," + n2);
+					//System.out.println("on " + fk + " doing " + x + " is " + n1 + "," + n2);
 				}
 			}
-			// //System.out.println("xxx " + ret);
+			//System.out.println("xxx " + ret);
 			for (En1 en : us.keySet()) {
 				for (X x : us.get(en).keySet()) {
 					Lineage<Void, En2, Void, Fk2, Void, Gen, Void> n = us.get(en).get(x);
@@ -261,7 +261,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 					ret.tys.get(ty).add(n, n);
 				}
 			}
-			// //System.out.println("yyy " + ret);
+			//System.out.println("yyy2 " + ret);
 			for (Att2 att : F.dst.atts.keySet()) {
 				En2 a = F.dst.atts.get(att).first;
 				Ty b = F.dst.atts.get(att).second;
@@ -271,17 +271,17 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 					Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> n2 = nf
 							.apply(b, x.second);
 					ret.atts.get(att).add(n1, n2);
-					// //System.out.println("on " + fk + " doing " + x + " is " + n1 + "," + n2);
+					// ////System.out.println("on " + fk + " doing " + x + " is " + n1 + "," + n2);
 				}
 			}
-			// //System.out.println("xxx " + ret);
+			//System.out.println("xxx2 " + ret);
 
 			/*
 			 * for (Ty ty : vs.keySet()) { for (Y x : vs.get(ty).keySet()) { Term<Ty, Void,
 			 * Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> n =
 			 * vs.get(ty).get(x); ret.vs.get(ty).put(x, nf.apply(ty, n)); } }
 			 */
-			//System.out.println("merged " + ret);
+			////System.out.println("merged " + ret);
 			// ret.iso = iso.map((k,x)->new Pair<>(k,x.map(y->ufs.get(k).find(y))));
 			return ret;
 		}
@@ -339,14 +339,18 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 		this.F = F;
 		this.I = I;
 
+		int i = 0;
 		T = new Content(I);
-		// //System.out.println(T.sizes());
+		//System.out.println(T);
 		for (;;) {
 			boolean changed = step();
 			if (!changed) {
 				return;
 			}
-			// //System.out.println(T.sizes());
+			//System.out.println(T);
+			if (i++ > 2) {
+				throw new RuntimeException();
+			}
 		}
 
 	}
@@ -364,24 +368,29 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 		}
 		Boolean[] changed = new Boolean[] { false };
 
+		//System.out.println("A " + changed[0]);
 		makeArrowsTotal(toAdd, changed);
+		//System.out.println("B " + changed[0]);
 
 		makeObjectsTotal(toAdd, changed);
+		//System.out.println("C " + changed[0]);
 
 		moveObjects(toAdd, changed);
+		//System.out.println("D " + changed[0]);
 
 		doEqs(toAdd, ufs, ufs2, changed);
 
 		T.addAll(toAdd);
+		//System.out.println("E " + changed[0]);
 
-		makeFunctional(ufs, changed, ufs2);
+		makeFunctional(ufs, changed, ufs2);	
 
+		T = T.merge(ufs, ufs2);
+		
 		if (!changed[0]) {
 			return false;
 		}
-
-		T = T.merge(ufs, ufs2);
-
+		
 		return true;
 	}
 
@@ -400,12 +409,12 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 
 				for (Lineage<Void, En2, Void, Fk2, Void, Gen, Void> x : T_a.keySet()) {
 					Collection<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>> ys = T_a.get(x);
-					// //System.out.println("collection is " + ys);
+					// ////System.out.println("collection is " + ys);
 					Lineage<Void, En2, Void, Fk2, Void, Gen, Void> y1 = Util.get0X(ys);
 					for (Lineage<Void, En2, Void, Fk2, Void, Gen, Void> y2 : ys) {
 						if (!y1.equals(y2)) {
 							ufs.get(w).union(y1, y2);
-							// //System.out.println("equating " + y1 + " = " + y2 + " at " + w);
+							// ////System.out.println("equating " + y1 + " = " + y2 + " at " + w);
 
 							changed[0] = true;
 						}
@@ -422,13 +431,13 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 				for (Lineage<Void, En2, Void, Fk2, Void, Gen, Void> x : T_a.keySet()) {
 					Collection<Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>> ys = T_a
 							.get(x);
-					// //System.out.println("collection is " + ys);
+					// ////System.out.println("collection is " + ys);
 					Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> y1 = Util
 							.get0X(ys);
 					for (Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> y2 : ys) {
 						if (!y1.equals(y2)) {
 							ufs2.get(w).union(y1, y2);
-							//System.out.println("3equating " + y1 + " = " + y2 + " at " + w);
+							////System.out.println("3equating " + y1 + " = " + y2 + " at " + w);
 
 							changed[0] = true;
 						}
@@ -442,13 +451,22 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 			Ctx<Ty, UnionFind<Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>>> ufs2,
 			Boolean[] changed) {
 
+		//System.out.println("P " + changed[0]);
 		targetEqs(toAdd, ufs, changed);
+
+		//System.out.println("Q " + changed[0]);
 
 		collageEqs(toAdd, ufs, changed);
 
+		//System.out.println("R " + changed[0]);
+
 		targetEqsT(toAdd, ufs2, changed);
 
+		//System.out.println("S " + changed[0]);
+
 		collageEqsT(toAdd, ufs2, changed);
+		//System.out.println("T " + changed[0]);
+
 	}
 
 	public void collageEqs(Content toAdd, Ctx<En2, UnionFind<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>>> ufs,
@@ -493,7 +511,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 	public void collageEqsT(Content toAdd,
 			Ctx<Ty, UnionFind<Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>>> ufs,
 			Boolean[] changed) {
-		//System.out.println("is " + T);
+	//	//System.out.println("is " + T);
 		for (Att1 a : F.src.atts.keySet()) {
 			En1 v = F.src.atts.get(a).first;
 			Ty w = F.src.atts.get(a).second;
@@ -508,7 +526,9 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 				Set<Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>> N = evalT(
 						F.atts.get(a).third, Util.singSet(initial));
 				//System.out.println("eval on " + x + " at " + a + " gives " + N + " with a lhs of " + lhs);
-				if (!N.contains(lhs)) {
+				
+				
+				 if (!N.contains(lhs)) {
 					Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> m = populateT(
 							toAdd, F.atts.get(a).third, initial);
 				
@@ -516,10 +536,14 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 						changed[0] = true;
 						ufs.get(w).union(m, lhs);
 						
-			//		System.out.println("2equating " + m + " and " + lhs + " at " + w );
+						for (Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> xx : N) {
+							ufs.get(w).union(xx, lhs);				
+						}
+						
+			//		//System.out.println("2equating " + m + " and " + lhs + " at " + w );
 				} else {
-				//	System.out.println(" contains " + lhs + ", on " + x + " and " + a);
-				}
+			//		//System.out.println(" contains " + lhs + ", on " + x + " and " + a);
+				} 
 			}
 		}
 	}
@@ -594,7 +618,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 							toAdd, eq.second, initial), m2 = populateT(toAdd, eq.third, initial);
 
 					ufs.get(dst).union(m, m2);
-					//System.out.println("1equating " + m + " and " + m2 + " at " + dst);
+					////System.out.println("1equating " + m + " and " + m2 + " at " + dst);
 				}
 			}
 		}
