@@ -117,14 +117,18 @@ public final class Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> implements Sem
 	private static <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Blob<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> unfoldNestedApplications(
 			Blob<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> b) {
 
+		int i = 0;
 		for (;;) {
 			Quad<Var, En2, Term<Ty, En1, Sym, Fk1, Att1, Var, Var>, Head<Ty, En1, Sym, Fk1, Att1, Var, Var>> p = findNested(
 					Var.it, b);
+		//	System.out.println("p " + p + " and b " + b); 
 			if (p == null) {
 				return b;
 			} else {
 				b = elimNested(p.first, p.second, b, p.third, p.fourth);
 			}
+			i++;
+			if (i==128) throw new RuntimeException("No convergence after 128 iterations.  Note: this SQL generation algorithm is incomplete.");
 		}
 
 	}
@@ -166,6 +170,11 @@ public final class Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> implements Sem
 			}
 		}
 
+		//a from v where v.f.g
+		//b from u 
+		//f : b->a  
+		//from v v' where v' = v.f v' = g
+		//
 		for (Fk2 fk2 : b.fks.keySet()) {
 			En2 src = b.dst.fks.get(fk2).first;
 			En2 dst = b.dst.fks.get(fk2).second;
@@ -175,13 +184,15 @@ public final class Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> implements Sem
 						t) -> new Pair<Term<Ty, En1, Sym, Fk1, Att1, Var, Var>, Term<Ty, En1, Sym, Fk1, Att1, Var, Var>>(
 								Term.Gen(s), t.convert())).map)
 						.convert());
-			}
+			} 
 			if (second.equals(src)) {
 				g = g.map(t -> t.replace(third.convert(), Term.Gen(v)));
 			}
+			
+			
 
 			xfks.put(fk2,
-					new Pair<Ctx<Var, Term<Void, En1, Void, Fk1, Void, Var, Void>>, Boolean>(g, b.fks.get(fk2).second));
+					new Pair<>(g, b.fks.get(fk2).second));
 		}
 
 		for (En2 en : b.ens.keySet()) {
