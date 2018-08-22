@@ -78,7 +78,7 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 	 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final class TyExpEmpty extends TyExp<Void,Void> {
+	public static final class TyExpEmpty extends TyExp<Void,Void> implements TyExpI {
 		
 		@Override
 		public Collection<Pair<String, Kind>> deps() {
@@ -172,7 +172,7 @@ public abstract class TyExp<Ty, Sym> extends Exp<TypeSide<Ty, Sym>> {
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static final class TyExpVar<X,Y> extends TyExp<X, Y> {
+	public static final class TyExpVar<X,Y> extends TyExp<X, Y> implements TyExpI {
 		public final String var;
 		
 		@Override

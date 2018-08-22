@@ -5,11 +5,11 @@ import java.util.Collection;
 import catdata.Pair;
 import catdata.Program;
 import catdata.aql.Kind;
-import catdata.aql.TypeSide;
+import catdata.aql.TypeSideI;
 
-public interface TyExpI<Ty,Sym> extends ExpI<TypeSide<Ty,Sym>> {
+public interface TyExpI extends ExpI<TypeSideI> {
 	
-	public TyExpI<Ty,Sym> resolve(Program<Exp<?>> prog);
+	public TyExpI resolve(Program<ExpI> prog);
 	
 	public Kind kind();
 	

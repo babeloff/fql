@@ -397,12 +397,12 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 
 	@Override 
 	public void exitTypesideRef(AqlParser.TypesideRefContext ctx) {
-		this.exp_ty.put(ctx, new TyExp.TyExpVar<>(ctx.getText()));
+		this.exp_ty.put(ctx, new TyExp.TyExpVar<Ty,Sym>(ctx.getText()));
 	}
 	
 	@Override 
 	public void exitTypesideExp_Empty(AqlParser.TypesideExp_EmptyContext ctx) {
-		final TyExp<Ty,Sym> exp = new TyExp.TyExpEmptyEx<Ty,Sym>();
+		final TyExpI exp = new TyExp.TyExpEmpty();
 		this.exp_ty.put(ctx, exp);
 	}
 	
