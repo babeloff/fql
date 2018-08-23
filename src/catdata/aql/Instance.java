@@ -209,8 +209,12 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 		if (!sks().isEmpty()) {
 			toString += "\n\t" + Util.sep(sks().map, " : " , "\n\t");			
 		}
-		if (!eqs0.isEmpty()) {
-			toString += "\n\n" + w + "\n\t" + Util.sep(eqs0, "\n\t");
+		if (eqs().size() < 1024 * 16) {
+			if (!eqs0.isEmpty()) {
+				toString += "\n\n" + w + "\n\t" + Util.sep(eqs0, "\n\t");
+			}
+		} else {
+			toString += "\n\n too many to list \n\n";
 		}
 		return toString.trim();
 	} 

@@ -34,7 +34,9 @@ extends Instance<Ty, En2, Sym, Fk2, Att2, Row<En2,X>, Y, Row<En2,X>, Y>
 		I = i;
 		alg = new EvalAlgebra<>(Q, I, options);
 		J = new SaturatedInstance<>(alg, dp(), I.requireConsistency(), I.allowUnsafeJava(), false, null);
-		validate();
+		if (J.eqs().size() < 1024*16) {
+			validate();
+		}
 	}
 
 	@Override

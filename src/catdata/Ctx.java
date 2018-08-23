@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import catdata.aql.Term;
 
 @SuppressWarnings("serial")
-public final class Ctx<K,V> implements Serializable {
+public class Ctx<K,V> implements Serializable {
 	
 	public final LinkedHashMap<K,V> map;
 	
