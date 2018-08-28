@@ -925,6 +925,7 @@ public class RaToFql {
 			}
 		}
 		
+		//List<Pair<String, List<String>>> iedges2x = new LinkedList<>();
 		for (Pair<String, List<String>> kk : iedges2) {
 			Triple<String, String, String> k = new Triple<>(kk.second.get(1), "guid", "adom");
 			for (List<Triple<String, String, String>> v : eqcs) {
@@ -932,7 +933,7 @@ public class RaToFql {
 					List<String> xxx = new LinkedList<>();
 					xxx.add("guid");
 					xxx.add(v.get(0).first);
-					kk.second = xxx;
+					kk.setSecond(xxx);
 					break;
 				}
 			}

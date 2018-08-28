@@ -797,7 +797,7 @@ public class XRaToFpql {
 					List<String> xxx = new LinkedList<>();
 					xxx.add("guid");
 					xxx.add(v.get(0).first);
-					kk.second = xxx;
+					kk.setSecond(xxx);
 					break;
 				}
 			}

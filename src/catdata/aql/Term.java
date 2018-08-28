@@ -281,7 +281,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	private Term(Var var, Sym sym, Fk fks, Att att, Gen gen, Sk sk, List<Term<Ty, En, Sym, Fk, Att, Gen, Sk>> args, Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg, Object obj, Ty ty) {
 		this.var = var;
 		this.sym = sym;
-		fk = fks;
+		this.fk = fks;
 		this.att = att;
 		this.gen = gen;
 		this.sk = sk;
@@ -289,6 +289,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		this.arg = arg;
 		this.obj = obj;
 		this.ty = ty;
+		_hashCode = hashCode2();
 	}
 	
 	public String toStringSql() {
@@ -507,6 +508,11 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	 */
 	@Override
 	public int hashCode() {
+		return _hashCode;
+	}
+	
+	private int _hashCode;
+	public int hashCode2() {
 		int prime = 31;
 		int result = 1;
 		result = prime * result + ((arg == null) ? 0 : arg.hashCode());
@@ -780,6 +786,12 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		return Head(e.getApp().f, e.getApp().args.stream().map(Term::fromKB).collect(Collectors.toList()));
 	}
 	
+	public Set<Sk> sks() {
+		Set<Sk> ret = new HashSet<>();
+		sks(ret);
+		return ret;
+	}
+	
 	public void gens(Set<Gen> gens) {
 		if (var != null) {
 			
@@ -788,6 +800,18 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 		} else {
 			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
 				arg.gens(gens);
+			}
+		} 
+	}
+	
+	public void sks(Set<Sk> sks) {
+		if (var != null) {
+			
+		} else if (sk != null) {
+			sks.add(sk);
+		} else {
+			for (Term<Ty, En, Sym, Fk, Att, Gen, Sk> arg : args()) {
+				arg.sks(sks);
 			}
 		} 
 	}
@@ -842,7 +866,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	public static <Ty, En, Sym, Fk, Att, Gen, Sk> Term<Ty, En, Sym, Fk, Att, Gen, Sk> upTalg(Term<Ty, Void, Sym, Void, Void, Void, Sk> term) {
 		return term.map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity()); 
 	}	
-
+ 
 
 	public Set<Gen> gens() {
 		Set<Gen> ret = new HashSet<>();

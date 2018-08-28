@@ -39,8 +39,9 @@ public class LiteralInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instan
 		this.alg = alg;
 		this.requireConsistency = requireConsistency;
 		this.allowUnsafeJava = allowUnsafeJava;
-		validate(); // TODO: aql validate algebra against instance
-
+		if (size() < 16 * 1024) {
+			validate(); // TODO: aql validate algebra against instance
+		}
 	}
 
 	@Override

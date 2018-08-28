@@ -25,8 +25,8 @@ import catdata.aql.Term;
 import catdata.aql.Var;
 
 public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y>
-		extends Algebra<Ty, En2, Sym, Fk2, Att2, Gen, Sk, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>>
-		implements DP<Ty, En2, Sym, Fk2, Att2, Gen, Sk> {
+		extends Algebra<Ty, En2, Sym, Fk2, Att2, Gen, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>
+		implements DP<Ty, En2, Sym, Fk2, Att2, Gen, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> {
 
 	
 
@@ -35,16 +35,17 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 	private final Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F;
 	private final Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> X;
  
-	private final Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col;
+	//private final Collage<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> col;
 	private Chase<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2,Gen,Sk,X,Y> chase;
-	
+//	private Collage<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> talg;
+
 	public SigmaChaseAlgebra(Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f2,
-			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i2, Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col) {
+			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i2 /*, Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col */ ) {
 		A = f2.src;
 		B = f2.dst;
 		F = f2;
 		X = i2;
-		this.col = col;
+		this.talg = new Collage<>(B.typeSide.collage());
 		
 		if (!X.algebra().talg().eqs.isEmpty()) {
 			throw new RuntimeException("Chase cannot be used: type algebra of input instance is not necessarily free");
@@ -60,6 +61,17 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 			Collection<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>> s = chase.T.ens.get(en2).keySet();
 			ens0.put(en2, s);
 		}
+		
+		for (Ty ty : B.typeSide.tys) {
+			Collection<Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>> s = chase.T.tys.get(ty).keySet();
+			for (Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> x : s) {
+				for (Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>> y : x.sks()) {
+					//if (y.left) {
+						talg.sks.put(y, ty);
+					//}
+				}
+			}				
+		}
 	
 	
 	}
@@ -69,8 +81,9 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 
 
 	@Override
-	public boolean eq(Ctx<Var, Chc<Ty, En2>> ctx, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> lhs,
-			Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> rhs) {
+	public boolean eq(Ctx<Var, Chc<Ty, En2>> ctx, 
+			Term<Ty, En2, Sym, Fk2, Att2, Gen, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> lhs,
+			Term<Ty, En2, Sym, Fk2, Att2, Gen, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> rhs) {
 		if (!lhs.hasTypeType()) {
 			return this.intoX(lhs).equals(intoX(rhs));
 		} else {
@@ -95,30 +108,31 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		return chase.T.us.get(en1).get(x);
 	}
 
-	
-	private Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> reprT0(Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>> y) {
-		return schema().typeSide.js.java_tys.isEmpty() ? simpl(Term.Sk(y))
-				: schema().typeSide.js.reduce(simpl(Term.Sk(y)));
+	/*
+	private Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>>
+	reprT0(Chc<Y, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>> y) {
+		return schema().typeSide.js.java_tys.isEmpty() ? Term.Sk(y)
+				: schema().typeSide.js.reduce(Term.Sk(y));
 	} 
-	
+	*/
 	@Override
 	public synchronized Lineage<Void, En2, Void, Fk2, Void, Gen, Void> fk(Fk2 fk2, Lineage<Void, En2, Void, Fk2, Void, Gen, Void> x) {
 		return Util.get0(chase.T.fks.get(fk2).get(x));
 	}
 
-	private Collage<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> talg;
-	private final List<Pair<Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>, 
-	Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>>>> 
-	list = new LinkedList<>();
+	private Collage<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> talg;
+//	private final List<Pair<Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>, 
+//	Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>>>> 
+//	list = new LinkedList<>();
 	
 	
 	@Override
-	public synchronized Collage<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> talg() {
+	public synchronized Collage<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> talg() {
 		//this is not simplfy from collage - this is how we get 'reduction' to happen, by processing the talg.
 			if (talg != null) {
 				return talg;
 			}
-			talg = InitialAlgebra.talg(list, this, col);
+		//	talg = InitialAlgebra.talg(list, this, col);
 			return talg;
 	}
 
@@ -134,60 +148,50 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 	}
 
 	@Override
-	public Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> reprT_protected(
-			Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> y) {
-	      return schema().typeSide.js.java_tys.isEmpty() ? unflatten(simpl(y)) : unflatten(schema().typeSide.js.reduce(simpl(y)));
+	public Term<Ty, En2, Sym, Fk2, Att2, Gen, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>>
+	reprT_protected(
+			Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> y) {
+	      return schema().typeSide.js.java_tys.isEmpty() ? unflatten(y) : unflatten(schema().typeSide.js.reduce(y));
 	  	
 	}
 	
 	
 
 	@Override
-	public String printY(Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>> y) {
+	public String printY(Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>> y) {
 		// TODO Auto-generated method stub
 		return y.toString();
 	}
 	
 	//TODO: aql merge with initial algebra
-	private Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk> unflatten(Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> term) {
+	private Term<Ty, En2, Sym, Fk2, Att2, Gen, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> unflatten(Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> term) {
 		if (term.obj != null) {
 			return Term.Obj(term.obj, term.ty);
 		} else if (term.sym != null) {
 			return Term.Sym(term.sym, term.args().stream().map(this::unflatten).collect(Collectors.toList()));
 		} else if (term.sk != null) {
-            return term.sk.left ? Term.Sk(term.sk.l) : Term.Att(term.sk.r.second, repr(term.sk.r.first).map(Util.voidFn(), Util.voidFn(), Function.identity(), Util.voidFn(), Function.identity(), Util.voidFn()));
+            return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : reprT(Term.Sk(Chc.inRight(term.sk.r)));
 		} 
 		throw new RuntimeException("Anomaly: please report");
 	}
 	
-
+/*
 	private Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> simpl(Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> y) {
 		 //apparently trans can be called before talg()
 		for (Pair<Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>, Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>>> t : list) {
 			y = y.replaceHead(new Head<>(Term.Sk(t.first)), Collections.emptyList(), t.second);
 		}
 		return y;
-	}
+	}  */
 
 	@Override
-	public Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> att(
+	public Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> att(
 			Att2 att, Lineage<Void, En2, Void, Fk2, Void, Gen, Void> x) {
 		
-		return reprT0(Chc.inRight(new Pair<>(x, att)));
+		return Util.get0(chase.T.atts.get(att).get(x));
 	}
 
-	@Override
-	public Term<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> sk(
-			Sk sk) {
-		return Term.Sk(Chc.inLeft(sk));
-	}
-
-	@Override
-	public Term<Void, En2, Void, Fk2, Void, Gen, Void> repr(
-			Lineage<Void, En2, Void, Fk2, Void, Gen, Void> x) {
-		return x.t.convert(); //TODO aql convert lineage to use Voids
-	}
-
+	
 	@Override
 	public boolean hasFreeTypeAlgebra() {
 		return true;
@@ -196,6 +200,17 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 	@Override
 	public boolean hasFreeTypeAlgebraOnJava() {
 		return true;
+	}
+
+	@Override
+	public Term<Ty, Void, Sym, Void, Void, Void, Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> sk(
+			Chc<Y, Lineage<Ty, En2, Sym, Fk2, Att2, Gen, Sk>> sk) {
+		return Term.Sk(sk);
+	}
+
+	@Override
+	public Term<Void, En2, Void, Fk2, Void, Gen, Void> repr(Lineage<Void, En2, Void, Fk2, Void, Gen, Void> x) {
+		return x.t;
 	}
 	
 }

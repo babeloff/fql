@@ -110,7 +110,7 @@ class LeftKan<O1, A1, O2, A2> implements Serializable {
 		for (Set<Pair<Object, Integer>> a : ua.values()) {
 			for (Pair<Object, Integer> s : a) {
 				if (s.second.equals(y)) {
-					s.second = x;
+					s.setSecond(x);
 				}
 			}
 		}

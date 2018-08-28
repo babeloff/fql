@@ -314,7 +314,7 @@ public abstract class KBFO<S,C,V> {
 					throw new RuntimeException("Variable with unconstrainted sort: " + v);
 				}
 				
-				vs.second = s;
+				vs.setSecond(s);
 			}
 		}
 		

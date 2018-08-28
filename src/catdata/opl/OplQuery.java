@@ -214,7 +214,8 @@ public class OplQuery<S1, C1, V1, S2, C2, V2> extends OplExp {
 				Pair<Object, Map<V1, OplTerm<C1, V1>>> e = block.edges.get(a);
 				
 				if (e.first == null) {
-					e.first = dst.sig.symbols.get(a).second;
+					e = new Pair<>(dst.sig.symbols.get(a).second, e.second);
+					block.edges.put(a, e);
 				}
 				
 				Pair<S2, Block<S1, C1, V1, S2, C2, V2>> tgt = blocks.get(e.first);

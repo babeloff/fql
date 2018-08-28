@@ -94,7 +94,7 @@ public class BinRelMap<X, Y> implements Iterable<Pair<X, Y>> {
 	}
 
 	public BinRelMap() {
-		R = new LinkedHashMap<>();
+		R = new LinkedHashMap<>(1000000);
 	}
 
 	public boolean add(X x, Y y) {

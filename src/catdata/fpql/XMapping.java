@@ -483,7 +483,8 @@ public class XMapping<C, D> implements XObject {
 			// v:? -> p:t
 			if (!leftok && rightok) {
 				Pair p = dst.type(rhs);
-				lhs.second = p.second;
+				lhs = new Pair<>(lhs.first, p.second);
+//				lhs.second = p.second;  aug 2018 changed for immutable pairs
 				//leftok = true;
 			}
 

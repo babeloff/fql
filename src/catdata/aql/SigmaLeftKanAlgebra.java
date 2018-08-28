@@ -162,7 +162,7 @@ public class SigmaLeftKanAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, S
 		for (List<Pair<X, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>>> a : ua.map.values()) {
 			for (Pair<X, Lineage<Void, En2, Void, Fk2, Void, Gen, Void>> s : a) {
 				if (s.second.equals(y)) {
-					s.second = x;
+					s.setSecond(x);
 				}
 			}
 		}

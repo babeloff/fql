@@ -45,6 +45,7 @@ import catdata.aql.fdm.EvalInstance;
 import catdata.aql.fdm.InitialAlgebra;
 import catdata.aql.fdm.InitialInstance;
 import catdata.aql.fdm.LiteralInstance;
+import catdata.aql.fdm.SaturatedInstance;
 import catdata.aql.fdm.SigmaChaseAlgebra;
 import catdata.aql.fdm.SigmaInstance;
 import catdata.graph.DMG;
@@ -1320,20 +1321,21 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 				throw new RuntimeException("Style must be leftkan or parallel");
 			}
 
-			Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col = new Collage<>(f.dst.collage());
-
-			col.sks.putAll(i.sks().map);
-			for (Gen gen : i.gens().keySet()) {
-				col.gens.put(gen, f.ens.get(i.gens().get(gen)));
-			}
-
-			Set<Pair<Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> eqs = new HashSet<>();
-			for (Pair<Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>, Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>> eq : i.eqs()) {
-				eqs.add(new Pair<>(f.trans(eq.first), f.trans(eq.second)));
-				col.eqs.add(new Eq<>(new Ctx<>(), f.trans(eq.first), f.trans(eq.second)));
-			}
+			
 
 			if (type.equals("leftkan")) {
+				Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col = new Collage<>(f.dst.collage());
+
+				col.sks.putAll(i.sks().map);
+				for (Gen gen : i.gens().keySet()) {
+					col.gens.put(gen, f.ens.get(i.gens().get(gen)));
+				}
+
+				Set<Pair<Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>, Term<Ty, En2, Sym, Fk2, Att2, Gen, Sk>>> eqs = new HashSet<>();
+				for (Pair<Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>, Term<Ty, En1, Sym, Fk1, Att1, Gen, Sk>> eq : i.eqs()) {
+					eqs.add(new Pair<>(f.trans(eq.first), f.trans(eq.second)));
+					col.eqs.add(new Eq<>(new Ctx<>(), f.trans(eq.first), f.trans(eq.second)));
+				}
 				SigmaLeftKanAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaLeftKanAlgebra<>(
 						f, i, col);
 
@@ -1342,11 +1344,16 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 						(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 			} else if (type.equals("parallel")) {
 				SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaChaseAlgebra<>(
-						f, i, col);
-
-				return new LiteralInstance<>(alg.schema(), col.gens.map, col.sks.map, eqs, alg, alg,
-						(Boolean) op.getOrDefault(AqlOption.require_consistency),
-						(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe));
+						f, i);
+				
+			   return new SaturatedInstance(alg, alg, 
+					   (Boolean) op.getOrDefault(AqlOption.require_consistency),
+						(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe), false, null);
+				
+				
+				//return new LiteralInstance(alg.schema(), col.gens.map, col.sks.map, eqs, alg, alg,
+				//		(Boolean) op.getOrDefault(AqlOption.require_consistency),
+				//		(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 
 			}
 			return Util.anomaly();

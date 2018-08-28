@@ -116,11 +116,16 @@ class LeftKan {
 
 	private void replace(Integer x, Integer y) {
 		for (Set<Pair<Object, Integer>> a : ua.values()) {
-			for (Pair<Object, Integer> s : a) {
+			Iterator<Pair<Object, Integer>> it = a.iterator();
+			List<Pair<Object, Integer>> l = new LinkedList<>();
+			while (it.hasNext()) {
+				Pair<Object, Integer> s = it.next();
 				if (s.second.equals(y)) {
-					s.second = x;
+					it.remove();
+					l.add(new Pair<>(s.first, x));
 				}
 			}
+			a.addAll(l);
 		}
 		if (alpha != null) {
 			for (Node k : utables.keySet()) {

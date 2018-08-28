@@ -302,7 +302,9 @@ public class Driver {
 			if (v instanceof FullEval) {
 				FullEval u = (FullEval) v;
 				List<Pair<String, InstExp>> n = u.q.toFullQueryExp(prog).accept(u.e, new ExpandFull(prog.full_queries));
-				n.get(n.size()-1).first = k;
+				Pair<String, InstExp> p = n.remove(n.size()-1);
+				n.add(new Pair<>(k, p.second));
+//				n.get(n.size()-1).first = k;
 				//int pos = prog.order.indexOf(k);
 				for (Pair<String, InstExp> x : n) {
 					insts.put(x.first, x.second);

@@ -8,13 +8,24 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Pair<T1, T2> implements Comparable<Pair<T1, T2>>, Serializable {
 
-	public T1 first; //TODO aql make these final.  Same for Triple
-	public T2 second;
+	public  T1 first; //TODO aql make these final.  Same for Triple
+	public  T2 second;
+	
+	public void setFirst(T1 x) {
+		first = x;
+		hashCode2();
+	}
+	public void setSecond(T2 x) {
+		second = x;
+		hashCode2();
+	}
 
 	public Pair(T1 value, T2 value2) {
 		first = value;
 		second = value2;
+		hashCode2();
 	}
+	private int hashCode;
 	
 	@Override
 	public String toString() {
@@ -24,11 +35,15 @@ public class Pair<T1, T2> implements Comparable<Pair<T1, T2>>, Serializable {
 
 	@Override
 	public int hashCode() {
+		return hashCode;
+	}
+	
+	public void hashCode2() {
 		int prime = 31;
 		int result = 1;
 		result = prime * result + ((first == null) ? 0 : first.hashCode());
 		result = prime * result + ((second == null) ? 0 : second.hashCode());
-		return result;
+		hashCode = result;
 	}
 	
 	@Override

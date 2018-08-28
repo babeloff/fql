@@ -92,8 +92,8 @@ public class Thue<Y> {
 		if (rule.second.size() > rule.first.size()) {
 			List<X> old_first = rule.first;
 			List<X> old_second = rule.second;
-			rule.first = old_second;
-			rule.second = old_first;
+			rule.setFirst(old_second);
+			rule.setSecond(old_first);
 		}
 	}
 

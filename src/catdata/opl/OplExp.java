@@ -2867,8 +2867,7 @@ public abstract class OplExp implements OplObject {
 				new_prec.remove(gen);
 				new_gens.remove(gen);
 				for (Pair<OplTerm<Chc<C, X>, V>, OplTerm<Chc<C, X>, V>> eq : new_eqs) {
-					eq.first = eq.first.replace(gen0, replacee);
-					eq.second = eq.second.replace(gen0, replacee);
+					eq = new Pair<>(eq.first.replace(gen0, replacee),eq.second.replace(gen0, replacee));
 				}
 				return true;
 			}
@@ -3043,8 +3042,9 @@ public abstract class OplExp implements OplObject {
 					throw new RuntimeException("Extra symbol: " + k);
 				}
 				Pair<OplCtx<S2, V>, OplTerm<C2, V>> v = symbols.get(k);
-				v.second = replaceVarsByConsts(v.first, v.second);
-				v.first = inf(v);
+				v = new Pair<>(v.first, replaceVarsByConsts(v.first, v.second));
+				v = new Pair<>(inf(v), v.second);
+				
 				S2 t = v.second.type(dst, v.first);
 				if (t == null) {
 					throw new RuntimeException("Cannot type " + v.second + " in context [" + v.first + "]. ");
