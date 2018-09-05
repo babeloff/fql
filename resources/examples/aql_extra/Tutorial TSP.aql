@@ -1039,7 +1039,7 @@ are listed using the `pShwTbls` pragma.
 First clean out the target tables if present from a previous run.
 " *) }
 command pCleanUp = exec_jdbc "com.mysql.jdbc.Driver"
-"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC&serverTimezone=UTC" {
+"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" {
 "DROP TABLE IF EXISTS sts_SkillNdFrTask"
 "DROP TABLE IF EXISTS sts_Skill"
 "DROP TABLE IF EXISTS sts_SkillClass"
@@ -1051,14 +1051,14 @@ Export the results of the above construction of the span and its representative 
 can be overridden using the varchar_length option.
 " *) }
 command eSTS = export_jdbc_instance iSTSpn "com.mysql.jdbc.Driver"
-"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" "sts_"
+"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" "sts_"
   { options varchar_length = 256 }
 
 md { (* "
 Display the contents of the `ci_test` schema in MySQL.
 " *) }
 command pShwTbls = exec_jdbc "com.mysql.jdbc.Driver"
-"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" {
+"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" {
 "SHOW  TABLES"}
  
 md { (* "
@@ -1070,7 +1070,7 @@ for this import but will return to import options in a later example. The import
 a complete specification of all foreign key and attribute columns.
 " *) }
 instance iSTSpnImp = import_jdbc "com.mysql.jdbc.Driver"
-"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" : sSTSpn {
+"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" : sSTSpn {
    Skill -> "select id, fk_HasClass, SName, SCNameOnSkl from sts_Skill"
    SkillClass -> "select id, SCName from sts_SkillClass"
    Task -> "select id, TName from sts_Task"
@@ -1118,7 +1118,7 @@ We have already set up a set of tables and associated instance in our source RDB
 that instance using a command analogous to the `iSTSpnImp` imported instance.
 " *) }
 instance iSPSpnImp = import_jdbc "com.mysql.jdbc.Driver"
-    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" : sSPSpn {
+    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" : sSPSpn {
    SpecificSkill -> "select id, fk_IsType, SSName, SSGSName, SSSCName from sps_SpecificSkill"
    GeneralSkill -> "select id, fk_HasClass, GSName, GSSCName from sps_GeneralSkill"
    SkillClass -> "select id, SCName from sps_SkillClass"
@@ -1252,7 +1252,7 @@ e.g. skill classification in this case.
 
 // Set up the SkillMatch and SkillClassMatch tables based on the exports.
 command pSetUpSkillMatch = exec_jdbc "com.mysql.jdbc.Driver"
-"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" {
+"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" {
 "DROP TABLE IF EXISTS SkillMatch"
 "DROP TABLE IF EXISTS SkillClassMatch"
 
@@ -1294,7 +1294,7 @@ to allow us to import an instance that essentially the same as the literal `iSkl
 above.
 " *) }
 instance iSkillMatch = import_jdbc "com.mysql.jdbc.Driver"
-"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" : sSTSpn_SPSpn_CoLim {
+"jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" : sSTSpn_SPSpn_CoLim {
     SpecificSkill -> "select * from SkillMatch"
     SkillClass -> "select * from SkillClassMatch"
 options
@@ -1309,13 +1309,13 @@ ids. It may be instructive to compare the results of the `iSkillMatch` instance 
 created to merge skill class Skolem terms with skill class generators and labels.
 " *) }
 transform tSMToSTSpn = import_jdbc "com.mysql.jdbc.Driver"
-    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" : iSkillMatch -> iST_SP_Sum {
+    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" : iSkillMatch -> iST_SP_Sum {
     SpecificSkill -> "select sm_id, ts_id from SkillMatch"
     SkillClass -> "select scm_id, tsc_id from SkillClassMatch"
 }
 
 transform tSMToSPSpn = import_jdbc "com.mysql.jdbc.Driver"
-    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" : iSkillMatch -> iST_SP_Sum {
+    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" : iSkillMatch -> iST_SP_Sum {
     SpecificSkill -> "select sm_id, ps_id from SkillMatch"
     SkillClass -> "select scm_id, psc_id from SkillClassMatch"
 }
@@ -1330,7 +1330,7 @@ It is important to note that this does require the construction of the `SkillMat
 `SkillClassMatch` tables in the source RDBMS as a precondition.
 " *) }
 instance iSTSpn_SPSpn_Merge2 = quotient_jdbc "com.mysql.jdbc.Driver"
-    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr&serverTimezone=UTC" iST_SP_Sum { 
+    "jdbc:mysql://mysql.catinf.com:3306/ci_test?user=catinfcom&password=FDiUY!pr" iST_SP_Sum { 
 SpecificSkill->
 "select
    ps_id as sp_id,
