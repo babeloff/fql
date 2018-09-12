@@ -8,10 +8,15 @@ doc/aqlmanual/aqlmanual.synctex.gz
 doc/aqlmanual/aqlmanual.toc
 /target/
 
+buildSrc/build/
 .classpath
 .idea/
 .project
 .settings/
 .vscode/
-fql.iml
+*.iml
+*.ipr
+*.iws
 *.dvi
+.gradle/
+
