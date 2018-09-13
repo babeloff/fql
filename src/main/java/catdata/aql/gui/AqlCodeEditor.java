@@ -29,8 +29,9 @@ import catdata.aql.Kind;
 import catdata.aql.exp.AqlDoc;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.exp.AqlParser;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
+import catdata.aql.exp.IAqlParser;
 import catdata.ide.CodeEditor;
 import catdata.ide.CodeTextPanel;
 import catdata.ide.GUI;
@@ -217,7 +218,8 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Program<Exp<?>> parse(String program) throws ParseException {
-		return AqlParser.getParser().parseProgram(program);
+		this.last_parser = AqlParserFactory.getParser();
+		return this.last_parser.parseProgram(program);
 	}
 
 	@Override
@@ -230,6 +232,7 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 	}
 
 	// private String last_str;
+	private IAqlParser last_parser; 
 	private Program<Exp<?>> last_prog; // different that env's
 	public AqlEnv last_env;
 	private AqlMultiDriver driver;
@@ -272,7 +275,9 @@ public final class AqlCodeEditor extends CodeEditor<Program<Exp<?>>, AqlEnv, Aql
 
 	@Override
 	protected Collection<String> reservedWords() {
-		Collection<String> ret = Util.union(Util.list(AqlParser.ops), Util.list(AqlParser.res));
+		if (last_parser == null) return Util.list(new String[0]);
+
+		Collection<String> ret = last_parser.getReservedWords();
 		synchronized (parsed_prog_lock) {
 			if (parsed_prog != null) {
 				ret = Util.union(ret, parsed_prog.exps.keySet());

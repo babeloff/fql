@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import catdata.Util;
 import catdata.aql.AqlProver.ProverName;
-import catdata.aql.exp.AqlParser;
-import catdata.aql.exp.CombinatorParser;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
 import catdata.aql.exp.SchExpRaw.Att;
@@ -361,6 +359,7 @@ public final class AqlOptions {
 		options = new HashMap<>(defaults.options);
 		for (String key : map.keySet()) {
 			AqlOption op = AqlOption.valueOf(key);
+			@SuppressWarnings("unchecked")
 			Object ob = getFromMap(map, col, op);
 			options.put(op, ob);
 		}		

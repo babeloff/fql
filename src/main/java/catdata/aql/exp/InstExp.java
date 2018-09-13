@@ -1443,7 +1443,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	}
 
-	public static final class InstExpEmpty<Ty, Sym, En, Fk, Att>
+	public static final class InstExpEmpty<Ty, En, Sym, Fk, Att>
 			extends InstExp<Ty, En, Sym, Fk, Att, Void, Void, Void, Void> {
 
 		public final SchExp<Ty, En, Sym, Fk, Att> schema;

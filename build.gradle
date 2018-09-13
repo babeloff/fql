@@ -1,10 +1,13 @@
+
 import org.babeloff.ProjectVersion
 import org.babeloff.ReleaseVersionTask
 import org.babeloff.SnapshotVersionTask
+import org.babeloff.plugins.antlr.Antlr4Task
+
+// apply from: 'gradle/foo.gradle'
 
 apply plugin: 'java-library'
 apply plugin: 'maven'
-apply plugin: 'antlr'
 
 apply plugin: 'idea'
 apply plugin: 'eclipse'
@@ -70,23 +73,20 @@ task release(dependsOn: backupReleaseDistribution) {
 
 configurations {
     all {   }
-    antlr { resolutionStrategy { failOnVersionConflict() } }
 }
 
-// https://github.com/babeloff/boot-antlr4/blob/master/src/babeloff/boot_antlr4.clj
-//
-// (deftask build
-//   [s show bool "show the arguments"]
-//   (comp
-//     (antlr/generate
-//        :grammar "AqlLexerRules.g4"
-//        :package "catdata.aql.grammar")
-//     (antlr/generate
-//        :grammar "AqlParser.g4"
-//        :package "catdata.aql.grammar"
-//        :visitor true
-//        :listener true)
-//     (javac)))
+task antlrGen (type: Antlr4Task) {
+    maxHeapSize = "64m"
+    sourceDir = file("${project.rootDir}/src/main/antlr")
+    lexerGrammar = file("${project.rootDir}/src/main/antlr/catdata/aql/grammar/AqlLexerRules.g4")
+    parserGrammar = file("${project.rootDir}/src/main/antlr/catdata/aql/grammar/AqlParser.g4")
+    module = "catdata.aql.grammar"
+    targetDir = file("${project.buildDir}/generated-src/antlr/main/catdata/aql/grammar")
+    visitor = false
+    listener = true
+}
+
+compileJava.dependsOn antlrGen
 
 wrapper {
     gradleVersion = '4.10'
@@ -97,20 +97,14 @@ wrapper {
 sourceSets {
     main {
         java {
-            srcDirs = ['src', 'build/generated-src/antlr']
-        }
-
-        antlr {
-            // srcDirs = ['src/main/antlr','src/main/antlr_imports']
+            srcDirs = ['src/main/java','build/generated-src/antlr']
         }
     }
-
     test {
         java {
-            srcDirs = ['test']
+            srcDirs = ['test/java']
         }
     }
-
 }
 
 idea {
@@ -121,24 +115,10 @@ idea {
     }
 }
 
-generateGrammarSource {
-    // generateGrammarSource = "AqlParser"
-    maxHeapSize = "64m"
-    // includes = ["${project.rootDir}/src/main/antlr4/imports"]
-    outputDirectory = file("${project.buildDir}/generated-src/antlr/main")
-    source = "${sourceSets.main.antlr}/"
-
-    arguments << '-lib' << 'src/main/antlr_imports/'
-    arguments << '-visitor'
-    arguments << '-listener'
-    arguments << '-long-messages'
-    arguments << '-package' << 'catdata.aql.grammar'
-}
-
 repositories {
      maven { url "https://nexus.isis.vanderbilt.edu/repository/maven-releases" }
      maven { url "https://nexus.isis.vanderbilt.edu/repository/maven-snapshots" }
-     maven { url "http://repo.maven.apache.org/maven2" }
+     mavenCentral()
 }
 
 dependencies {
@@ -160,6 +140,20 @@ dependencies {
     compile group: 'com.fifesoft', name: 'rsyntaxtextarea', version:'2.6.1'
     compile group: 'es.nitaur.markdown', name: 'txtmark', version:'0.16'
     compile group: 'org.antlr', name: 'antlr4-runtime', version:'4.7.1'
-    antlr group: 'org.antlr', name: 'antlr4', version: '4.7.1'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
+    // antlr group: 'org.antlr', name: 'antlr4', version: '4.7.1'
+
+    testCompileOnly(
+            'junit:junit:4.12'
+    )
+    testImplementation(
+            'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    )
+    testRuntimeOnly(
+            'org.junit.jupiter:junit-jupiter-engine:5.3.1',
+            'org.junit.vintage:junit-vintage-engine:5.3.1'
+    )
+}
+
+test {
+    useJUnitPlatform()
 }

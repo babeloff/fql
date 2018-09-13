@@ -80,7 +80,7 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 
 	@SuppressWarnings("unchecked")
 	public QueryExpRawSimple(SchExp<?, ?, ?, ?, ?> src, Integer i, Block block) {
-		this.src = (SchExp<Ty, Sym, En, Fk, Att>) src;
+		this.src = (SchExp<Ty, En, Sym, Fk, Att>) src;
 		this.block = block;
 	}
 

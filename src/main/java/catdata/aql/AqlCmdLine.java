@@ -10,8 +10,7 @@ import catdata.Triple;
 import catdata.Util;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.exp.AqlParser;
-import catdata.aql.exp.CombinatorParser;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
 
 /**
@@ -55,8 +54,7 @@ public class AqlCmdLine {
 
 	public static void main(String[] args) {
 		try (FileReader r = new FileReader(args[0])) {
-			String str = Util.readFile(r);
-			Program<Exp<?>> prog = AqlParser.getParser().parseProgram(str);
+			Program<Exp<?>> prog = AqlParserFactory.getParser().parseProgram(r);
 			
 			String t[] = new String[1];
 			AqlMultiDriver driver = new AqlMultiDriver(prog, t, null);

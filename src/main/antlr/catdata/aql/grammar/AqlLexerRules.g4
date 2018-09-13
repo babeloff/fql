@@ -204,8 +204,8 @@ EVAL_SQL_PERSISTENT_INDICIES : 'eval_sql_persistent_indices' ;
 COPRODUCT_ALLOW_ENTITY : 'coproduct_allow_entity_collisions_unsafe' ;
 COPRODUCT_ALLOW_TYPE : 'coproduct_allow_type_collisions_unsafe' ;
 QUERY_REMOVE_REDUNDANCY : 'query_remove_redundancy' ;
-TRUE : 'true' ;
-FALSE : 'false' ;
+TRUE : True ;
+FALSE : False ;
 
 AUTO : 'auto' ;
 FAIL : 'fail' ;

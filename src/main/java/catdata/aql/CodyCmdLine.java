@@ -7,8 +7,7 @@ import catdata.Program;
 import catdata.Util;
 import catdata.aql.exp.AqlEnv;
 import catdata.aql.exp.AqlMultiDriver;
-import catdata.aql.exp.AqlParser;
-import catdata.aql.exp.CombinatorParser;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
 
 /**
@@ -21,8 +20,7 @@ public class CodyCmdLine {
 	//args[1] = directory for tptp output
 	public static void main(String[] args) {
 		try (FileReader r = new FileReader(args[0])) {
-			String str = Util.readFile(r);
-			Program<Exp<?>> prog = AqlParser.getParser().parseProgram(str);
+			Program<Exp<?>> prog = AqlParserFactory.getParser().parseProgram(r);
 			
 			String t[] = new String[1]; //poll for driver status
 			AqlMultiDriver driver = new AqlMultiDriver(prog, t, null);
@@ -41,12 +39,14 @@ public class CodyCmdLine {
 				Util.writeFile(s, f.getAbsolutePath());
 			}
 			for (String k : env.defs.insts.keySet()) {
+				@SuppressWarnings("rawtypes")
 				Instance ts = env.defs.insts.get(k);
 				File f = new File(dir, k + ".tptp");
 				String s = ts.collage().toKB().tptp(true); //maedmax is unsound with empty sorts, but true here proceeds anyway
 				Util.writeFile(s, f.getAbsolutePath());
 			}
 			for (String k : env.defs.schs.keySet()) {
+				@SuppressWarnings("rawtypes")
 				Schema ts = env.defs.schs.get(k);
 				File f = new File(dir, k + ".tptp");
 				String s = ts.collage().toKB().tptp(true); //maedmax is unsound with empty sorts, but true here proceeds anyway

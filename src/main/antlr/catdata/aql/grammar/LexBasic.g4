@@ -111,7 +111,7 @@ fragment DecDigit
 // Literals
 
 fragment BoolLiteral
-   : TRUE | FALSE
+   : True | False
    ;
 
 
@@ -300,3 +300,7 @@ fragment Pound
 fragment Tilde
    : '~'
    ;
+
+
+fragment True : 'true' ;
+fragment False : 'false' ;

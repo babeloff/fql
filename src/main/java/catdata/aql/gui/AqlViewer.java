@@ -51,7 +51,7 @@ import catdata.aql.Transform;
 import catdata.aql.TypeSide;
 import catdata.aql.Var;
 import catdata.aql.exp.AqlEnv;
-import catdata.aql.exp.AqlParser;
+import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
@@ -126,10 +126,15 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 
 		nf.addActionListener(x -> {
 			try {
-				Pair<List<Pair<String, String>>, RawTerm> y = AqlParser.getParser().parseTermInCtx(input.getText());
-				Triple<Ctx<Var, Chc<Ty, En1>>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>> 
+				final Pair<List<Pair<String, String>>, RawTerm> 
+                                y = AqlParserFactory.getParser().parseTermInCtx(input.getText());
+
+				final Triple<Ctx<Var, Chc<Ty, En1>>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>, Term<Ty, En1, Sym, Fk1, Att1, Gen1, Sk1>> 
 				z = RawTerm.infer2(y.first, y.second, y.second, m.src(), js);
-				Pair<Ctx<Var, Chc<Ty, En2>>, Term<Ty, En2, Sym, Fk2, Att2, Gen2, Sk2>> a = m.translate(z.first, z.second);
+
+				final Pair<Ctx<Var, Chc<Ty, En2>>, Term<Ty, En2, Sym, Fk2, Att2, Gen2, Sk2>> 
+                                a = m.translate(z.first, z.second);
+
 				output.setText(a.first.toString() + a.second);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -329,9 +334,13 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		print.addActionListener(x -> output.setText(dp.toStringProver()));
 		eq.addActionListener(x -> {
 			try {
-				Triple<List<Pair<String, String>>, RawTerm, RawTerm> y = AqlParser.getParser().parseEq(input.getText());
-				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> z 
-				= RawTerm.infer2(y.first, y.second, y.third, col, js);
+				final Triple<List<Pair<String, String>>, RawTerm, RawTerm> 
+				y = AqlParserFactory.getParser().parseEq(input.getText());
+
+                                @SuppressWarnings("unchecked")
+				final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> 
+                                z = RawTerm.infer2(y.first, y.second, y.third, col, js);
+				
 				boolean isEq = dp.eq(z.first, z.second, z.third);
 				output.setText(Boolean.toString(isEq));
 			} catch (Exception ex) {
@@ -341,9 +350,15 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		});
 		nf.addActionListener(x -> {
 			try {
-				Pair<List<Pair<String, String>>, RawTerm> y = AqlParser.getParser().parseTermInCtx(input.getText());
-				Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> z = RawTerm.infer2(y.first, y.second, y.second, col, js);
-				Term<Ty, En, Sym, Fk, Att, Gen, Sk> w = dp.nf(z.first, z.second);
+				final Pair<List<Pair<String, String>>, RawTerm> 
+                                y = AqlParserFactory.getParser().parseTermInCtx(input.getText());
+				
+                                final Triple<Ctx<Var, Chc<Ty, En>>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> 
+                                z = RawTerm.infer2(y.first, y.second, y.second, col, js);
+
+				final Term<Ty, En, Sym, Fk, Att, Gen, Sk> 
+                                w = dp.nf(z.first, z.second);
+
 				output.setText(w.toString());
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -523,6 +538,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En, Sym, Fk, Att> Unit visit(JTabbedPane ret, Schema<Ty, En, Sym, Fk, Att> S)  {
 		ret.addTab("Graph", viewSchema(S));
@@ -562,6 +578,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> Unit visit(JTabbedPane ret, Transform<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2> h)  {
 		ret.addTab("Tables", viewTransform(h));
@@ -578,6 +595,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit();
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Unit visit(JTabbedPane ret, Query<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Q) {
 		try {
@@ -602,6 +620,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		}
 	} 
 	
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> Unit visit(JTabbedPane ret, Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> M) {
 		ret.addTab("Translate", viewMorphism(M.semantics(), M.src.typeSide.js));
@@ -620,6 +639,7 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 		return new Unit(); //TODO aql
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <Ty, En, Sym, Fk, Att> Unit visit(JTabbedPane arg, Constraints<Ty, En, Sym, Fk, Att> S) throws RuntimeException {
 		return new Unit(); 

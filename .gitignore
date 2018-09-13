@@ -6,7 +6,7 @@ doc/aqlmanual/aqlmanual.out
 doc/aqlmanual/aqlmanual.pdf
 doc/aqlmanual/aqlmanual.synctex.gz
 doc/aqlmanual/aqlmanual.toc
-/target/
+build/
 
 buildSrc/build/
 .classpath

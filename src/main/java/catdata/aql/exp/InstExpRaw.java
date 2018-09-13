@@ -242,7 +242,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 						args.add(temp.get(j));
 						format.add("%-" + longest + "s");
 					}
-					String x = formatter.format(Util.sep(format, ""), args.toArray(new String[0])).toString();
+					String x = formatter.format(Util.sep(format, ""), (Object[]) args.toArray(new String[0])).toString();
 					formatter.close();
 					toString += "\n\t\t" + x;
 				}
