@@ -76,7 +76,7 @@ public final class AqlOptions {
 		query_compose_use_incomplete,
 		import_as_theory,
 		import_null_on_err_unsafe,
-		import_joined,
+		//import_joined,
 		map_nulls_arbitrarily_unsafe,
 		jdbc_default_class,
 		jdbc_default_string,
@@ -234,8 +234,8 @@ public final class AqlOptions {
 			return false;
 		case map_nulls_arbitrarily_unsafe:
 			return false;
-		case import_joined:
-			return true;
+		//case import_joined:
+		//	return true;
 		case coproduct_allow_type_collisions_unsafe:
 			return false;
 		case coproduct_allow_entity_collisions_unsafe:
@@ -412,8 +412,8 @@ public final class AqlOptions {
 			return op.getBoolean(map);
 		case map_nulls_arbitrarily_unsafe:
 			return op.getBoolean(map);
-		case import_joined:
-			return op.getBoolean(map);
+		//case import_joined:
+			//return op.getBoolean(map);
 		case coproduct_allow_type_collisions_unsafe:
 			return op.getBoolean(map);
 		case coproduct_allow_entity_collisions_unsafe:

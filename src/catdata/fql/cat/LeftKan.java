@@ -123,7 +123,7 @@ class LeftKan {
 				if (s.second.equals(y)) {
 					it.remove();
 					l.add(new Pair<>(s.first, x));
-				}
+				} 
 			}
 			a.addAll(l);
 		}

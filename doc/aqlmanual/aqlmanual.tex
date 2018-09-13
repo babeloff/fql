@@ -280,8 +280,6 @@ All schemas are ``on'' a typeside, and contain entities, foreign keys, attribute
 \section{{\tt empty : <typeside>}}
 The empty {\tt schema} with no entities, foreign keys, or attributes, on a particular {\tt typeside}.
 
-\section{{\tt id <schema>}}
-The identity mapping on a schema.
 
 \section{{\tt schemaOf <instance>}}
 The {\tt schema} of an {\tt instance}.
@@ -327,7 +325,7 @@ Gets the schema associated with a colimit of schemas.
 
 A schema mapping $F : S \to T$ takes entities in $S$ to entities in $T$, foreign keys in $S$ to paths in $T$, and attributes in $S$ to terms in $T$, in a way that is functorial: if $f : s \to s'$ is a symbol in $S$, then it must be that $F(f) : F(s) \to F(s')$.  In addition, if $\forall \Gamma . e = e'$ is provable in $S$, then $\forall F(\Gamma). F(e) = F(e')$ must be provable in $T$.
 
-\section{{\tt id <schema>}}
+\section{{\tt identity <schema>}}
 The identity schema mapping on a particular schema.
 
 \section{{\tt [<mapping> ; <mapping>]}}
@@ -351,7 +349,7 @@ Allowable options are {\tt timeout} and {\tt dont\_validate\_unsafe}, which disa
 \chapter{Kind  {\tt query}}
 A query $S \to T$ assigns to each entity $en$ in $S$ a (``frozen'') instance on $T$, which we will write as $[en]$, and to each foreign key $fk : e \to e'$ a transform $[fk] : [e'] \to [e]$ (note the reversal), and to each attribute $att : e \to \tau$ a term of type $\tau$ in context $[e]$.  
 
-\section{{\tt id <schema>}}
+\section{{\tt identity <schema>}}
 The identity query on a schema.
 
 \section{{\tt toQuery <mapping>}}
@@ -453,7 +451,7 @@ If $F : S \to T$ is a mapping and $I$ is an $S$-instance, then $\Sigma_F I$ is a
 If $F : S \to T$ is a mapping and $I$ is an $S$-instance, then $\Pi_F I$ is a $T$-instance. 
 
 \section{{\tt sigma\_chase <mapping> <instance>}}
-Like {\tt sigma}, but uses an alternative chase/left-kan extension based algorithm.  See {\tt chase\_style} option.
+Like {\tt sigma}, but uses an alternative chase/left-kan extension based algorithm.  See {\tt chase\_style} option.  Require the input instance to have a free type algebra.  Option {\tt timeout} is also supported.
 
 \section{{\tt frozen <query> <target entity>}}
 If $Q : S \to T$ is a query and $t$ is a $T$-entity, then $frozen \ Q \ t$ is the ``frozen'' or ``canonical'' $S$-instance for $t$ in $Q$. 
@@ -497,6 +495,20 @@ Expects a list of (single) SQL commands inside a section.  Each SQL query should
 
 \section{{\tt quotient\_csv <instance>}}
 Expects a list of filenames inside a section.  Each file should have 2 columns, where each column has a generator from the input instance.  The union of these files defines an equivalence relation and this expression quotients the input instance by this relation. 
+
+\section{{\tt quotient\_query <instance>}}
+
+Expects a list of queries, on per entity, e.g.,
+\begin{verbatim}
+entity E -> {from x:X y:Y where x.a = y.b}
+entity F -> {from x:X y:Y}
+\end{verbatim}
+each query should have no attributes and no foreign keys.  The resulting matched pairs $(x,y)$ are treated
+as equations for performing the quotient.  
+
+
+\subsection{{\tt options}}
+Allowed are {\tt timeout}, {\tt prover} and related options, {\tt always\_reload}, and {\tt require\_consistency}.  
 
 \section{{\tt import\_jdbc\_all [jdbcclass] [jdbcuri]}}
 
@@ -550,9 +562,9 @@ Allowable options are {\tt timeout}, {\tt prover} and related options, {\tt requ
 \subsection{{\tt equations}}
 A list of ground (non quantified) equations to quotient by.  Allowable options are {\tt timeout}, {\tt prover} and related options, and {\tt require\_consistency}.
 
-\section{{\tt chase <constraints> <instance> [number]}}
+\section{{\tt chase <constraints> <instance>}}
 
-Chases the input instance with the input constraints up to the given maximum number of iterations.  If the chase succeeds, the result instance will satisfy the constraints.  The options will be used for the construction of the intermediate instances during the chase process.
+If the chase succeeds, the result instance will satisfy the constraints.  The options will be used for the construction of the intermediate instances during the chase process.
 
 \subsection{{\tt options}}
 Allowable options are the same as for an instance.
@@ -569,7 +581,7 @@ A {\tt ctx(<generator> | <labelled null> -> integer)}.
 Allowable options are the same for literal instances, and {\tt random\_seed}.
 
 \chapter{Kind {\tt transform}}
-\section{{\tt id <instance>}}
+\section{{\tt identity <instance>}}
 %todo
 The identity transform on an instance.
 \section{{\tt [<transform> ; <transform>]}}
@@ -681,7 +693,7 @@ Conservatively checks that an instance is consistent (e.g., does not prove $1=2$
 
 \section{{\tt export\_csv\_instance <instance> [directory]}} 
 
-Exports an instance as CSV.  The directory name will contain one file named $en.csv$ per entity $en$.  The file for $en$ will be a CSV file with a header; the fields of the header will be an ID column name (specified using options), as well as any attributes and foreign keys whose domain is $en$.   AQL rows that are not constants will be exported as nulls.  
+Exports an instance as CSV.  The directory name will contain one file named $en.csv$ per entity $en$.  The file for $en$ will be a CSV file with a header; the fields of the header will be an ID column name (specified using options), as well as any attributes and foreign keys whose domain is $en$.   AQL values that are not constants will be exported as nulls.  
 
 \subsection{{\tt options}}
 Allowed are {\tt timeout}, {\tt always\_reload}, {\tt csv} related options, and {\tt id\_column\_name}, and {\it start\_ids\_at}.
@@ -790,7 +802,7 @@ Used with {\tt import\_jdbc\_all} to import no data (only schema).
 When disabled, relaxes AQL's nominal typing discipline for colimit instances.
 
 \section{{\tt allow\_java\_eqs\_unsafe = boolean}}
-When enabled, allows arbitrary equations involving java typeside symbols.
+When enabled, allows arbitrary equations involving java typeside symbols.  Induces undefined behavior.
 
 \section{{\tt dont\_validate\_unsafe = boolean}}
 When enabled, mappings and transforms and queries are not checked to be equality-preserving.  For a query, when true it also disables decision procedure construction for sub-queries.

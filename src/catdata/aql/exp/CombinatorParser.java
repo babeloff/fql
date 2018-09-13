@@ -104,9 +104,6 @@ import catdata.aql.exp.TyExpRaw.Ty;
 @SuppressWarnings("deprecation")
 public class CombinatorParser extends AqlParser {
 	
-	
-	
-
 	private static final Terminals RESERVED = Terminals.caseSensitive(ops, Util.union(res, opts));
 
 	private static final Parser<Void> IGNORED = Parsers
@@ -132,6 +129,8 @@ public class CombinatorParser extends AqlParser {
 	// }
 
 	private static Parser<RawTerm> term() {
+		
+		
 		Reference<RawTerm> ref = Parser.newReference();
 
 		Parser<RawTerm> ann = Parsers.tuple(ident, token("@"), ident).map(x -> new RawTerm(x.a, x.c));
@@ -305,7 +304,7 @@ public class CombinatorParser extends AqlParser {
 								options.between(token("{"), token("}")).optional())
 						.map(x -> new InstExpCoEval(x.b, x.c, x.d == null ? new LinkedList<>() : x.d));
 
-		Parser ret = Parsers.or(sigma_chase, l2, pi, frozen, instExpCsvQuot(), instExpJdbcQuot(), instExpCoProd(), instExpRand(),
+		Parser ret = Parsers.or(queryQuotientExpRaw(), sigma_chase, l2, pi, frozen, instExpCsvQuot(), instExpJdbcQuot(), instExpCoProd(), instExpRand(),
 				instExpCoEq(), instExpJdbcAll(), chase, instExpJdbc(), empty, instExpRaw(), var, sigma, delta, distinct,
 				eval, colimInstExp(), dom, anon, cod, instExpCsv(), coeval, parens(inst_ref), instExpQuotient());
 
@@ -1029,6 +1028,24 @@ public class CombinatorParser extends AqlParser {
 		return ret;
 	}
 
+	private static Parser<InstExpQueryQuotient> queryQuotientExpRaw() {
+		
+		Parser<Pair<List<catdata.Pair<LocStr, PreBlock>>, List<catdata.Pair<String, String>>>> 
+		pa = Parsers.tuple( preblock(false).many(), options);
+
+		Parser<Tuple3<Token, InstExp<?, ?, ?, ?, ?, ?, ?, ?, ?>, Token>>
+		l = Parsers.tuple(token("quotient_query"), inst_ref.lazy(), token("{"));
+/*
+ * List<Pair<LocStr, String>> params, SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,
+			List<Pair<LocStr, PreBlock>> list, List<Pair<String, String>> options
+ */
+		 Parser<InstExpQueryQuotient> ret = Parsers.tuple(l, pa, token("}"))
+				.map(x -> new InstExpQueryQuotient(
+						x.a.b, x.b.a, x.b.b));
+						
+		return ret; 
+	}
+	
 	private static Parser<QueryExpRaw> queryExpRaw() {
 		Parser<Pair<List<catdata.Pair<LocStr, String>>, List<catdata.Pair<LocStr, RawTerm>>>> q = Parsers.tuple(Parsers.tuple(token("params"), env(ident, ":")).map(x->x.b).optional(), Parsers.tuple(token("bindings"), env(term(), "=")).map(x->x.b).optional()) ;
 		

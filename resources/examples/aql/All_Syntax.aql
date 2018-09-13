@@ -165,6 +165,7 @@ instance i17 = pi (identity s2) (empty : s2) { options prover = completion }
 //quotient_jdbc -- see JDBC example
 //quotient_csv -- see JDBC example (yes, JDBC example)
 //import_csv -- See FinanceColim1 example
+//quotient_query - see Link example
 
 instance i13 = literal : s3 {
 	generators 
