@@ -42,7 +42,7 @@ public class Examples {
 				continue;
 			}
 			for (Language l : Language.values()) {
-				if (dir.getName().equals(l.fileExtension())) {
+				if (dir.getName().equals(l.filePath())) {
 					for (File ex : dir.listFiles()) {
 						if (ex.isHidden()) {
 							continue;
@@ -135,7 +135,7 @@ public class Examples {
 		try (FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
 			for (Language l : Language.values()) {
 				List<Example> list = examples2.get(l);
-				Path myPath = fileSystem.getPath("examples/" + l.fileExtension() + "/");
+				Path myPath = fileSystem.getPath("examples/" + l.filePath() + "/");
 				try (Stream<Path> walk = Files.walk(myPath, 1)) {
 					for (Iterator<Path> it = walk.iterator(); it.hasNext();) {
 						Path p = it.next();

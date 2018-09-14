@@ -30,6 +30,11 @@ public class AqlExampleTest {
             if (lastEnv.exn != null) {
                 throw lastEnv.exn;
             }
+            final String msg = new StringBuilder()
+                    .append("Test failed AS EXPECTED for test case '")
+                    .append(description)
+                    .append("' \n")
+                    .toString();
         } catch (Exception e) {
             final String msg = new StringBuilder()
                     .append("Test failed for test case '")
@@ -39,13 +44,41 @@ public class AqlExampleTest {
                     .append("'.\n")
                     .append(e.getStackTrace())
                     .toString();
-            // System.out.println( msg );
             fail(msg);
         }
     }
 
     public static Stream<Arguments> loadExamples() {
-        return Examples.getExamples(Language.AQL).stream()
+        return Examples
+                .getExamples(Language.AQL).stream()
+                .map(example -> Arguments.of(example.getName(), example.getText()));
+    }
+
+    @ParameterizedTest
+    @MethodSource("loadDefectiveExamples")
+    public void testDefectiveSourceText(String description, String src) {
+        System.out.println("testing example: " + description);
+        try {
+            final Program<Exp<?>> prog = AqlParserFactory.getParser().parseProgram(src);
+            final AqlMultiDriver driver = new AqlMultiDriver(prog, new String[1], null);
+            driver.start();
+            final AqlEnv lastEnv = driver.env;
+            if (lastEnv.exn != null) {
+                throw lastEnv.exn;
+            }
+            final String msg = new StringBuilder()
+                    .append("Test succeeded for test case '")
+                    .append(description)
+                    .append("' \n")
+                    .toString();
+            fail(msg);
+        } catch (Exception e) {
+        }
+    }
+
+    public static Stream<Arguments> loadDefectiveExamples() {
+        return Examples
+                .getExamples(Language.AQL_ALT).stream()
                 .map(example -> Arguments.of(example.getName(), example.getText()));
     }
 

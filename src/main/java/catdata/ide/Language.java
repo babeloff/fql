@@ -20,7 +20,8 @@ public enum Language {
 	FPQL,
 	OPL,
 	MPL,
-	AQL;
+	AQL,
+	AQL_ALT;
 	
 	public static Language getDefault() {
 		return AQL;
@@ -43,6 +44,7 @@ public enum Language {
 		case OPL: return "OPL";
 		case MPL: return "MPL";
 		case AQL: return "AQL";
+		case AQL_ALT: return "AQL ALT";
 		case EASIK: return "EASIK";
 		case SKETCH: return "Sketch";
 		default:
@@ -59,6 +61,7 @@ public enum Language {
 		case OPL: return "O";
 		case MPL: return "M";
 		case AQL: return " ";
+		case AQL_ALT: return " ";
 		case EASIK: return "E";
 		case SKETCH: return "S";
 		default:
@@ -66,21 +69,39 @@ public enum Language {
 		}
 		throw new RuntimeException("Anomaly - please report");
 	}
-	
+
 	public String fileExtension() {
 		switch (this) {
-		case FQL: return "fql";
-		case FQLPP: return "fqlpp";
-		case FPQL: return "fpql";
-		case OPL: return "opl";
-		case MPL: return "mpl";
-		case AQL: return "aql";
-		case EASIK: return "easik";
-		case SKETCH: return "sketch";
-		default:
-			throw new RuntimeException("Anomaly - please report"); 
+			case FQL: return "fql";
+			case FQLPP: return "fqlpp";
+			case FPQL: return "fpql";
+			case OPL: return "opl";
+			case MPL: return "mpl";
+			case AQL: return "aql";
+			case AQL_ALT: return "aql";
+			case EASIK: return "easik";
+			case SKETCH: return "sketch";
+			default:
+				throw new RuntimeException("Anomaly - please report");
 		}
-		
+
+	}
+
+	public String filePath() {
+		switch (this) {
+			case FQL: return "fql";
+			case FQLPP: return "fqlpp";
+			case FPQL: return "fpql";
+			case OPL: return "opl";
+			case MPL: return "mpl";
+			case AQL: return "aql";
+			case AQL_ALT: return "aql_extra";
+			case EASIK: return "easik";
+			case SKETCH: return "sketch";
+			default:
+				throw new RuntimeException("Anomaly - please report");
+		}
+
 	}
 	
 	@SuppressWarnings({ "rawtypes" })
@@ -92,6 +113,7 @@ public enum Language {
 		case FQL: return new FqlCodeEditor(title,id, content);
 		case MPL: return new MplCodeEditor(title, id, content);
 		case AQL: return new AqlCodeEditor(title, id, content);
+		case AQL_ALT: return new AqlCodeEditor(title, id, content);
 		case EASIK: 
 		case SKETCH: 
 		default:
@@ -120,6 +142,7 @@ public enum Language {
 		case FQL: return Examples.getExamples(Language.FQL);
 		case MPL: return Examples.getExamples(Language.MPL);
 		case AQL: return Examples.getExamples(Language.AQL);
+		case AQL_ALT: return Examples.getExamples(Language.AQL_ALT);
 		case EASIK: return Examples.getExamples(Language.EASIK);
 		case SKETCH: return Examples.getExamples(Language.SKETCH);
 		default:
