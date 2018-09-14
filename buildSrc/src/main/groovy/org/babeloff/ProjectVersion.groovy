@@ -30,10 +30,13 @@ class ProjectVersion {
         }
         Properties versionProps = new Properties()
         versionFile.withInputStream { stream -> versionProps.load(stream) }
-        new ProjectVersion(versionProps.year.toInteger(),
+        ProjectVersion pv = new ProjectVersion(
+                versionProps.year.toInteger(),
                 versionProps.month.toInteger(),
                 versionProps.day.toInteger(),
                 versionProps.release.toBoolean())
+        logger.quiet 'the version specified is: ' + pv.toString()
+        return pv;
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.babeloff.plugins.antlr.Antlr4Task
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'application'
 
 apply plugin: 'idea'
 apply plugin: 'eclipse'
@@ -15,6 +16,8 @@ apply plugin: 'eclipse'
 group = 'net.catdata'
 
 project.ext.versionFile = file('gradle/version.properties')
+
+mainClassName = "catdata.ide.IDE"
 
 task loadVersion {
     project.version = ProjectVersion.read(logger, versionFile)
@@ -81,7 +84,7 @@ task antlrGen (type: Antlr4Task) {
     lexerGrammar = file("${project.rootDir}/src/main/antlr/catdata/aql/grammar/AqlLexerRules.g4")
     parserGrammar = file("${project.rootDir}/src/main/antlr/catdata/aql/grammar/AqlParser.g4")
     module = "catdata.aql.grammar"
-    targetDir = file("${project.buildDir}/generated-src/antlr/main/catdata/aql/grammar")
+    targetDir = file("${project.buildDir}/generated-src/java/catdata/aql/grammar")
     visitor = false
     listener = true
 }
@@ -89,7 +92,7 @@ task antlrGen (type: Antlr4Task) {
 compileJava.dependsOn antlrGen
 
 wrapper {
-    gradleVersion = '4.10'
+    gradleVersion = '4.10.1'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -97,28 +100,34 @@ wrapper {
 sourceSets {
     main {
         java {
-            srcDirs = ['src/main/java','build/generated-src/antlr']
+            srcDirs = ['src/main/java','build/generated-src/java']
+        }
+        resources {
+            srcDirs = ["${project.projectDir}/resources"]
         }
     }
     test {
         java {
-            srcDirs = ['test/java']
+            srcDirs = ["${project.projectDir}/src/test/java"]
+        }
+        resources {
+            srcDirs = ["${project.projectDir}/resources"]
         }
     }
 }
 
 idea {
     module {
-        generatedSourceDirs += file("${project.buildDir}/generated-src/antlr/main")
+        generatedSourceDirs += file("${project.buildDir}/generated-src/java")
         downloadJavadoc = true
         downloadSources = false
     }
 }
 
 repositories {
-     maven { url "https://nexus.isis.vanderbilt.edu/repository/maven-releases" }
-     maven { url "https://nexus.isis.vanderbilt.edu/repository/maven-snapshots" }
-     mavenCentral()
+    mavenCentral()
+    maven { url "https://nexus.isis.vanderbilt.edu/repository/maven-releases" }
+    maven { url "https://nexus.isis.vanderbilt.edu/repository/maven-snapshots" }
 }
 
 dependencies {
@@ -146,7 +155,8 @@ dependencies {
             'junit:junit:4.12'
     )
     testImplementation(
-            'org.junit.jupiter:junit-jupiter-api:5.3.1'
+            'org.junit.jupiter:junit-jupiter-api:5.3.1',
+            'org.junit.jupiter:junit-jupiter-params:5.3.1'
     )
     testRuntimeOnly(
             'org.junit.jupiter:junit-jupiter-engine:5.3.1',

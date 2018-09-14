@@ -84,7 +84,9 @@ public class Examples {
 			if (url == null) {
 				URL l = ClassLoader.getSystemResource("examples");
 				if (l == null) {
-					new RuntimeException("Cannot locate examples").printStackTrace();
+					final String classpath = System.getProperty("java.class.path");
+					final String[] classpathEntries = classpath.split(File.pathSeparator);
+					new RuntimeException("Cannot locate 'examples' from : " + classpath).printStackTrace();
 					HashMap<Language, List<Example>> ret = new HashMap<>();
 					for (Language ll : Language.values()) {
 						ret.put(ll, new LinkedList<>());
