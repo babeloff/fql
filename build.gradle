@@ -6,7 +6,7 @@ import org.babeloff.plugins.antlr.Antlr4Task
 
 // apply from: 'gradle/foo.gradle'
 
-apply plugin: 'java-library'
+apply plugin: 'java'
 apply plugin: 'maven'
 
 apply plugin: 'idea'
