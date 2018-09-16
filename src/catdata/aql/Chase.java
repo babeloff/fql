@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -339,10 +340,14 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 
 	private Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I;
 
+	private Map<En1, Set<Pair<X,X>>> extra;
+	
 	public Chase(Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> F,
-			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I) {
+			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> I,
+			Map<En1, Set<Pair<X,X>>> extra) {
 		this.F = F;
 		this.I = I;
+		this.extra = extra;
 
 		int i = 0;
 		T = new Content(I);
@@ -384,6 +389,8 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 		//}
 
 		doEqs(toAdd, ufs, ufs2, changed);
+		
+		doExtra(toAdd, ufs, changed);
 
 		T.addAll(toAdd);
 		// System.out.println("E " + changed[0]);
@@ -573,6 +580,21 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 		return Util.anomaly();
 	}
 
+	public void doExtra(Content toAdd, Ctx<En2, UnionFind<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>>> ufs,
+			Boolean[] changed) {
+		for (En1 en1 : extra.keySet()) {
+			for (Pair<X, X> x : extra.get(en1)) {
+				Lineage<Void, En2, Void, Fk2, Void, Gen, Void> a = T.us.get(en1).get(x.first);
+				Lineage<Void, En2, Void, Fk2, Void, Gen, Void> b = T.us.get(en1).get(x.second);
+				En2 en2 = F.ens.get(en1);
+				if (!a.equals(b)) {
+					changed[0] = true;
+					ufs.get(en2).union(a, b);
+				}
+			}
+		}
+		
+	}
 	public void targetEqs(Content toAdd, Ctx<En2, UnionFind<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>>> ufs,
 			Boolean[] changed) {
 		for (Triple<Pair<Var, En2>, Term<Ty, En2, Sym, Fk2, Att2, Void, Void>, Term<Ty, En2, Sym, Fk2, Att2, Void, Void>> eq : F.dst.eqs) {
@@ -722,7 +744,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 
 	public void moveObjects(Content toAdd, Boolean[] changed) {
 		// a : a -> F(a)
-		System.out.println("started");
+		//System.out.println("started");
 		for (En1 a : F.src.ens) {
 			// T_v(x) -> Ey. T_a(x,y)
 			// this is the 'loading' step in the Content constructor
@@ -739,7 +761,7 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 				}
 			}
 		}
-		System.out.println("started2");
+		//System.out.println("started2");
 
 		for (Ty a : F.src.typeSide.tys) {
 			// T_v(x) -> Ey. T_a(x,y) // this is the 'loading' step in the Content

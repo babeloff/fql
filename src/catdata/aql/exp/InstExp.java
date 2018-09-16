@@ -1344,7 +1344,7 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 						(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 			} else if (type.equals("parallel")) {
 				SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> alg = new SigmaChaseAlgebra<>(
-						f, i);
+						f, i, new HashMap<>());
 				
 			   return new SaturatedInstance(alg, alg, 
 					   (Boolean) op.getOrDefault(AqlOption.require_consistency),

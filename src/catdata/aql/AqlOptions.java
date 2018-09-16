@@ -42,6 +42,7 @@ public final class AqlOptions {
 	//TODO: aql each typeside/instance/etc should make sure only appropriate options are given to it
 
 	public enum AqlOption {
+		quotient_use_chase,
 		chase_style,
 		maedmax_allow_empty_sorts_unsafe,
 		maedmax_path,
@@ -124,7 +125,7 @@ public final class AqlOptions {
 				return false;
 			}
 			throw new RuntimeException("In " + map + ", neither true nor false: " + s);
-		}
+		} 
 		/*
 		public String getMaybeString(Map<String, String> map) {
 			if (map.containsKey(this.toString())) {
@@ -203,7 +204,8 @@ public final class AqlOptions {
 	//@SuppressWarnings("static-method")
 	private static Object getDefault(AqlOption option) {
 		switch (option) {
-		
+		case quotient_use_chase:
+			return true;
 		case jdbc_no_distinct_unsafe:
 			return false;
 		case jdbc_export_truncate_after:
@@ -382,6 +384,8 @@ public final class AqlOptions {
 
 	private static Object getFromMap(Map<String, String> map, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, AqlOption op) {
 		switch (op) {
+		case quotient_use_chase:
+			return op.getBoolean(map);
 		case jdbc_query_export_convert_type:
 			return op.getString(map);
 		case jdbc_no_distinct_unsafe:

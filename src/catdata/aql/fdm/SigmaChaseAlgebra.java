@@ -1,11 +1,9 @@
 package catdata.aql.fdm;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import catdata.Chc;
@@ -16,7 +14,6 @@ import catdata.aql.Algebra;
 import catdata.aql.Chase;
 import catdata.aql.Collage;
 import catdata.aql.DP;
-import catdata.aql.Head;
 import catdata.aql.Instance;
 import catdata.aql.Lineage;
 import catdata.aql.Mapping;
@@ -40,7 +37,7 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 //	private Collage<Ty, Void, Sym, Void, Void, Void, Chc<Sk, Pair<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>, Att2>>> talg;
 
 	public SigmaChaseAlgebra(Mapping<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2> f2,
-			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i2 /*, Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col */ ) {
+			Instance<Ty, En1, Sym, Fk1, Att1, Gen, Sk, X, Y> i2 /*, Collage<Ty, En2, Sym, Fk2, Att2, Gen, Sk> col */ , Map<En1, Set<Pair<X, X>>> e ) {
 		A = f2.src;
 		B = f2.dst;
 		F = f2;
@@ -55,7 +52,8 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		}
 
 	
-		chase = new Chase<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2,Gen,Sk,X,Y>(F, X);
+		
+		chase = new Chase<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2,Gen,Sk,X,Y>(F, X, e);
 		
 		for (En2 en2 : B.ens) {
 			Collection<Lineage<Void, En2, Void, Fk2, Void, Gen, Void>> s = chase.T.ens.get(en2).keySet();

@@ -1,6 +1,7 @@
 package catdata.aql.exp;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ import catdata.aql.Instance;
 import catdata.aql.It;
 import catdata.aql.It.ID;
 import catdata.aql.Kind;
+import catdata.aql.Mapping;
 import catdata.aql.Query;
 import catdata.aql.RawTerm;
 import catdata.aql.Schema;
@@ -49,6 +51,8 @@ import catdata.aql.fdm.EvalAlgebra.Row;
 import catdata.aql.fdm.EvalInstance;
 import catdata.aql.fdm.InitialAlgebra;
 import catdata.aql.fdm.LiteralInstance;
+import catdata.aql.fdm.SaturatedInstance;
+import catdata.aql.fdm.SigmaChaseAlgebra;
 
 public class InstExpQueryQuotient<X, Y> 
 extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements Raw {
@@ -115,7 +119,11 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 		@Override
 		public Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> eval(AqlEnv env) {
 			Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I0 = I.eval(env);
-			Schema<Ty, En, Sym, Void, Void> dst = I0.schema().discretize();
+			Set<En> ensX = new HashSet<>();
+			for (Block b : queries) {
+				ensX.add(b.en);
+			}
+			Schema<Ty, En, Sym, Void, Void> dst = I0.schema().discretize(ensX);
 			Ctx<En, Triple<Ctx<Var, En>, Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>>, AqlOptions>> ens = new Ctx<>();
 			Ctx<En, Collage<Ty, En, Sym, Fk, Att, Var, Var>> cols = new Ctx<>();
 			
@@ -129,6 +137,42 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 
 			EvalInstance<Ty, En, Sym, Fk, Att, Gen, Sk, En, Void, Void, X, Y> J = new EvalInstance<>(q, I.eval(env), new AqlOptions(options, null, env.defaults));
 			
+			AqlOptions op = new AqlOptions(options, null, env.defaults);
+			boolean useChase = (boolean) op.getOrDefault(AqlOption.quotient_use_chase);
+
+			if (useChase) {
+				Map<En, Set<Pair<X, X>>> mm = new HashMap<>();
+				for (Row<En, X> p : J.gens().keySet()) {
+					Map<Var, X> m = p.asMap();
+					
+					List<Var> vs = new LinkedList<>(m.keySet());
+					Var v1 = vs.get(0);
+					Var v2 = vs.get(1);
+					X x1 = p.get(v1);
+					X x2 = p.get(v2);
+					En en = J.gens().get(p);
+					if (!mm.containsKey(en)) {
+						mm.put(en, new HashSet<>());
+					}
+					mm.get(en).add(new Pair<>(x1, x2));
+				}
+				
+				SigmaChaseAlgebra<Ty, En, Sym, Fk, Att, En, Fk, Att, Gen, Sk, X, Y> alg = new SigmaChaseAlgebra<>(
+						Mapping.id(I0.schema()), I0, mm);
+				
+			   return new SaturatedInstance(alg, alg, 
+					   (Boolean) op.getOrDefault(AqlOption.require_consistency),
+						(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe), false, null);
+				
+			} else {
+				return evalProver(env, I0, J); 
+			}
+
+		}
+
+		private Instance<Ty, En, Sym, Fk, Att, Gen, Sk, ID, Chc<Sk, Pair<ID, Att>>> evalProver(AqlEnv env,
+				Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I0,
+				EvalInstance<Ty, En, Sym, Fk, Att, Gen, Sk, En, Void, Void, X, Y> J) {
 			Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col = new Collage<>(I0.collage());
 			
 			Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> 
@@ -152,8 +196,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 			
 			InitialAlgebra<Ty, En, Sym, Fk, Att, Gen, Sk, ID> initial0 = new InitialAlgebra<>(strat, I0.schema(), col, new It(), Object::toString, Object::toString);			 
 			
-			return new LiteralInstance<>(I0.schema(), col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0, (Boolean) strat.getOrDefault(AqlOption.require_consistency), (Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe)); 
-
+			return new LiteralInstance<>(I0.schema(), col.gens.map, col.sks.map, eqs0, initial0.dp(), initial0, (Boolean) strat.getOrDefault(AqlOption.require_consistency), (Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 		}
 
 		private String toString;

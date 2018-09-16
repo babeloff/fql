@@ -21,8 +21,8 @@ import catdata.graph.DAG;
 
 public final class Schema<Ty, En, Sym, Fk, Att> implements Semantics {
 
-	public Schema<Ty, En, Sym, Void, Void> discretize() {
-		Schema<Ty, En, Sym, Fk, Att> x = new Schema<Ty, En, Sym, Fk, Att>(typeSide, ens, new HashMap<>(), new HashMap<>(), new HashSet<>(), dp, false);
+	public Schema<Ty, En, Sym, Void, Void> discretize(Set<En> ensX) {
+		Schema<Ty, En, Sym, Fk, Att> x = new Schema<Ty, En, Sym, Fk, Att>(typeSide, ensX, new HashMap<>(), new HashMap<>(), new HashSet<>(), dp, false);
 		return (Schema<Ty, En, Sym, Void, Void>) x;
 	}
 	
