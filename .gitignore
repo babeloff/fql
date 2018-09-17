@@ -19,4 +19,4 @@ buildSrc/build/
 *.iws
 *.dvi
 .gradle/
-
+bin/
