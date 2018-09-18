@@ -28,6 +28,7 @@ public class Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> {
 			return true;
 		if (obj == null)
 			return false;
+		@SuppressWarnings("rawtypes")
 		Lineage other = (Lineage) obj;
 		if (i == null) {
 			if (other.i != null)

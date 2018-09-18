@@ -304,8 +304,12 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		}
 
 		@Override
-		public String toString() {
-			return "load_jars {\n\t" + Util.sep(files.stream().map(Util::quote).collect(Collectors.toList()), "\n\t") + "\n}";
+		public String makeString() {
+			return new StringBuilder()
+					.append("load_jars {\n\t")
+					.append(Util.sep(files.stream().map(Util::quote).collect(Collectors.toList()), "\n\t"))
+					.append("\n}")
+					.toString();
 		}
 
 		@Override
@@ -516,15 +520,16 @@ public abstract class PragmaExp extends Exp<Pragma> {
 			return new JdbcPragma(toGet, sqls);
 		}
 
-		//TODO aql add options
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("sql ").append(Util.quote(clazz)).append(" ").append(Util.quote(jdbcString)).append(" {\n")
+					.append(Util.sep(sqls.stream().map(Util::quote).collect(Collectors.toList()), "\n"));
+
 			if (!options.isEmpty()) {
-				s = "\n\toptions" + Util.sep(options, "\n\t\t", " = ");
+				sb.append("\n\toptions").append(Util.sep(options, "\n\t\t", " = "));
 			}
-		
-			return "sql " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " {\n" + Util.sep(sqls.stream().map(Util::quote).collect(Collectors.toList()), "\n") + s + "\n}";
+			return sb.append("\n}").toString();
 		}
 
 		@Override
@@ -564,12 +569,14 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		}
 
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("export_csv_instance ").append(inst).append(" ").append(Util.quote(file));
+
 			if (!options.isEmpty()) {
-				s = " {\n\toptions" + Util.sep(options, "\n\t\t", " = ") + "\n}";
+				sb.append("\n\toptions").append(Util.sep(options, "\n\t\t", " = "));
 			}
-			return "export_csv_instance " + inst + " " + Util.quote(file) + s;
+			return sb.append("\n}").toString();
 		}
 
 		@Override
@@ -689,16 +696,17 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		}
 
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("export_csv ").append(trans).append(" ").append(Util.quote(file));
+
 			if (!options1.isEmpty()) {
-				s = " {\n\toptions" + Util.sep(options1, "\n\t\t", " = ")  + "\n}";
+				sb.append("{\n\toptions").append(Util.sep(options1, "\n\t\t", " = ")).append("\n}");
 			}
 			if (!options2.isEmpty()) {
-				s += "\n {\n\toptions" + Util.sep(options2, "\n\t\t", " = ")  + "\n}";
+				sb.append("\n {\n\toptions").append(Util.sep(options2, "\n\t\t", " = ")).append("\n}");
 			}
-		
-			return "export_csv " + trans + " " + Util.quote(file) + s;
+			return sb.toString();
 		}
 
 		@Override
@@ -822,13 +830,15 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		}
 
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("exec_js {\n")
+					.append(Util.sep(jss.stream().map(Util::quote).collect(Collectors.toList()), "\n"));
+					
 			if (!options.isEmpty()) {
-				s = "\n\toptions" + Util.sep(options, "\n\t\t", " = ");
+				sb.append("\n\toptions").append(Util.sep(options, "\n\t\t", " = "));
 			}
-		
-			return "exec_js {\n" + Util.sep(jss.stream().map(Util::quote).collect(Collectors.toList()), "\n") + s + "\n}";
+			return sb.append("\n}").toString();
 		}
 
 		@Override
@@ -894,14 +904,15 @@ public abstract class PragmaExp extends Exp<Pragma> {
 
 		//TODO aql doc
 		@Override
-		public String toString() {
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("exec {\n")
+					.append(Util.sep(cmds.stream().map(Util::quote).collect(Collectors.toList()), "\n"));
 			
-			String s = "";
 			if (!options.isEmpty()) {
-				s = "\n\toptions" + Util.sep(options, "\n\t\t", " = ");
+				sb.append("\n\toptions").append(Util.sep(options, "\n\t\t", " = "));
 			}
-		
-			return "exec_js {\n" + Util.sep(cmds.stream().map(Util::quote).collect(Collectors.toList()), "\n") + s + "\n}";
+			return sb.append("\n}").toString();
 		}
 
 		@Override
@@ -959,13 +970,16 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		}
 
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("export_jdbc_instance ")
+					.append(I).append(" ").append(Util.quote(clazz)).append(" ")
+					.append(Util.quote(jdbcString)).append(" ").append(prefix);
+					
 			if (!options.isEmpty()) {
-				s = " {\n\toptions\n\t\t" + Util.sep(options, " = ", "\n\t\t")  + "\n}";
+				sb.append("\n\toptions").append(Util.sep(options, "\n\t\t", " = "));
 			}
-		
-			return "export_jdbc_instance " + I + " " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " " + prefix + s;
+			return sb.append("\n}").toString();
 		}
 
 		@Override
@@ -1070,19 +1084,22 @@ public abstract class PragmaExp extends Exp<Pragma> {
 			return new ToJdbcPragmaTransform<>(prefix, h.eval(env), driver, toGet, op1, op2);
 		}
 
-		//TODO aql maybe quote for RHS of options
-		
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("export_jdbc_transform ")
+					.append(h).append(" ").append(Util.quote(clazz)).append(" ")
+					.append(Util.quote(jdbcString)).append(" ").append(prefix);
+			sb.append("{");
 			if (!options1.isEmpty()) {
-				s += " {\n\toptions" + Util.sep(options1, "\n\t\t", " = ")  + "\n}\n";
+				sb.append("\n\toptions").append(Util.sep(options1, "\n\t\t", " = ")).append("\n");
 			}
-			if (!options1.isEmpty()) {
-				s += " {\n\toptions" + Util.sep(options2, "\n\t\t", " = ")  + "\n}";
+			sb.append("}\n{");
+			if (!options2.isEmpty()) {
+				sb.append("\n\toptions").append(Util.sep(options2, "\n\t\t", " = ")).append("\n");
 			}
-		
-			return "export_jdbc_transform " + h + " " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " " + prefix + s;
+			sb.append("}");
+			return sb.toString();
 		}
 
 		@Override
@@ -1193,14 +1210,17 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		}
 
 		@Override
-		public String toString() {
-			String s = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder()
+					.append("export_jdbc_query ")
+					.append(Q).append(" ").append(Util.quote(clazz)).append(" ")
+					.append(Util.quote(jdbcString)).append(" ").append(prefixSrc).append(" ").append(prefixDst);
 			if (!options.isEmpty()) {
-				s = " {\n\toptions" + Util.sep(options, "\n\t\t", " = ")  + "\n}";;
+				sb.append("\n\toptions").append(Util.sep(options, "\n\t\t", " = "));
 			}
-		
-			return "export_jdbc_query " + Q + " " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " " + prefixSrc + " " + prefixDst + s;
+			return sb.append("\n}").toString();
 		}
+
 
 		@Override
 		public int hashCode() {

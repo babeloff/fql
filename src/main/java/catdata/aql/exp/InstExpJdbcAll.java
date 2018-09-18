@@ -231,11 +231,15 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 
 	@Override
 	public String toString() {
-		String s = "";
+		final StringBuilder sb = new StringBuilder()
+				.append("import_jdbc_all ")
+				.append(Util.quote(clazz)).append(" ").append(Util.quote(jdbcString))
+				.append(" {\n\t");
 		if (!options.isEmpty()) {
-			s = "options" + Util.sep(options, "\n\t\t", " = ");
+			sb.append("\n\toptions\n\t\t")
+				.append(Util.sep(options, " = ", "\n\t\t"));
 		}
-		return "import_jdbc_all " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " {\n\t" + s + "\n}";
+		return sb.append("\n}").toString();
 	}
 
 	@Override

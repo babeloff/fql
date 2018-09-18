@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import catdata.Chc;
 import catdata.Ctx;
@@ -112,25 +113,20 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 		raw.put("equations", xx);
 	}
 
-	private String toString;
-	
 	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
-		
-		List<String> temp = new LinkedList<>();
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("quotient " + I + "{\n");
 		
 		if (!eqs.isEmpty()) {
-			toString += "\tequations";
-			temp = new LinkedList<>();
-			for (Pair<RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
-				temp.add(sym.first + " = " + sym.second);
-			}
+			sb.append("\tequations");
+		
+			final List<String> temp = Util.alphabetical(eqs).stream()
+					.map(sym -> sym.first + " + " + sym.second)
+					.collect(Collectors.toList());
+			
 			if (eqs.size() < 9) {
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n"); 
 			} else {
 				int step = 3;
 				int longest = 32;
@@ -140,33 +136,34 @@ public final class InstExpQuotient<X,Y> extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,
 					}
 				}
 				for (int i = 0; i < temp.size(); i += step) {
-					StringBuilder sb = new StringBuilder();
-					Formatter formatter = new Formatter(sb, Locale.US);
+					Formatter formatter = new Formatter(null, Locale.US);
 					List<String> args = new LinkedList<>();
 					List<String> format = new LinkedList<>();
 					for (int j = i; j < Integer.min(temp.size(), i + step); j++) {
 						args.add(temp.get(j));
 						format.add("%-" + longest + "s");
 					}
-					String x = formatter.format(Util.sep(format, ""), (Object[]) args.toArray(new String[0])).toString();
+					final String formatStr = Util.sep(format, "");
+					final Object[] formatTgt = args.toArray(new String[0]);
+					final String x = formatter.format(formatStr, formatTgt).toString();
 					formatter.close();
-					toString += "\n\t\t" + x;
+					sb.append("\n\t\t" + x); 
 				}
-				toString += "\n";
+				sb.append("\n"); 
 			}
 		}
 		
 		if (!options.isEmpty()) {
-			toString += "\toptions";
-			temp = new LinkedList<>();
+			sb.append("\toptions"); 
+			final List<String> temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n"); 
 		}
-		
-		return "quotient " + I + "{\n" + toString + "}";
+		sb.append("}");
+		return sb.toString();
 	} 
 
 

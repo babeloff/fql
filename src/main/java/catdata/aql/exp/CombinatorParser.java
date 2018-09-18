@@ -1379,7 +1379,8 @@ public class CombinatorParser implements IAqlParser {
 
 		@SuppressWarnings("unchecked")
 		Parser<Triple<String, Integer, ? extends Exp<?>>>
-    p = Parsers.or(comment(), 
+		p = Parsers.or(
+				comment(), 
             decl("typeside", ty_ref.get()),
             decl("schema", sch_ref.get()),
             decl("instance", inst_ref.get()),

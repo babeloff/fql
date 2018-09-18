@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+// import java.util.logging.Logger;
 
 import org.jparsec.error.Location;
 import org.jparsec.error.ParseErrorDetails;
@@ -14,6 +15,8 @@ import org.jparsec.error.ParserException;
 
 public class Program<X> implements Prog {
 
+	// private static Logger log = Logger.getLogger(Program.class.getName());
+	
 	//TODO aql
 	public long timeout() {
 		if (options.containsKey("timeout")) {
@@ -95,6 +98,7 @@ public class Program<X> implements Prog {
 				Util.anomaly();
 			}
 			order.add(decl.first);				
+			// log.info(decl.toString());
 		}
 		this.options = Util.toMapSafely(options);
 		this.kindOf = k;

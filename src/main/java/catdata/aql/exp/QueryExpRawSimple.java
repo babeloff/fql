@@ -164,27 +164,17 @@ public class QueryExpRawSimple extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, At
 		return Query.makeQuery(ens0, atts0, fks0, src0, dst0, doNotCheckEqs, elimRed);
 	}
 
-	private String toString;
 	@Override
-	public synchronized String toString() {
-			if (toString != null) {
-				return toString;
-			}
-			toString = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder()
+			.append("simple : ").append(src).append(" {\n");
+		List<String> temp = new LinkedList<>();
 
+		temp.add(block.toString());
+		sb.append("\t\t").append(Util.sep(temp, "\n\n\t\t")).append("\n");
 		
-			
-			toString += block.toString2() + "\n";
-			
-			
-			toString = "simple : " + src + " {\n" + toString + "\n}";
-			return toString;
+		return sb.append("\n}").toString();
 		}
-
-	
-
-	
-	
 	
 
 }

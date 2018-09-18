@@ -197,7 +197,7 @@ public class GUI extends JPanel {
 		
 	
 		KeyStroke ctrlW = KeyStroke.getKeyStroke(KeyEvent.VK_W,  Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
-//		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_MASK);
+//		KeyStroke commandW = KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.META_DOWN_MASK);
 		MenuShortcut c = new MenuShortcut(ctrlW.getKeyCode());
 		closeItem.setShortcut(c);
 

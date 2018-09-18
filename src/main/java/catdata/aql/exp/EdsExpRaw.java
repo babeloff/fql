@@ -129,24 +129,20 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 		this.options = Collections.emptyMap();
 	}
 	
-	private String toString;
-
 	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("literal : " + schema + " {\n");
 
 		if (!imports.isEmpty()) {
-			toString += "\timports";
-			toString += "\n\t\t" + Util.sep(imports, " ") + "\n";
+			sb.append("\timports");
+			sb.append("\n\t\t" + Util.sep(imports, " ") + "\n");
 		}
 		List<String> l = eds.stream().map(x -> x.toString()).collect(Collectors.toList());
-		toString += Util.sep(l, "\n\n");
+		sb.append(Util.sep(l, "\n\n"));
 
-		toString = "literal : " + schema + " {\n" + toString + "}";
-		return toString;
+		sb.append("}");
+		return sb.toString();
 	}
 
 	@Override
@@ -183,56 +179,52 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 			}
 			
 			
-			
-			private String toString;
 			@Override
-			public synchronized String toString() {
-				if (toString != null) {
-					return toString;
-				}
-				toString = "";
+			public String makeString() {
+				final StringBuilder sb = new StringBuilder();
+				sb.append("");
 			
 				if (!As.isEmpty()) {
-					toString += "\tforall";
+					sb.append("\tforall");
 					List<String> temp = new LinkedList<>();		
 					for (Pair<String, String> p : Util.alphabetical(As)) {
 						temp.add(p.first + ":" + p.second);
 					}
 					
-					toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+					sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 				}
 				if (!Awh.isEmpty()) {
-					toString += "\twhere";
+					sb.append("\twhere");
 					List<String> temp = new LinkedList<>();
 					for (Pair<RawTerm, RawTerm> p : Util.alphabetical(Awh)) {
 						temp.add(p.first + " = " + p.second);
 					}
 					
-					toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+					sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 				}
-				toString += "->\n";
+				sb.append("->\n");
 				if (!Es.isEmpty()) {
-					toString += "\texists";
+					sb.append("\texists");
 					if (isUnique) {
-						toString += " unique";
+						sb.append(" unique");
 					}
 					List<String> temp = new LinkedList<>();		
 					for (Pair<String, String> p : Util.alphabetical(Es)) {
 						temp.add(p.first + ":" + p.second);
 					}
 					
-					toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+					sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 				}
 				if (!Ewh.isEmpty()) {
-					toString += "\twhere";
+					sb.append("\twhere");
 					List<String> temp = new LinkedList<>();
 					for (Pair<RawTerm, RawTerm> p : Util.alphabetical(Ewh)) {
 						temp.add(p.first + " = " + p.second);
 					}
 					
-					toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+					sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 				}
-				return toString;
+				return sb.toString();
 			}
 
 

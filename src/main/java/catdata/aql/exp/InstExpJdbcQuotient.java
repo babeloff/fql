@@ -138,7 +138,12 @@ extends InstExp<Ty,En,Sym,Fk,Att,Gen,Sk,ID,Chc<Sk, Pair<ID, Att>>>  implements R
 
 	@Override
 	public String toString() {
-		return "quotient_jdbc " + clazz + " " + jdbcString + " " + I + " {\n" + Util.sep(queries, " -> ", "\n") + "\n}"; 
+		return new StringBuilder()
+				.append("quotient_jdbc ").append(clazz).append(" ").append(jdbcString)
+				.append(" ").append(I).append(" {\n")
+				.append(Util.sep(queries, " -> ", "\n"))
+				.append("\n}")
+				.toString(); 
 	} 
 
 	@Override

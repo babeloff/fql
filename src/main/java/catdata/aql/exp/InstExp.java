@@ -291,8 +291,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			}
 			
 			if (onlyFree) {
-				CoprodInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> k = new CoprodInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> (m, sch0, (boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe), (boolean) strat.getOrDefault(AqlOption.require_consistency));
-				Object o = k;
+				CoprodInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
+                k = new CoprodInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> (m, sch0, (boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe), (boolean) strat.getOrDefault(AqlOption.require_consistency));
+				
+                Object o = k;
 				return (Instance<Ty, En, Sym, Fk, Att, Pair<String, Gen>, Pair<String, Sk>, ID, Chc<Pair<String, Sk>, Pair<ID, Att>>>) o;
 			}
 			
@@ -883,13 +885,15 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 		}
 
 		@Override
-		public String toString() {
-			String ret = "colim " + shape + " " + schema + " {";
-			ret += "\n\tnodes\n\t\t";
-			ret += Util.sep(nodes.map, " -> ", "\n\t\t");
-			ret += "\n\tedges\n\t\t";
-			ret += Util.sep(edges.map, " -> ", "\n\t\t");
-			return ret + "\n}";
+		public String makeString() {
+			return new StringBuilder() 
+					.append("colim ").append(shape).append(" ").append(schema).append(" {")
+					.append("\n\tnodes\n\t\t")
+					.append(Util.sep(nodes.map, " -> ", "\n\t\t"))
+					.append("\n\tedges\n\t\t")
+					.append(Util.sep(edges.map, " -> ", "\n\t\t"))
+					.append("\n}")
+					.toString();
 		}
 
 		@Override
@@ -1304,12 +1308,15 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 		@Override
 		public String toString() {
-			@SuppressWarnings("unused")
 			String l = "";
 			if (!options.isEmpty()) {
 				l = " {\n" + Util.sep(options, " = ", "\n\t") + "\n}";
 			}
-			return "sigma_chase " + F + " " + I;
+			return new StringBuilder()
+					.append("sigma_chase " + F)
+					.append(" " + I)
+					.append("\n" + l)
+					.toString();
 		}
 
 		@Override

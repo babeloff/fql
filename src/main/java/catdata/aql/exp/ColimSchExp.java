@@ -130,63 +130,48 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 			return RawTerm.fold(l, "_v0");  
 		}
 
-		private String toString;
-		
 		@Override
-		public synchronized String toString() {
-			if (toString != null) {
-				return toString;
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder();
+		
+			if (eqEn.isEmpty() && eqTerms.isEmpty() && eqTerms2.isEmpty()) {
+				return sb
+						.append("coproduct ")
+						.append(Util.sep(nodes.keySet(), " + "))
+						.append(" : ").append(this.ty)
+						.toString(); 
 			}
-			toString = "";
-			
-			List<String> temp = new LinkedList<>();
+			sb.append("quotient ").append(Util.sep(nodes.keySet(), " + "))
+				.append(" : ").append(this.ty).append(" ").append(" {\n");
 			
 			if (!eqEn.isEmpty()) {
-				toString += "\tentity_equations";
-						
-				for (Quad<N, En, N, En> x : eqEn) {
-					temp.add(x.first + "." + x.second + " = " + x.third + "." + x.fourth);
-				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\tentity_equations")
+				  .append(this.eqEn.stream()
+						  .map(x -> x.first + "." + x.second + " = " + x.third + "." + x.fourth)
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 			}
 			
 			if (!eqTerms2.isEmpty()) {
-				toString += "\tpath_equations";
-						
-				for (Pair<List<String>, List<String>> x : eqTerms2) {
-					temp.add(Util.sep(x.first, ".") + " = " + Util.sep(x.second, "."));
-				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\tpath_equations")
+				  .append(this.eqTerms2.stream()
+						  .map(x -> Util.sep(x.first, ".") + " = " + Util.sep(x.second, "."))
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 			}
 			
 			if (!eqTerms.isEmpty()) {
-				toString += "\tobservation_equations";
-						
-				for (Quad<String, String, RawTerm, RawTerm> x : eqTerms) {
-					temp.add("forall " + x.first + ". " + x.third + " = " + x.fourth);
-				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\tobservation_equations")
+				  .append(this.eqTerms.stream()
+						  .map(x -> "forall " + x.first + ". " + x.third + " = " + x.fourth)
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 			}
 			
 			if (!options.isEmpty()) {
-				toString += "\toptions";
-				temp = new LinkedList<>();
-				for (Entry<String, String> sym : options.entrySet()) {
-					temp.add(sym.getKey() + " = " + sym.getValue());
+				sb.append("\toptions")
+				  .append(this.options.entrySet().stream()
+						  .map(sym -> sym.getKey() + " = " + sym.getValue())
+						  .collect(Collectors.joining("\n\t\t","\n\t\t","\n")));
 				}
-				
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
-			}
-			if (eqEn.isEmpty() && eqTerms.isEmpty() && eqTerms2.isEmpty()) {
-				toString = "coproduct " + Util.sep(nodes.keySet(), " + "); // + " {\n" + toString + "\n}";
-				return toString;
-			} else {
-				toString = "quotient " + Util.sep(nodes.keySet(), " + ") + " {\n" + toString + "\n}";
-				return toString;
-			}
+			return sb.append("\n}").toString();
 		} 
 
 		@Override
@@ -501,13 +486,15 @@ public abstract class ColimSchExp<N> extends Exp<ColimitSchema<N>> {
 	
 
 		@Override
-		public String toString() {
-			String ret = "literal " + shape + " : " + ty + " {";
-			ret += "\n\tnodes\n\t\t";
-			ret += Util.sep(nodes.map, " -> ", "\n\t\t");
-			ret += "\n\tedges\n\t\t";
-			ret += Util.sep(edges.map, " -> ", "\n\t\t");
-			return ret + "\n}";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder();
+			sb.append("literal " + shape + " : " + ty + " {");
+			sb.append("\n\tnodes\n\t\t");
+			sb.append(Util.sep(nodes.map, " -> ", "\n\t\t"));
+			sb.append("\n\tedges\n\t\t");
+			sb.append(Util.sep(edges.map, " -> ", "\n\t\t"));
+			sb.append("\n}");
+			return sb.toString();
 		}
 
 		@Override

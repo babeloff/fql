@@ -36,14 +36,16 @@ extends TransExpImport<Gen, Sk, Gen, Sk, X1, Y1, X2, Y2, Connection>  {
 	}
 
 	
-
 	@Override
-	public String toString() {
-		String s = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder()
+				.append("import_jdbc ").append(Util.quote(clazz)).append(" ").append(Util.quote(jdbcString))
+				.append(" : ").append(src).append(" -> ").append(dst).append(" {\n\t")
+				.append(Util.sep(map, " -> ", "\n\t"));
 		if (!options.isEmpty()) {
-			s = "options" + Util.sep(options, "\n\t\t", " = ");
+			sb.append("options").append(Util.sep(options, "\n\t\t", " = "));
 		}
-		return "import_jdbc " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " : " + src + " -> " + dst + " {\n\t" + Util.sep(map, " -> ", "\n\t") + s + "\n}";
+		return  sb.append("\n}").toString();
 	}
 
 

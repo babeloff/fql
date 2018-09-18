@@ -138,36 +138,23 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 			return true;
 		}
 
-		private String toString;
-
 		@Override
-		public synchronized String toString() {
-			if (toString != null) {
-				return toString;
-			}
-			toString = "";
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder();
+			sb.append("{");
 
-			List<String> temp = new LinkedList<>();
+			sb.append("gens")
+			  .append(this.gens.stream()
+					  .map(en -> en.first + " -> " + en.second)
+					  .collect(Collectors.joining("\n\t")));
 
-			if (!gens.isEmpty()) {
-				for (Pair<Var, RawTerm> En : gens) {
-					temp.add(En.first + " -> " + En.second);
-				}
+			sb.append("options")
+			  .append(this.options.entrySet().stream()
+					  .map(opt -> opt.getKey() + " = " + opt.getValue())
+					  .collect(Collectors.joining("\n\t")));
 
-				toString += Util.sep(temp, "\n\t\t\t\t");
-			}
-
-			if (!options.isEmpty()) {
-				toString += "\n\toptions";
-				temp = new LinkedList<>();
-				for (Entry<String, String> sym : options.entrySet()) {
-					temp.add(sym.getKey() + " = " + sym.getValue());
-				}
-
-				toString += "\n\t\t\t" + Util.sep(temp, "\n\t\t\t");
-			}
-
-			return "\t{" + toString + "}";
+                        sb.append("}");
+			return  sb.toString();
 		}
 
 	}
@@ -305,67 +292,51 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 			raw.put("foreign_keys", xx);
 		}
 
-		private String toString;
-
-		public synchronized String toString() {
-			if (toString != null) {
-				return toString;
-			}
-			toString = "entity " + en + " -> {\n";
-
-			List<String> temp = new LinkedList<>();
-
-			if (!gens.isEmpty()) {
-				toString += "\t\t\tfrom\t";
-
-				Map<En, Set<Var>> x = Util.revS(Util.toMapSafely(gens));
-				temp = new LinkedList<>();
-				for (En En : Util.alphabetical(x.keySet())) {
-					temp.add(Util.sep(x.get(En), " ") + " : " + En);
-				}
-
-				toString += Util.sep(temp, "\n\t\t\t\t\t");
+		@Override
+		public String makeString() {
+			final StringBuilder sb = new StringBuilder();
+			sb.append("\nentity ")
+				.append(this.en.str)
+				.append(" -> { ");
+	
+			if (!this.gens.isEmpty()) {
+				final Map<En, Set<Var>> x = Util.revS(Util.toMapSafely(this.gens));
+				sb.append("\n\tfrom \n\t\t");
+				sb.append(Util.alphabetical(x.keySet()).stream()
+						.map(en -> Util.sep(x.get(en), " ") + " : " + en)
+						.collect(Collectors.joining("\n\t\t")));
 			}
 
-			if (!eqs.isEmpty()) {
-				toString += "\n\t\t\t\twhere\t";
-				temp = new LinkedList<>();
-				for (Pair<RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
-					temp.add(sym.first + " = " + sym.second);
+			if (!this.eqs.isEmpty()) {
+				sb.append("\n\twhere\n\t\t");
+				sb.append(Util.alphabetical(this.eqs).stream()
+						.map(sym -> sym.first + " = " + sym.second)
+						.collect(Collectors.joining("\n\t\t")));
 				}
-				toString += Util.sep(temp, "\n\t\t\t\t\t");
-			}
 
-			if (!atts.isEmpty()) {
-				toString += "\n\t\t\t\tattributes\t";
-				temp = new LinkedList<>();
-				for (Pair<Att, RawTerm> sym : Util.alphabetical(atts)) {
-					temp.add(sym.first + " -> " + sym.second);
-				}
-				toString += Util.sep(temp, "\n\t\t\t\t\t");
+			if (!this.atts.isEmpty()) {
+				sb.append("\n\tattributes\n\t\t");
+				sb.append(Util.alphabetical(this.atts).stream()
+						.map(sym -> sym.first + " -> " + sym.second)
+						.collect(Collectors.joining("\n\t\t")));
 			}
 
 			if (!fks.isEmpty()) {
-				toString += "\n\t\t\t\tforeign_keys\t";
-				temp = new LinkedList<>();
-				for (Pair<catdata.aql.exp.SchExpRaw.Fk, Trans> sym : Util.alphabetical(fks)) {
-					temp.add(sym.first.str + " -> {" + sym.second + "}");
-				}
-				toString += Util.sep(temp, "\n\t\t\t\t\t");
+				sb.append("\n\tforeign_keys\n\t\t");
+				sb.append(Util.alphabetical(this.fks).stream()
+						.map(sym -> sym.first + " -> " + sym.second)
+						.collect(Collectors.joining("\n\t\t")));
 			}
 
 			if (!options.isEmpty()) {
-				toString += "\n\t\t\t\toptions";
-				temp = new LinkedList<>();
-				for (Entry<String, String> sym : options.entrySet()) {
-					temp.add(sym.getKey() + " = " + sym.getValue());
-				}
-
-				toString += "\n\t\t\t\t" + Util.sep(temp, "\n\t\t\t\t\t");
+				sb.append("\n\toptions\n\t\t");
+				sb.append(this.options.entrySet().stream()
+						.map(sym -> sym.getKey() + " = " + sym.getValue())
+						.collect(Collectors.joining("\n\t\t")));
 			}
-
-			toString = "\t" + toString + "\n\t\t\t\t}";
-			return toString;
+		
+			sb.append("}");
+			return sb.toString();
 		}
 
 		private String toString2;
@@ -504,44 +475,28 @@ public class QueryExpRaw extends QueryExp<Ty, En, Sym, Fk, Att, En, Fk, Att> imp
 		return true;
 	}
 
-	private String toString;
-
 	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder("literal : ");
+		sb.append(this.src).append(" -> ").append(this.dst);
+		sb.append("\n{");
 
-		if (!imports.isEmpty()) {
-			toString += "\timports";
-			toString += "\n\t\t" + Util.sep(imports, " ") + "\n";
-		}
+		sb.append("\nimport")
+		  .append(this.imports.stream()
+				  .map(x -> x.toString())
+				  .collect(Collectors.joining("\n\t")));
 
-		List<String> temp = new LinkedList<>();
+		sb.append(this.blocks.stream()
+				  .map(x -> x.toString())
+				  .collect(Collectors.joining("\n\t")));
 
-		if (!blocks.isEmpty()) {
+		sb.append("\noptions")
+		  .append(this.options.entrySet().stream()
+				  .map(sym -> sym.getKey() + " = " + sym.getValue())
+				  .collect(Collectors.joining("\n\t")));
 			
-
-			for (Block x : blocks) {
-				temp.add(x.toString());
-			}
-
-			toString += "\n\t\t" + Util.sep(temp, "\n\n\t\t") + "\n";
-		}
-
-		if (!options.isEmpty()) {
-			toString += "\toptions";
-			temp = new LinkedList<>();
-			for (Entry<String, String> sym : options.entrySet()) {
-				temp.add(sym.getKey() + " = " + sym.getValue());
-			}
-
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
-		}
-
-		toString = "literal : " + src + " -> " + dst + " {\n" + toString + "}";
-		return toString;
+		sb.append("\n}");
+		return sb.toString();
 	}
 
 	public QueryExpRaw(List<Pair<LocStr, String>> params, List<Pair<LocStr, RawTerm>> consts, SchExp<?, ?, ?, ?, ?> c, SchExp<?, ?, ?, ?, ?> d, List<LocStr> imports,

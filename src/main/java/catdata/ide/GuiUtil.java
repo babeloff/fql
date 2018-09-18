@@ -226,6 +226,7 @@ public class GuiUtil {
 		try
 		{
 			Rectangle r = component.modelToView(component.getCaretPosition());
+                        // Rectangle2D r = component.modelToView2D(component.getCaretPosition());
 			JViewport viewport = (JViewport)container;
 			int extentHeight = viewport.getExtentSize().height;
 			int viewHeight = viewport.getViewSize().height;
@@ -233,9 +234,11 @@ public class GuiUtil {
 				return;
 			}
 			int y = Math.max(0, r.y - ((extentHeight - r.height) / 2));
+                        // double y = Math.max(0, r.getY() - ((extentHeight - r.getHeight()) / 2));
 			y = Math.min(y, viewHeight - extentHeight);
 
 			viewport.setViewPosition(new Point(0, y));
+                        // viewport.setViewPosition(new Point(0, (int) y));
 		}
 		catch(BadLocationException ble) {}
 	}

@@ -137,68 +137,65 @@ public final class MapExpRaw extends MapExp<Ty, En, Sym, Fk, Att, En, Fk, Att> i
 		return raw;
 	}
 
-	private String toString;
-
 	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("literal : ").append(src).append(" -> ").append(dst).append(" {\n");
 
 		if (!imports.isEmpty()) {
-			toString += "\timports";
-			toString += "\n\t\t" + Util.sep(imports, " ") + "\n";
+			sb.append("\timports");
+			sb.append("\n\t\t").append(Util.sep(imports, " ")).append("\n");
 		}
 
 		
 		for (Pair<String, String> en : Util.alphabetical(ens)) {
 			List<String> temp = new LinkedList<>();
 
-			toString += "\tentity";
+			sb.append("\tentity");
 
 			//for (Pair<LocStr, String> x : Util.alphabetical(ens)) {
 				temp.add(en.first + " -> " + en.second);
 			//}
 
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 			
-			List<Pair<Pair<String, String>, List<String>>> x = fks.stream().filter(z -> z.first.first.equals(en.first)).collect(Collectors.toList());
+			List<Pair<Pair<String, String>, List<String>>> 
+			x = fks.stream().filter(z -> z.first.first.equals(en.first)).collect(Collectors.toList());
 			if (!x.isEmpty()) {
-				toString += "\tforeign keys";
+				sb.append("\tforeign keys");
 				temp = new LinkedList<>();
 				for (Pair<Pair<String, String>, List<String>> sym : Util.alphabetical(x)) {
 					temp.add(sym.first.second + " -> " + Util.sep(sym.second, "."));
 				}
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 			}
 
-			List<Pair<Pair<String, String>, Triple<String, String, RawTerm>>> y = atts.stream().filter(z -> z.first.first.equals(en.first)).collect(Collectors.toList());
+			List<Pair<Pair<String, String>, Triple<String, String, RawTerm>>> 
+			y = atts.stream().filter(z -> z.first.first.equals(en.first)).collect(Collectors.toList());
 			
 			if (!y.isEmpty()) {
-				toString += "\tattributes";
+				sb.append("\tattributes");
 				temp = new LinkedList<>();
 				for (Pair<Pair<String, String>, Triple<String, String, RawTerm>> sym : Util.alphabetical(y)) {
 					temp.add(sym.first.second + " -> lambda " + sym.second.first + ". " + sym.second.third);
 				}
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 			}
 		}
 
 		
 
 		if (!options.isEmpty()) {
-			toString += "\toptions";
+			sb.append("\toptions");
 			List<String> temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
 
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 
-		toString = "literal : " + src + " -> " + dst + " {\n" + toString + "}";
-		return toString;
+		return  sb.append("}").toString();
 	}
 
 	@Override

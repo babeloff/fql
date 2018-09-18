@@ -111,6 +111,7 @@ public class Anonymized<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Instance<Ty
 		}
 		
 	};
+	@SuppressWarnings("hiding")
 	private <En, Sym, Fk, Att, Gen, Sk> Object iso1(Object obj, Ty ty)  {
 		if (I.schema().typeSide.js.java_tys.containsKey(ty)) {
 			String ty2 = I.schema().typeSide.js.java_tys.map.get(ty);

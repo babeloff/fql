@@ -81,7 +81,7 @@ evalSchemaFn
   | schemaGen                  # EvalSchemaFn_Gen
   | schemaFn LPAREN evalSchemaFn (COMMA evalSchemaFn)* RPAREN
                                # EvalSchemaFn_Paren
-  | schemaFn DOT evalSchemaFn  # EvalSchemaFn_Dotted
+  | evalSchemaFn DOT schemaFn  # EvalSchemaFn_Dotted
   ;
 
 schemaGen : symbol (COLON schemaGenType)? ;

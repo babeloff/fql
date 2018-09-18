@@ -173,74 +173,70 @@ public final class ColimSchExpModify<N> extends ColimSchExp<N> implements Raw {
 	private String toString;
 	
 	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("modify ").append(colim).append(" {\n");
 			
 		List<String> temp = new LinkedList<>();
 		
 		if (!ens.isEmpty()) {
-			toString += "\trename entities";
+			sb.append("\trename entities");
 					
 			for (Pair<String, String> x : ens) {
 				temp.add(x.first + " -> " + x.second);
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
 		if (!fks0.isEmpty()) {
-			toString += "\trename foreign_keys";
+			sb.append("\trename foreign_keys");
 					
 			for (Pair<Pair<String, String>, String> x : fks0) {
 				temp.add(x.first.first + "." + x.first.second + " -> " + x.second);
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
 		if (!atts0.isEmpty()) {
-			toString += "\trename attributes";
+			sb.append("\trename attributes");
 					
 			for (Pair<Pair<String, String>, String> x : atts0) {
 				temp.add(x.first.second + " -> " + x.second);
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
 		if (!fks.isEmpty()) {
-			toString += "\tremove foreign_keys";
+			sb.append("\tremove foreign_keys");
 			temp = new LinkedList<>();
 			for (Pair<Pair<String, String>, List<String>> sym : fks) {
 				temp.add(sym.first.first + "." + sym.first.second + " -> " + Util.sep(sym.second, "."));
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
 		if (!fks.isEmpty()) {
-			toString += "\tremove attributes";
+			sb.append("\tremove attributes");
 			temp = new LinkedList<>();
 			for (Pair<Pair<String, String>, Triple<String, String, RawTerm>> sym : atts) {
 				temp.add(sym.first.second + " -> lambda " + sym.second.first + ". " + sym.second.third);
 			}
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
 		if (!options.isEmpty()) {
-			toString += "\toptions";
+			sb.append("\toptions");
 			temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
-			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
-		toString = "modify " + colim + " {\n" + toString + "}";
-		return toString;
+		return sb.append( "}").toString();
 	} 
 
 	//TODO aql add options

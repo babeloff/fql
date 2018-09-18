@@ -88,12 +88,17 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 	
 	@Override
 	public String toString() {
-		String s = "";
+		final StringBuilder sb = new StringBuilder()
+				.append("import_jdbc ").append(schema).append(" ")
+				.append(Util.quote(clazz)).append(" ").append(Util.quote(jdbcString))
+				.append(" {\n\t")
+				.append(Util.sep(map, " -> ", "\n\t")); 
+
 		if (!options.isEmpty()) {
-			s = "\n\toptions\n\t\t" + Util.sep(options, " = ", "\n\t\t");
+			sb.append("\n\toptions\n\t\t")
+				.append(Util.sep(options, " = ", "\n\t\t"));
 		}
-		return "import_jdbc " + schema + " " + Util.quote(clazz) + " " + Util.quote(jdbcString) + " {\n\t"
-				+ Util.sep(map, " -> ", "\n\t") + s + "\n}";
+		return sb.append("\n}").toString();
 	}
 
 	@Override

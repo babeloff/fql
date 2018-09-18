@@ -188,24 +188,19 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 		raw.put("equations", xx);
 	}
 
-	private String toString;
-
-	@Override
-	public synchronized String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+	public synchronized String makeString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("literal : " + schema + " {\n");
 
 		if (!imports.isEmpty()) {
-			toString += "\timports";
-			toString += "\n\t\t" + Util.sep(imports, " ") + "\n";
+			sb.append("\timports");
+			sb.append("\n\t\t" + Util.sep(imports, " ") + "\n");
 		}
 
 		List<String> temp = new LinkedList<>();
 
 		if (!gens.isEmpty()) {
-			toString += "\tgenerators";
+			sb.append("\tgenerators");
 
 			Map<String, Set<String>> n = Util.revS(Util.toMapSafely(gens));
 
@@ -214,17 +209,17 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 				temp.add(Util.sep(Util.alphabetical(n.get(x)), " ") + " : " + x);
 			}
 
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
 		if (!eqs.isEmpty()) {
-			toString += "\tequations";
+			sb.append("\tequations");
 			temp = new LinkedList<>();
 			for (Pair<RawTerm, RawTerm> sym : Util.alphabetical(eqs)) {
 				temp.add(sym.first + " = " + sym.second);
 			}
 			if (eqs.size() < 9) {
-				toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+				sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 			} else {
 				int step = 3;
 				int longest = 32;
@@ -234,34 +229,35 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 					}
 				}
 				for (int i = 0; i < temp.size(); i += step) {
-					StringBuilder sb = new StringBuilder();
-					Formatter formatter = new Formatter(sb, Locale.US);
+					Formatter formatter = new Formatter(new StringBuilder(), Locale.US);
 					List<String> args = new LinkedList<>();
 					List<String> format = new LinkedList<>();
 					for (int j = i; j < Integer.min(temp.size(), i + step); j++) {
 						args.add(temp.get(j));
 						format.add("%-" + longest + "s");
 					}
-					String x = formatter.format(Util.sep(format, ""), (Object[]) args.toArray(new String[0])).toString();
+					final String formatStr = Util.sep(format, "");
+					final Object[] formatTgt = args.toArray(new String[0]);
+					final String x = formatter.format(formatStr, formatTgt).toString();
 					formatter.close();
-					toString += "\n\t\t" + x;
+					sb.append("\n\t\t" + x);
 				}
-				toString += "\n";
+				sb.append("\n");
 			}
 		}
 
 		if (!options.isEmpty()) {
-			toString += "\toptions";
+			sb.append("\toptions");
 			temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
 
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t" + Util.sep(temp, "\n\t\t") + "\n");
 		}
 
-		toString = "literal : " + schema + " {\n" + toString + "}";
-		return toString;
+		sb.append("}");
+		return sb.toString();
 	}
 
 	@Override

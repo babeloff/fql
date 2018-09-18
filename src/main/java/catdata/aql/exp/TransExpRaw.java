@@ -64,44 +64,39 @@ Ctx<String, List<InteriorLabel<Object>>> raw = new Ctx<>();
 		return options;
 	}
 	 
-	private String toString;
-	
 	@Override
-	public String toString() {
-		if (toString != null) {
-			return toString;
-		}
-		toString = "";
+	public String makeString() {
+		final StringBuilder sb = new StringBuilder()
+				.append("literal : ").append(src).append(" -> ").append(dst).append(" {\n");
 		
 		if (!imports.isEmpty()) {
-			toString += "\timports";
-			toString += "\n\t\t" + Util.sep(imports, " ") + "\n";
+			sb.append("\timports");
+			sb.append("\n\t\t").append(Util.sep(imports, " ")).append("\n");
 		}
 			
 		List<String> temp = new LinkedList<>();
 		
 		if (!gens.isEmpty()) {
-			toString += "\tentities";
+			sb.append("\tentities");
 					
 			for (Pair<String, RawTerm> x : Util.alphabetical(gens)) {
 				temp.add(x.first + " -> " + x.second);
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 			
 		if (!options.isEmpty()) {
-			toString += "\toptions";
+			sb.append("\toptions");
 			temp = new LinkedList<>();
 			for (Entry<String, String> sym : options.entrySet()) {
 				temp.add(sym.getKey() + " = " + sym.getValue());
 			}
 			
-			toString += "\n\t\t" + Util.sep(temp, "\n\t\t") + "\n";
+			sb.append("\n\t\t").append(Util.sep(temp, "\n\t\t")).append("\n");
 		}
 		
-		toString = "literal : " + src + " -> " + dst + " {\n" + toString + "}";
-		return toString;
+		return  sb.append("}").toString();
 	} 
 
 

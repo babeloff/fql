@@ -217,9 +217,11 @@ instanceQuotientEqn : instancePath EQUAL instancePath ;
 instanceChaseSection : allOptions  ;
 
 instanceRandomSection
-  : GENERATORS (schemaEntityId RARROW INTEGER)*
-  | OPTIONS (RANDOM_SEED EQUAL INTEGER)
+  : GENERATORS instanceRandomAction*
+  allOptions
   ;
+  
+instanceRandomAction : schemaEntityId RARROW INTEGER ;
 
 instanceEvalSection : allOptions ;
 instanceCoevalSection : allOptions  ;

@@ -200,23 +200,23 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 	}
 	
 	public final String toString(String g, String w) {
-		String toString;
-		List<String> eqs0 = eqs().stream().map(x -> x.first + " = " + x.second).collect(Collectors.toList());
-		toString = g;
+		final StringBuilder sb = new StringBuilder();
+		final List<String> eqs0 = eqs().stream().map(x -> x.first + " = " + x.second).collect(Collectors.toList());
+		sb.append(g);
 		if (!gens().isEmpty()) {
-			toString += "\n\t" + Util.sep(gens().map, " : ", "\n\t");
+			sb.append("\n\t" + Util.sep(gens().map, " : ", "\n\t"));
 		}
 		if (!sks().isEmpty()) {
-			toString += "\n\t" + Util.sep(sks().map, " : " , "\n\t");			
+			sb.append("\n\t" + Util.sep(sks().map, " : " , "\n\t"));			
 		}
 		if (eqs().size() < 1024 * 16) {
 			if (!eqs0.isEmpty()) {
-				toString += "\n\n" + w + "\n\t" + Util.sep(eqs0, "\n\t");
+				sb.append("\n\n" + w + "\n\t" + Util.sep(eqs0, "\n\t"));
 			}
 		} else {
-			toString += "\n\n too many to list \n\n";
+			sb.append("\n\n too many to list \n\n");
 		}
-		return toString.trim();
+		return sb.toString().trim();
 	} 
 
 	@Override

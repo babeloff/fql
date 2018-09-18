@@ -33,7 +33,7 @@ public final class RawTerm {
 
 	@Override
 	public String toString() {
-		String str = (annotation == null ? "" : "@" + annotation);
+		final String str = (annotation == null ? "" : "@" + annotation);
 		if (args.isEmpty()) {
 			return head + str;
 		}
