@@ -24,5 +24,17 @@ public abstract class AqlParserFactory {
 			return new CombinatorParser();
 		}
 	}
+
+	public static IAqlParser getParser(final Mode mode) {
+		if(mode == Mode.COMBINATOR) {
+			return new CombinatorParser();
+		}
+		else if(mode == Mode.ANTLR4) {
+			return new Antlr4Parser();
+		}
+		else {
+			return new CombinatorParser();
+		}
+	}
 	
 }
