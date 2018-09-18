@@ -68,7 +68,7 @@ public class EvalAlgebra<Ty, En1, Sym, Fk1, Att1, Gen, Sk, En2, Fk2, Att2, X, Y>
 				if (r.en2 != null) {
 					return map;
 				}
-				map.put(v, x);
+				map.put(r.v, r.x);
 				r = r.tail;
 			}
 		}

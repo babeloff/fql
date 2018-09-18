@@ -178,9 +178,13 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 			
 		};
 		
-		return new SaturatedInstance
+		SaturatedInstance<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>, Pair<Integer, En>, Pair<Integer, Att>> x = new SaturatedInstance
 				<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>, Pair<Integer,En>, Pair<Integer, Att>> 
 		(alg, dp, false, true, false, new Ctx<>());
+		//x.validate();
+		x.checkSatisfaction();
+		return x;
+		
 	}
 
 	

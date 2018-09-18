@@ -40,6 +40,7 @@ public final class AqlOptions {
 	//TODO: aql each typeside/instance/etc should make sure only appropriate options are given to it
 
 	public enum AqlOption {
+		quotient_use_chase,
 		chase_style,
 		maedmax_allow_empty_sorts_unsafe,
 		maedmax_path,
@@ -74,7 +75,7 @@ public final class AqlOptions {
 		query_compose_use_incomplete,
 		import_as_theory,
 		import_null_on_err_unsafe,
-		import_joined,
+		//import_joined,
 		map_nulls_arbitrarily_unsafe,
 		jdbc_default_class,
 		jdbc_default_string,
@@ -122,7 +123,7 @@ public final class AqlOptions {
 				return false;
 			}
 			throw new RuntimeException("In " + map + ", neither true nor false: " + s);
-		}
+		} 
 		/*
 		public String getMaybeString(Map<String, String> map) {
 			if (map.containsKey(this.toString())) {
@@ -201,7 +202,8 @@ public final class AqlOptions {
 	//@SuppressWarnings("static-method")
 	private static Object getDefault(AqlOption option) {
 		switch (option) {
-		
+		case quotient_use_chase:
+			return true;
 		case jdbc_no_distinct_unsafe:
 			return false;
 		case jdbc_export_truncate_after:
@@ -232,8 +234,8 @@ public final class AqlOptions {
 			return false;
 		case map_nulls_arbitrarily_unsafe:
 			return false;
-		case import_joined:
-			return true;
+		//case import_joined:
+		//	return true;
 		case coproduct_allow_type_collisions_unsafe:
 			return false;
 		case coproduct_allow_entity_collisions_unsafe:
@@ -381,6 +383,8 @@ public final class AqlOptions {
 
 	private static Object getFromMap(Map<String, String> map, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, AqlOption op) {
 		switch (op) {
+		case quotient_use_chase:
+			return op.getBoolean(map);
 		case jdbc_query_export_convert_type:
 			return op.getString(map);
 		case jdbc_no_distinct_unsafe:
@@ -411,8 +415,8 @@ public final class AqlOptions {
 			return op.getBoolean(map);
 		case map_nulls_arbitrarily_unsafe:
 			return op.getBoolean(map);
-		case import_joined:
-			return op.getBoolean(map);
+		//case import_joined:
+			//return op.getBoolean(map);
 		case coproduct_allow_type_collisions_unsafe:
 			return op.getBoolean(map);
 		case coproduct_allow_entity_collisions_unsafe:

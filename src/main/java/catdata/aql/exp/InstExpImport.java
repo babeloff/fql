@@ -168,7 +168,7 @@ public abstract class InstExpImport<Handle, Q>
 		 op = new AqlOptions(options, null, env.defaults);
 
 		 import_as_theory = (boolean) op.getOrDefault(AqlOption.import_as_theory);
-		 isJoined = (boolean) op.getOrDefault(AqlOption.import_joined);
+		 isJoined =true; // (boolean) op.getOrDefault(AqlOption.import_joined);
 		 idCol = (String) op.getOrDefault(AqlOption.id_column_name);
 		 nullOnErr = (Boolean) op.getOrDefault(AqlOption.import_null_on_err_unsafe);
 		 prepend_entity_on_ids = (Boolean) op.getOrDefault(AqlOption.prepend_entity_on_ids);
@@ -249,9 +249,11 @@ public abstract class InstExpImport<Handle, Q>
 		ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<>(sch, ens0, tys0, fks0, atts0,
 				Object::toString, Object::toString, dont_check_closure);
 
-		return new SaturatedInstance<>(alg, alg, (Boolean) op.getOrDefault(AqlOption.require_consistency),
+		SaturatedInstance<catdata.aql.exp.TyExpRaw.Ty, catdata.aql.exp.SchExpRaw.En, catdata.aql.exp.TyExpRaw.Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, catdata.aql.exp.InstExpRaw.Gen, Null<?>, catdata.aql.exp.InstExpRaw.Gen, Null<?>> x = new SaturatedInstance<>(alg, alg, (Boolean) op.getOrDefault(AqlOption.require_consistency),
 				(Boolean) op.getOrDefault(AqlOption.allow_java_eqs_unsafe), true, extraRepr);
-
+		//x.validate(); so don't trigger eqs
+		x.checkSatisfaction();
+		return x;
 	}
 
 	protected abstract String getHelpStr();
