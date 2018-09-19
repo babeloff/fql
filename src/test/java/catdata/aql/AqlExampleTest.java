@@ -55,7 +55,6 @@ public class AqlExampleTest {
     @ParameterizedTest
     @MethodSource("loadEffectiveExamples")
     public void testSourceText(String description, String src, AqlParserFactory.Mode mode, String[] args) {
-        System.out.println("testing example: " + description + " parser: " + mode + " args: " + Arrays.toString(args));
         try {
             runSourceText(description,src,mode,args);
         } catch (Exception e) {
@@ -78,7 +77,6 @@ public class AqlExampleTest {
   @ParameterizedTest
   @MethodSource("loadDefectiveExamples")
   public void testDefectiveSourceText(String description, String src, AqlParserFactory.Mode mode, String[] args) {
-      System.out.println("testing example: " + description);
       try {
         runSourceText(description,src,mode,args);
           final String msg = new StringBuilder()
