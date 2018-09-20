@@ -32,6 +32,7 @@ public class CodeTextPanel extends JPanel {
 	public void setText(String s) {
 		area.setText(s);
 		area.setCaretPosition(0);
+		System.out.println(s.substring(0, Integer.min(5, s.length())));
 	}
 
 	public String getText() {
@@ -61,6 +62,7 @@ public class CodeTextPanel extends JPanel {
 		// area.setEditable(false);
 
 		UndoManager m = new UndoManager();
+		m.setLimit(16); //since common case is lots of dots in bottom panels
 		// area.setundoManager = new UndoManager();
 		Document doc = area.getDocument();
 		doc.addUndoableEditListener((UndoableEditEvent e) -> m.addEdit(e.getEdit()));
