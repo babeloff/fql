@@ -23,16 +23,30 @@ http://categoricaldata.net/fql.jar
 	
 For best results, compile using the [Eclipse IDE](https://eclipse.org/jdt/).
 
-### Maven (may or may not work)
+### Gradle
 
     git clone https://github.com/CategoricalData/fql.git
     cd fql
-    mvn package
+    gradle run --args="-p antlr"
+    
+or for the default parser
+
+    gradle run --args="-p combinator"
 
 Editor Support
 --------------
 
 - AQL mode for Emacs https://github.com/epost/aql-mode
+
+In order to prepare the configuration files for an editor.
+
+    gradle idea
+    
+or
+   
+    gradle eclipse
+    
+The open the project from the appropriate IDE.
 
 License
 -------
