@@ -351,13 +351,13 @@ public class Chase<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk, X, Y> {
 
 		int i = 0;
 		T = new Content(I);
-		// System.out.println(T);
+		// System.out.println(T.sizes());
 		for (;;) {
 			boolean changed = step(i == 0);
 			if (!changed) {
 				return;
 			}
-			// System.out.println(T);
+		//	 System.out.println(T.sizes());
 			i++;
 		}
 

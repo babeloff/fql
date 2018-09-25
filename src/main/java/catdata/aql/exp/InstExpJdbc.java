@@ -64,6 +64,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 		if (jdbcString.trim().isEmpty()) {
 			toGet = (String) op.getOrDefault(AqlOption.jdbc_default_string);
 		}
+		//.driver.DriverManager.
 		return DriverManager.getConnection(toGet);	
 	}
 	
