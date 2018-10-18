@@ -115,7 +115,7 @@ public class ToJdbcPragmaTransform<Gen1,Sk1,Gen2,Sk2,X1,Y1,X2,Y2> extends Pragma
 	}
 
 	private String enToString(En en) {
-		return en.str;
+		return en.convert();
 	}
 
 	@Override

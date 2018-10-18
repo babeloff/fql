@@ -42,8 +42,9 @@ public final class AqlOptions {
 	public enum AqlOption {
 		quotient_use_chase,
 		chase_style,
-		maedmax_allow_empty_sorts_unsafe,
+		allow_empty_sorts_unsafe,
 		maedmax_path,
+		program_allow_nonconfluence_unsafe,
 		gui_sample,
 		gui_sample_size,
 		import_dont_check_closure_unsafe,
@@ -202,6 +203,8 @@ public final class AqlOptions {
 	//@SuppressWarnings("static-method")
 	private static Object getDefault(AqlOption option) {
 		switch (option) {
+		case program_allow_nonconfluence_unsafe:
+			return false;
 		case quotient_use_chase:
 			return true;
 		case jdbc_no_distinct_unsafe:
@@ -332,7 +335,7 @@ public final class AqlOptions {
 			return 16*1024;
 		case maedmax_path:
 			return "/home/ryan/maedmax/maedmax";
-		case maedmax_allow_empty_sorts_unsafe:
+		case allow_empty_sorts_unsafe:
 			return false;
 		case chase_style:
 			return "parallel";
@@ -383,6 +386,8 @@ public final class AqlOptions {
 
 	private static Object getFromMap(Map<String, String> map, Collage<Ty, En, Sym, Fk, Att, Gen, Sk> col, AqlOption op) {
 		switch (op) {
+		case program_allow_nonconfluence_unsafe:
+			return op.getBoolean(map);
 		case quotient_use_chase:
 			return op.getBoolean(map);
 		case jdbc_query_export_convert_type:
@@ -509,7 +514,7 @@ public final class AqlOptions {
 			return op.getInteger(map);
 		case maedmax_path:
 			return op.getString(map);
-		case maedmax_allow_empty_sorts_unsafe:
+		case allow_empty_sorts_unsafe:
 			return op.getBoolean(map);
 		case chase_style:
 			return op.getString(map);

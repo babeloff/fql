@@ -405,8 +405,12 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 					atts0.get(lhs.arg.gen).put(lhs.att, Term.Obj(rhs.obj, rhs.ty));
 				} else if (lhs.obj != null && rhs.att != null && rhs.arg.gen != null) {
 					atts0.get(rhs.arg.gen).put(rhs.att, Term.Obj(lhs.obj, lhs.ty));
+				} else if (rhs.sym != null && rhs.args.isEmpty() && lhs.att != null && lhs.arg.gen != null) {
+					atts0.get(lhs.arg.gen).put(lhs.att, Term.Sym(rhs.sym, Collections.emptyList()));
+				} else if (lhs.sym != null && lhs.args.isEmpty() && rhs.att != null && rhs.arg.gen != null) {
+					atts0.get(rhs.arg.gen).put(rhs.att, Term.Sym(lhs.sym, Collections.emptyList()));
 				} else {
-					throw new RuntimeException("import_as_theory not compatible with equation " + lhs + " = " + rhs
+					throw new RuntimeException("interpret_as_algebra not compatible with equation " + lhs + " = " + rhs
 							+ "; each equation must be of the form gen.fk=gen or gen.att=javaobject");
 				}
 			}

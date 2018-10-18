@@ -186,7 +186,7 @@ extends Algebra<Ty, En, Sym, Fk, Att, Gen, Sk, X, Chc<Sk, Pair<X, Att>>>
 		Util.assertNotNull(x);
 		X r = fks.get(x).get(fk);
 		if (r == null) {
-			throw new RuntimeException("Anomaly, please report: " + fk + "(" + x + ") is not in " + fks.get(x));
+			throw new RuntimeException("Anomaly, please report: foreign key " + fk + " on ID (" + x + ") has no mapping; available: " + fks.get(x));
 		}
 		return r;
 	}

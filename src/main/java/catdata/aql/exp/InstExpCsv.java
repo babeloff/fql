@@ -161,7 +161,7 @@ public class InstExpCsv
 			File file = new File(f, op.getOrDefault(AqlOption.csv_import_prefix) + en.toString() + "."
 					+ op.getOrDefault(AqlOption.csv_file_extension));
 			if (file.exists()) {
-				m.put(en.str, file.getAbsolutePath());
+				m.put(en.convert(), file.getAbsolutePath());
 			} else if (!(boolean) op.getOrDefault(AqlOption.import_missing_is_empty)) {
 				throw new RuntimeException("Missing file: " + file.getAbsolutePath()
 						+ ". \n\nPossible options to consider: " + AqlOption.import_missing_is_empty + " and "
@@ -180,7 +180,7 @@ public class InstExpCsv
 	protected void joinedEn(Map<En, List<String[]>> rows, En en0,
 			Pair<List<Pair<String, String>>, List<Pair<String, String>>> s, Schema<Ty, En, Sym, Fk, Att> sch)
 			throws Exception {
-		String en = en0.str;
+		String en = en0.convert();
 		Map<String, String> inner;
 		if (s == null) {
 			inner = new HashMap<>();
@@ -248,7 +248,7 @@ public class InstExpCsv
 				if (!fks0.containsKey(l0)) {
 					fks0.put(l0, new Ctx<>());
 				}
-				Gen g = toGen(sch.fks.get(fk).second, row[m.get(mediate.apply(fk.str))]);
+				Gen g = toGen(sch.fks.get(fk).second, row[m.get(mediate.apply(fk.convert()))]);
 				fks0.get(l0).put(fk, g);
 			}
 
@@ -256,7 +256,7 @@ public class InstExpCsv
 				if (!atts0.containsKey(l0)) {
 					atts0.put(l0, new Ctx<>());
 				}
-				String zz = mediate.apply(att.str);
+				String zz = mediate.apply(att.convert());
 				if (!m.containsKey(zz)) {
 					throw new RuntimeException("No column " + att + " in file for " + en + " nor explicit mapping for "
 							+ att + " given. Tried " + zz + " and options are " + m.keySet());

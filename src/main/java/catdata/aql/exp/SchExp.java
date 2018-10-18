@@ -2,11 +2,14 @@ package catdata.aql.exp;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import catdata.Pair;
 import catdata.Program;
 import catdata.Util;
+import catdata.aql.AqlOptions;
+import catdata.aql.AqlPivot;
 import catdata.aql.Kind;
 import catdata.aql.Schema;
 
@@ -88,6 +91,79 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 	}
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final class SchExpPivot<Ty,En0,Sym,Fk0,Att0,Gen,Sk,X,Y> extends SchExp<Ty,SchExpRaw.En,Sym,SchExpRaw.Fk,SchExpRaw.Att> {
+		public final InstExp<Ty,En0,Sym,Fk0,Att0,Gen,Sk,X,Y> I;
+		public final Map<String, String> options;
+		
+		public SchExpPivot(InstExp<Ty,En0,Sym,Fk0,Att0,Gen,Sk,X,Y> I, List<Pair<String, String>> options) {
+			this.options = Util.toMapSafely(options);
+			this.I = I;
+		}
+
+		@Override
+		public SchExp<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att> resolve(AqlTyping G,
+				Program<Exp<?>> prog) {
+			return this;
+		}
+
+		@Override
+		protected Map<String, String> options() {
+			return options;
+		}
+
+		@Override
+		public Schema<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att> eval(AqlEnv env) {
+			AqlOptions strat = new AqlOptions(options, null, env.defaults);
+			Schema<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att> l = new AqlPivot<>(I.eval(env), strat).intI;
+			return l;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((I == null) ? 0 : I.hashCode());
+			result = prime * result + ((options == null) ? 0 : options.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SchExpPivot other = (SchExpPivot) obj;
+			if (I == null) {
+				if (other.I != null)
+					return false;
+			} else if (!I.equals(other.I))
+				return false;
+			if (options == null) {
+				if (other.options != null)
+					return false;
+			} else if (!options.equals(other.options))
+				return false;
+			return true;
+		}
+
+		@Override
+		public Collection<Pair<String, Kind>> deps() {
+			return I.deps();
+		}
+		
+		@Override
+		public String toString() {
+			return "pivot " + I;
+		}
+	
+		
+	}
+	//////////////////////////////////////////////////////////////
+	
 	
 	public static final class SchExpInst<Ty,En,Sym,Fk,Att> extends SchExp<Ty,En,Sym,Fk,Att> {
 		public final InstExp<Ty,En,Sym,Fk,Att,?,?,?,?> inst;
@@ -283,11 +359,11 @@ public abstract class SchExp<Ty,En,Sym,Fk,Att> extends Exp<Schema<Ty,En,Sym,Fk,A
 
 	public static final class SchExpLit<Ty,Sym,En,Fk,Att> extends SchExp<Ty,Sym,En,Fk,Att> {
 
-		
 		@Override
 		public Collection<Pair<String, Kind>> deps() {
 			return Collections.emptyList();
 		}
+		
 		@Override
 		public Map<String, String> options() {
 			return Collections.emptyMap();

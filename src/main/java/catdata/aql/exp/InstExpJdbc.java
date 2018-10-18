@@ -231,7 +231,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 			ens0.get(en).add(g1); //store strings 
 			
 			for (Fk fk : sch.fksFrom(en)) {
-				Object rhs = rs.getObject(fk.str);
+				Object rhs = rs.getObject(fk.convert());
 				if (rhs == null) {
 					stmt.close();
 					rs.close();
@@ -246,7 +246,7 @@ public class InstExpJdbc extends InstExpImport<Connection, String> {
 				fks0.get(g1).put(fk, g2);
 			}
 			for (Att att : sch.attsFrom(en)) {
-				Object rhs =  rs.getObject(att.str);
+				Object rhs =  rs.getObject(att.convert());
 				if (!atts0.map.containsKey(g1)) {
 					atts0.put(g1, new Ctx<>());
 				}

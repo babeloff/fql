@@ -52,7 +52,7 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 
 		@Override
 		public int compareTo(En o) {
-			return str.compareTo(o.str);
+			return ((Comparable)str).compareTo((Comparable)o.str);
 		}
 
 		@Override
@@ -72,9 +72,13 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 
 		@Override
 		public String toString() {
-			return Util.maybeQuote(str);
+			return Util.maybeQuote(str.toString()) ;
 		}
 
+		//revisit 
+		public String convert() {
+			return Util.maybeQuote(str.toString());
+		}
 	}
 
 	public static class Fk implements Comparable<Fk> {
@@ -118,8 +122,12 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 		@Override
 		public String toString() {
 			// Util.anomaly();
-			return Util.maybeQuote(str);
+			return Util.maybeQuote(str.toString());
 			//return "(" + str + "@" + en + ")";
+		}
+		
+		public String convert() {
+			return str.toString();
 		}
 
 	}
@@ -166,11 +174,14 @@ public final class SchExpRaw extends SchExp<Ty, En, Sym, Fk, Att> implements Raw
 		@Override
 		public String toString() {
 		//	Util.anomaly();
-			return Util.maybeQuote(str); // + "@" + en + ")";
+			return Util.maybeQuote(str.toString()); // + "@" + en + ")";
 
 //			return "(" + Util.maybeQuote(str) + "@" + en + ")";
 		}
 
+		public String convert() {
+			return str.toString();
+		}
 	}
 
 	public SchExp<Ty, En, Sym, Fk, Att> resolve(AqlTyping G, Program<Exp<?>> prog) {

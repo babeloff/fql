@@ -146,7 +146,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 				
 				Ctx<Fk, Pair<Integer, En>> ctx0 = new Ctx<>();
 				for (Fk fk : schema.fksFrom(new En(en))) {
-					int size0 = ens.get(schema.fks.get(fk).second.str);
+					int size0 = ens.get(schema.fks.get(fk).second.convert());
 					Integer k = rand.nextInt(size0);
 					ctx0.put(fk, new Pair<>(k, schema.fks.get(fk).second));
 				}
@@ -179,8 +179,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 		};
 		
 		SaturatedInstance<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>, Pair<Integer, En>, Pair<Integer, Att>> x = new SaturatedInstance
-				<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>, Pair<Integer,En>, Pair<Integer, Att>> 
-		(alg, dp, false, true, false, new Ctx<>());
+				<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>, Pair<Integer,En>, Pair<Integer, Att>> 	(alg, dp, false, true, false, new Ctx<>());
 		//x.validate();
 		x.checkSatisfaction();
 		return x;

@@ -39,7 +39,6 @@ import catdata.aql.exp.EdsExp.EdsExpVar;
 import catdata.aql.exp.EdsExpRaw.EdExpRaw;
 import catdata.aql.exp.GraphExp.GraphExpRaw;
 import catdata.aql.exp.GraphExp.GraphExpVar;
-import catdata.aql.exp.InstExpQueryQuotient;
 import catdata.aql.exp.InstExp.InstExpAnonymize;
 import catdata.aql.exp.InstExp.InstExpChase;
 import catdata.aql.exp.InstExp.InstExpCoEq;
@@ -55,11 +54,13 @@ import catdata.aql.exp.InstExp.InstExpEmpty;
 import catdata.aql.exp.InstExp.InstExpEval;
 import catdata.aql.exp.InstExp.InstExpFrozen;
 import catdata.aql.exp.InstExp.InstExpPi;
+import catdata.aql.exp.InstExp.InstExpPivot;
 import catdata.aql.exp.InstExp.InstExpSigma;
 import catdata.aql.exp.InstExp.InstExpSigmaChase;
 import catdata.aql.exp.InstExp.InstExpVar;
 import catdata.aql.exp.MapExp.MapExpComp;
 import catdata.aql.exp.MapExp.MapExpId;
+import catdata.aql.exp.MapExp.MapExpPivot;
 import catdata.aql.exp.MapExp.MapExpVar;
 import catdata.aql.exp.PragmaExp.PragmaExpCheck;
 import catdata.aql.exp.PragmaExp.PragmaExpConsistent;
@@ -84,6 +85,7 @@ import catdata.aql.exp.QueryExpRaw.Trans;
 import catdata.aql.exp.SchExp.SchExpCod;
 import catdata.aql.exp.SchExp.SchExpEmpty;
 import catdata.aql.exp.SchExp.SchExpInst;
+import catdata.aql.exp.SchExp.SchExpPivot;
 import catdata.aql.exp.SchExp.SchExpVar;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
@@ -199,10 +201,12 @@ public class CombinatorParser implements IAqlParser {
 		Parser<SchExp<?, ?, ?, ?, ?>> 
                 var = ident.map(SchExpVar::new),
 		empty = Parsers.tuple(token("empty"), token(":"), ty_ref.get()).map(x -> new SchExpEmpty<>(x.c)),
+		pivot = Parsers.tuple(token("pivot"), inst_ref.lazy(), options.between(token("{"), token("}")).optional()).map(x -> new SchExpPivot<>(x.b, x.c == null ? new LinkedList<>() : x.c)),
+				
 		inst = Parsers.tuple(token("schemaOf"), inst_ref.lazy()).map(x -> new SchExpInst<>(x.b)),
 		colim = Parsers.tuple(token("getSchema"), colim_ref.lazy()).map(x -> new SchExpColim<>(x.b)),
 		cod = Parsers.tuple(token("dst"), query_ref.lazy()).map(x -> new SchExpCod<>(x.b)),
-		ret = Parsers.or(inst, empty, schExpRaw(), var, colim, parens(sch_ref), cod);
+		ret = Parsers.or(inst, empty, schExpRaw(), var, colim, parens(sch_ref), pivot, cod);
 
 		sch_ref.set(ret);
 	}
@@ -301,7 +305,8 @@ public class CombinatorParser implements IAqlParser {
 						.map(x -> new InstExpDelta(x.b, x.c)),
 				distinct = Parsers.tuple(token("distinct"), inst_ref.lazy()).map(x -> new InstExpDistinct(x.b)),
 				anon = Parsers.tuple(token("anonymize"), inst_ref.lazy()).map(x -> new InstExpAnonymize(x.b)),
-
+						pivot = Parsers.tuple(token("pivot"), inst_ref.lazy(), options.between(token("{"), token("}")).optional()).map(x -> new InstExpPivot<>(x.b, x.c == null ? new LinkedList<>() : x.c)),
+						
 				eval = Parsers 
 						.tuple(token("eval"), query_ref.lazy(), inst_ref.lazy(),
 								options.between(token("{"), token("}")).optional())
@@ -321,7 +326,7 @@ public class CombinatorParser implements IAqlParser {
 
 		        Parser ret = Parsers.or(queryQuotientExpRaw(), sigma_chase, l2, pi, frozen, instExpCsvQuot(), instExpJdbcQuot(), instExpCoProd(), instExpRand(),
 				instExpCoEq(), instExpJdbcAll(), chase, instExpJdbc(), empty, instExpRaw(), var, sigma, delta, distinct,
-				eval, colimInstExp(), dom, anon, cod, instExpCsv(), coeval, parens(inst_ref), instExpQuotient());
+				eval, colimInstExp(), dom, anon, pivot, cod, instExpCsv(), coeval, parens(inst_ref), instExpQuotient());
 
 		inst_ref.set(ret);
 	}
@@ -342,8 +347,9 @@ public class CombinatorParser implements IAqlParser {
 				colim = Parsers.tuple(token("getMapping"), colim_ref.lazy(), ident).map(x -> new MapExpColim(x.c, x.b)),
 				comp = Parsers.tuple(token("["), map_ref.lazy(), token(";"), map_ref.lazy(), token("]"))
 						.map(x -> new MapExpComp(x.b, x.d)),
-
-				ret = Parsers.or(id, mapExpRaw(), var, colim, comp, parens(map_ref));
+				pivot = Parsers.tuple(token("pivot"), inst_ref.lazy(), options.between(token("{"), token("}")).optional()).map(x -> new MapExpPivot<>(x.b, x.c == null ? new LinkedList<>() : x.c)),
+						
+				ret = Parsers.or(id, mapExpRaw(), var, pivot, colim, comp, parens(map_ref));
 
 		map_ref.set(ret);
 	}

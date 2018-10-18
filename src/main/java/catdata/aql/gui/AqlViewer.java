@@ -55,6 +55,7 @@ import catdata.aql.exp.AqlParserFactory;
 import catdata.aql.exp.Exp;
 import catdata.aql.exp.InstExpRaw.Gen;
 import catdata.aql.exp.InstExpRaw.Sk;
+import catdata.aql.exp.SchExpRaw;
 import catdata.aql.exp.SchExpRaw.Att;
 import catdata.aql.exp.SchExpRaw.En;
 import catdata.aql.exp.SchExpRaw.Fk;
@@ -456,10 +457,12 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 			List<En> ens = Util.alphabetical(alg.schema().ens);
 		
 			for (En en : ens) {
-				List<String> atts0 = Util.alphabetical(alg.schema().attsFrom(en).stream().map((Att x)->x.str).collect(Collectors.toList()));
-				List<String> fks0 = Util.alphabetical(alg.schema().fksFrom(en).stream().map((Fk x)->x.str).collect(Collectors.toList()));
+				List<SchExpRaw.Att> atts0 = Util.alphabetical(alg.schema().attsFrom(en).stream().map((Att x)->x).collect(Collectors.toList()));
+				List<SchExpRaw.Fk> fks0 = Util.alphabetical(alg.schema().fksFrom(en).stream().map((Fk x)->x).collect(Collectors.toList()));
 
-				List<String> header = Util.<String>append(atts0, fks0);
+				List<String> atts0x = atts0.stream().map(Object::toString).collect(Collectors.toList());
+				List<String> fks0x = fks0.stream().map(Object::toString).collect(Collectors.toList());
+				List<String> header = Util.<String>append(atts0x, fks0x);
 				header.add(0, "ID");
 				int n = Integer.min(maxrows, alg.en(en).size());
 				Object[][] data = new Object[n][];
@@ -469,11 +472,11 @@ public final class AqlViewer implements SemanticsVisitor<Unit, JTabbedPane, Runt
 				for (X x : lll) {
 					List<Object> row = new LinkedList<>();
 					row.add(alg.printX(x));
-					for (String att0 : atts0) {
-						row.add(alg.att(new Att(en, att0), x).toString(alg::printY, Util.voidFn()));
+					for (catdata.aql.exp.SchExpRaw.Att att0 : atts0) {
+						row.add(alg.att(att0, x).toString(alg::printY, Util.voidFn()));
 					}
-					for (String fk0 : fks0) {
-						row.add(alg.printX(alg.fk(new Fk(en, fk0), x)));
+					for (catdata.aql.exp.SchExpRaw.Fk fk0 : fks0) {
+						row.add(alg.printX(alg.fk(fk0, x)));
 					}
 					data[i] = row.toArray();
 					i++;
