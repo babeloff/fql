@@ -346,6 +346,11 @@ Note: AQL now requires mapping literals to be a list of mappings $m_1, \ldots$ o
 \subsection{{\tt options}}
 Allowable options are {\tt timeout} and {\tt dont\_validate\_unsafe}, which disables checking that equations preserved.
 
+
+\section{{\tt pivot <instance> <options>}}
+
+Computes the schema mapping $pivot(I) \to I$.  
+
 \chapter{Kind  {\tt query}}
 A query $S \to T$ assigns to each entity $en$ in $S$ a (``frozen'') instance on $T$, which we will write as $[en]$, and to each foreign key $fk : e \to e'$ a transform $[fk] : [e'] \to [e]$ (note the reversal), and to each attribute $att : e \to \tau$ a term of type $\tau$ in context $[e]$.  
 
@@ -379,6 +384,10 @@ A {\tt <instance>, ctx(<attribute>, <term>)}, i.e., a single from/where/return (
 \section{{\tt getMapping <schema\_colimit> <schema>}}
 
 The expression ${\tt getMapping} \ C \ X$ gets the mapping $X \to C$ associated with schema $X$ in the colimit of schemas $C$.
+
+\section{{\tt pivot <instance> <options>}}
+
+Computes the 'schema of elements' for an instance $I$.  Each row in $I$ is an entity in $pivot(I)$.  
 
 \chapter{Kind {\tt constraints}}
 
@@ -571,6 +580,11 @@ If the chase succeeds, the result instance will satisfy the constraints.  The op
 
 \subsection{{\tt options}}
 Allowable options are the same as for an instance.
+
+
+\section{{\tt pivot <instance> <options>}}
+
+Computes the canonical instance $J$ associated with 'schema of elements' for an instance $I$.  Each row in $I$ is an entity in $pivot(I)$, and we have a mapping $pivot(I) : pivot(I) \to I$ as well.  This instance $J$ has the property that $\Sigma_{pivot(I)}(J)=I$.
 
 
 \section{{\tt random : <schema>}}
@@ -940,6 +954,12 @@ Applies only to weakly orthogonal theories.  Interprets all equations $p = q$ as
 \subsubsection{{\tt program\_allow\_nontermination\_unsafe}}
 
 Interprets all equations $p = q$ as rewrite rules $p \to q$ regardless of termination behavior.  Can diverge.
+
+
+\subsubsection{{\tt program\_allow\_nonconfluence\_unsafe}}
+
+Interprets all equations $p = q$ as rewrite rules $p \to q$ regardless of confluence.  Can diverge.
+
 
 \subsection{{\tt completion}}
 

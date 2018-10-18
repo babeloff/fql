@@ -51,6 +51,8 @@ public class AqlProver {
 				return new KBtoDP<>(js, col1.simplify().second, new CongruenceProver<>(col1.simplify().first.toKB()));
 			case program:
 				boolean check   = !(Boolean) ops.getOrDefault(AqlOption.dont_verify_is_appropriate_for_prover_unsafe);
+				boolean check2  = !(Boolean) ops.getOrDefault(AqlOption.program_allow_nonconfluence_unsafe);
+				check = check && check2;
 				boolean allowNonTerm = (Boolean) ops.getOrDefault(AqlOption.program_allow_nontermination_unsafe);
 				try {
 					if (!allowNonTerm) {
@@ -60,13 +62,15 @@ public class AqlProver {
 					throw new RuntimeException(ex.getMessage() + "\n\nPossible solution: add options program_allow_nontermination_unsafe=true, or prover=completion");
 				}
 				return new KBtoDP<>(js, col1.simplify().second, new ProgramProver<>(check, Var.it, col1.simplify().first.toKB())); // use																																																		
+				
+				//return new KBtoDP<>(js, col1.simplify().second, new ProgramProver<>(check, Var.it, col1.simplify().first.toKB())); // use																																																		
 			case completion:
 				return new KBtoDP<>(js, col1.simplify().second, new CompletionProver<>(col1.toKB().syms.keySet(), ops, col1.simplify().first));
 			case monoidal:
 				return new MonoidalFreeDP<>(js, col1.simplify().second, col1.simplify().first); // use																																					// simplified
 			case maedmax:
 				String exePath = (String) ops.getOrDefault(AqlOption.maedmax_path);
-				Boolean b = (Boolean) ops.getOrDefault(AqlOption.maedmax_allow_empty_sorts_unsafe);
+				Boolean b = (Boolean) ops.getOrDefault(AqlOption.allow_empty_sorts_unsafe);
 				return new KBtoDP<>(js, col1.simplify().second, new MaedmaxProver<>(exePath, col1.simplify().first.toKB(), b, timeout)); // use																																																		
 				
 			default:

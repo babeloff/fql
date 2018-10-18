@@ -55,7 +55,7 @@ public class MaedmaxProver<T, C, V> extends DPKB<T, C, V>  {
 		try {
 			File g = File.createTempFile("AqlMaedmax", ".tptp");
 			Util.writeFile(th.tptp(allowEmptySorts), g.getAbsolutePath());
-			System.out.println(g.getAbsolutePath());
+			//System.out.println(g.getAbsolutePath());
 			
 			String str = exePath + " -T " + seconds + " --interactive --aql " + g.getAbsolutePath();
 			proc = Runtime.getRuntime().exec(str);

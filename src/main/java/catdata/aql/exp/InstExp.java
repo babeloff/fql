@@ -17,6 +17,7 @@ import catdata.Pair;
 import catdata.Util;
 import catdata.aql.Anonymized;
 import catdata.aql.AqlOptions;
+import catdata.aql.AqlPivot;
 import catdata.aql.AqlOptions.AqlOption;
 import catdata.aql.Collage;
 import catdata.aql.CoprodInstance;
@@ -36,6 +37,7 @@ import catdata.aql.Var;
 import catdata.aql.exp.MapExp.MapExpId;
 import catdata.aql.exp.QueryExp.QueryExpDeltaCoEval;
 import catdata.aql.exp.SchExp.SchExpLit;
+import catdata.aql.exp.SchExp.SchExpPivot;
 import catdata.aql.fdm.CoEvalInstance;
 import catdata.aql.fdm.ColimitInstance;
 import catdata.aql.fdm.DeltaInstance;
@@ -62,6 +64,71 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 
 	///////////////////////////////////////////////////////////////////////
 
+	public static final class InstExpPivot<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y>
+	extends InstExp<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att, X, Y, ID, Chc<Y, Pair<ID, catdata.aql.exp.SchExpRaw.Att>>> {
+	
+		public InstExpPivot(InstExp<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> i, List<Pair<String, String>> ops) {
+			I = i;
+			this.ops = Util.toMapSafely(ops);
+		}
+		
+		public final InstExp<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> I;	
+		public final Map<String, String> ops;
+		
+		@Override
+		public SchExp<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att> type(
+				AqlTyping G) {
+			return new SchExpPivot<>(I, Collections.emptyList());
+		}
+		@Override
+		protected Map<String, String> options() {
+			return ops;
+		}
+		@Override
+		public Instance<Ty, catdata.aql.exp.SchExpRaw.En, Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, X, Y, ID, Chc<Y, Pair<ID, catdata.aql.exp.SchExpRaw.Att>>> eval(
+				AqlEnv env) {
+			AqlOptions strat = new AqlOptions(ops, null, env.defaults);
+			Instance<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att, X, Y, ID, Chc<Y, Pair<ID, SchExpRaw.Att>>> l = new AqlPivot<>(I.eval(env), strat).J;
+			return l;
+		}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((I == null) ? 0 : I.hashCode());
+			result = prime * result + ((ops == null) ? 0 : ops.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			InstExpPivot other = (InstExpPivot) obj;
+			if (I == null) {
+				if (other.I != null)
+					return false;
+			} else if (!I.equals(other.I))
+				return false;
+			if (ops == null) {
+				if (other.ops != null)
+					return false;
+			} else if (!ops.equals(other.ops))
+				return false;
+			return true;
+		}
+		@Override
+		public Collection<Pair<String, Kind>> deps() {
+			return I.deps();
+		}
+		
+		
+		
+	}
+	
 	///////////////////////////////////////////////////////////////////////
 
 	public static final class InstExpCoEq<Ty, En, Sym, Fk, Att, Gen1, Sk1, Gen2, Sk2, X1, Y1, X2, Y2>

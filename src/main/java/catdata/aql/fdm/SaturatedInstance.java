@@ -292,6 +292,7 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		}
 	}
 
+
 	public void checkSatisfaction() {
 		for (Triple<Pair<Var, En>, Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> eq : schema().eqs) {
 			for (X x : algebra().en(eq.first.second)) {
@@ -304,6 +305,7 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		}
 	}
 
+	
 	@Override
 	public Ctx<X, En> gens() {
 		return gens;

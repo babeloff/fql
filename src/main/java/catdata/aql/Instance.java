@@ -222,7 +222,8 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 	@Override
 	public String toString() {
 		return toString("generators", "equations");
-	} 
+	}
+
 
 	
 	

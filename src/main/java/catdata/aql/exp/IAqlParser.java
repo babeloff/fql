@@ -18,7 +18,7 @@ public interface IAqlParser {
 			"*)", "+", "[", "]", "<-" };
 
 	public static final String[] res = new String[] { 
-			"quotient_query",
+			"quotient_query", "pivot", 
 			"sigma_chase", "entity", "md", "quotient_jdbc", "random", "sql",
 			"chase", "check", "import_csv", "quotient_csv", "coproduct", "simple", "assert_consistent",
 			"coproduct_sigma", "coequalize", "html", "quotient", "entity_equations", "schema_colimit", "exists",

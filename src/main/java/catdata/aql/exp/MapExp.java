@@ -2,13 +2,21 @@ package catdata.aql.exp;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import catdata.Pair;
 import catdata.Util;
+import catdata.aql.AqlOptions;
+import catdata.aql.AqlPivot;
 import catdata.aql.Kind;
 import catdata.aql.Mapping;
+import catdata.aql.Schema;
 import catdata.aql.exp.SchExp.SchExpLit;
+import catdata.aql.exp.SchExp.SchExpPivot;
+import catdata.aql.exp.SchExpRaw.Att;
+import catdata.aql.exp.SchExpRaw.En;
+import catdata.aql.exp.SchExpRaw.Fk;
 
 //TODO aql move back to presentation / tables distinction?
 public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mapping<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2>> {
@@ -22,6 +30,89 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 	
 	
 	//////////////////////////////////////////////////////////////////////
+	
+	public static final class MapExpPivot<Ty,En0,Sym,Fk0,Att0,Gen,Sk,X,Y>
+		extends MapExp<Ty,En,Sym,Fk,Att,En0,Fk0,Att0> {
+		
+		@Override
+		public String toString() {
+			return "pivot " + I;
+		}
+
+		public final InstExp<Ty,En0,Sym,Fk0,Att0,Gen,Sk,X,Y> I;
+		public final Map<String, String> ops;
+		
+		
+		public MapExpPivot(InstExp<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> i, List<Pair<String, String>> ops) {
+			I = i;
+			this.ops = Util.toMapSafely(ops);
+		}
+
+		@Override
+		public Pair<SchExp<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att>, SchExp<Ty, En0, Sym, Fk0, Att0>> type(
+				AqlTyping G) {
+			return new Pair<>(new SchExpPivot<>(I, Collections.emptyList()), I.type(G));
+		}
+
+		@Override
+		protected Map<String, String> options() {
+			return ops;
+		}
+
+		@Override
+		public Mapping<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, En0, Fk0, Att0> eval(
+				AqlEnv env) {
+			AqlOptions strat = new AqlOptions(ops, null, env.defaults);
+			Mapping<Ty, catdata.aql.exp.SchExpRaw.En, Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, En0, Fk0, Att0> l = new AqlPivot<>(I.eval(env), strat).F;
+			return l;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((I == null) ? 0 : I.hashCode());
+			result = prime * result + ((ops == null) ? 0 : ops.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MapExpPivot other = (MapExpPivot) obj;
+			if (I == null) {
+				if (other.I != null)
+					return false;
+			} else if (!I.equals(other.I))
+				return false;
+			if (ops == null) {
+				if (other.ops != null)
+					return false;
+			} else if (!ops.equals(other.ops))
+				return false;
+			return true;
+		}
+
+		@Override
+		public Collection<Pair<String, Kind>> deps() {
+			return I.deps();
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	///////////////////////////
+	
 	
 	public static final class MapExpComp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2,En3,Fk3,Att3> 
 	extends MapExp<Ty,En1,Sym,Fk1,Att1,En3,Fk3,Att3> {
@@ -223,7 +314,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 
 		
 	}
-
+/*
 	public static final class MapExpVar2<Ty,En,Sym,Fk,Att> extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
 		public final String var;
 		@Override
@@ -288,7 +379,7 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 		}
 
 	}
-
+*/
 /////////////////////////////////////////////////////////////////////
 	
 	public static final class MapExpLit<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> extends MapExp<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> {

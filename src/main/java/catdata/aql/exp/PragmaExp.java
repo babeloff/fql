@@ -458,8 +458,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 			this.clazz = clazz;
 			this.jdbcString = jdbcString;
 			this.options = Util.toMapSafely(options);
-			this.sqls = new LinkedList<>(sqls);
-			Util.checkClass(clazz);			
+			this.sqls = new LinkedList<>(sqls);		
 		}
 
 		@Override
@@ -509,6 +508,7 @@ public abstract class PragmaExp extends Exp<Pragma> {
 		public Pragma eval(AqlEnv env) {
 			String toGet = jdbcString;
 			String driver = clazz;
+			Util.checkClass(clazz);	
 			AqlOptions op = new AqlOptions(options, null, env.defaults);
 			if (clazz.trim().isEmpty()) {
 				driver = (String) op.getOrDefault(AqlOption.jdbc_default_class);
