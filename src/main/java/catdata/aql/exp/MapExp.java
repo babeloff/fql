@@ -314,72 +314,9 @@ public abstract class MapExp<Ty,En1,Sym,Fk1,Att1,En2,Fk2,Att2> extends Exp<Mappi
 
 		
 	}
-/*
-	public static final class MapExpVar2<Ty,En,Sym,Fk,Att> extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
-		public final String var;
-		@Override
-		public Map<String, String> options() {
-			return Collections.emptyMap();
-		}
-		@Override
-		public Collection<Pair<String, Kind>> deps() {
-			return Util.singList(new Pair<>(var, Kind.MAPPING));
-		}
 
-		public MapExpVar2(String var) {
-			Util.assertNotNull(var);
-			this.var = var;
-		}
-		public MapExpVar2(MapExpVar var) {
-			this.var = var.var;
-		}
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
-			return env.defs.maps.get(var);
-		}
 
-		@Override
-		public int hashCode() {
-			int prime = 31;
-			int result = 1;
-			result = prime * result + ((var == null) ? 0 : var.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			MapExpVar2<?, ?, ?, ?, ?> other = (MapExpVar2<?, ?, ?, ?, ?>) obj;
-			if (var == null) {
-				if (other.var != null)
-					return false;
-			} else if (!var.equals(other.var))
-				return false;
-			return true;
-		}
-
-		@Override
-		public String toString() {
-			return var;
-		}
-		@SuppressWarnings("unchecked")
-		@Override
-		public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
-			if (!G.defs.maps.containsKey(var)) {
-				throw new RuntimeException("Not a mapping: " + var);
-			}
-			return (Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>>) ((Object)G.defs.maps.get(var));
-		}
-
-	}
-*/
 /////////////////////////////////////////////////////////////////////
 	
 	public static final class MapExpLit<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> extends MapExp<Ty,En1,Sym1,Fk1,Att1,En2,Fk2,Att2> {

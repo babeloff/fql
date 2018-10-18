@@ -1,5 +1,8 @@
 package catdata.aql.exp;
 
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +26,8 @@ import catdata.Triple;
 import catdata.aql.It.ID;
 import catdata.aql.RawTerm;
 import catdata.aql.Var;
+import catdata.aql.Kind;
+import catdata.aql.Mapping;
 import catdata.aql.exp.ColimSchExp.ColimSchExpVar;
 import catdata.aql.exp.EdsExpRaw.EdExpRaw;
 import catdata.aql.exp.GraphExp.GraphExpRaw;
@@ -839,8 +844,48 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		
 		this.exps.put(ctx,exp);
 	}
-	
-	public static class MapComposer<lTy, lEn, lSym, lFk, lAtt> {
+
+  public static final class MapExpVar2<Ty,En,Sym,Fk,Att> extends MapExp<Ty,En,Sym,Fk,Att,En,Fk,Att> {
+
+    public final MapExp.MapExpVar var;
+
+    @Override
+    public Map<String, String> options() { return var.options(); }
+
+    @Override
+    public Collection<Pair<String, Kind>> deps() { return var.deps(); }
+
+    public MapExpVar2(String var) { this.var = new MapExp.MapExpVar(var);  }
+    public MapExpVar2(MapExpVar that) { this.var = that; }
+
+    @Override
+    public Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att> eval(AqlEnv env) {
+      return (Mapping<Ty, En, Sym, Fk, Att, En, Fk, Att>) this.var.eval(env); }
+
+    @Override
+    public int hashCode() { return this.var.hashCode(); }
+
+    @Override
+    public boolean equals(Object obj) { return this.var.equals(obj); }
+
+    @Override
+    public String toString() { return this.var.toString();  }
+
+    @Override
+    public Pair<SchExp<Ty, En, Sym, Fk, Att>, SchExp<Ty, En, Sym, Fk, Att>> type(AqlTyping G) {
+      final Pair<SchExp<Object, Object, Object, Object, Object>, SchExp<Object, Object, Object, Object, Object>>
+              retype = this.var.type(G);
+
+      final SchExp<Ty, En, Sym, Fk, Att>
+              first = (SchExp<Ty, En, Sym, Fk, Att>) retype.first,
+              second = (SchExp<Ty, En, Sym, Fk, Att>) retype.second;
+
+      return new Pair(first, second);
+    }
+
+  }
+
+  public static class MapComposer<lTy, lEn, lSym, lFk, lAtt> {
 		private MapExp<lTy, lEn, lSym, lFk, lAtt, lEn, lFk, lAtt> comp;
 		
 		public MapExp<lTy, lEn, lSym, lFk, lAtt, lEn, lFk, lAtt> result() { return this.comp; }
@@ -853,12 +898,18 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 			if (this.comp == null) { this.comp = next; return; }
 			this.comp = new MapExp.MapExpComp<lTy,lEn,lSym,lFk,lAtt,lEn,lFk,lAtt,lEn,lFk,lAtt>(next, this.comp);
 		}
+
+        public void compose(final MapExp.MapExpVar next) {
+		  final MapExpVar2 next2 = new MapExpVar2<lTy,lEn,lSym,lFk,lAtt>(next);
+          if (this.comp == null) { this.comp = next2; return; }
+          this.comp = new MapExp.MapExpComp<lTy,lEn,lSym,lFk,lAtt,lEn,lFk,lAtt,lEn,lFk,lAtt>(next2, this.comp);
+        }
 		
 		public void combine(final MapComposer<lTy, lEn, lSym, lFk, lAtt> other) {
 			this.comp = new MapExp.MapExpComp<lTy, lEn, lSym,lFk,lAtt,lEn,lFk,lAtt,lEn,lFk,lAtt>(other.comp, this.comp);
 		}
 	}
-	
+
 	@Override 
 	public void exitMappingExp_Compose(AqlParser.MappingExp_ComposeContext ctx) {
 		@SuppressWarnings("unchecked")
@@ -866,7 +917,7 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		comp = ctx.mappingRef().stream()
 				.map(ref -> (MapExp.MapExpVar) this.exps.get(ref))
 				.collect(() -> new MapComposer<Ty,En,Sym, Fk, Att>(),
-						(acc, nxt) -> acc.compose(new MapExp.MapExpVar2<>(nxt)),
+						(acc, nxt) -> acc.compose(nxt),
 						(lhs, rhs) -> lhs.combine(rhs))
 				.result();
 		
