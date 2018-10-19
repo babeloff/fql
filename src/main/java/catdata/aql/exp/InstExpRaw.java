@@ -425,7 +425,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 			}
 
 			ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>>(
-					sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dont_check_closure);
+					sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dont_check_closure, Collections.emptySet());
 
 			return new SaturatedInstance(alg, alg, (Boolean) strat.getOrDefault(AqlOption.require_consistency),
 					(Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe), true, extraRepr);

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -151,7 +152,7 @@ public class InstExpJdbcAll extends InstExp<Ty, En, Sym, Fk, Att, Gen, Null<?>, 
 			}
 		}
 
-		ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty,En,Sym,Fk,Att,Gen,Null<?>>(sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dontCheckClosure);
+		ImportAlgebra<Ty, En, Sym, Fk, Att, Gen, Null<?>> alg = new ImportAlgebra<Ty,En,Sym,Fk,Att,Gen,Null<?>>(sch, ens0, tys0, fks0, atts0, Object::toString, Object::toString, dontCheckClosure, Collections.emptySet());
 
 		return new SaturatedInstance<>(alg, alg, (Boolean) ops.getOrDefault(AqlOption.require_consistency), (Boolean) ops.getOrDefault(AqlOption.allow_java_eqs_unsafe), true, extraRepr);
 	}

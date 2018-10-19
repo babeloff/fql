@@ -65,8 +65,8 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 	///////////////////////////////////////////////////////////////////////
 
 	public static final class InstExpPivot<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y>
-	extends InstExp<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att, X, Y, ID, Chc<Y, Pair<ID, catdata.aql.exp.SchExpRaw.Att>>> {
-	
+	extends InstExp<Ty, catdata.aql.exp.SchExpRaw.En, Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, X, Y, X, Y> {
+			
 		public InstExpPivot(InstExp<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> i, List<Pair<String, String>> ops) {
 			I = i;
 			this.ops = Util.toMapSafely(ops);
@@ -85,10 +85,10 @@ public abstract class InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y>
 			return ops;
 		}
 		@Override
-		public Instance<Ty, catdata.aql.exp.SchExpRaw.En, Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, X, Y, ID, Chc<Y, Pair<ID, catdata.aql.exp.SchExpRaw.Att>>> eval(
+		public Instance<Ty, catdata.aql.exp.SchExpRaw.En, Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, X, Y, X, Y> eval(
 				AqlEnv env) {
 			AqlOptions strat = new AqlOptions(ops, null, env.defaults);
-			Instance<Ty, SchExpRaw.En, Sym, SchExpRaw.Fk, SchExpRaw.Att, X, Y, ID, Chc<Y, Pair<ID, SchExpRaw.Att>>> l = new AqlPivot<>(I.eval(env), strat).J;
+			Instance<Ty, catdata.aql.exp.SchExpRaw.En, Sym, catdata.aql.exp.SchExpRaw.Fk, catdata.aql.exp.SchExpRaw.Att, X, Y, X, Y> l = new AqlPivot<>(I.eval(env), strat).J;
 			return l;
 		}
 		@Override

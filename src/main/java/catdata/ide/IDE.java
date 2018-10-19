@@ -88,15 +88,15 @@ public class IDE {
         String aqlParser = cmdLine.getOptionValue("aqlparser","combinator");
         switch (aqlParser.toLowerCase()) {
         case "combinator":
-			System.out.println("combinator parser used");
+			//System.out.println("combinator parser used");
         	AqlParserFactory.mode = AqlParserFactory.Mode.COMBINATOR;
         	break;
         case "antlr4":
-			System.out.println("antlr4 parser used");
+			//System.out.println("antlr4 parser used");
         	AqlParserFactory.mode = AqlParserFactory.Mode.ANTLR4;
         	break;
         default:
-			System.out.println("default combinator parser used");
+			//System.out.println("default combinator parser used");
         	AqlParserFactory.mode = AqlParserFactory.Mode.COMBINATOR;
         	break;
         }
