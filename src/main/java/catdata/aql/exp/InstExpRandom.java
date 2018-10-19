@@ -1,6 +1,7 @@
 package catdata.aql.exp;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -157,7 +158,7 @@ extends InstExp<Ty,En,Sym,Fk,Att,Pair<Integer,En>, Pair<Integer, Att>,Pair<Integ
 				
 		ImportAlgebra<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>> 
 		alg = new ImportAlgebra<Ty, En, Sym, Fk, Att, Pair<Integer, En>, Pair<Integer, Att>> 
-		(schema, ens0, tys, fks, atts, x->x.toString(), x->x.toString() , true); 
+		(schema, ens0, tys, fks, atts, x->x.toString(), x->x.toString() , true, Collections.emptySet()); 
 		
 		
 		DP<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>> dp = new DP<Ty, En, Sym, Fk, Att, Pair<Integer,En>, Pair<Integer, Att>>() {
