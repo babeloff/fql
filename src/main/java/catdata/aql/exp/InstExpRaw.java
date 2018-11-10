@@ -378,7 +378,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 
 		
 		if (interpret_as_algebra) {
-			Ctx<En, Set<Gen>> ens0x = new Ctx<>(Util.revS(col.gens.map));
+			Ctx<En, Set<Gen>> ens0x = new Ctx<>(Util.newSetsFor(col.ens)); //new Ctx<>(Util.revS(col.gens.map));
 			Ctx<En, Collection<Gen>> ens0 = ens0x.map(x -> (Collection<Gen>) x);
 
 			if (!col.sks.isEmpty()) {
@@ -393,6 +393,7 @@ public final class InstExpRaw extends InstExp<Ty, En, Sym, Fk, Att, Gen, Sk, ID,
 			for (Gen gen : col.gens.keySet()) {
 				fks0.put(gen, new Ctx<>());
 				atts0.put(gen, new Ctx<>());
+				ens0x.get(col.gens.get(gen)).add(gen);
 			}
 			for (Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>> e : eqs0) {
 				Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs = e.first;

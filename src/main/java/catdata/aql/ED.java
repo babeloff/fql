@@ -32,7 +32,14 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		return ret;
 	}
 	
-	public final Query<Ty,En,Sym,Fk,Att,WHICH,Unit,Void> Q;
+	private Map<Schema<Ty, En, Sym, Fk, Att>, Query<Ty,En,Sym,Fk,Att,WHICH,Unit,Void>> cache = new HashMap<>();
+	public final Query<Ty,En,Sym,Fk,Att,WHICH,Unit,Void> getQ(Schema<Ty, En, Sym, Fk, Att> schema) {
+		if (!cache.containsKey(schema)) {
+			Schema<Ty, WHICH, Sym, Unit, Void> zzz = getEDSchema(schema.typeSide, options);
+			cache.put(schema, Query.makeQuery(is, new Ctx<>(), fks, schema, zzz, false, false)); //TODO AQL speed these can be set to true
+		}
+		return cache.get(schema);
+	}
 
 	@Override
 	public String toString() {
@@ -81,7 +88,7 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		return toString;
 	}
 
-	public final Schema<Ty, En, Sym, Fk, Att> schema;
+//	public final Schema<Ty, En, Sym, Fk, Att> schema;
 	
 	public final Ctx<Var, En> As;
 
@@ -107,8 +114,14 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		return ret;
 	}
 	
-	public ED(Schema<Ty, En, Sym, Fk, Att> schema, Ctx<Var, En> as, Ctx<Var, En> es, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> awh, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> ewh, boolean isUnique, AqlOptions options) {
-		this.schema = schema;
+	Ctx<WHICH, Triple<Ctx<Var, En>, Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>>, AqlOptions>> 
+	is = new Ctx<>();
+
+	Ctx<Unit, Pair<Ctx<Var, Term<Void, En, Void, Fk, Void, Var, Void>>, Boolean>> 
+	fks = new Ctx<>();
+
+	public ED(/* Schema<Ty, En, Sym, Fk, Att> schema, */ Ctx<Var, En> as, Ctx<Var, En> es, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> awh, Set<Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>>> ewh, boolean isUnique, AqlOptions options) {
+		//this.schema = schema;
 		As = new Ctx<>(as.map);
 		Es = new Ctx<>(es.map);
 		Awh = new HashSet<>(awh);
@@ -117,8 +130,6 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		if (!Collections.disjoint(As.keySet(), Es.keySet())) {
 			throw new RuntimeException("The forall and exists clauses do not use disjoint variables.");
 		}
-		Ctx<WHICH, Triple<Ctx<Var, En>, Collection<Eq<Ty, En, Sym, Fk, Att, Var, Var>>, AqlOptions>> 
-		is = new Ctx<>();
 	
 		is.put(WHICH.FRONT, new Triple<>(As, freeze(Awh), options));
 		Ctx<Var, En> AsEs = new Ctx<>();
@@ -130,13 +141,11 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		for (Var v : As.keySet()) {
 			ctx.put(v, Term.Gen(v));
 		}
-		Ctx<Unit, Pair<Ctx<Var, Term<Void, En, Void, Fk, Void, Var, Void>>, Boolean>> 
-		fks = new Ctx<>();
 		fks.put(new Unit(), new Pair<>(ctx, true));
-		
-		Schema<Ty, WHICH, Sym, Unit, Void> zzz = getEDSchema(schema.typeSide, options);
-		Q = Query.makeQuery(is, new Ctx<>(), fks, schema, zzz, false, false); //TODO AQL speed these can be set to true
+		this.options = options;
 	}
+	
+	AqlOptions options;
 	
 	@Override
 	public int hashCode() {
@@ -147,7 +156,7 @@ public class ED<Ty, En, Sym, Fk, Att> {
 		result = prime * result + ((Es == null) ? 0 : Es.hashCode());
 		result = prime * result + ((Ewh == null) ? 0 : Ewh.hashCode());
 		result = prime * result + (isUnique ? 1231 : 1237);
-		result = prime * result + ((schema == null) ? 0 : schema.hashCode());
+		//result = prime * result + ((schema == null) ? 0 : schema.hashCode());
 		return result;
 	}
 
@@ -182,11 +191,11 @@ public class ED<Ty, En, Sym, Fk, Att> {
 			return false;
 		if (isUnique != other.isUnique)
 			return false;
-		if (schema == null) {
+	/*	if (schema == null) {
 			if (other.schema != null)
 				return false;
 		} else if (!schema.equals(other.schema))
-			return false;
+			return false; */
 		return true;
 	}
 	
