@@ -18,7 +18,7 @@ public abstract class AqlParserFactory {
 		    return new CombinatorParser();
 		}
 		else if(AqlParserFactory.mode == Mode.ANTLR4) { 
-		    return null; //new Antlr4Parser();
+		    return new Antlr4Parser();
 		} 
 		else {
 			return new CombinatorParser();
@@ -30,7 +30,7 @@ public abstract class AqlParserFactory {
 			return new CombinatorParser();
 		}
 		else if(mode == Mode.ANTLR4) {
-			return null; //new Antlr4Parser();
+			return new Antlr4Parser();
 		}
 		else {
 			return new CombinatorParser();
