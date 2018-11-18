@@ -12,7 +12,7 @@ public class Null<X> {
 	
 	@Override
 	public String toString() {
-		return "lbl" + x ;
+		return x.toString() ;
 	}
 
 	@Override

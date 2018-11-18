@@ -498,7 +498,7 @@ public class CombinatorParser implements IAqlParser {
 				.tuple(token("{"), env(ident, "->"), options, token("}")).map(x -> new catdata.Pair<>(x.b, x.c));
 
 		Parser<Pair<List<catdata.Pair<LocStr, catdata.Pair<List<catdata.Pair<LocStr, String>>, List<catdata.Pair<String, String>>>>>, List<catdata.Pair<String, String>>>> qs = Parsers
-				.tuple(env(b, "->"), options).between(token("{"), token("}"));
+				.tuple(env(b, "->"), options).between(token("{"), token("}")).optional(new Pair<>(new LinkedList<>(), new LinkedList<>()));
 
 		Parser<InstExpCsv> ret = Parsers.tuple(token("import_csv"), ident.followedBy(token(":")), sch_ref.lazy(), qs)
 				.map(x -> new InstExpCsv((SchExp<Ty, En, Sym, Fk, Att>) x.c, x.d.a, x.d.b, x.b));

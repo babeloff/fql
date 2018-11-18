@@ -40,7 +40,7 @@ public class Lineage<Ty,En,Sym,Fk,Att,Gen,Sk> {
 
 	@Override
 	public String toString() {
-		return "[" + t + " " + i + "]";
+		return "[" + t + "]";
 	}
 
 }

@@ -2,7 +2,11 @@ package catdata.aql.exp;
 
 import java.io.File;
 import java.io.FileReader;
-import java.lang.reflect.Field;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -60,7 +64,7 @@ public class InstExpCsv
 		                 .isEquals();
 	}
 
-	public final String f;
+	public String f;
 
 	private static List<Pair<LocStr, Pair<List<Pair<String, String>>, List<Pair<String, String>>>>> conv(
 			List<Pair<LocStr, Pair<List<Pair<LocStr, String>>, List<Pair<String, String>>>>> l) {
@@ -80,7 +84,8 @@ public class InstExpCsv
 			List<Pair<LocStr, Pair<List<Pair<LocStr, String>>, List<Pair<String, String>>>>> map,
 			List<Pair<String, String>> options, String f) {
 		super(schema, conv(map), options);
-		this.f = f;
+		this.f = f.endsWith("/") ? f.substring(0, f.length()-1) : f;
+		
 	}
 
 	/*
@@ -111,7 +116,7 @@ public class InstExpCsv
 	/**
 	 * Expects filenames in the map
 	 */
-	public static Map<En, List<String[]>> start2(Map<String, String> map, AqlOptions op,
+	public static Map<En, List<String[]>> start2(Map<String, Reader> map, AqlOptions op,
 			Schema<Ty, En, Sym, Fk, Att> sch, boolean omitCheck) throws Exception {
 		Character sepChar = (Character) op.getOrDefault(AqlOption.csv_field_delim_char);
 		Character quoteChar = (Character) op.getOrDefault(AqlOption.csv_quote_char);
@@ -127,15 +132,17 @@ public class InstExpCsv
 					throw new RuntimeException("Not an entity: " + k);
 				}
 			}
-			File file = new File(map.get(k));
-			FileReader fileReader = new FileReader(file);
+			Reader r = map.get(k);
+			
+			//File file = new File(map.get(k));
+			//Reader fileReader = new FileReader(file);
 
-			final CSVReader reader = new CSVReaderBuilder(fileReader).withCSVParser(parser)
+			final CSVReader reader = new CSVReaderBuilder(r).withCSVParser(parser)
 					.withFieldAsNull(CSVReaderNullFieldIndicator.EMPTY_SEPARATORS).build();
 
 			List<String[]> rows = reader.readAll();
 
-			fileReader.close();
+			r.close();
 
 			ret.put(new En(k), rows);
 		}
@@ -156,16 +163,22 @@ public class InstExpCsv
 
 	@Override
 	protected Map<En, List<String[]>> start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
-		Map<String, String> m = new HashMap<>();
+		Map<String, Reader> m = new HashMap<>();
 		for (En en : sch.ens) {
-			File file = new File(f, op.getOrDefault(AqlOption.csv_import_prefix) + en.toString() + "."
+			URL url = new URL(f + "/" + op.getOrDefault(AqlOption.csv_import_prefix) + en.toString() + "."
 					+ op.getOrDefault(AqlOption.csv_file_extension));
-			if (file.exists()) {
-				m.put(en.convert(), file.getAbsolutePath());
-			} else if (!(boolean) op.getOrDefault(AqlOption.import_missing_is_empty)) {
-				throw new RuntimeException("Missing file: " + file.getAbsolutePath()
+
+			try {
+				InputStream is = url.openStream();
+				Reader r = new InputStreamReader(is);
+				m.put(en.convert(), r);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				if (!(boolean) op.getOrDefault(AqlOption.import_missing_is_empty)) {
+					throw new RuntimeException("Missing: " + url
 						+ ". \n\nPossible options to consider: " + AqlOption.import_missing_is_empty + " and "
 						+ AqlOption.csv_import_prefix + " and " + AqlOption.csv_file_extension);
+				}
 			}
 		}
 		return start2(m, op, sch, false);
