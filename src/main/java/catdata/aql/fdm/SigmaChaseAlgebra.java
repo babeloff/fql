@@ -168,7 +168,9 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		} else if (term.sym != null) {
 			return Term.Sym(term.sym, term.args().stream().map(this::unflatten).collect(Collectors.toList()));
 		} else if (term.sk != null) {
-            return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : reprT(Term.Sk(Chc.inRight(term.sk.r)));
+            return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : Term.Sk(Chc.inRight(term.sk.r));
+// circular
+//			return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : reprT(Term.Sk(Chc.inRight(term.sk.r)));
 		} 
 		throw new RuntimeException("Anomaly: please report");
 	}
