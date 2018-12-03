@@ -1,3 +1,5 @@
+
+
 schema cat = literal : empty {
 	entities
 		Ob Mor Pair
@@ -122,3 +124,13 @@ constraints moreEDs = literal : AQLinstance {
  	exists unique value:fkCell
  	where value.col=m value.row=r
 }
+
+/*
+For given AQL schemas X and Y, there may be no AQL schema MapXY such that MapXY-Inst ~ AQL mappings X -> Y.  Rather, the mappings X -> Y are isomorphic to the transforms X* => Y*, where X* and Y* are the Schema instances associated to X and Y. 
+
+But, there is an AQL schema Mapping := AQLSchema * Arrow such that Mapping-Inst ~ all AQL mappings of any type.
+
+Question: are the set of AQL transforms I => J given by the transforms I* => J*, where I* and J* are the Instance instances associated to I and J?
+
+Question: Is there an AQL schema Transform := AQLInstance * Arrow such that TransformInst ~ all AQL transforms of any type.  Or should be an instance?  Or nothing at all?
+*/

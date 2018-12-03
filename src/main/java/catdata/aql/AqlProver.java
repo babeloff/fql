@@ -110,7 +110,7 @@ public class AqlProver {
 		for (Eq<Ty, En, Sym, Fk, Att, Gen, Sk> eq : col.eqs) {
 			if (size(eq.lhs) < size(eq.rhs)) {
 				ret.eqs.add(new Eq<>(eq.ctx, eq.rhs, eq.lhs));
-			} else if (size(eq.lhs) > size(eq.rhs)) {
+			} else if (size(eq.lhs) > size(eq.rhs) && numOccs(eq.lhs, eq.rhs) ) {
 				ret.eqs.add(eq);
 			} else {
 				throw new RuntimeException("Cannot orient " + eq + " in a size reducing manner.");
@@ -118,6 +118,16 @@ public class AqlProver {
 				
 		}
 		return ret;
+	}
+
+	private static <Ty, En, Sym, Fk, Att, Gen, Sk> boolean numOccs(Term<Ty, En, Sym, Fk, Att, Gen, Sk> lhs, Term<Ty, En, Sym, Fk, Att, Gen, Sk> rhs) {
+		for (Var v : lhs.vars()) {
+			if (!(lhs.vars().stream().filter((x)->x.equals(v)).count() >=
+			    rhs.vars().stream().filter((x)->x.equals(v)).count())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static <Ty, En, Sym, Fk, Att, Gen, Sk> int size(Term<Ty, En, Sym, Fk, Att, Gen, Sk> e) {

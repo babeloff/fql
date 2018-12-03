@@ -47,9 +47,10 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		if (!X.algebra().talg().eqs.isEmpty()) {
 			throw new RuntimeException("Chase cannot be used: type algebra of input instance is not necessarily free");
 		}
-		if (X.schema().typeSide.hasImplicitJavaEqs()) {
+		//if (X.schema().typeSide.hasImplicitJavaEqs()) {
+		// reasoning will be incomplete
 		//	throw new RuntimeException("Chase cannot be used: type algebra of input instance uses java functions");		
-		}
+		//}
 
 	
 		

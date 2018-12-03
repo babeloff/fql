@@ -272,7 +272,7 @@ public class InstExpCsv
 				String zz = mediate.apply(att.convert());
 				if (!m.containsKey(zz)) {
 					throw new RuntimeException("No column " + att + " in file for " + en + " nor explicit mapping for "
-							+ att + " given. Tried " + zz + " and options are " + m.keySet());
+							+ att + " given. Tried " + zz + " and options are " + Util.alphabetical(m.keySet()));
 				}
 				int z = m.get(zz);
 				if (z >= row.length) {

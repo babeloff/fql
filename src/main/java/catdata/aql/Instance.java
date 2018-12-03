@@ -108,6 +108,10 @@ public abstract class Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> implements S
 		if (!allowUnsafeJava() && !algebra().hasFreeTypeAlgebraOnJava()) {
 			throw new RuntimeException("Unsafe use of java - AQL's behavior is undefined.  Possible solution: add allow_java_eqs_unsafe=true, change the equations, or contact support at info@catinf.com.  Type algebra is\n\n" + algebra().talg());
 		}
+		//reasoning will be incomplete, but if enabled we can't e.g., import into a java typeside with fns
+		//if (schema().typeSide.hasImplicitJavaEqs()) {
+		//	return false;
+		//}
 		
 		
 	}

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import catdata.Chc;
 import catdata.Ctx;
@@ -121,18 +122,19 @@ public class AqlPivot<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> {
 
 			@Override
 			public String toStringProver() {
-				return "Pivot prover";
+				return "Pivot prover (sch)";
 			}
 
 			@Override
 			public boolean eq(Ctx<Var, Chc<Ty, En>> ctx, Term<Ty, En, Sym, Fk, Att, Void, Void> lhs,
 					Term<Ty, En, Sym, Fk, Att, Void, Void> rhs) {
-				return lhs.equals(rhs);
+				Var v = Util.get0(ctx.keySet());
+				En en = ctx.get(v).r;
+
+				return I.dp().eq(new Ctx<>(), trans(en, lhs), trans(en, rhs));
 			}
 			
 		};
-		
-		
 		
 		intI = new Schema<>(I.schema().typeSide, ens , atts, fks, new HashSet<>(), dp1, I.allowUnsafeJava());
 				
@@ -140,16 +142,14 @@ public class AqlPivot<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> {
 		
 		col.addAll(intI.collage());
 		
-		
-		
 		Algebra<Ty, En, Sym, Fk, Att, X, Y, X, Y> initial = 
 				new ImportAlgebra<Ty, En, Sym, Fk, Att, X, Y>(intI, ensX, tysX, fksX, attsX, Object::toString, Object::toString, (Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe), eqsX);
-//		
+		
 		DP<Ty, En, Sym, Fk, Att, X, Y> dp2 = new DP<>() {
 
 			@Override
 			public String toStringProver() {
-				return "Pivot prover";
+				return "Pivot prover (inst)";
 			}
 
 			@Override
@@ -174,7 +174,36 @@ public class AqlPivot<Ty, En0, Sym, Fk0, Att0, Gen, Sk, X, Y> {
 				(Boolean) strat.getOrDefault(AqlOption.allow_java_eqs_unsafe));
 		
 		J.validate();
+	}
 
+	private Term<Void, En0, Void, Fk0, Void, Gen, Void> trans1(En en, Term<Void, En, Void, Fk, Void, Void, Void> t) {
+		if (t.gen != null) {
+			return Util.abort(t.gen);
+		} else if (t.var != null) {
+			return I.algebra().repr((X)en.str);
+		} else if (t.fk != null) {
+			Term<Void, En0, Void, Fk0, Void, Gen, Void> x = trans1(en, t.arg);
+			return Term.Fk((Fk0) new Fk(t.fk.en, t.fk.str), x); //TODO check
+		} 
+		return Util.anomaly();
+	}
+	
+	private Term<Ty, En0, Sym, Fk0, Att0, Gen, Sk> trans(En en, Term<Ty, En, Sym, Fk, Att, Void, Void> t) {
+		if (t.obj != null) {
+			return Term.Obj(t.obj, t.ty);
+		} else if (t.sym != null) {
+			List<Term<Ty, En0, Sym, Fk0, Att0, Gen, Sk>> l = new LinkedList<>();
+			for (Term<Ty, En, Sym, Fk, Att, Void, Void> s : t.args) {
+				l.add(trans(en, s));
+			}
+			return Term.Sym(t.sym, l);
+		} else if (t.sk != null) {
+			return Util.abort(t.sk);
+		} else if (t.att != null) {
+			Term<Void, En0, Void, Fk0, Void, Gen, Void> x = trans1(en, t.arg.asArgForAtt());
+			return Term.Att((Att0)new Att(t.att.en,t.att.str), x.map(Util::abort, Util::abort, Function.identity(), Util::abort, Function.identity(), Util::abort));
+		} 
+		return Util.anomaly();
 	}
 
 	private X bar(Term<Void, En0, Void, Fk0, Void, Gen, Void> t) {

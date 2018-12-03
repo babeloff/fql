@@ -195,9 +195,5 @@ public class ImportAlgebra<Ty, En, Sym, Fk, Att, X, Y> extends Algebra<Ty, En, S
 		return talg.eqs.isEmpty();
 	}
 
-	@Override
-	public boolean hasFreeTypeAlgebraOnJava() {
-		return talg.eqs.isEmpty(); // TODO aql guess
-	}
 
 }
