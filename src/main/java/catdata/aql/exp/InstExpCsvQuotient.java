@@ -1,5 +1,8 @@
 package catdata.aql.exp;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -113,11 +116,12 @@ public final class InstExpCsvQuotient<Gen, Sk, X, Y>
 		Set<Pair<Term<Ty, En, Sym, Fk, Att, Gen, Sk>, Term<Ty, En, Sym, Fk, Att, Gen, Sk>>> eqs0 = new HashSet<>(
 				J.eqs());
 
-		Map<String, String> map = new HashMap<>();
-		for (String q : queries) {
-			map.put(q, q);
-		}
 		try {
+			Map<String, Reader> map = new HashMap<>();
+			for (String q : queries) {
+				map.put(q, new InputStreamReader(new URL(q).openStream()));
+			}
+		
 			Map<En, List<String[]>> ret = InstExpCsv.start2(map, strat, J.schema(), true);
 		
 		for (En q : ret.keySet()) {

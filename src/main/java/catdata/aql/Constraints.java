@@ -43,17 +43,13 @@ public class Constraints<Ty, En, Sym, Fk, Att> implements Semantics {
 	public Constraints(Schema<Ty, En, Sym, Fk, Att> schema, Collection<ED<Ty, En, Sym, Fk, Att>> eds, AqlOptions options) {
 		this.eds = new HashSet<>(desugar(eds, options));
 		this.schema = schema;
-		for (ED<Ty, En, Sym, Fk, Att> ed : eds) {
-			if (!ed.schema.equals(schema)) {
-				throw new RuntimeException("The ED " + ed + "\n is on schema " + ed.schema + "\n\n, not " + schema + " as expected.");
-			}
-		}
+		
 	}
 
 	private static <Ty, En, Sym, Fk, Att> Collection<ED<Ty, En, Sym, Fk, Att>> desugar(Collection<ED<Ty, En, Sym, Fk, Att>> eds, AqlOptions options) {
 		List<ED<Ty, En, Sym, Fk, Att>> l = new LinkedList<>();
 		for (ED<Ty, En, Sym, Fk, Att> x : eds) {
-			l.add(new ED<>(x.schema, x.As, x.Es, x.Awh, x.Ewh, false, options));
+			l.add(new ED<>(x.As, x.Es, x.Awh, x.Ewh, false, options));
 			
 			if (x.isUnique) {
 				Ctx<Var, En> es2 = x.Es.map((v,t) -> new Pair<>(new Var(v + "0"), t));	
@@ -74,7 +70,7 @@ public class Constraints<Ty, En, Sym, Fk, Att> implements Semantics {
 				for (Pair<Term<Ty, En, Sym, Fk, Att, Void, Void>, Term<Ty, En, Sym, Fk, Att, Void, Void>> p : x.Ewh) {
 					awh.add(new Pair<>(p.first.subst(subst), p.second.subst(subst)));
 				}
-				l.add(new ED<>(x.schema, as, new Ctx<>(), awh, ewh, false, options));
+				l.add(new ED<>(as, new Ctx<>(), awh, ewh, false, options));
 			}
 			
 		}
@@ -88,11 +84,11 @@ public class Constraints<Ty, En, Sym, Fk, Att> implements Semantics {
 	
 	public <Gen, Sk, X, Y> Instance<Ty, En, Sym, Fk, Att, ?, ?, ?, ?> chase(Instance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> I, AqlOptions options) {	
 		for (ED<Ty, En, Sym, Fk, Att> ed : eds) {
-			Frozen<Ty, En, Sym, Fk, Att> f = ed.Q.ens.get(ED.WHICH.FRONT);
+			Frozen<Ty, En, Sym, Fk, Att> f = ed.getQ(schema).ens.get(ED.WHICH.FRONT);
 			if (!f.algebra().hasFreeTypeAlgebraOnJava()) {
 				throw new RuntimeException("Cannot chase, unsafe use of java in front of\n" + ed);
 			}
-			f = ed.Q.ens.get(ED.WHICH.BACK);
+			f = ed.getQ(schema).ens.get(ED.WHICH.BACK);
 			if (!f.algebra().hasFreeTypeAlgebraOnJava()) {
 				throw new RuntimeException("Cannot chase, unsafe use of java in back of\n" + ed);
 			}
@@ -124,7 +120,7 @@ public class Constraints<Ty, En, Sym, Fk, Att> implements Semantics {
 	
 
 		for (Pair<ED<Ty, En, Sym, Fk, Att>, Row<WHICH, X>> t : T) {
-			Query<Ty, En, Sym, Fk, Att, WHICH, Unit, Void> Q = t.first.Q;
+			Query<Ty, En, Sym, Fk, Att, WHICH, Unit, Void> Q = t.first.getQ(schema);
 			Instance<Ty, En, Sym, Fk, Att, Var, Var, ID, Chc<Var, Pair<ID, Att>>> A = Q.ens.get(WHICH.FRONT);
 			Instance<Ty, En, Sym, Fk, Att, Var, Var, ID, Chc<Var, Pair<ID, Att>>> E = Q.ens.get(WHICH.BACK);
 
@@ -164,7 +160,7 @@ public class Constraints<Ty, En, Sym, Fk, Att> implements Semantics {
 		Collection<Pair<ED<Ty, En, Sym, Fk, Att>, Row<WHICH, X>>> T = new LinkedList<>();
 
 		for (ED<Ty, En, Sym, Fk, Att> ed : eds) {
-			Query<Ty, En, Sym, Fk, Att, WHICH, Unit, Void> Q = ed.Q;
+			Query<Ty, En, Sym, Fk, Att, WHICH, Unit, Void> Q = ed.getQ(schema);
 			EvalInstance<Ty, En, Sym, Fk, Att, Gen, Sk, WHICH, Unit, Void, X, Y> QI = new EvalInstance<>(Q, I, options);
 			outer: for (Row<WHICH, X> e : QI.algebra().en(WHICH.FRONT)) {
 				for (Row<WHICH, X> a : QI.algebra().en(WHICH.BACK)) {

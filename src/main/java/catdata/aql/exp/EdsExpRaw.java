@@ -346,7 +346,7 @@ public class EdsExpRaw extends EdsExp<Ty, En, Sym, Fk, Att> implements Raw {
 				for (Var k : x.first.keySet()) {
 					y.first.remove(k);
 				}
-				return new ED<>(sch, x.first, y.first, x.second, y.second, isUnique, ops);
+				return new ED<>(x.first, y.first, x.second, y.second, isUnique, ops);
 			}
 
 

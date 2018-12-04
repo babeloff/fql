@@ -47,9 +47,10 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		if (!X.algebra().talg().eqs.isEmpty()) {
 			throw new RuntimeException("Chase cannot be used: type algebra of input instance is not necessarily free");
 		}
-		if (X.schema().typeSide.hasImplicitJavaEqs()) {
-			throw new RuntimeException("Chase cannot be used: type algebra of input instance uses java functions");		
-		}
+		//if (X.schema().typeSide.hasImplicitJavaEqs()) {
+		// reasoning will be incomplete
+		//	throw new RuntimeException("Chase cannot be used: type algebra of input instance uses java functions");		
+		//}
 
 	
 		
@@ -168,7 +169,9 @@ public class SigmaChaseAlgebra<Ty, En1, Sym, Fk1, Att1, En2, Fk2, Att2, Gen, Sk,
 		} else if (term.sym != null) {
 			return Term.Sym(term.sym, term.args().stream().map(this::unflatten).collect(Collectors.toList()));
 		} else if (term.sk != null) {
-            return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : reprT(Term.Sk(Chc.inRight(term.sk.r)));
+            return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : Term.Sk(Chc.inRight(term.sk.r));
+// circular
+//			return term.sk.left ? Term.Sk(Chc.inLeft(term.sk.l)) : reprT(Term.Sk(Chc.inRight(term.sk.r)));
 		} 
 		throw new RuntimeException("Anomaly: please report");
 	}

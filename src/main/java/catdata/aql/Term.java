@@ -859,7 +859,7 @@ public final class Term<Ty, En, Sym, Fk, Att, Gen, Sk> {
 	}
 
 
-	public Set<Var> vars() {
+	public List<Var> vars() {
 		return toKB().vars();
 	} 
 	

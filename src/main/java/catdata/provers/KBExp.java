@@ -67,11 +67,11 @@ public abstract class KBExp<C, V> {
 
 	public abstract KBApp<C, V> getApp();
 
-	private Set<V> vars = null;
+	private List<V> vars = null;
 
-	public Set<V> vars() {
+	public List<V> vars() {
 		if (vars == null) {
-			vars = new HashSet<>();
+			vars = new LinkedList<>();
 			vars(vars);
 		}
 		return vars;

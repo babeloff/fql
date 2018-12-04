@@ -40,9 +40,14 @@ public abstract class Algebra<Ty,En,Sym,Fk,Att,Gen,Sk,X,Y> /* implements DP<Ty,E
 		return talg().eqs.isEmpty();
 	} */
 	
-	public abstract boolean hasFreeTypeAlgebraOnJava(); /* {
-		return talg().eqs.stream().filter(x -> talg().java_tys.containsKey(talg().type(x.ctx, x.lhs).l)).collect(Collectors.toList()).isEmpty();
-	} */
+	public boolean hasFreeTypeAlgebraOnJava() {
+		for (Eq<Ty, Void, Sym, Void, Void, Void, Y> eq : talg().eqs) {
+			if (schema().typeSide.js.java_tys.containsKey(talg().type(eq.ctx, eq.lhs).l)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * The Xs need be to be unique across ens, so that repr can invert.  Is it worth checking this? TODO aql

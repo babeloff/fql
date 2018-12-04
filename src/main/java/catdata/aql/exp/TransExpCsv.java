@@ -1,6 +1,10 @@
 package catdata.aql.exp;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +77,13 @@ public class TransExpCsv<X1,Y1,X2,Y2>
 
 	@Override
 	protected Map<En, List<String[]>> start(Schema<Ty, En, Sym, Fk, Att> sch) throws Exception {
-		Map<En, List<String[]>> ret = InstExpCsv.start2(map, op, sch, false);
+		Map<String, Reader> map2 = new HashMap<>();
+		for (String q : map.keySet()) {
+			map2.put(q, new InputStreamReader(new URL(map.get(q)).openStream()));
+		}
+	
+		
+		Map<En, List<String[]>> ret = InstExpCsv.start2(map2, op, sch, false);
 		return ret;
 	}
 	

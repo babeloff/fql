@@ -1,3 +1,4 @@
+
 package catdata.aql.exp;
 
 
@@ -916,7 +917,11 @@ public class AqlLoaderListener extends AqlParserBaseListener {
 		final MapExp<Ty,En,Sym, Fk, Att, En, Fk, Att> 
 		comp = ctx.mappingRef().stream()
 				.map(ref -> (MapExp.MapExpVar) this.exps.get(ref))
+<<<<<<< HEAD
 				.collect(() -> new MapComposer<Ty,En,Sym, Fk, Att>(),
+=======
+				.collect(() -> new MapComposer(),
+>>>>>>> a4355c78c2c07cf0fba056f10301726fac6a1107
 						(acc, nxt) -> acc.compose(nxt),
 						(lhs, rhs) -> lhs.combine(rhs))
 				.result();

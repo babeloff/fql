@@ -266,7 +266,6 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 		
 		eqs = new LazySet<Pair<Term<Ty, En, Sym, Fk, Att, X, Y>, Term<Ty, En, Sym, Fk, Att, X, Y>>>(fun, size);
 
-		
 		if (labelledNulls) {
 			sks = new Ctx<>();
 		} else {
@@ -328,7 +327,6 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 
 	private class InnerAlgebra extends Algebra<Ty,En,Sym,Fk,Att,X,Y,X,Y> {
 		
-		
 		@Override
 		public String printX(X x) {
 			return alg.printX(x);
@@ -376,15 +374,13 @@ extends Instance<Ty, En, Sym, Fk, Att, X, Y, X, Y>  {
 
 		@Override
 		public Term<Ty, En, Sym, Fk, Att, X, Y> reprT_protected(Term<Ty, Void, Sym, Void, Void, Void, Y> term) {
-			if (term.sk != null && reprT_extra.containsKey(term.sk)) {
+			if (term.sk != null && reprT_extra != null && reprT_extra.containsKey(term.sk)) {
 				return reprT_extra.get(term.sk);
 			}
 			Term<Ty, En, Sym, Fk, Att, X, Y> x = alg.intoY(alg.reprT_protected(term)).map(Function.identity(), Function.identity(), Util.voidFn(), Util.voidFn(), Util.voidFn(), Function.identity());
 			return x;
 		}
 		
-		
-
 		@Override
 		public Schema<Ty, En, Sym, Fk, Att> schema() {
 			return alg.schema();

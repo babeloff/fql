@@ -175,6 +175,6 @@ public class DistinctInstance<Ty, En, Sym, Fk, Att, Gen, Sk, X, Y> extends Insta
 
 	@Override
 	public boolean allowUnsafeJava() {
-		return I.requireConsistency();
+		return I.allowUnsafeJava();
 	}
 }
