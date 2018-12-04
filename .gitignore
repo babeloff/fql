@@ -20,3 +20,6 @@ buildSrc/build/
 *.dvi
 .gradle/
 bin/
+*.tokens
+
+

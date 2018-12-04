@@ -91,9 +91,9 @@ task antlrGen (type: Antlr4Task) {
 
 compileJava.dependsOn antlrGen
 
+// ./gradlew wrapper --gradle-version 5.0
 wrapper {
-    gradleVersion = '4.10.1'
-    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+    distributionType = Wrapper.DistributionType.ALL
 }
 
 

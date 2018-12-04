@@ -34,29 +34,32 @@ class Antlr4Task extends DefaultTask {
      *    _ force-atn              bool   "use the ATN simulator for all predictions"
      *    _ log                    bool   "dump lots of logging info to antlr-timestamp.log"]
      */
-    @Input @Optional String maxHeapSize;
-    @InputFile String lexerGrammar;
-    @InputFile String parserGrammar;
-    @InputDirectory File sourceDir;
-    @OutputDirectory File targetDir;
 
-    @Input @Optional String encoding;
-    @Input @Optional String msgFormat;
-    @Input @Optional String module;
-    @Input @Optional String override;
+    @InputFile public String lexerGrammar;
+    @InputFile public String parserGrammar;
 
-    @Input @Optional Boolean show;
-    @Input @Optional Boolean atn;
-    @Input @Optional Boolean longMsg;
-    @Input @Optional Boolean listener;
-    @Input @Optional Boolean visitor;
-    @Input @Optional Boolean depend;
-    @Input @Optional Boolean warnError;
-    @Input @Optional Boolean saveLexer;
-    @Input @Optional Boolean debugStrTempl;
-    @Input @Optional Boolean debugStrTemplWait;
-    @Input @Optional Boolean forceAtn;
-    @Input @Optional Boolean log;
+    @InputDirectory public File sourceDir;
+    @OutputDirectory public File targetDir;
+
+    @Input @Optional public String maxHeapSize;
+    @Input @Optional public String encoding;
+    @Input @Optional public String msgFormat;
+    @Input @Optional public String module;
+    @Input @Optional public String override;
+
+    @Input @Optional public Boolean show;
+    @Input @Optional public Boolean atn;
+    @Input @Optional public Boolean longMsg;
+    @Input @Optional public Boolean listener;
+    @Input @Optional public Boolean visitor;
+
+    @Input @Optional public Boolean depend;
+    @Input @Optional public Boolean warnError;
+    @Input @Optional public Boolean saveLexer;
+    @Input @Optional public Boolean debugStrTempl;
+    @Input @Optional public Boolean debugStrTemplWait;
+    @Input @Optional public Boolean forceAtn;
+    @Input @Optional public Boolean log;
 
     Antlr4Task() {
         description = 'An antlr4 grammar generates a java parser'
@@ -67,26 +70,28 @@ class Antlr4Task extends DefaultTask {
     void start() {
         ArrayList<String> args = new ArrayList<>();
 
-        args.push('-o');
-        args.push(targetDir.canonicalFile.toString())
+        args.add('-o');
+        args.add(targetDir.canonicalFile.toString())
         logger.quiet 'target dir: ' + targetDir.canonicalFile
 
-        args.push('-lib');
-        args.push(sourceDir.canonicalFile.toString())
+        args.add('-lib');
+        args.add(sourceDir.canonicalFile.toString())
         logger.quiet 'source dir: ' + sourceDir.canonicalFile
 
-        args.push('-package')
-        args.push(module)
+        args.add('-package')
+        args.add(module)
 
         def lexerArgs = args.clone();
-        lexerArgs.push(lexerGrammar);
+        lexerArgs.add(lexerGrammar);
         String[] lexerArgsArray = lexerArgs.toArray(new String[lexerArgs.size()]);
-        logger.quiet 'lexer: ' + lexerArgsArray;
+
         try {
             Tool lexerTool = new Tool(lexerArgsArray);
             lexerTool.processGrammarsOnCommandLine();
         }
         catch (Exception ex) {
+            logger.quiet 'lexer: ' + lexerArgsArray;
+            logger.quiet 'cause: '+ ex.getLocalizedMessage();
             throw new GradleException(ex.message)
         }
 
