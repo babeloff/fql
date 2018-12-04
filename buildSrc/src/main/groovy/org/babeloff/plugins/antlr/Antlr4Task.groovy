@@ -90,8 +90,7 @@ class Antlr4Task extends DefaultTask {
             lexerTool.processGrammarsOnCommandLine();
         }
         catch (Exception ex) {
-            logger.quiet 'lexer: ' + lexerArgsArray;
-            logger.quiet 'cause: '+ ex.getLocalizedMessage();
+            logger.quiet 'error lexxing: ' + lexerArgsArray;
             throw new GradleException(ex.message)
         }
 
@@ -103,12 +102,12 @@ class Antlr4Task extends DefaultTask {
         parserArgs.push(parserGrammar);
 
         String[] parserArgsArray = parserArgs.toArray(new String[parserArgs.size()]);
-        logger.quiet 'parsing: ' + parserArgsArray;
         try {
             Tool parserTool = new Tool(parserArgsArray);
             parserTool.processGrammarsOnCommandLine();
         }
         catch (Exception ex) {
+            logger.quiet 'error parsing: ' + parserArgsArray;
             throw new GradleException(ex.message)
         }
 
